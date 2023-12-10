@@ -7,20 +7,20 @@ use color_eyre::{
     eyre::{eyre, Result},
     Report,
 };
-use futures::future::join_all;
-use tendermint::{crypto::default::Sha256, evidence::Evidence, Time};
-use tendermint_light_client::{
+use cometbft::{crypto::default::Sha256, evidence::Evidence, Time};
+use cometbft_light_client::{
     builder::LightClientBuilder,
     instance::Instance,
     light_client::Options,
     store::memory::MemoryStore,
     types::{Hash, Height, LightBlock, TrustThreshold},
 };
-use tendermint_light_client_detector::{
+use cometbft_light_client_detector::{
     compare_new_header_with_witness, detect_divergence, gather_evidence_from_conflicting_headers,
     CompareError, Error, ErrorDetail, Provider, Trace,
 };
-use tendermint_rpc::{Client, HttpClient, HttpClientUrl, Url};
+use cometbft_rpc::{Client, HttpClient, HttpClientUrl, Url};
+use futures::future::join_all;
 use tracing::{debug, error, info, metadata::LevelFilter, warn};
 use tracing_subscriber::{util::SubscriberInitExt, EnvFilter};
 
@@ -266,7 +266,7 @@ async fn make_provider(
     trusted_hash: Hash,
     options: Options,
 ) -> Result<Provider> {
-    use tendermint_rpc::client::CompatMode;
+    use cometbft_rpc::client::CompatMode;
 
     let rpc_client = HttpClient::builder(rpc_addr)
         .compat_mode(CompatMode::V0_34)

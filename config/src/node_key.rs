@@ -2,8 +2,8 @@
 
 use std::{fs, path::Path};
 
+use cometbft::{node, private_key::PrivateKey, public_key::PublicKey};
 use serde::{Deserialize, Serialize};
-use tendermint::{node, private_key::PrivateKey, public_key::PublicKey};
 
 use crate::{error::Error, prelude::*};
 

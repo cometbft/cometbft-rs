@@ -30,8 +30,8 @@ pub struct PrepareProposal {
 mod v0_37 {
     use super::PrepareProposal;
     use crate::{prelude::*, Error};
-    use tendermint_proto::v0_37::abci as pb;
-    use tendermint_proto::Protobuf;
+    use cometbft_proto::v0_37::abci as pb;
+    use cometbft_proto::Protobuf;
 
     impl From<PrepareProposal> for pb::RequestPrepareProposal {
         fn from(value: PrepareProposal) -> Self {
@@ -82,8 +82,8 @@ mod v0_37 {
 mod v0_38 {
     use super::PrepareProposal;
     use crate::{prelude::*, Error};
-    use tendermint_proto::v0_38::abci as pb;
-    use tendermint_proto::Protobuf;
+    use cometbft_proto::v0_38::abci as pb;
+    use cometbft_proto::Protobuf;
 
     impl From<PrepareProposal> for pb::RequestPrepareProposal {
         fn from(value: PrepareProposal) -> Self {

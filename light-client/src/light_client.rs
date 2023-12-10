@@ -296,7 +296,7 @@ impl LightClient {
         target_height: Height,
         state: &mut State,
     ) -> Result<LightBlock, Error> {
-        use tendermint::crypto::default::Sha256;
+        use cometbft::crypto::default::Sha256;
 
         let root = state
             .light_store

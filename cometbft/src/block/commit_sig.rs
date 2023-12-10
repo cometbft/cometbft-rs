@@ -1,6 +1,6 @@
 //! CommitSig within Commit
 
-use tendermint_proto::google::protobuf::Timestamp;
+use cometbft_proto::google::protobuf::Timestamp;
 
 use crate::{account, prelude::*, Signature, Time};
 

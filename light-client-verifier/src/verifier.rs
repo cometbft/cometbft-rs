@@ -322,8 +322,8 @@ mod tests {
     use alloc::{borrow::ToOwned, string::ToString};
     use core::{ops::Sub, time::Duration};
 
-    use tendermint::Time;
-    use tendermint_testgen::{light_block::LightBlock as TestgenLightBlock, Generator};
+    use cometbft::Time;
+    use cometbft_testgen::{light_block::LightBlock as TestgenLightBlock, Generator};
 
     use crate::{
         errors::VerificationErrorDetail, options::Options, types::LightBlock, ProdVerifier,

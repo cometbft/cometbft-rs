@@ -3,8 +3,7 @@
 use core::str::FromStr;
 use std::{collections::BTreeMap as HashMap, fs, path::PathBuf};
 
-use subtle_encoding::{base64, hex};
-use tendermint::{
+use cometbft::{
     abci,
     evidence::{Duration, Evidence},
     hash::Algorithm,
@@ -12,13 +11,14 @@ use tendermint::{
     vote::Vote,
     Hash,
 };
-use tendermint_config::net::Address;
-use tendermint_rpc::{
+use cometbft_config::net::Address;
+use cometbft_rpc::{
     endpoint,
     error::{Error, ErrorDetail},
     request::Wrapper as RequestWrapper,
     Code, Order, Response,
 };
+use subtle_encoding::{base64, hex};
 use walkdir::WalkDir;
 
 const CHAIN_ID: &str = "dockerchain";

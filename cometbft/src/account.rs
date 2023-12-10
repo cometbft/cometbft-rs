@@ -11,7 +11,7 @@ use serde::{de, Deserialize, Deserializer, Serialize, Serializer};
 use subtle::{self, ConstantTimeEq};
 use subtle_encoding::hex;
 
-use tendermint_proto::Protobuf;
+use cometbft_proto::Protobuf;
 
 use crate::{error::Error, prelude::*};
 

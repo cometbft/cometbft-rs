@@ -8,9 +8,9 @@ mod validator_index;
 use core::{fmt, str::FromStr};
 
 use bytes::BufMut;
+use cometbft_proto::v0_38::types::{CanonicalVote as RawCanonicalVote, Vote as RawVote};
+use cometbft_proto::{Error as ProtobufError, Protobuf};
 use serde::{Deserialize, Serialize};
-use tendermint_proto::v0_38::types::{CanonicalVote as RawCanonicalVote, Vote as RawVote};
-use tendermint_proto::{Error as ProtobufError, Protobuf};
 
 pub use self::{
     canonical_vote::CanonicalVote, power::Power, sign_vote::*, validator_index::ValidatorIndex,
@@ -73,8 +73,8 @@ pub struct Vote {
 mod v0_34 {
     use super::Vote;
     use crate::{block, prelude::*, Error, Signature};
-    use tendermint_proto::v0_34::types::Vote as RawVote;
-    use tendermint_proto::Protobuf;
+    use cometbft_proto::v0_34::types::Vote as RawVote;
+    use cometbft_proto::Protobuf;
 
     impl Protobuf<RawVote> for Vote {}
 
@@ -124,8 +124,8 @@ mod v0_34 {
 mod v0_37 {
     use super::Vote;
     use crate::{block, prelude::*, Error, Signature};
-    use tendermint_proto::v0_37::types::Vote as RawVote;
-    use tendermint_proto::Protobuf;
+    use cometbft_proto::v0_37::types::Vote as RawVote;
+    use cometbft_proto::Protobuf;
 
     impl Protobuf<RawVote> for Vote {}
 
@@ -175,8 +175,8 @@ mod v0_37 {
 mod v0_38 {
     use super::Vote;
     use crate::{block, prelude::*, Error, Signature};
-    use tendermint_proto::v0_38::types::Vote as RawVote;
-    use tendermint_proto::Protobuf;
+    use cometbft_proto::v0_38::types::Vote as RawVote;
+    use cometbft_proto::Protobuf;
 
     impl Protobuf<RawVote> for Vote {}
 

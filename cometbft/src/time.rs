@@ -8,8 +8,8 @@ use core::{
     time::Duration,
 };
 
+use cometbft_proto::{google::protobuf::Timestamp, serializers::timestamp, Protobuf};
 use serde::{Deserialize, Serialize};
-use tendermint_proto::{google::protobuf::Timestamp, serializers::timestamp, Protobuf};
 use time::{
     format_description::well_known::Rfc3339,
     macros::{datetime, offset},
@@ -215,8 +215,8 @@ pub trait ParseTimestamp {
 
 #[cfg(test)]
 mod tests {
+    use cometbft_pbt_gen as pbt;
     use proptest::{prelude::*, sample::select};
-    use tendermint_pbt_gen as pbt;
     use time::{Date, Month::*};
 
     use super::*;

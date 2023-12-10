@@ -2,10 +2,10 @@
 
 use futures::StreamExt;
 use structopt::StructOpt;
-use tendermint_config::net::Address;
-use tendermint_rpc::event::EventData;
-use tendermint_rpc::query::EventType;
-use tendermint_rpc::{Client, SubscriptionClient, WebSocketClient};
+use cometbft_config::net::Address;
+use cometbft_rpc::event::EventData;
+use cometbft_rpc::query::EventType;
+use cometbft_rpc::{Client, SubscriptionClient, WebSocketClient};
 use tokio::time::Duration;
 use tracing::{debug, error, info, level_filters::LevelFilter};
 

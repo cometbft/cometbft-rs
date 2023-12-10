@@ -236,8 +236,8 @@ mod v0_34 {
         BlockSignatureInfo, CommitInfo, Misbehavior, MisbehaviorKind, Snapshot, Validator, VoteInfo,
     };
     use crate::{block::BlockIdFlag, prelude::*, Error};
-    use tendermint_proto::v0_34::abci as pb;
-    use tendermint_proto::Protobuf;
+    use cometbft_proto::v0_34::abci as pb;
+    use cometbft_proto::Protobuf;
 
     use bytes::Bytes;
 
@@ -403,8 +403,8 @@ mod v0_37 {
         MisbehaviorKind, Snapshot, Validator, VoteInfo,
     };
     use crate::{block::BlockIdFlag, prelude::*, Error};
-    use tendermint_proto::v0_37::abci as pb;
-    use tendermint_proto::Protobuf;
+    use cometbft_proto::v0_37::abci as pb;
+    use cometbft_proto::Protobuf;
 
     use bytes::Bytes;
 
@@ -632,9 +632,9 @@ mod v0_38 {
         Misbehavior, MisbehaviorKind, Snapshot, Validator, VoteInfo,
     };
     use crate::{prelude::*, Error, Signature};
-    use tendermint_proto::v0_38::abci as pb;
-    use tendermint_proto::v0_38::types::BlockIdFlag as RawBlockIdFlag;
-    use tendermint_proto::Protobuf;
+    use cometbft_proto::v0_38::abci as pb;
+    use cometbft_proto::v0_38::types::BlockIdFlag as RawBlockIdFlag;
+    use cometbft_proto::Protobuf;
 
     use bytes::Bytes;
 

@@ -2,9 +2,9 @@
 
 use core::time::Duration;
 
+use cometbft::{account::Id, Error as TendermintError};
 use flex_error::define_error;
 use serde::{Deserialize, Serialize};
-use tendermint::{account::Id, Error as TendermintError};
 
 use crate::{
     operations::voting_power::VotingPowerTally,

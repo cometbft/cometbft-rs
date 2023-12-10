@@ -17,7 +17,7 @@ pub const MAX_NANO_SECS: u32 = 999_999_999u32;
 /// times with [`OffsetDateTime::from_unix_timestamp`].
 ///
 /// ```
-/// use tendermint_pbt_gen as pbt_gen;
+/// use cometbft_pbt_gen as pbt_gen;
 /// use time::OffsetDateTime;
 ///
 /// let timestamp = pbt_gen::time::min_time().unix_timestamp_nanos();
@@ -32,7 +32,7 @@ pub fn min_time() -> OffsetDateTime {
 /// times with [`OffsetDateTime::from_unix_timestamp`].
 ///
 /// ```
-/// use tendermint_pbt_gen as pbt_gen;
+/// use cometbft_pbt_gen as pbt_gen;
 /// use time::OffsetDateTime;
 ///
 /// let timestamp = pbt_gen::time::max_time().unix_timestamp_nanos();
@@ -75,7 +75,7 @@ prop_compose! {
     ///
     /// ```
     /// use time::macros::datetime;
-    /// use tendermint_pbt_gen as pbt_gen;
+    /// use cometbft_pbt_gen as pbt_gen;
     /// use proptest::prelude::*;
     ///
     /// proptest!{

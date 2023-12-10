@@ -14,8 +14,8 @@ pub enum VerifyVoteExtension {
 mod v0_38 {
     use super::VerifyVoteExtension;
     use crate::Error;
-    use tendermint_proto::v0_38::abci as pb;
-    use tendermint_proto::Protobuf;
+    use cometbft_proto::v0_38::abci as pb;
+    use cometbft_proto::Protobuf;
 
     impl From<VerifyVoteExtension> for pb::ResponseVerifyVoteExtension {
         fn from(value: VerifyVoteExtension) -> Self {

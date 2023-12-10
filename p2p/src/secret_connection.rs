@@ -16,6 +16,8 @@ use chacha20poly1305::{
     aead::{generic_array::GenericArray, AeadInPlace, KeyInit},
     ChaCha20Poly1305,
 };
+use cometbft_proto::v0_38 as proto;
+use cometbft_std_ext::TryClone;
 use curve25519_dalek_ng::{
     constants::X25519_BASEPOINT, montgomery::MontgomeryPoint as EphemeralPublic,
     scalar::Scalar as EphemeralSecret,
@@ -23,8 +25,6 @@ use curve25519_dalek_ng::{
 use merlin::Transcript;
 use rand_core::OsRng;
 use subtle::ConstantTimeEq;
-use tendermint_proto::v0_38 as proto;
-use tendermint_std_ext::TryClone;
 
 pub use self::{
     kdf::Kdf,
@@ -247,7 +247,7 @@ macro_rules! checked_io {
 /// not both simultaneously).
 ///
 /// If, however, the underlying I/O handler class implements
-/// [`tendermint_std_ext::TryClone`], then you can use
+/// [`cometbft_std_ext::TryClone`], then you can use
 /// [`SecretConnection::split`] to split the `SecretConnection` into its
 /// sending and receiving halves. Each of these halves can then be used in a
 /// separate thread to facilitate full-duplex communication.
@@ -334,7 +334,7 @@ where
     <IoHandler as TryClone>::Error: std::error::Error + Send + Sync + 'static,
 {
     /// For secret connections whose underlying I/O layer implements
-    /// [`tendermint_std_ext::TryClone`], this attempts to split such a
+    /// [`cometbft_std_ext::TryClone`], this attempts to split such a
     /// connection into its sending and receiving halves.
     ///
     /// This facilitates full-duplex communications when each half is used in

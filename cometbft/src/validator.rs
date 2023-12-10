@@ -1,10 +1,10 @@
 //! Tendermint validators
 
-use serde::{Deserialize, Serialize};
-use tendermint_proto::v0_38::types::{
+use cometbft_proto::v0_38::types::{
     SimpleValidator as RawSimpleValidator, ValidatorSet as RawValidatorSet,
 };
-use tendermint_proto::Protobuf;
+use cometbft_proto::Protobuf;
+use serde::{Deserialize, Serialize};
 
 use crate::{
     account,

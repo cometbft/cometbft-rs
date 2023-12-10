@@ -2,7 +2,7 @@
 
 use core::time::Duration;
 
-use tendermint::{
+use cometbft::{
     block::Height, chain::Id as ChainId, crypto::Sha256, hash::Hash, merkle::MerkleHash,
 };
 
@@ -21,7 +21,7 @@ pub struct ProdPredicates;
 
 #[cfg(feature = "rust-crypto")]
 impl VerificationPredicates for ProdPredicates {
-    type Sha256 = tendermint::crypto::default::Sha256;
+    type Sha256 = cometbft::crypto::default::Sha256;
 }
 
 /// Defines the various predicates used to validate and verify light blocks.
@@ -231,8 +231,8 @@ pub trait VerificationPredicates: Send + Sync {
 mod tests {
     use core::{convert::TryInto, time::Duration};
 
-    use tendermint::{block::CommitSig, validator::Set};
-    use tendermint_testgen::{
+    use cometbft::{block::CommitSig, validator::Set};
+    use cometbft_testgen::{
         light_block::{LightBlock as TestgenLightBlock, TmLightBlock},
         Commit, Generator, Header, Validator, ValidatorSet,
     };

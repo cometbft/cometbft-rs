@@ -1,10 +1,10 @@
-use gumdrop::Options;
-use serde::{Deserialize, Serialize};
-use simple_error::*;
-use tendermint::{
+use cometbft::{
     block::signed_header::SignedHeader, node::Id as PeerId, validator,
     validator::Set as ValidatorSet, Hash, Time,
 };
+use gumdrop::Options;
+use serde::{Deserialize, Serialize};
+use simple_error::*;
 
 use crate::{
     helpers::parse_as, validator::generate_validators, Commit, Generator, Header, Validator,

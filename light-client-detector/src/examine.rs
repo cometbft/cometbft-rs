@@ -1,5 +1,5 @@
-use tendermint::{crypto::Sha256, merkle::MerkleHash};
-use tendermint_light_client::{
+use cometbft::{crypto::Sha256, merkle::MerkleHash};
+use cometbft_light_client::{
     state::State,
     store::{memory::MemoryStore, LightStore},
     verifier::types::{LightBlock, Status},

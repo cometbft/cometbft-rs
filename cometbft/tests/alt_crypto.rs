@@ -5,9 +5,9 @@
 use ::signature::DigestVerifier;
 use digest::Digest;
 
-use tendermint::crypto::signature::{self, Verifier};
-use tendermint::crypto::{sha256::HASH_SIZE, Sha256};
-use tendermint::{PublicKey, Signature};
+use cometbft::crypto::signature::{self, Verifier};
+use cometbft::crypto::{sha256::HASH_SIZE, Sha256};
+use cometbft::{PublicKey, Signature};
 
 #[derive(Debug, Default)]
 struct SubstrateSha256(sha2::Sha256);
@@ -43,9 +43,9 @@ impl Sha256 for SubstrateSha256 {
 
 mod tests {
     use super::{SubstrateSha256, SubstrateSignatureVerifier};
-    use tendermint::crypto::signature::Verifier;
-    use tendermint::crypto::Sha256;
-    use tendermint::{PublicKey, Signature};
+    use cometbft::crypto::signature::Verifier;
+    use cometbft::crypto::Sha256;
+    use cometbft::{PublicKey, Signature};
 
     use subtle_encoding::hex;
 

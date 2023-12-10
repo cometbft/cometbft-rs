@@ -29,8 +29,8 @@ pub struct ProcessProposal {
 mod v0_37 {
     use super::ProcessProposal;
     use crate::{prelude::*, Error};
-    use tendermint_proto::v0_37::abci as pb;
-    use tendermint_proto::Protobuf;
+    use cometbft_proto::v0_37::abci as pb;
+    use cometbft_proto::Protobuf;
 
     impl From<ProcessProposal> for pb::RequestProcessProposal {
         fn from(value: ProcessProposal) -> Self {
@@ -81,8 +81,8 @@ mod v0_37 {
 mod v0_38 {
     use super::ProcessProposal;
     use crate::{prelude::*, Error};
-    use tendermint_proto::v0_38::abci as pb;
-    use tendermint_proto::Protobuf;
+    use cometbft_proto::v0_38::abci as pb;
+    use cometbft_proto::Protobuf;
 
     impl From<ProcessProposal> for pb::RequestProcessProposal {
         fn from(value: ProcessProposal) -> Self {

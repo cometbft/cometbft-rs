@@ -2,12 +2,12 @@
 
 use std::{fs, path::Path};
 
-use serde::{Deserialize, Serialize};
-use tendermint::{
+use cometbft::{
     account,
     private_key::PrivateKey,
     public_key::{PublicKey, TendermintKey},
 };
+use serde::{Deserialize, Serialize};
 
 use crate::{error::Error, prelude::*};
 

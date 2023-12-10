@@ -24,8 +24,8 @@ pub struct ExtendVote {
 mod v0_38 {
     use super::ExtendVote;
     use crate::{prelude::*, Error};
-    use tendermint_proto::v0_38 as pb;
-    use tendermint_proto::Protobuf;
+    use cometbft_proto::v0_38 as pb;
+    use cometbft_proto::Protobuf;
 
     impl From<ExtendVote> for pb::abci::RequestExtendVote {
         fn from(extend_vote: ExtendVote) -> Self {

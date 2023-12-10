@@ -73,14 +73,14 @@ fn key_type(s: &str) -> public_key::Algorithm {
 }
 
 mod v0_34 {
-    use tendermint_proto::v0_34::{
+    use cometbft_proto::v0_34::{
         abci::ConsensusParams as RawAbciConsensusParams,
         types::{
             ConsensusParams as RawParams, ValidatorParams as RawValidatorParams,
             VersionParams as RawVersionParams,
         },
     };
-    use tendermint_proto::Protobuf;
+    use cometbft_proto::Protobuf;
 
     use super::{key_type, Params, ValidatorParams, VersionParams};
     use crate::{error::Error, prelude::*, public_key};
@@ -206,11 +206,11 @@ mod v0_34 {
 }
 
 mod v0_37 {
-    use tendermint_proto::v0_37::types::{
+    use cometbft_proto::v0_37::types::{
         ConsensusParams as RawParams, ValidatorParams as RawValidatorParams,
         VersionParams as RawVersionParams,
     };
-    use tendermint_proto::Protobuf;
+    use cometbft_proto::Protobuf;
 
     use super::{key_type, Params, ValidatorParams, VersionParams};
     use crate::{error::Error, prelude::*, public_key};
@@ -296,11 +296,11 @@ mod v0_37 {
 }
 
 mod v0_38 {
-    use tendermint_proto::v0_38::types::{
+    use cometbft_proto::v0_38::types::{
         AbciParams as RawAbciParams, ConsensusParams as RawParams,
         ValidatorParams as RawValidatorParams, VersionParams as RawVersionParams,
     };
-    use tendermint_proto::Protobuf;
+    use cometbft_proto::Protobuf;
 
     use super::{key_type, AbciParams, Params, ValidatorParams, VersionParams};
     use crate::{error::Error, prelude::*, public_key};

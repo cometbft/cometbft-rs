@@ -39,8 +39,8 @@ pub struct DeliverTx {
 
 mod v0_34 {
     use super::DeliverTx;
-    use tendermint_proto::v0_34 as pb;
-    use tendermint_proto::Protobuf;
+    use cometbft_proto::v0_34 as pb;
+    use cometbft_proto::Protobuf;
 
     impl From<DeliverTx> for pb::abci::ResponseDeliverTx {
         fn from(deliver_tx: DeliverTx) -> Self {
@@ -83,8 +83,8 @@ mod v0_34 {
 
 mod v0_37 {
     use super::DeliverTx;
-    use tendermint_proto::v0_37 as pb;
-    use tendermint_proto::Protobuf;
+    use cometbft_proto::v0_37 as pb;
+    use cometbft_proto::Protobuf;
 
     impl From<DeliverTx> for pb::abci::ResponseDeliverTx {
         fn from(deliver_tx: DeliverTx) -> Self {

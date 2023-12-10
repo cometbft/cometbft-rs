@@ -6,6 +6,7 @@ use serde::{Deserialize, Serialize};
 
 pub use crate::block;
 use crate::prelude::*;
+use crate::serializers;
 
 /// Placeholder string to show when block ID is absent. Syntax from:
 /// <https://tendermint.com/docs/spec/consensus/consensus.html>
@@ -26,7 +27,7 @@ pub struct State {
     pub step: i8,
 
     /// Block ID being proposed (if available)
-    #[serde(with = "tendermint_proto::serializers::optional")]
+    #[serde(with = "serializers::optional")]
     pub block_id: Option<block::Id>,
 }
 

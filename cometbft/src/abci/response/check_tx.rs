@@ -53,8 +53,8 @@ pub struct CheckTx {
 
 mod v0_34 {
     use super::CheckTx;
-    use tendermint_proto::v0_34 as pb;
-    use tendermint_proto::Protobuf;
+    use cometbft_proto::v0_34 as pb;
+    use cometbft_proto::Protobuf;
 
     impl From<CheckTx> for pb::abci::ResponseCheckTx {
         fn from(check_tx: CheckTx) -> Self {
@@ -103,8 +103,8 @@ mod v0_34 {
 
 mod v0_37 {
     use super::CheckTx;
-    use tendermint_proto::v0_37 as pb;
-    use tendermint_proto::Protobuf;
+    use cometbft_proto::v0_37 as pb;
+    use cometbft_proto::Protobuf;
 
     impl From<CheckTx> for pb::abci::ResponseCheckTx {
         fn from(check_tx: CheckTx) -> Self {
@@ -153,8 +153,8 @@ mod v0_37 {
 
 mod v0_38 {
     use super::CheckTx;
-    use tendermint_proto::v0_38 as pb;
-    use tendermint_proto::Protobuf;
+    use cometbft_proto::v0_38 as pb;
+    use cometbft_proto::Protobuf;
 
     impl From<CheckTx> for pb::abci::ResponseCheckTx {
         fn from(check_tx: CheckTx) -> Self {

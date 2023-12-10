@@ -33,8 +33,8 @@ pub struct BeginBlock {
 mod v0_34 {
     use super::BeginBlock;
     use crate::Error;
-    use tendermint_proto::v0_34 as pb;
-    use tendermint_proto::Protobuf;
+    use cometbft_proto::v0_34 as pb;
+    use cometbft_proto::Protobuf;
 
     impl From<BeginBlock> for pb::abci::RequestBeginBlock {
         fn from(begin_block: BeginBlock) -> Self {
@@ -80,8 +80,8 @@ mod v0_34 {
 mod v0_37 {
     use super::BeginBlock;
     use crate::Error;
-    use tendermint_proto::v0_37 as pb;
-    use tendermint_proto::Protobuf;
+    use cometbft_proto::v0_37 as pb;
+    use cometbft_proto::Protobuf;
 
     impl From<BeginBlock> for pb::abci::RequestBeginBlock {
         fn from(begin_block: BeginBlock) -> Self {

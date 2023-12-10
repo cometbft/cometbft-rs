@@ -1,7 +1,7 @@
 //! Commits to a Tendermint blockchain
 
+use cometbft_proto::v0_37::types::Commit as RawCommit;
 use serde::{Deserialize, Serialize};
-use tendermint_proto::v0_37::types::Commit as RawCommit;
 
 use crate::{
     block::{commit_sig::CommitSig, Height, Id, Round},

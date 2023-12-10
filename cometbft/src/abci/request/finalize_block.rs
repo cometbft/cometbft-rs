@@ -36,8 +36,8 @@ pub struct FinalizeBlock {
 mod v0_38 {
     use super::FinalizeBlock;
     use crate::Error;
-    use tendermint_proto::v0_38 as pb;
-    use tendermint_proto::Protobuf;
+    use cometbft_proto::v0_38 as pb;
+    use cometbft_proto::Protobuf;
 
     impl From<FinalizeBlock> for pb::abci::RequestFinalizeBlock {
         fn from(value: FinalizeBlock) -> Self {

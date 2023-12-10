@@ -1,7 +1,7 @@
 //! Errors raised by the builder DSL
 
+use cometbft::{block::Height, Hash};
 use flex_error::define_error;
-use tendermint::{block::Height, Hash};
 
 use crate::{components::io::IoError, verifier::errors::VerificationError};
 

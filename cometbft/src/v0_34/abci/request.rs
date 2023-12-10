@@ -1,5 +1,5 @@
-use tendermint_proto::v0_34::abci as pb;
-use tendermint_proto::Protobuf;
+use cometbft_proto::v0_34::abci as pb;
+use cometbft_proto::Protobuf;
 
 use crate::abci::MethodKind;
 use crate::Error;

@@ -3,8 +3,8 @@ use core::{
     str::{self, FromStr},
 };
 
+use cometbft_proto::v0_37::types::BlockId as RawBlockId;
 use serde::{Deserialize, Serialize};
-use tendermint_proto::v0_37::types::BlockId as RawBlockId;
 
 use crate::{
     block::parts::Header as PartSetHeader,

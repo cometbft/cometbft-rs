@@ -1,6 +1,6 @@
+use cometbft_testgen::{helpers::*, Commit, Generator, Header, Time, Validator, Vote};
 use gumdrop::Options;
 use simple_error::SimpleError;
-use tendermint_testgen::{helpers::*, Commit, Generator, Header, Time, Validator, Vote};
 
 const USAGE: &str = r#"
 This is a small utility for producing tendermint datastructures

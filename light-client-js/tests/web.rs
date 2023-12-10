@@ -3,9 +3,9 @@
 #![cfg(target_arch = "wasm32")]
 
 extern crate wasm_bindgen_test;
-use tendermint::Time;
-use tendermint_light_client_js::{verify, Error, JsOptions};
-use tendermint_light_client_verifier::{types::LightBlock, Verdict};
+use cometbft::Time;
+use cometbft_light_client_js::{verify, Error, JsOptions};
+use cometbft_light_client_verifier::{types::LightBlock, Verdict};
 use wasm_bindgen::JsValue;
 use wasm_bindgen_test::*;
 

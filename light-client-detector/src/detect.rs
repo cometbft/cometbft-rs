@@ -2,10 +2,10 @@ use std::{thread, time::Duration};
 
 use tracing::{debug, warn};
 
-use tendermint::{block::signed_header::SignedHeader, crypto::Sha256, merkle::MerkleHash};
-use tendermint_light_client::light_client::TargetOrLatest;
-use tendermint_light_client::verifier::errors::ErrorExt;
-use tendermint_light_client::verifier::types::LightBlock;
+use cometbft::{block::signed_header::SignedHeader, crypto::Sha256, merkle::MerkleHash};
+use cometbft_light_client::light_client::TargetOrLatest;
+use cometbft_light_client::verifier::errors::ErrorExt;
+use cometbft_light_client::verifier::types::LightBlock;
 
 use crate::conflict::GatheredEvidence;
 
@@ -120,7 +120,7 @@ pub enum CompareError {
     /// The witness has either not responded, doesn't have the header or has given us an invalid one
     BadWitness,
     /// Some other error has occurred, this is likely a benign error
-    Other(tendermint_light_client::errors::Error),
+    Other(cometbft_light_client::errors::Error),
 }
 
 /// Takes the verified header from the primary and compares it with a

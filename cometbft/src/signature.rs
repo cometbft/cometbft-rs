@@ -6,7 +6,7 @@ pub use k256::ecdsa::Signature as Secp256k1Signature;
 
 use bytes::Bytes;
 
-use tendermint_proto::Protobuf;
+use cometbft_proto::Protobuf;
 
 use crate::{error::Error, prelude::*};
 

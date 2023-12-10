@@ -1,5 +1,5 @@
+use cometbft_proto::v0_37::types::CanonicalVote as RawCanonicalVote;
 use serde::{Deserialize, Serialize};
-use tendermint_proto::v0_37::types::CanonicalVote as RawCanonicalVote;
 
 use crate::{block, chain::Id as ChainId, prelude::*, Time};
 
@@ -93,7 +93,7 @@ impl CanonicalVote {
 mod tests {
 
     tendermint_pb_modules! {
-        use tendermint_proto::google::protobuf::Timestamp;
+        use cometbft_proto::google::protobuf::Timestamp;
         use pb::types::{
             CanonicalBlockId as RawCanonicalBlockId,
             CanonicalPartSetHeader as RawCanonicalPartSetHeader,

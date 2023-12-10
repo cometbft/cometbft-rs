@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-use tendermint_p2p::secret_connection::{Nonce, NONCE_SIZE};
+use cometbft_p2p::secret_connection::{Nonce, NONCE_SIZE};
 
 #[test]
 fn test_incr_nonce() {

@@ -23,8 +23,8 @@ pub struct EndBlock {
 
 mod v0_34 {
     use super::EndBlock;
-    use tendermint_proto::v0_34 as pb;
-    use tendermint_proto::Protobuf;
+    use cometbft_proto::v0_34 as pb;
+    use cometbft_proto::Protobuf;
 
     impl From<EndBlock> for pb::abci::ResponseEndBlock {
         fn from(end_block: EndBlock) -> Self {
@@ -68,8 +68,8 @@ mod v0_34 {
 
 mod v0_37 {
     use super::EndBlock;
-    use tendermint_proto::v0_37 as pb;
-    use tendermint_proto::Protobuf;
+    use cometbft_proto::v0_37 as pb;
+    use cometbft_proto::Protobuf;
 
     impl From<EndBlock> for pb::abci::ResponseEndBlock {
         fn from(end_block: EndBlock) -> Self {

@@ -6,24 +6,24 @@ mod mbt {
         time::Duration,
     };
 
-    use rand::Rng;
-    use serde::{de::DeserializeOwned, Deserialize, Serialize};
-    use serde_json::Error;
-    use tendermint::validator::Set;
-    use tendermint_light_client::{
+    use cometbft::validator::Set;
+    use cometbft_light_client::{
         tests::*,
         verifier::{
             types::{LightBlock, Time, TrustThreshold, ValidatorSet},
             Verdict,
         },
     };
-    use tendermint_testgen::{
+    use cometbft_testgen::{
         apalache::*,
         jsonatr::*,
         light_block::{default_peer_id, TmLightBlock},
         validator::generate_validators,
         Command, Generator, LightBlock as TestgenLightBlock, TestEnv, Tester, Validator, Vote,
     };
+    use rand::Rng;
+    use serde::{de::DeserializeOwned, Deserialize, Serialize};
+    use serde_json::Error;
     use time::OffsetDateTime;
 
     fn testgen_to_lb(tm_lb: TmLightBlock) -> LightBlock {
@@ -100,9 +100,9 @@ mod mbt {
         fn fuzz_input(input: &mut BlockVerdict) -> (String, LiteVerdict);
 
         /// Get a random hash value
-        fn random_hash() -> tendermint::hash::Hash {
+        fn random_hash() -> cometbft::hash::Hash {
             // not really random, but should be different from whatever hash is there
-            tendermint::hash::Hash::from_str(
+            cometbft::hash::Hash::from_str(
                 "AAAAAAAAAA1BA22917BBE036BA9D58A40918E93983B57BD0DC465301E10B5419",
             )
             .unwrap()
@@ -147,7 +147,7 @@ mod mbt {
             }
 
             input.block.signed_header.header.version =
-                tendermint::block::header::Version { block, app };
+                cometbft::block::header::Version { block, app };
             (String::from("header version"), LiteVerdict::Invalid)
         }
     }
@@ -159,7 +159,7 @@ mod mbt {
         // TODO: this would fail on `header_matches_commit` because header isn't rehashed
         fn fuzz_input(input: &mut BlockVerdict) -> (String, LiteVerdict) {
             input.block.signed_header.header.chain_id =
-                tendermint::chain::Id::from_str("AAAAAAAAAAAAAAAAAA").unwrap();
+                cometbft::chain::Id::from_str("AAAAAAAAAAAAAAAAAA").unwrap();
             (String::from("header chain_id"), LiteVerdict::Invalid)
         }
     }
@@ -175,7 +175,7 @@ mod mbt {
                 height = rng.gen();
             }
             input.block.signed_header.header.height =
-                tendermint::block::Height::try_from(height).unwrap();
+                cometbft::block::Height::try_from(height).unwrap();
             (String::from("header height"), LiteVerdict::ParseError)
         }
     }
@@ -187,20 +187,19 @@ mod mbt {
             let mut rng = rand::thread_rng();
             let now: Time = OffsetDateTime::now_utc().try_into().unwrap();
             let secs = now
-                .duration_since(tendermint::Time::unix_epoch())
+                .duration_since(cometbft::Time::unix_epoch())
                 .unwrap()
                 .as_secs();
             let rand_secs = rng.gen_range(1, secs);
-            input.block.signed_header.header.time = (tendermint::Time::unix_epoch()
-                + std::time::Duration::from_secs(rand_secs))
-            .unwrap();
+            input.block.signed_header.header.time =
+                (cometbft::Time::unix_epoch() + std::time::Duration::from_secs(rand_secs)).unwrap();
             // TODO: the fuzzing below fails with one of:
             //   - 'overflow when adding duration to instant', src/libstd/time.rs:549:31
             //   - 'No such local time',
             //     /home/andrey/.cargo/registry/src/github.com-1ecc6299db9ec823/chrono-0.4.11/src/
             //     offset/mod.rs:173:34
             // let secs: u64 = rng.gen();
-            // input.block.signed_header.header.time = tendermint::Time::unix_epoch() +
+            // input.block.signed_header.header.time = cometbft::Time::unix_epoch() +
             // std::time::Duration::from_secs(secs);
             (String::from("header time"), LiteVerdict::Invalid)
         }
@@ -215,7 +214,7 @@ mod mbt {
             // don't match. And so, this always fails on "header_matches_commit" predicate
             // For better testing of the actual fuzzed value, we need to do better here :)
             // TODO!
-            input.block.signed_header.header.last_block_id = Some(tendermint::block::Id {
+            input.block.signed_header.header.last_block_id = Some(cometbft::block::Id {
                 hash: Self::random_hash(),
                 part_set_header: Default::default(),
             });
@@ -297,7 +296,7 @@ mod mbt {
         // TODO: Do we need this? because we don't even validate `app_hash`
         fn fuzz_input(input: &mut BlockVerdict) -> (String, LiteVerdict) {
             input.block.signed_header.header.app_hash =
-                tendermint::hash::AppHash::try_from(vec![0, 1, 2, 3, 4, 5]).unwrap();
+                cometbft::hash::AppHash::try_from(vec![0, 1, 2, 3, 4, 5]).unwrap();
             (String::from("header app_hash"), LiteVerdict::Invalid)
         }
     }
@@ -350,7 +349,7 @@ mod mbt {
                 height = rng.gen();
             }
             input.block.signed_header.commit.height =
-                tendermint::block::Height::try_from(height).unwrap();
+                cometbft::block::Height::try_from(height).unwrap();
             (String::from("commit height"), LiteVerdict::ParseError)
         }
     }
@@ -394,7 +393,7 @@ mod mbt {
 
     impl SingleStepTestFuzzer for CommitBlockIdFuzzer {
         fn fuzz_input(input: &mut BlockVerdict) -> (String, LiteVerdict) {
-            input.block.signed_header.commit.block_id = tendermint::block::Id {
+            input.block.signed_header.commit.block_id = cometbft::block::Id {
                 hash: Self::random_hash(),
                 part_set_header: Default::default(),
             };

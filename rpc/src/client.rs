@@ -27,8 +27,8 @@ pub use transport::mock::{MockClient, MockRequestMatcher, MockRequestMethodMatch
 use core::fmt;
 
 use async_trait::async_trait;
+use cometbft::{abci, block::Height, evidence::Evidence, Genesis, Hash};
 use serde::{de::DeserializeOwned, Serialize};
-use tendermint::{abci, block::Height, evidence::Evidence, Genesis, Hash};
 
 use crate::{
     endpoint::{validators::DEFAULT_VALIDATORS_PER_PAGE, *},
@@ -78,10 +78,7 @@ pub trait Client {
     }
 
     /// `/block_by_hash`: get block by hash.
-    async fn block_by_hash(
-        &self,
-        hash: tendermint::Hash,
-    ) -> Result<block_by_hash::Response, Error> {
+    async fn block_by_hash(&self, hash: cometbft::Hash) -> Result<block_by_hash::Response, Error> {
         self.perform(block_by_hash::Request::new(hash)).await
     }
 
@@ -101,7 +98,7 @@ pub trait Client {
     /// `/header_by_hash`: get block by hash.
     async fn header_by_hash(
         &self,
-        hash: tendermint::Hash,
+        hash: cometbft::Hash,
     ) -> Result<header_by_hash::Response, Error> {
         self.perform(header_by_hash::Request::new(hash)).await
     }

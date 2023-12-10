@@ -5,8 +5,8 @@ use core::{
     str::{self, FromStr},
 };
 
+use cometbft::node::{self, info::ListenAddress};
 use serde::{de::Error as _, Deserialize, Deserializer, Serialize, Serializer};
-use tendermint::node::{self, info::ListenAddress};
 use url::Url;
 
 use crate::{error::Error, prelude::*};
@@ -135,7 +135,7 @@ impl Serialize for Address {
 
 #[cfg(test)]
 mod tests {
-    use tendermint::node;
+    use cometbft::node;
 
     use super::*;
 

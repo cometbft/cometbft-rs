@@ -1,4 +1,4 @@
-use tendermint::{
+use cometbft::{
     block, consensus, consensus::params::VersionParams, evidence, public_key::Algorithm,
 };
 

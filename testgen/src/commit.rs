@@ -1,9 +1,9 @@
 use std::{collections::BTreeSet, convert::TryFrom, iter::FromIterator};
 
+use cometbft::block::{self, parts::Header as PartSetHeader, Round};
 use gumdrop::Options;
 use serde::{Deserialize, Serialize};
 use simple_error::*;
-use tendermint::block::{self, parts::Header as PartSetHeader, Round};
 
 use crate::{helpers::*, validator::sort_validators, Generator, Header, Validator, Vote};
 
@@ -166,7 +166,7 @@ impl Generator<block::Commit> for Commit {
 
 #[cfg(test)]
 mod tests {
-    use tendermint::Time;
+    use cometbft::Time;
 
     use super::*;
 

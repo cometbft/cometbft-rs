@@ -1,7 +1,7 @@
 //! Block metadata
 
+use cometbft_proto::v0_37::types::BlockMeta as RawMeta;
 use serde::{Deserialize, Serialize};
-use tendermint_proto::v0_37::types::BlockMeta as RawMeta;
 
 use super::{Header, Id};
 use crate::prelude::*;

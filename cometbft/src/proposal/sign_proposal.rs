@@ -1,5 +1,5 @@
 use bytes::BufMut;
-use tendermint_proto::Error as ProtobufError;
+use cometbft_proto::Error as ProtobufError;
 
 use super::Proposal;
 use crate::{chain::Id as ChainId, prelude::*, privval::RemoteSignerError};

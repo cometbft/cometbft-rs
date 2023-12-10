@@ -1,8 +1,8 @@
 //! Amino types used by Secret Connection
 
+use cometbft_proto::v0_38 as proto;
 use core::convert::TryFrom;
 use prost_derive::Message;
-use tendermint_proto::v0_38 as proto;
 
 use crate::error::Error;
 

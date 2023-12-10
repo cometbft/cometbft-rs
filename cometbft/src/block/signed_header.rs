@@ -2,8 +2,8 @@
 //! It is what the rpc endpoint /commit returns and hence can be used by a
 //! light client.
 
+use cometbft_proto::v0_37::types::SignedHeader as RawSignedHeader;
 use serde::{Deserialize, Serialize};
-use tendermint_proto::v0_37::types::SignedHeader as RawSignedHeader;
 
 use crate::{block, Error};
 

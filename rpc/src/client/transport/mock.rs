@@ -25,7 +25,7 @@ use crate::{
 /// ## Examples
 ///
 /// ```rust
-/// use tendermint_rpc::{Client, Method, MockClient, MockRequestMatcher, MockRequestMethodMatcher};
+/// use cometbft_rpc::{Client, Method, MockClient, MockRequestMatcher, MockRequestMethodMatcher};
 ///
 /// const ABCI_INFO_RESPONSE: &str = r#"{
 ///   "jsonrpc": "2.0",
@@ -244,8 +244,8 @@ impl MockRequestMethodMatcher {
 mod test {
     use std::path::PathBuf;
 
+    use cometbft::{block::Height, chain::Id};
     use futures::StreamExt;
-    use tendermint::{block::Height, chain::Id};
     use tokio::fs;
 
     use super::*;

@@ -18,8 +18,8 @@ pub struct Commit {
 
 mod v0_34 {
     use super::Commit;
-    use tendermint_proto::v0_34 as pb;
-    use tendermint_proto::Protobuf;
+    use cometbft_proto::v0_34 as pb;
+    use cometbft_proto::Protobuf;
 
     impl From<Commit> for pb::abci::ResponseCommit {
         fn from(commit: Commit) -> Self {
@@ -46,8 +46,8 @@ mod v0_34 {
 
 mod v0_37 {
     use super::Commit;
-    use tendermint_proto::v0_37 as pb;
-    use tendermint_proto::Protobuf;
+    use cometbft_proto::v0_37 as pb;
+    use cometbft_proto::Protobuf;
 
     impl From<Commit> for pb::abci::ResponseCommit {
         fn from(commit: Commit) -> Self {
@@ -74,8 +74,8 @@ mod v0_37 {
 
 mod v0_38 {
     use super::Commit;
-    use tendermint_proto::v0_38 as pb;
-    use tendermint_proto::Protobuf;
+    use cometbft_proto::v0_38 as pb;
+    use cometbft_proto::Protobuf;
 
     impl From<Commit> for pb::abci::ResponseCommit {
         fn from(commit: Commit) -> Self {

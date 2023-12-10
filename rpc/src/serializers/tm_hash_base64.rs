@@ -1,12 +1,12 @@
 //! Encoding/decoding Tendermint hashes to/from base64.
 
+use cometbft::hash::{Algorithm::Sha256, Hash, SHA256_HASH_SIZE};
 use serde::{Deserialize, Deserializer, Serializer};
 use subtle_encoding::base64;
-use tendermint::hash::{Algorithm::Sha256, Hash, SHA256_HASH_SIZE};
 
 use crate::prelude::*;
 
-/// Deserialize a base64-encoded string into an tendermint::Hash
+/// Deserialize a base64-encoded string into an cometbft::Hash
 pub fn deserialize<'de, D>(deserializer: D) -> Result<Hash, D::Error>
 where
     D: Deserializer<'de>,
@@ -23,7 +23,7 @@ where
     Hash::from_bytes(Sha256, &decoded_bytes).map_err(serde::de::Error::custom)
 }
 
-/// Serialize from a tendermint::Hash into a base64-encoded string
+/// Serialize from a cometbft::Hash into a base64-encoded string
 pub fn serialize<S>(value: &Hash, serializer: S) -> Result<S::Ok, S::Error>
 where
     S: Serializer,

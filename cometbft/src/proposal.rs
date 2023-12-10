@@ -5,10 +5,10 @@ mod msg_type;
 mod sign_proposal;
 
 use bytes::BufMut;
+use cometbft_proto::v0_37::types::CanonicalProposal as RawCanonicalProposal;
+use cometbft_proto::{Error as ProtobufError, Protobuf};
 pub use msg_type::Type;
 pub use sign_proposal::{SignProposalRequest, SignedProposalResponse};
-use tendermint_proto::v0_37::types::CanonicalProposal as RawCanonicalProposal;
-use tendermint_proto::{Error as ProtobufError, Protobuf};
 
 pub use self::canonical_proposal::CanonicalProposal;
 use crate::{

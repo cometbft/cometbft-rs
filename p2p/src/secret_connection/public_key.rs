@@ -2,8 +2,8 @@
 
 use std::fmt::{self, Display};
 
+use cometbft::{error::Error, node};
 use sha2::{digest::Digest, Sha256};
-use tendermint::{error::Error, node};
 
 /// Secret Connection peer public keys (signing, presently Ed25519-only)
 #[derive(Copy, Clone, Debug, Eq, PartialEq)]
@@ -37,7 +37,7 @@ impl PublicKey {
     pub fn peer_id(self) -> node::Id {
         match self {
             Self::Ed25519(pk) => {
-                // TODO(tarcieri): use `tendermint::node::Id::from`
+                // TODO(tarcieri): use `cometbft::node::Id::from`
                 let digest = Sha256::digest(pk.as_bytes());
                 let mut bytes = [0_u8; 20];
                 bytes.copy_from_slice(&digest[..20]);

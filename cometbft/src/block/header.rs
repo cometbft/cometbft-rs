@@ -1,11 +1,11 @@
 //! Block headers
 
-use serde::{Deserialize, Serialize};
-use tendermint_proto::v0_37::{
+use cometbft_proto::v0_37::{
     types::{BlockId as RawBlockId, Header as RawHeader},
     version::Consensus as RawConsensusVersion,
 };
-use tendermint_proto::Protobuf;
+use cometbft_proto::Protobuf;
+use serde::{Deserialize, Serialize};
 
 use crate::{
     account, block, chain,

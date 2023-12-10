@@ -1,7 +1,7 @@
 use std::io::Error as IoError;
 
+use cometbft::Error as TendermintError;
 use flex_error::{define_error, DisplayOnly};
-use tendermint::Error as TendermintError;
 
 define_error! {
     #[derive(Debug, Clone, PartialEq, Eq)]

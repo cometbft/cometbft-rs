@@ -12,8 +12,8 @@ mod round;
 pub mod signed_header;
 mod size;
 
+use cometbft_proto::v0_37::types::Block as RawBlock;
 use serde::{Deserialize, Serialize};
-use tendermint_proto::v0_37::types::Block as RawBlock;
 
 pub use self::{
     block_id_flag::BlockIdFlag,

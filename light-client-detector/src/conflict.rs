@@ -1,5 +1,5 @@
-use tendermint::{crypto::Sha256, evidence::LightClientAttackEvidence, merkle::MerkleHash};
-use tendermint_light_client::verifier::types::LightBlock;
+use cometbft::{crypto::Sha256, evidence::LightClientAttackEvidence, merkle::MerkleHash};
+use cometbft_light_client::verifier::types::LightBlock;
 use tracing::{error, error_span, warn};
 
 use super::{

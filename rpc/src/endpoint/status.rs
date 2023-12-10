@@ -1,7 +1,7 @@
 //! `/status` endpoint JSON-RPC wrapper
 
+use cometbft::{block, node, validator, AppHash, Hash, Time};
 use serde::{Deserialize, Serialize};
-use tendermint::{block, node, validator, AppHash, Hash, Time};
 
 use crate::{dialect::Dialect, request::RequestMessage};
 
@@ -42,11 +42,11 @@ impl crate::Response for Response {}
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct SyncInfo {
     /// Earliest block hash
-    #[serde(with = "tendermint::serializers::hash")]
+    #[serde(with = "cometbft::serializers::hash")]
     pub earliest_block_hash: Hash,
 
     /// Earliest app hash
-    #[serde(with = "tendermint::serializers::apphash")]
+    #[serde(with = "cometbft::serializers::apphash")]
     pub earliest_app_hash: AppHash,
 
     /// Earliest block height
@@ -56,11 +56,11 @@ pub struct SyncInfo {
     pub earliest_block_time: Time,
 
     /// Latest block hash
-    #[serde(with = "tendermint::serializers::hash")]
+    #[serde(with = "cometbft::serializers::hash")]
     pub latest_block_hash: Hash,
 
     /// Latest app hash
-    #[serde(with = "tendermint::serializers::apphash")]
+    #[serde(with = "cometbft::serializers::apphash")]
     pub latest_app_hash: AppHash,
 
     /// Latest block height

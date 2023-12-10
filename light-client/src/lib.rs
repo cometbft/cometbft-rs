@@ -27,7 +27,7 @@ pub mod store;
 pub(crate) mod utils;
 
 // Re-export `tendermint-light-client-verifier` crate.
-pub use tendermint_light_client_verifier as verifier;
+pub use cometbft_light_client_verifier as verifier;
 // Re-export for backward compatibility
 pub use verifier::{operations, predicates, types};
 

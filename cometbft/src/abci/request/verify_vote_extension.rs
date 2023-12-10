@@ -16,8 +16,8 @@ pub struct VerifyVoteExtension {
 
 mod v0_38 {
     use super::VerifyVoteExtension;
-    use tendermint_proto::v0_38 as pb;
-    use tendermint_proto::Protobuf;
+    use cometbft_proto::v0_38 as pb;
+    use cometbft_proto::Protobuf;
 
     impl From<VerifyVoteExtension> for pb::abci::RequestVerifyVoteExtension {
         fn from(value: VerifyVoteExtension) -> Self {

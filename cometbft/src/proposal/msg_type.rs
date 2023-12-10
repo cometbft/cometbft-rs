@@ -1,7 +1,7 @@
 use core::convert::TryFrom;
 
+use cometbft_proto::Protobuf;
 use serde::{de::Error as _, Deserialize, Deserializer, Serialize, Serializer};
-use tendermint_proto::Protobuf;
 
 use crate::{error::Error, prelude::*};
 

@@ -4,12 +4,12 @@ use std::{
     thread,
 };
 
+use cometbft_p2p::secret_connection::{sort32, Handshake, SecretConnection, Version};
+use cometbft_proto::v0_38 as proto;
 use curve25519_dalek_ng::{
     constants::X25519_BASEPOINT, montgomery::MontgomeryPoint as EphemeralPublic,
 };
 use rand_core::OsRng;
-use tendermint_p2p::secret_connection::{sort32, Handshake, SecretConnection, Version};
-use tendermint_proto::v0_38 as proto;
 
 use crate::pipe;
 
@@ -182,7 +182,7 @@ fn test_split_secret_connection() {
 
 fn new_peer_conn<IoHandler>(
     io_handler: IoHandler,
-) -> Result<SecretConnection<IoHandler>, tendermint_p2p::error::Error>
+) -> Result<SecretConnection<IoHandler>, cometbft_p2p::error::Error>
 where
     IoHandler: std::io::Read + std::io::Write + Send + Sync,
 {

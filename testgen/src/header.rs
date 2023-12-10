@@ -4,10 +4,10 @@ use std::{
     str::FromStr,
 };
 
+use cometbft::{block, chain, validator, AppHash, Hash, Time};
 use gumdrop::Options;
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
 use simple_error::*;
-use tendermint::{block, chain, validator, AppHash, Hash, Time};
 use time::OffsetDateTime;
 
 use crate::{helpers::*, validator::generate_validators, Generator, Validator};
@@ -76,14 +76,14 @@ mod app_hash_serde {
     where
         D: Deserializer<'de>,
     {
-        tendermint::serializers::apphash::deserialize(deserializer).map(Some)
+        cometbft::serializers::apphash::deserialize(deserializer).map(Some)
     }
 
     pub fn serialize<S>(value: &Option<AppHash>, serializer: S) -> Result<S::Ok, S::Error>
     where
         S: Serializer,
     {
-        tendermint::serializers::apphash::serialize(value.as_ref().unwrap(), serializer)
+        cometbft::serializers::apphash::serialize(value.as_ref().unwrap(), serializer)
     }
 }
 
@@ -225,7 +225,7 @@ impl Generator<block::Header> for Header {
 mod tests {
     use core::time::Duration;
 
-    use tendermint::Time;
+    use cometbft::Time;
 
     use super::*;
 

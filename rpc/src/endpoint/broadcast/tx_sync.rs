@@ -1,8 +1,8 @@
 //! `/broadcast_tx_sync`: returns with the response from `CheckTx`.
 
 use bytes::Bytes;
+use cometbft::{abci::Code, Hash};
 use serde::{Deserialize, Serialize};
-use tendermint::{abci::Code, Hash};
 
 use crate::{dialect::Dialect, prelude::*, request::RequestMessage, serializers};
 

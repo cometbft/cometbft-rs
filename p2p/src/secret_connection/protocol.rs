@@ -2,9 +2,9 @@
 
 use std::convert::TryInto;
 
+use cometbft_proto::v0_38 as proto;
 use curve25519_dalek_ng::montgomery::MontgomeryPoint as EphemeralPublic;
 use prost::Message as _;
-use tendermint_proto::v0_38 as proto;
 
 #[cfg(feature = "amino")]
 use super::amino_types;

@@ -12,8 +12,8 @@ pub struct ExtendVote {
 
 mod v0_38 {
     use super::ExtendVote;
-    use tendermint_proto::v0_38::abci as pb;
-    use tendermint_proto::Protobuf;
+    use cometbft_proto::v0_38::abci as pb;
+    use cometbft_proto::Protobuf;
 
     impl From<ExtendVote> for pb::ResponseExtendVote {
         fn from(value: ExtendVote) -> Self {

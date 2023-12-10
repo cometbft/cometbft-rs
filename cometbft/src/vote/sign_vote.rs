@@ -1,5 +1,5 @@
 use bytes::BufMut;
-use tendermint_proto::Error as ProtobufError;
+use cometbft_proto::Error as ProtobufError;
 
 use crate::{chain, prelude::*, privval::RemoteSignerError, Vote};
 

@@ -1,14 +1,14 @@
 use std::convert::TryFrom;
 
-use gumdrop::Options;
-use serde::{Deserialize, Serialize};
-use simple_error::*;
-use tendermint::{
+use cometbft::{
     block::{self, parts::Header as PartSetHeader},
     signature::{Ed25519Signature, Signature},
     vote,
     vote::ValidatorIndex,
 };
+use gumdrop::Options;
+use serde::{Deserialize, Serialize};
+use simple_error::*;
 
 use crate::{helpers::*, Generator, Header, Validator};
 
@@ -168,7 +168,7 @@ mod tests {
         let header = Header::new(&valset1)
             .next_validators(&valset2)
             .height(10)
-            .time(tendermint::Time::from_unix_timestamp(10, 0).unwrap());
+            .time(cometbft::Time::from_unix_timestamp(10, 0).unwrap());
 
         let val = &valset1[1];
         let vote = Vote::new(val.clone(), header.clone()).round(2);

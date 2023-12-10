@@ -94,8 +94,8 @@ impl LightStore for SledStore {
 
 #[cfg(test)]
 mod tests {
+    use cometbft_testgen::{light_block::TmLightBlock as TGLightBlock, Generator, LightChain};
     use tempfile::tempdir;
-    use tendermint_testgen::{light_block::TmLightBlock as TGLightBlock, Generator, LightChain};
 
     use super::*;
 

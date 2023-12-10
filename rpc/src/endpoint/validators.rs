@@ -1,7 +1,7 @@
 //! `/validators` endpoint JSON-RPC wrapper
 
+use cometbft::{block, validator};
 use serde::{Deserialize, Serialize};
-use tendermint::{block, validator};
 
 use crate::{
     dialect::Dialect, prelude::*, request::RequestMessage, serializers, PageNumber, PerPage,

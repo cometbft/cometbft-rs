@@ -1,8 +1,6 @@
 //! Defines or just re-exports the main datatypes used by the light client.
 
-use derive_more::Display;
-use serde::{Deserialize, Serialize};
-use tendermint::{
+use cometbft::{
     account::Id as TMAccountId,
     block::{
         header::Header as TMHeader, signed_header::SignedHeader as TMSignedHeader,
@@ -12,12 +10,14 @@ use tendermint::{
     trust_threshold::TrustThresholdFraction,
     validator::{Info as TMValidatorInfo, Set as TMValidatorSet},
 };
-pub use tendermint::{block::Height, hash::Hash, time::Time};
+pub use cometbft::{block::Height, hash::Hash, time::Time};
+use derive_more::Display;
+use serde::{Deserialize, Serialize};
 
 use crate::prelude::*;
 
 /// Peer ID (public key) of a full node
-pub type PeerId = tendermint::node::Id;
+pub type PeerId = cometbft::node::Id;
 
 /// defines what fraction of the total voting power of a known
 /// and trusted validator set is sufficient for a commit to be
@@ -180,11 +180,11 @@ pub struct LatestStatus {
     /// The latest height we are trusting.
     pub height: Option<u64>,
     /// The latest block hash we are trusting.
-    #[serde(with = "tendermint::serializers::option_hash")]
+    #[serde(with = "cometbft::serializers::option_hash")]
     pub block_hash: Option<Hash>,
     /// The latest validator set we are trusting.
     /// Note that this potentially did not yet sign a header yet.
-    #[serde(with = "tendermint::serializers::option_hash")]
+    #[serde(with = "cometbft::serializers::option_hash")]
     pub valset_hash: Option<Hash>,
     /// The list of fullnodes we are connected to, primary and witnesses.
     pub connected_nodes: Vec<PeerId>,

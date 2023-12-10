@@ -2,9 +2,8 @@
 
 use std::{collections::HashMap, time::Duration};
 
-use proptest::{prelude::*, test_runner::TestRng};
-use tendermint::{hash::Algorithm, Hash, Time};
-use tendermint_light_client::{
+use cometbft::{hash::Algorithm, Hash, Time};
+use cometbft_light_client::{
     components::{
         io::{AtHeight, Io},
         scheduler,
@@ -20,10 +19,11 @@ use tendermint_light_client::{
         ProdVerifier,
     },
 };
-use tendermint_testgen::{
+use cometbft_testgen::{
     light_block::{default_peer_id, TmLightBlock as TGLightBlock},
     Generator, LightChain,
 };
+use proptest::{prelude::*, test_runner::TestRng};
 
 fn testgen_to_lb(tm_lb: TGLightBlock) -> LightBlock {
     LightBlock {
@@ -47,7 +47,7 @@ fn make(chain: LightChain, trusted_height: Height) -> (LightClient, State) {
 
     let clock = MockClock {
         /// Set the current time to be ahead of the latest block in the chain
-        now: tendermint_testgen::helpers::get_time(chain.light_blocks.len() as u64 + 1).unwrap(),
+        now: cometbft_testgen::helpers::get_time(chain.light_blocks.len() as u64 + 1).unwrap(),
     };
 
     let options = Options {
