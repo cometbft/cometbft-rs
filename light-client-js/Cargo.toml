@@ -1,16 +1,16 @@
 [package]
-name        = "tendermint-light-client-js"
+name        = "cometbft-light-client-js"
 version     = "0.34.0"
 authors     = ["Informal Systems <hello@informal.systems>"]
 edition     = "2021"
 license     = "Apache-2.0"
 readme      = "README.md"
-keywords    = ["blockchain", "bft", "consensus", "light-client", "tendermint"]
+keywords    = ["blockchain", "bft", "consensus", "light-client", "cometbft", "tendermint"]
 categories  = ["cryptography::cryptocurrencies", "network-programming"]
-repository  = "https://github.com/informalsystems/tendermint-rs"
+repository  = "https://github.com/cometbft/cometbft-rs"
 description = """
-    tendermint-light-client-js provides a lightweight, WASM-based interface to
-    the Tendermint Light Client's verification functionality.
+    cometbft-light-client-js provides a lightweight, WASM-based interface to
+    the CometBFT Light Client's verification functionality.
     """
 
 [lib]
@@ -22,8 +22,8 @@ default = ["console_error_panic_hook"]
 [dependencies]
 serde = { version = "1.0", default-features = false, features = [ "derive" ] }
 serde_json = { version = "1.0", default-features = false }
-tendermint = { version = "0.34.0", default-features = false, path = "../tendermint" }
-tendermint-light-client-verifier = { version = "0.34.0", features = ["rust-crypto"], default-features = false, path = "../light-client-verifier" }
+cometbft = { version = "0.34.0", default-features = false, path = "../cometbft" }
+cometbft-light-client-verifier = { version = "0.34.0", features = ["rust-crypto"], default-features = false, path = "../light-client-verifier" }
 wasm-bindgen = { version = "0.2.63", default-features = false, features = [ "serde-serialize" ] }
 serde-wasm-bindgen = { version = "0.4.5", default-features = false }
 

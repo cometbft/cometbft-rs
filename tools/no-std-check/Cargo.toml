@@ -4,9 +4,9 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-tendermint = { path = "../../tendermint", default-features = false }
-tendermint-proto = { path = "../../proto", default-features = false }
-tendermint-light-client-verifier = { path = "../../light-client-verifier", default-features = false }
+cometbft = { path = "../../cometbft", default-features = false }
+cometbft-proto = { path = "../../proto", default-features = false }
+cometbft-light-client-verifier = { path = "../../light-client-verifier", default-features = false }
 
 sp-core = { version = "4.0.0", default-features = false, optional = true }
 sp-io = { version = "4.0.0", default-features = false, optional = true }

@@ -2,7 +2,7 @@
 resolver = "2"
 
 members = [
-    "abci",
+    "cometbft",
     "config",
     "light-client",
     "light-client-verifier",
@@ -14,7 +14,6 @@ members = [
     "proto",
     "rpc",
     "std-ext",
-    "tendermint",
     "test",
     "testgen"
 ]
@@ -24,6 +23,6 @@ exclude = [
     "tools/no-std-check"
 ]
 
-[profile.release.package.tendermint-light-client-js]
+[profile.release.package.cometbft-light-client-js]
 # Tell `rustc` to optimize for small code size.
 opt-level = "s"

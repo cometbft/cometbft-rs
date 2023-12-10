@@ -1,12 +1,12 @@
 [package]
-name        = "tendermint-p2p"
+name        = "cometbft-p2p"
 version     = "0.34.0"
 edition     = "2021"
 license     = "Apache-2.0"
-repository  = "https://github.com/informalsystems/tendermint-rs"
-homepage    = "https://tendermint.com"
+repository  = "https://github.com/cometbft/cometbft-rs"
+homepage    = "https://cometbft.com"
 readme      = "README.md"
-keywords    = ["p2p", "tendermint", "cosmos"]
+keywords    = ["p2p", "cometbft", "tendermint", "cosmos"]
 categories  = ["cryptography::cryptocurrencies", "network-programming"]
 authors     = [
   "Informal Systems <hello@informal.systems>",
@@ -16,7 +16,7 @@ authors     = [
 ]
 
 description = """
-    The Tendermint P2P stack in Rust.
+    The CometBFT P2P stack in Rust.
     """
 
 [lib]
@@ -44,9 +44,9 @@ aead = { version = "0.5", default-features = false }
 flex-error = { version = "0.4.4", default-features = false }
 
 # path dependencies
-tendermint = { path = "../tendermint", version = "0.34.0", default-features = false }
-tendermint-proto = { path = "../proto", version = "0.34.0", default-features = false }
-tendermint-std-ext = { path = "../std-ext", version = "0.34.0", default-features = false }
+cometbft = { path = "../cometbft", version = "0.34.0", default-features = false }
+cometbft-proto = { path = "../proto", version = "0.34.0", default-features = false }
+cometbft-std-ext = { path = "../std-ext", version = "0.34.0", default-features = false }
 
 # optional dependencies
 prost-derive = { version = "0.12", optional = true }

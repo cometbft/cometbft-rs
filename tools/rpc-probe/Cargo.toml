@@ -1,15 +1,15 @@
 [package]
-name       = "tendermint-rpc-probe"
+name       = "cometbft-rpc-probe"
 version    = "0.34.0"
 authors    = ["Informal Systems <hello@informal.systems>"]
 edition    = "2021"
 license    = "Apache-2.0"
-homepage   = "https://www.tendermint.com/"
-repository = "https://github.com/informalsystems/tendermint-rs"
+homepage   = "https://cometbft.com/"
+repository = "https://github.com/cometbft/cometbft-rs"
 readme     = "README.md"
 
 description = """
-    tendermint-rpc-probe allows us to probe a running Tendermint instance with
+    cometbft-rpc-probe allows us to probe a running CometBFT instance with
     a given sequence of requests, capturing those requests and/or responses.
     """
 

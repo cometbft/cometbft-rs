@@ -1,12 +1,12 @@
 [package]
-name       = "tendermint-rpc"
+name       = "cometbft-rpc"
 version    = "0.34.0"
 edition    = "2021"
 license    = "Apache-2.0"
-homepage   = "https://www.tendermint.com/"
-repository = "https://github.com/informalsystems/tendermint-rs"
+homepage   = "https://cometbft.com/"
+repository = "https://github.com/cometbft/cometbft-rs"
 readme     = "README.md"
-keywords   = ["blockchain", "cosmos", "tendermint"]
+keywords   = ["blockchain", "cosmos", "cometbft", "tendermint"]
 categories = ["cryptography::cryptocurrencies", "network-programming"]
 authors    = [
   "Informal Systems <hello@informal.systems>",
@@ -15,7 +15,7 @@ authors    = [
 ]
 
 description = """
-    tendermint-rpc contains the core types returned by a Tendermint node's RPC endpoint.
+    cometbft-rpc contains the core types returned by a CometBFT node's RPC endpoint.
     All networking related features are feature guarded to keep the dependencies small in
     cases where only the core types are needed.
     """
@@ -24,7 +24,7 @@ description = """
 all-features = true
 
 [[bin]]
-name = "tendermint-rpc"
+name = "cometbft-rpc"
 path = "src/client/bin/main.rs"
 required-features = [ "cli" ]
 
@@ -42,7 +42,7 @@ http-client = [
   "tokio/macros",
   "tracing"
 ]
-secp256k1 = [ "tendermint/secp256k1" ]
+secp256k1 = [ "cometbft/secp256k1" ]
 websocket-client = [
   "async-tungstenite",
   "futures",
@@ -55,9 +55,9 @@ websocket-client = [
 ]
 
 [dependencies]
-tendermint = { version = "0.34.0", default-features = false, path = "../tendermint" }
-tendermint-config = { version = "0.34.0", path = "../config", default-features = false }
-tendermint-proto = { version = "0.34.0", path = "../proto", default-features = false }
+cometbft = { version = "0.34.0", default-features = false, path = "../cometbft" }
+cometbft-config = { version = "0.34.0", path = "../config", default-features = false }
+cometbft-proto = { version = "0.34.0", path = "../proto", default-features = false }
 
 async-trait = { version = "0.1", default-features = false }
 bytes = { version = "1.0", default-features = false }

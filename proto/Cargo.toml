@@ -1,16 +1,16 @@
 [package]
-name       = "tendermint-proto"
+name       = "cometbft-proto"
 version    = "0.34.0"
 authors    = ["Informal Systems <hello@informal.systems>"]
 edition    = "2021"
 license    = "Apache-2.0"
-repository = "https://github.com/informalsystems/tendermint-rs/tree/main/proto"
+repository = "https://github.com/cometbft/cometbft-rs"
 readme     = "README.md"
 categories = ["cryptography", "cryptography::cryptocurrencies", "database"]
-keywords   = ["blockchain", "tendermint", "proto"]
+keywords   = ["blockchain", "cometbft", "tendermint", "proto"]
 
 description = """
-    tendermint-proto is a the Rust implementation of the Tendermint proto structs.
+    A Rust implementation of the CometBFT proto structs.
     """
 
 [features]
