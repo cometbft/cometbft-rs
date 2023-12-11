@@ -8,8 +8,8 @@ use core::{
 use async_trait::async_trait;
 use reqwest::{header, Proxy};
 
-use tendermint::{block::Height, evidence::Evidence, Hash};
-use tendermint_config::net;
+use cometbft::{block::Height, evidence::Evidence, Hash};
+use cometbft_config::net;
 
 use super::auth;
 use crate::prelude::*;
@@ -37,7 +37,7 @@ const USER_AGENT: &str = concat!("tendermint.rs/", env!("CARGO_PKG_VERSION"));
 /// ## Examples
 ///
 /// ```rust,ignore
-/// use tendermint_rpc::{HttpClient, Client};
+/// use cometbft_rpc::{HttpClient, Client};
 ///
 /// #[tokio::main]
 /// async fn main() {

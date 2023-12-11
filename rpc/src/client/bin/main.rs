@@ -2,16 +2,16 @@
 
 use core::str::FromStr;
 
-use futures::StreamExt;
-use structopt::StructOpt;
-use tendermint::Hash;
-use tendermint_rpc::{
+use cometbft::Hash;
+use cometbft_rpc::{
     client::CompatMode,
     event::{self, Event, EventData},
     query::Query,
     Client, Error, HttpClient, Order, Paging, Scheme, Subscription, SubscriptionClient, Url,
     WebSocketClient,
 };
+use futures::StreamExt;
+use structopt::StructOpt;
 use tokio::{task::JoinHandle, time::Duration};
 use tracing::{debug, error, info, level_filters::LevelFilter, warn};
 
@@ -349,7 +349,7 @@ where
         ClientRequest::BlockByHash { hash } => serde_json::to_string_pretty(
             &client
                 .block_by_hash(
-                    tendermint::Hash::from_str(&hash).map_err(|e| Error::parse(e.to_string()))?,
+                    cometbft::Hash::from_str(&hash).map_err(|e| Error::parse(e.to_string()))?,
                 )
                 .await?,
         )

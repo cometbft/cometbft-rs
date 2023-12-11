@@ -2,9 +2,9 @@
 
 use std::io::{self, Read};
 
+use cometbft::{chain, public_key, signature::Signature, vote, Time};
 use serde::de::DeserializeOwned;
 use simple_error::*;
-use tendermint::{chain, public_key, signature::Signature, vote, Time};
 
 /// A macro that generates a complete setter method from a one-liner with necessary information
 #[macro_export]

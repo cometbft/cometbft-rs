@@ -1,6 +1,6 @@
 use std::{collections::HashMap, time::Duration};
 
-use tendermint_light_client::{
+use cometbft_light_client::{
     components::{
         io::{AtHeight, Io},
         scheduler,
@@ -16,7 +16,7 @@ use tendermint_light_client::{
         ProdVerifier,
     },
 };
-use tendermint_testgen::{light_block::default_peer_id, Tester};
+use cometbft_testgen::{light_block::default_peer_id, Tester};
 
 // Link to JSON test files repo:
 // https://github.com/informalsystems/conformance-tests

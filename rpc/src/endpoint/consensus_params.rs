@@ -1,7 +1,7 @@
 //! `/consensus_params` endpoint JSON-RPC wrapper
 
+use cometbft::block::Height;
 use serde::{Deserialize, Serialize};
-use tendermint::block::Height;
 
 use crate::{dialect::Dialect, request::RequestMessage};
 
@@ -40,7 +40,7 @@ impl<S: Dialect> crate::SimpleRequest<S> for Request {
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
 pub struct Response {
     pub block_height: Height,
-    pub consensus_params: tendermint::consensus::Params,
+    pub consensus_params: cometbft::consensus::Params,
 }
 
 impl crate::Response for Response {}

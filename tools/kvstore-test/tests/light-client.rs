@@ -14,7 +14,7 @@
 
 use std::{convert::TryFrom, time::Duration};
 
-use tendermint_light_client::{
+use cometbft_light_client::{
     builder::LightClientBuilder,
     components::io::{AtHeight, Io, ProdIo},
     errors::Error,
@@ -25,7 +25,7 @@ use tendermint_light_client::{
         types::{Height, PeerId, Status, TrustThreshold},
     },
 };
-use tendermint_rpc as rpc;
+use cometbft_rpc as rpc;
 
 fn make_instance(peer_id: PeerId, options: LightClientOptions, address: rpc::Url) -> Instance {
     let rpc_client = rpc::HttpClient::new(address).unwrap();

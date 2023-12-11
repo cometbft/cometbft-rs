@@ -1,18 +1,18 @@
 [package]
-name       = "tendermint-light-client-detector"
+name       = "cometbft-light-client-detector"
 version    = "0.34.0"
 edition    = "2021"
 license    = "Apache-2.0"
 readme     = "README.md"
-keywords   = ["blockchain", "bft", "consensus", "cosmos", "tendermint"]
+keywords   = ["blockchain", "bft", "consensus", "cosmos", "cometbft", "tendermint"]
 categories = ["cryptography::cryptocurrencies", "network-programming"]
-repository = "https://github.com/informalsystems/tendermint-rs"
+repository = "https://github.com/cometbft/cometbft-rs"
 authors    = [
   "Informal Systems <hello@informal.systems>",
 ]
 
 description = """
-    Implementation of the Tendermint Light Client Attack Detector.
+    CometBFT Light Client Attack Detector.
 """
 
 # docs.rs-specific configuration
@@ -23,10 +23,10 @@ all-features = true
 rustdoc-args = ["--cfg", "docsrs"]
 
 [dependencies]
-tendermint = { version = "0.34.0", path = "../tendermint" }
-tendermint-rpc = { version = "0.34.0", path = "../rpc", features = ["http-client"] }
-tendermint-proto = { version = "0.34.0", path = "../proto" }
-tendermint-light-client = { version = "0.34.0", path = "../light-client" }
+cometbft = { version = "0.34.0", path = "../cometbft" }
+cometbft-rpc = { version = "0.34.0", path = "../rpc", features = ["http-client"] }
+cometbft-proto = { version = "0.34.0", path = "../proto" }
+cometbft-light-client = { version = "0.34.0", path = "../light-client" }
 
 contracts = { version = "0.6.2", default-features = false }
 crossbeam-channel = { version = "0.4.2", default-features = false }

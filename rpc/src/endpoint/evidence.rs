@@ -1,7 +1,7 @@
 //! `/broadcast_evidence`: broadcast an evidence.
 
+use cometbft::{evidence, Hash};
 use serde::{Deserialize, Serialize};
-use tendermint::{evidence, Hash};
 
 use crate::{dialect::Dialect, request::RequestMessage, Method};
 

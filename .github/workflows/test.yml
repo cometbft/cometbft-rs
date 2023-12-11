@@ -29,40 +29,40 @@ jobs:
   #  - https://github.community/t/support-for-yaml-anchors/16128/15
   #  - https://github.community/t/reusing-sharing-inheriting-steps-between-jobs-declarations/16851/13
   #  - https://github.community/t/using-matrix-variable-in-docker-image-name/17296
-  tendermint:
+  cometbft:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
-      - run: cargo test-all-features -p tendermint
+      - run: cargo test-all-features -p cometbft
 
-  tendermint-rpc:
+  cometbft-rpc:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
-      - run: cargo test-all-features -p tendermint-rpc
+      - run: cargo test-all-features -p cometbft-rpc
 
-  tendermint-proto:
+  cometbft-proto:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
-      - run: cargo test-all-features -p tendermint-proto
+      - run: cargo test-all-features -p cometbft-proto
 
-  tendermint-light-client:
+  cometbft-light-client:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
       # NOTE: We test with default features to make sure things work without "unstable".
       - name: Test with default features
-        run: cargo test -p tendermint-light-client
+        run: cargo test -p cometbft-light-client
       - name: Test with all features
-        run: cargo test-all-features -p tendermint-light-client
+        run: cargo test-all-features -p cometbft-light-client
 
   # From https://rustwasm.github.io/docs/wasm-bindgen/wasm-bindgen-test/continuous-integration.html#github-actions
-  tendermint-light-client-js:
+  cometbft-light-client-js:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -71,19 +71,12 @@ jobs:
       - run: wasm-pack test --headless --chrome ./light-client-js/
       - run: wasm-pack test --headless --firefox ./light-client-js/
 
-  tendermint-test:
+  cometbft-testgen:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
-      - run: cargo test-all-features -p tendermint-test
-
-  tendermint-testgen:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@stable
-      - run: cargo test-all-features -p tendermint-testgen
+      - run: cargo test-all-features -p cometbft-testgen
 
   kvstore-integration-stable:
     runs-on: ubuntu-latest
@@ -101,11 +94,11 @@ jobs:
         env:
           RUST_LOG: debug
 
-  nightly-coverage:
+  coverage:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@nightly
+      - uses: dtolnay/rust-toolchain@stable
         with:
           components: llvm-tools-preview
       - run: cargo test-all-features

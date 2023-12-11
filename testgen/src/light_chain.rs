@@ -1,6 +1,6 @@
 use std::convert::{TryFrom, TryInto};
 
-use tendermint::{
+use cometbft::{
     block::{self, Height},
     chain::Info,
 };

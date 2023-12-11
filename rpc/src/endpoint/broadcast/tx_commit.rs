@@ -3,7 +3,7 @@
 
 use serde::{Deserialize, Serialize};
 
-use tendermint::{abci, block, Hash};
+use cometbft::{abci, block, Hash};
 
 use crate::dialect::{self, Dialect};
 use crate::{prelude::*, request::RequestMessage, serializers};
@@ -76,8 +76,8 @@ pub mod v0_34 {
     use super::Response;
     use crate::dialect;
     use crate::dialect::v0_34::Event;
+    use cometbft::{block, Hash};
     use serde::{Deserialize, Serialize};
-    use tendermint::{block, Hash};
 
     /// RPC dialect helper for serialization of the response.
     #[derive(Debug, Deserialize, Serialize)]
@@ -113,8 +113,8 @@ pub mod v0_34 {
 pub mod v0_37 {
     use super::Response;
     use crate::dialect;
+    use cometbft::{abci::Event, block, Hash};
     use serde::{Deserialize, Serialize};
-    use tendermint::{abci::Event, block, Hash};
 
     /// RPC dialect helper for serialization of the response.
     #[derive(Debug, Deserialize, Serialize)]

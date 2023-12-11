@@ -1,22 +1,22 @@
 [package]
-name        = "tendermint-testgen"
+name        = "cometbft-testgen"
 version     = "0.34.0"
 authors     = ["Informal Systems <hello@informal.systems>"]
 edition     = "2021"
 readme      = "README.md"
 license     = "Apache-2.0"
-homepage    = "https://www.tendermint.com/"
-repository  = "https://github.com/informalsystems/tendermint-rs/tree/main/testgen"
-keywords    = ["blockchain", "tendermint", "testing"]
+homepage    = "https://cometbft.com/"
+repository  = "https://github.com/cometbft/cometbft-rs"
+keywords    = ["blockchain", "cometbft", "testing"]
 categories  = ["cryptography::cryptocurrencies", "development-tools"]
 description = """
-    tendermint-testgen is a library and a small binary utility for generating
-    tendermint datastructures from minimal input (for testing purposes only).
+    cometbft-testgen is a library and a small binary utility for generating
+    CometBFT datastructures from minimal input (for testing purposes only).
     The library also contains some functionality to simplify running test batches.
     """
 
 [dependencies]
-tendermint = { version = "0.34.0", path = "../tendermint", features = ["clock"] }
+cometbft = { version = "0.34.0", path = "../cometbft", features = ["clock"] }
 serde = { version = "1", default-features = false, features = ["derive"] }
 serde_json = { version = "1", default-features = false, features = ["std"] }
 ed25519-consensus = { version = "2", default-features = false }
@@ -26,5 +26,5 @@ tempfile = { version = "3.1.0", default-features = false }
 time = { package = "time", version = "0.3", default-features = false, features = ["std"] }
 
 [[bin]]
-name = "tendermint-testgen"
-path = "bin/tendermint-testgen.rs"
+name = "cometbft-testgen"
+path = "bin/cometbft-testgen.rs"

@@ -6,9 +6,9 @@ extern crate alloc;
 
 // Import the crates that we want to check if they are fully no-std compliance
 
-use tendermint;
-use tendermint_light_client_verifier;
-use tendermint_proto;
+use cometbft;
+use cometbft_light_client_verifier;
+use cometbft_proto;
 
 #[cfg(feature = "sp-core")]
 use sp_core;

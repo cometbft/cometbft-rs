@@ -1,7 +1,7 @@
+use cometbft::validator;
 use gumdrop::Options;
 use serde::{Deserialize, Serialize};
 use simple_error::*;
-use tendermint::validator;
 
 use crate::{
     helpers::*,

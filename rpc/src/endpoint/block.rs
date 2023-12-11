@@ -1,7 +1,7 @@
 //! `/block` endpoint JSON-RPC wrapper
 
+use cometbft::block::{self, Block};
 use serde::{Deserialize, Serialize};
-use tendermint::block::{self, Block};
 
 use crate::{dialect::Dialect, request::RequestMessage};
 

@@ -5,8 +5,8 @@ use core::{
     str::{self, FromStr},
 };
 
+use cometbft::node::{self, info::ListenAddress};
 use serde::{de::Error as _, Deserialize, Deserializer, Serialize, Serializer};
-use tendermint::node::{self, info::ListenAddress};
 use url::Url;
 
 use crate::{error::Error, prelude::*};
@@ -104,7 +104,7 @@ impl FromStr for Address {
         match url.scheme() {
             "tcp" => Ok(Self::Tcp {
                 peer_id: if !url.username().is_empty() {
-                    let username = url.username().parse().map_err(Error::tendermint)?;
+                    let username = url.username().parse().map_err(Error::cometbft)?;
                     Some(username)
                 } else {
                     None
@@ -135,7 +135,7 @@ impl Serialize for Address {
 
 #[cfg(test)]
 mod tests {
-    use tendermint::node;
+    use cometbft::node;
 
     use super::*;
 

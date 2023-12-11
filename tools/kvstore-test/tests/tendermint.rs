@@ -23,8 +23,8 @@ mod rpc {
 
     use futures::StreamExt;
     use sha2::Sha256;
-    use tendermint::{abci::Code, block::Height, merkle::simple_hash_from_byte_vectors, Hash};
-    use tendermint_rpc::{
+    use cometbft::{abci::Code, block::Height, merkle::simple_hash_from_byte_vectors, Hash};
+    use cometbft_rpc::{
         event::{Event, EventData, TxInfo},
         query::{EventType, Query},
         Client, HttpClient, Id, Order, SubscriptionClient, WebSocketClient, WebSocketClientDriver,
@@ -122,7 +122,7 @@ mod rpc {
     async fn block_by_hash() {
         let res = localhost_http_client()
             .block_by_hash(
-                tendermint::Hash::from_str(
+                cometbft::Hash::from_str(
                     "0000000000000000000000000000000000000000000000000000000000000000",
                 )
                 .unwrap(),
@@ -488,7 +488,7 @@ mod rpc {
         http_client: &HttpClient,
         websocket_client: &mut WebSocketClient,
         tx: impl Into<Vec<u8>>,
-    ) -> Result<(Hash, TxInfo), tendermint_rpc::Error> {
+    ) -> Result<(Hash, TxInfo), cometbft_rpc::Error> {
         let tx = tx.into();
         let mut subs = websocket_client.subscribe(EventType::Tx.into()).await?;
         let r = http_client.broadcast_tx_async(tx.clone()).await?;

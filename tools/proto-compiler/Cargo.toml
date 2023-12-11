@@ -1,5 +1,5 @@
 [package]
-name = "tendermint-proto-compiler"
+name = "cometbft-proto-compiler"
 version = "0.3.0"
 authors = ["Informal Systems <hello@informal.systems>"]
 edition = "2021"

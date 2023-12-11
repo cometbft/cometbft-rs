@@ -1,6 +1,6 @@
 //! DSL for building a light client [`Instance`]
 
-use tendermint::{block::Height, crypto::Sha256, merkle::MerkleHash, Hash};
+use cometbft::{block::Height, crypto::Sha256, merkle::MerkleHash, Hash};
 
 #[cfg(feature = "rpc-client")]
 use {
@@ -8,8 +8,8 @@ use {
     crate::components::io::ProdIo,
     crate::components::scheduler,
     crate::verifier::{predicates::ProdPredicates, ProdVerifier},
+    cometbft_rpc as rpc,
     core::time::Duration,
-    tendermint_rpc as rpc,
 };
 
 use crate::{
@@ -74,7 +74,7 @@ where
 }
 
 #[cfg(feature = "rpc-client")]
-impl LightClientBuilder<NoTrustedState, tendermint::crypto::default::Sha256> {
+impl LightClientBuilder<NoTrustedState, cometbft::crypto::default::Sha256> {
     /// Initialize a builder for a production (non-mock) light client.
     pub fn prod(
         peer_id: PeerId,

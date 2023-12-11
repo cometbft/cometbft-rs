@@ -2,9 +2,9 @@
 
 use core::time::Duration;
 
+use cometbft::{account::Id, Error as CometbftError};
 use flex_error::define_error;
 use serde::{Deserialize, Serialize};
-use tendermint::{account::Id, Error as TendermintError};
 
 use crate::{
     operations::voting_power::VotingPowerTally,
@@ -15,9 +15,9 @@ use crate::{
 define_error! {
     #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
     VerificationError {
-        Tendermint
-            [ TendermintError ]
-            | _ | { "tendermint error" },
+        Cometbft
+            [ CometbftError ]
+            | _ | { "CometBFT error" },
 
         HeaderFromTheFuture
             {

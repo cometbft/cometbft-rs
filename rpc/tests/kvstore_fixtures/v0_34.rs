@@ -257,17 +257,17 @@ fn outgoing_fixtures() {
 
 #[test]
 fn incoming_fixtures() {
-    use tendermint_rpc::event::{v0_34::DialectEvent, EventData};
+    use cometbft_rpc::event::{v0_34::DialectEvent, EventData};
 
     let empty_merkle_root_hash = Some(
-        tendermint::Hash::from_hex_upper(
-            tendermint::hash::Algorithm::Sha256,
+        cometbft::Hash::from_hex_upper(
+            cometbft::hash::Algorithm::Sha256,
             "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
         )
         .unwrap(),
     );
     let informal_epoch =
-        tendermint::Time::parse_from_rfc3339("2020-01-01T00:00:00.000000000Z").unwrap();
+        cometbft::Time::parse_from_rfc3339("2020-01-01T00:00:00.000000000Z").unwrap();
 
     for json_file in find_fixtures("v0_34", "incoming") {
         let file_name = json_file
@@ -349,7 +349,7 @@ fn incoming_fixtures() {
                 assert!(!result.block.header.next_validators_hash.is_empty());
                 assert_ne!(
                     result.block.header.proposer_address.as_bytes(),
-                    [0u8; tendermint::account::LENGTH]
+                    [0u8; cometbft::account::LENGTH]
                 );
                 assert!(
                     result
@@ -364,7 +364,7 @@ fn incoming_fixtures() {
                 assert!(!result.block.header.validators_hash.is_empty());
                 assert_eq!(
                     result.block.header.version,
-                    tendermint::block::header::Version { block: 11, app: 1 }
+                    cometbft::block::header::Version { block: 11, app: 1 }
                 );
                 assert!(result.block.last_commit.is_none());
                 assert!(!result.block_id.hash.is_empty());
@@ -387,7 +387,7 @@ fn incoming_fixtures() {
                 assert!(!result.block.header.next_validators_hash.is_empty());
                 assert_ne!(
                     result.block.header.proposer_address.as_bytes(),
-                    [0u8; tendermint::account::LENGTH]
+                    [0u8; cometbft::account::LENGTH]
                 );
                 assert!(
                     result
@@ -402,7 +402,7 @@ fn incoming_fixtures() {
                 assert!(!result.block.header.validators_hash.is_empty());
                 assert_eq!(
                     result.block.header.version,
-                    tendermint::block::header::Version { block: 11, app: 1 }
+                    cometbft::block::header::Version { block: 11, app: 1 }
                 );
                 let last_commit = result.block.last_commit.unwrap();
                 assert!(!last_commit.block_id.hash.is_empty());
@@ -452,7 +452,7 @@ fn incoming_fixtures() {
                 for block in result.blocks {
                     let evidence = block.block.evidence.iter().next().unwrap();
 
-                    use tendermint::vote;
+                    use cometbft::vote;
 
                     fn check_vote(vote: &Vote) {
                         assert_eq!(vote.vote_type, vote::Type::Precommit);
@@ -574,7 +574,7 @@ fn incoming_fixtures() {
                 assert!(!result.signed_header.header.next_validators_hash.is_empty());
                 assert_ne!(
                     result.signed_header.header.proposer_address.as_bytes(),
-                    [0u8; tendermint::account::LENGTH]
+                    [0u8; cometbft::account::LENGTH]
                 );
                 assert!(
                     result
@@ -589,7 +589,7 @@ fn incoming_fixtures() {
                 assert!(!result.signed_header.header.validators_hash.is_empty());
                 assert_eq!(
                     result.signed_header.header.version,
-                    tendermint::block::header::Version { block: 11, app: 1 }
+                    cometbft::block::header::Version { block: 11, app: 1 }
                 );
             },
             "consensus_params" => {
@@ -649,7 +649,7 @@ fn incoming_fixtures() {
                 );
                 assert_eq!(
                     result.genesis.consensus_params.validator.pub_key_types[0],
-                    tendermint::public_key::Algorithm::Ed25519
+                    cometbft::public_key::Algorithm::Ed25519
                 );
                 assert!(result.genesis.consensus_params.version.is_none());
                 assert!(
@@ -664,7 +664,7 @@ fn incoming_fixtures() {
                 assert_eq!(result.genesis.validators.len(), 1);
                 assert_ne!(
                     result.genesis.validators[0].address.as_bytes(),
-                    [0; tendermint::account::LENGTH]
+                    [0; cometbft::account::LENGTH]
                 );
                 assert_eq!(result.genesis.validators[0].power(), 10);
                 assert!(result.genesis.validators[0].pub_key.ed25519().is_some());
@@ -693,11 +693,11 @@ fn incoming_fixtures() {
                 );
                 assert_eq!(
                     result.node_info.other.tx_index,
-                    tendermint::node::info::TxIndexStatus::On
+                    cometbft::node::info::TxIndexStatus::On
                 );
                 assert_eq!(
                     result.node_info.protocol_version,
-                    tendermint::node::info::ProtocolVersionInfo {
+                    cometbft::node::info::ProtocolVersionInfo {
                         p2p: 8,
                         block: 11,
                         app: 1
@@ -763,7 +763,7 @@ fn incoming_fixtures() {
                     assert!(!block_meta.header.next_validators_hash.is_empty());
                     assert_ne!(
                         block_meta.header.proposer_address.as_bytes(),
-                        [0u8; tendermint::account::LENGTH]
+                        [0u8; cometbft::account::LENGTH]
                     );
                     assert!(
                         block_meta
@@ -777,7 +777,7 @@ fn incoming_fixtures() {
                     assert!(!block_meta.header.validators_hash.is_empty());
                     assert_eq!(
                         block_meta.header.version,
-                        tendermint::block::header::Version { block: 11, app: 1 }
+                        cometbft::block::header::Version { block: 11, app: 1 }
                     );
                     assert_eq!(block_meta.num_txs, 0);
                 }
@@ -826,7 +826,7 @@ fn incoming_fixtures() {
                     assert!(!b.header.next_validators_hash.is_empty());
                     assert_ne!(
                         b.header.proposer_address.as_bytes(),
-                        [0u8; tendermint::account::LENGTH]
+                        [0u8; cometbft::account::LENGTH]
                     );
                     assert!(
                         b.header
@@ -839,7 +839,7 @@ fn incoming_fixtures() {
                     assert!(!b.header.validators_hash.is_empty());
                     assert_eq!(
                         b.header.version,
-                        tendermint::block::header::Version { block: 11, app: 1 }
+                        cometbft::block::header::Version { block: 11, app: 1 }
                     );
                     let last_commit = b.last_commit.unwrap();
                     assert!(!last_commit.block_id.hash.is_empty());
@@ -881,7 +881,7 @@ fn incoming_fixtures() {
                     assert!(!b.header.next_validators_hash.is_empty());
                     assert_ne!(
                         b.header.proposer_address.as_bytes(),
-                        [0u8; tendermint::account::LENGTH]
+                        [0u8; cometbft::account::LENGTH]
                     );
                     assert!(
                         b.header
@@ -894,7 +894,7 @@ fn incoming_fixtures() {
                     assert!(!b.header.validators_hash.is_empty());
                     assert_eq!(
                         b.header.version,
-                        tendermint::block::header::Version { block: 11, app: 1 }
+                        cometbft::block::header::Version { block: 11, app: 1 }
                     );
                     let last_commit = b.last_commit.unwrap();
                     assert!(!last_commit.block_id.hash.is_empty());
@@ -958,7 +958,7 @@ fn incoming_fixtures() {
                     assert!(!b.header.next_validators_hash.is_empty());
                     assert_ne!(
                         b.header.proposer_address.as_bytes(),
-                        [0u8; tendermint::account::LENGTH]
+                        [0u8; cometbft::account::LENGTH]
                     );
                     assert!(
                         b.header
@@ -971,7 +971,7 @@ fn incoming_fixtures() {
                     assert!(!b.header.validators_hash.is_empty());
                     assert_eq!(
                         b.header.version,
-                        tendermint::block::header::Version { block: 11, app: 1 }
+                        cometbft::block::header::Version { block: 11, app: 1 }
                     );
                     let last_commit = b.last_commit.unwrap();
                     assert!(!last_commit.block_id.hash.is_empty());
@@ -1013,7 +1013,7 @@ fn incoming_fixtures() {
                     assert!(!b.header.next_validators_hash.is_empty());
                     assert_ne!(
                         b.header.proposer_address.as_bytes(),
-                        [0u8; tendermint::account::LENGTH]
+                        [0u8; cometbft::account::LENGTH]
                     );
                     assert!(
                         b.header
@@ -1026,7 +1026,7 @@ fn incoming_fixtures() {
                     assert!(!b.header.validators_hash.is_empty());
                     assert_eq!(
                         b.header.version,
-                        tendermint::block::header::Version { block: 11, app: 1 }
+                        cometbft::block::header::Version { block: 11, app: 1 }
                     );
                     let last_commit = b.last_commit.unwrap();
                     assert!(!last_commit.block_id.hash.is_empty());
@@ -1068,7 +1068,7 @@ fn incoming_fixtures() {
                     assert!(!b.header.next_validators_hash.is_empty());
                     assert_ne!(
                         b.header.proposer_address.as_bytes(),
-                        [0u8; tendermint::account::LENGTH]
+                        [0u8; cometbft::account::LENGTH]
                     );
                     assert!(
                         b.header
@@ -1081,7 +1081,7 @@ fn incoming_fixtures() {
                     assert!(!b.header.validators_hash.is_empty());
                     assert_eq!(
                         b.header.version,
-                        tendermint::block::header::Version { block: 11, app: 1 }
+                        cometbft::block::header::Version { block: 11, app: 1 }
                     );
                     let last_commit = b.last_commit.unwrap();
                     assert!(!last_commit.block_id.hash.is_empty());
@@ -1107,7 +1107,7 @@ fn incoming_fixtures() {
             "subscribe_txs_0" => {
                 let result = DialectEvent::from_string(content).unwrap();
                 let height;
-                if let tendermint_rpc::event::EventData::Tx { tx_result } = result.data.into() {
+                if let cometbft_rpc::event::EventData::Tx { tx_result } = result.data.into() {
                     height = tx_result.height;
                     assert!(tx_result.result.log.is_none());
                     assert!(tx_result.result.gas_wanted.is_none());
@@ -1139,7 +1139,7 @@ fn incoming_fixtures() {
             "subscribe_txs_1" => {
                 let result = DialectEvent::from_string(content).unwrap();
                 let height;
-                if let tendermint_rpc::event::EventData::Tx { tx_result } = result.data.into() {
+                if let cometbft_rpc::event::EventData::Tx { tx_result } = result.data.into() {
                     height = tx_result.height;
                     assert!(tx_result.result.log.is_none());
                     assert!(tx_result.result.gas_wanted.is_none());
@@ -1172,7 +1172,7 @@ fn incoming_fixtures() {
             "subscribe_txs_2" => {
                 let result = DialectEvent::from_string(content).unwrap();
                 let height;
-                if let tendermint_rpc::event::EventData::Tx { tx_result } = result.data.into() {
+                if let cometbft_rpc::event::EventData::Tx { tx_result } = result.data.into() {
                     height = tx_result.height;
                     assert!(tx_result.result.log.is_none());
                     assert!(tx_result.result.gas_wanted.is_none());
@@ -1204,7 +1204,7 @@ fn incoming_fixtures() {
             "subscribe_txs_3" => {
                 let result = DialectEvent::from_string(content).unwrap();
                 let height;
-                if let tendermint_rpc::event::EventData::Tx { tx_result } = result.data.into() {
+                if let cometbft_rpc::event::EventData::Tx { tx_result } = result.data.into() {
                     height = tx_result.height;
                     assert!(tx_result.result.log.is_none());
                     assert!(tx_result.result.gas_wanted.is_none());
@@ -1236,7 +1236,7 @@ fn incoming_fixtures() {
             "subscribe_txs_4" => {
                 let result = DialectEvent::from_string(content).unwrap();
                 let height;
-                if let tendermint_rpc::event::EventData::Tx { tx_result } = result.data.into() {
+                if let cometbft_rpc::event::EventData::Tx { tx_result } = result.data.into() {
                     height = tx_result.height;
                     assert!(tx_result.result.log.is_none());
                     assert!(tx_result.result.gas_wanted.is_none());
