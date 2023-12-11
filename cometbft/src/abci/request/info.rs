@@ -3,11 +3,11 @@ use crate::prelude::*;
 #[doc = include_str!("../doc/request-info.md")]
 #[derive(Clone, PartialEq, Eq, Debug)]
 pub struct Info {
-    /// The Tendermint software semantic version.
+    /// The CometBFT software semantic version.
     pub version: String,
-    /// The Tendermint block protocol version.
+    /// The CometBFT block protocol version.
     pub block_version: u64,
-    /// The Tendermint p2p protocol version.
+    /// The CometBFT p2p protocol version.
     pub p2p_version: u64,
     /// The ABCI protocol version.
     pub abci_version: String,

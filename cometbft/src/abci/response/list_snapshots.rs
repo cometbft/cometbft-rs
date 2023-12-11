@@ -12,7 +12,7 @@ pub struct ListSnapshots {
 // Protobuf conversions
 // =============================================================================
 
-tendermint_pb_modules! {
+cometbft_pb_modules! {
     use super::ListSnapshots;
 
     impl From<ListSnapshots> for pb::abci::ResponseListSnapshots {

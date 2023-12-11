@@ -11,7 +11,7 @@ pub struct Echo {
 // Protobuf conversions
 // =============================================================================
 
-tendermint_pb_modules! {
+cometbft_pb_modules! {
     use super::Echo;
 
     impl From<Echo> for pb::abci::ResponseEcho {

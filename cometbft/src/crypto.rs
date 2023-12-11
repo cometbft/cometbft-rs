@@ -1,8 +1,8 @@
-//! Cryptographic functionality for Tendermint.
+//! Cryptographic functionality for CometBFT.
 //!
 //! This module provides type aliases and utility traits that facilitate
 //! use of interchangeable implementations of cryptographic routines used by
-//! Tendermint.
+//! CometBFT.
 //!
 //! The abstract framework enabling this extensibility is provided by the
 //! `digest` and `signature` crates.

@@ -1,6 +1,6 @@
 use crate::{block, chain, time::Time};
 
-/// Information about a particular Tendermint blockchain
+/// Information about a particular CometBFT blockchain
 #[derive(Clone, Debug)]
 pub struct Info {
     /// Chain identifier (e.g. 'gaia-9000')

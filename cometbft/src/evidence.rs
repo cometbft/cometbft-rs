@@ -124,7 +124,7 @@ impl AsRef<[Evidence]> for List {
 
 /// EvidenceParams determine how we handle evidence of malfeasance.
 ///
-/// [Tendermint documentation](https://docs.tendermint.com/master/spec/core/data_structures.html#evidenceparams)
+/// [CometBFT documentation](https://docs.cometbft.com/master/spec/core/data_structures.html#evidenceparams)
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct Params {
     /// Max age of evidence, in blocks.
@@ -150,7 +150,7 @@ pub struct Params {
 // Protobuf conversions
 // =============================================================================
 
-tendermint_pb_modules! {
+cometbft_pb_modules! {
     use pb::types as raw;
 
     use super::{List, LightClientAttackEvidence, DuplicateVoteEvidence, ConflictingBlock, Evidence, Params};

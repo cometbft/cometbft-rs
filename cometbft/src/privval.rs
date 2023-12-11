@@ -1,6 +1,6 @@
 //! Types used in the Privval protocol (Tendermint Core [ADR-063])
 //!
-//! [ADR-063]: https://github.com/tendermint/tendermint/blob/main/docs/architecture/adr-063-privval-grpc.md
+//! [ADR-063]: https://github.com/cometbft/cometbft/blob/main/docs/architecture/adr-063-privval-grpc.md
 
 use crate::prelude::*;
 
@@ -14,7 +14,7 @@ pub struct RemoteSignerError {
 // Protobuf conversions
 // =============================================================================
 
-tendermint_pb_modules! {
+cometbft_pb_modules! {
     use super::RemoteSignerError;
     use pb::privval::RemoteSignerError as RawRemoteSignerError;
 

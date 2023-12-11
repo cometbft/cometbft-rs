@@ -12,7 +12,7 @@ pub struct CheckTx {
     ///
     /// Transactions where `code != 0` will be rejected; these transactions will
     /// not be broadcast to other nodes or included in a proposal block.
-    /// Tendermint attributes no other value to the response code.
+    /// CometBFT attributes no other value to the response code.
     pub code: Code,
     /// Result bytes, if any.
     #[serde(with = "serializers::nullable")]

@@ -1,4 +1,4 @@
-//! Tendermint consensus state
+//! CometBFT consensus state
 
 pub use core::{cmp::Ordering, fmt};
 
@@ -9,12 +9,12 @@ use crate::prelude::*;
 use crate::serializers;
 
 /// Placeholder string to show when block ID is absent. Syntax from:
-/// <https://tendermint.com/docs/spec/consensus/consensus.html>
+/// <https://cometbft.com/docs/spec/consensus/consensus.html>
 pub const NIL_PLACEHOLDER: &str = "<nil>";
 
-/// Tendermint consensus state
+/// CometBFT consensus state
 // Serde serialization for KMS state file read/write.
-// https://github.com/informalsystems/tendermint-rs/issues/675
+// https://github.com/cometbft/cometbft-rs/issues/675
 #[derive(Clone, Debug, Default, Eq, PartialEq, Deserialize, Serialize)]
 pub struct State {
     /// Current block height

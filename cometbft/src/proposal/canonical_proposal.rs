@@ -27,7 +27,7 @@ pub struct CanonicalProposal {
     pub chain_id: ChainId,
 }
 
-tendermint_pb_modules! {
+cometbft_pb_modules! {
     use crate::{
         block::{Id as BlockId, Round},
         chain::Id as ChainId,
@@ -54,7 +54,7 @@ tendermint_pb_modules! {
                 )?),
             };
             // If the Hash is empty in BlockId, the BlockId should be empty.
-            // See: https://github.com/informalsystems/tendermint-rs/issues/663
+            // See: https://github.com/cometbft/cometbft-rs/issues/663
             let block_id = value.block_id.filter(|i| !i.hash.is_empty());
             Ok(CanonicalProposal {
                 msg_type: value.r#type.try_into()?,
@@ -71,7 +71,7 @@ tendermint_pb_modules! {
     impl From<CanonicalProposal> for RawCanonicalProposal {
         fn from(value: CanonicalProposal) -> Self {
             // If the Hash is empty in BlockId, the BlockId should be empty.
-            // See: https://github.com/informalsystems/tendermint-rs/issues/663
+            // See: https://github.com/cometbft/cometbft-rs/issues/663
             let block_id = value.block_id.filter(|i| i != &BlockId::default());
             RawCanonicalProposal {
                 r#type: value.msg_type.into(),
@@ -106,7 +106,7 @@ impl CanonicalProposal {
 
 #[cfg(test)]
 mod tests {
-    tendermint_pb_modules! {
+    cometbft_pb_modules! {
         use pb::types::{
             CanonicalBlockId as RawCanonicalBlockId,
             CanonicalPartSetHeader as RawCanonicalPartSetHeader,

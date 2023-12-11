@@ -1,6 +1,6 @@
 //! Macros to facilitate protobuf conversions
 
-macro_rules! tendermint_pb_modules {
+macro_rules! cometbft_pb_modules {
     {
         $($contents:item)*
     } => {

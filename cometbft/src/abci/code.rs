@@ -9,7 +9,7 @@ use serde::{
 ///
 /// These presently use 0 for success and non-zero for errors:
 ///
-/// <https://tendermint.com/docs/spec/abci/abci.html#errors>
+/// <https://docs.cometbft.com/master/spec/abci/abci.html#errors>
 ///
 /// Note that in the future there may potentially be non-zero success codes.
 #[derive(Copy, Clone, Debug, Eq, Hash, PartialEq, PartialOrd, Ord, Default)]

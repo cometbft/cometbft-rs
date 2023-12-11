@@ -1,4 +1,4 @@
-//! Tendermint accounts
+//! CometBFT accounts
 
 use core::{
     convert::{TryFrom, TryInto},

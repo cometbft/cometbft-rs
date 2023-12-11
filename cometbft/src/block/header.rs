@@ -80,8 +80,8 @@ impl Header {
     {
         // Note that if there is an encoding problem this will
         // panic (as the golang code would):
-        // https://github.com/tendermint/tendermint/blob/134fe2896275bb926b49743c1e25493f6b24cc31/types/block.go#L393
-        // https://github.com/tendermint/tendermint/blob/134fe2896275bb926b49743c1e25493f6b24cc31/types/encoding_helper.go#L9:6
+        // https://github.com/cometbft/cometbft/blob/134fe2896275bb926b49743c1e25493f6b24cc31/types/block.go#L393
+        // https://github.com/cometbft/cometbft/blob/134fe2896275bb926b49743c1e25493f6b24cc31/types/encoding_helper.go#L9:6
 
         let fields_bytes = vec![
             Protobuf::<RawConsensusVersion>::encode_vec(self.version),
@@ -121,7 +121,7 @@ pub struct Version {
 // Protobuf conversions
 // =============================================================================
 
-tendermint_pb_modules! {
+cometbft_pb_modules! {
     use super::{Header, Version};
     use crate::{block, Error};
     use pb::{

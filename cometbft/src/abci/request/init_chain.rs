@@ -4,7 +4,7 @@ use crate::{block, consensus, prelude::*, validator, Time};
 
 /// Called on genesis to initialize chain state.
 ///
-/// [ABCI documentation](https://docs.tendermint.com/master/spec/abci/abci.html#initchain)
+/// [ABCI documentation](https://docs.cometbft.com/master/spec/abci/abci.html#initchain)
 #[derive(Clone, PartialEq, Eq, Debug)]
 pub struct InitChain {
     /// The genesis time.
@@ -25,7 +25,7 @@ pub struct InitChain {
 // Protobuf conversions
 // =============================================================================
 
-tendermint_pb_modules! {
+cometbft_pb_modules! {
     use super::InitChain;
     use crate::Error;
 

@@ -9,7 +9,7 @@ pub enum BlockIdFlag {
     Nil,
 }
 
-tendermint_pb_modules! {
+cometbft_pb_modules! {
     use super::BlockIdFlag;
     use crate::{error::Error, prelude::*};
     use pb::types::BlockIdFlag as RawBlockIdFlag;

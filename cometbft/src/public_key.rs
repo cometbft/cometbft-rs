@@ -1,4 +1,4 @@
-//! Public keys used in Tendermint networks
+//! Public keys used in CometBFT networks
 
 #[cfg(feature = "secp256k1")]
 pub use k256::ecdsa::VerifyingKey as Secp256k1;
@@ -19,7 +19,7 @@ pub use crate::crypto::ed25519::VerificationKey as Ed25519;
 use crate::{error::Error, prelude::*};
 
 // Note:On the golang side this is generic in the sense that it could everything that implements
-// github.com/tendermint/tendermint/crypto.PubKey
+// github.com/cometbft/cometbft/crypto.PubKey
 // While this is meant to be used with different key-types, it currently only uses a PubKeyEd25519
 // version.
 // TODO: make this more generic
@@ -28,7 +28,7 @@ use crate::{error::Error, prelude::*};
 //          it should only be used to read/write the priva_validator_key.json.
 //          All changes to the serialization should check both the JSON and protobuf conversions.
 // Todo: Merge JSON serialization with #[serde(try_from = "RawPublicKey", into = "RawPublicKey)]
-/// Public keys allowed in Tendermint protocols
+/// Public keys allowed in CometBFT protocols
 #[derive(Copy, Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 #[non_exhaustive]
 #[serde(tag = "type", content = "value")] // JSON custom serialization for priv_validator_key.json
@@ -94,11 +94,11 @@ enum ProtobufPublicKey {
 }
 
 /// Custom deserialization for public keys to handle multiple potential JSON
-/// formats from Tendermint.
+/// formats from CometBFT.
 ///
 /// See <https://github.com/informalsystems/tendermint-rs/issues/1021> for
 /// context.
-// TODO(thane): Remove this once the serialization in Tendermint has been fixed.
+// TODO(thane): Remove this once the serialization in CometBFT has been fixed.
 pub fn deserialize_public_key<'de, D>(deserializer: D) -> Result<PublicKey, D::Error>
 where
     D: Deserializer<'de>,
@@ -115,7 +115,7 @@ where
     .map_err(serde::de::Error::custom)
 }
 
-tendermint_pb_modules! {
+cometbft_pb_modules! {
     use super::{PublicKey, Ed25519};
     use pb::crypto::{PublicKey as RawPublicKey, public_key::Sum};
     use crate::{prelude::*, Error};
@@ -265,9 +265,9 @@ impl Ord for PublicKey {
     }
 }
 
-/// Public key roles used in Tendermint networks
+/// Public key roles used in CometBFT networks
 #[derive(Copy, Clone, Debug, Eq, PartialEq, PartialOrd, Ord)]
-pub enum TendermintKey {
+pub enum CometbftKey {
     /// User signing keys used for interacting with accounts in the state machine
     AccountKey(PublicKey),
 
@@ -275,23 +275,23 @@ pub enum TendermintKey {
     ConsensusKey(PublicKey),
 }
 
-impl TendermintKey {
+impl CometbftKey {
     /// Create a new account key from a [`PublicKey`]
-    pub fn new_account_key(public_key: PublicKey) -> Result<TendermintKey, Error> {
+    pub fn new_account_key(public_key: PublicKey) -> Result<CometbftKey, Error> {
         match public_key {
-            PublicKey::Ed25519(_) => Ok(TendermintKey::AccountKey(public_key)),
+            PublicKey::Ed25519(_) => Ok(CometbftKey::AccountKey(public_key)),
             #[cfg(feature = "secp256k1")]
-            PublicKey::Secp256k1(_) => Ok(TendermintKey::AccountKey(public_key)),
+            PublicKey::Secp256k1(_) => Ok(CometbftKey::AccountKey(public_key)),
         }
     }
 
     /// Create a new consensus key from a [`PublicKey`]
-    pub fn new_consensus_key(public_key: PublicKey) -> Result<TendermintKey, Error> {
+    pub fn new_consensus_key(public_key: PublicKey) -> Result<CometbftKey, Error> {
         #[allow(unreachable_patterns)]
         match public_key {
-            PublicKey::Ed25519(_) => Ok(TendermintKey::AccountKey(public_key)),
+            PublicKey::Ed25519(_) => Ok(CometbftKey::AccountKey(public_key)),
             #[cfg(feature = "secp256k1")]
-            PublicKey::Secp256k1(_) => Ok(TendermintKey::AccountKey(public_key)),
+            PublicKey::Secp256k1(_) => Ok(CometbftKey::AccountKey(public_key)),
 
             _ => Err(Error::invalid_key(
                 "only ed25519 or secp256k1 consensus keys are supported".to_string(),
@@ -299,11 +299,11 @@ impl TendermintKey {
         }
     }
 
-    /// Get the [`PublicKey`] value for this [`TendermintKey`]
+    /// Get the [`PublicKey`] value for this [`CometbftKey`]
     pub fn public_key(&self) -> &PublicKey {
         match self {
-            TendermintKey::AccountKey(key) => key,
-            TendermintKey::ConsensusKey(key) => key,
+            CometbftKey::AccountKey(key) => key,
+            CometbftKey::ConsensusKey(key) => key,
         }
     }
 }
@@ -406,7 +406,7 @@ where
 mod tests {
     use subtle_encoding::hex;
 
-    use super::{PublicKey, TendermintKey};
+    use super::{CometbftKey, PublicKey};
     use crate::{prelude::*, public_key::PubKeyResponse};
 
     const EXAMPLE_CONSENSUS_KEY: &str =
@@ -414,7 +414,7 @@ mod tests {
 
     #[test]
     fn test_consensus_serialization() {
-        let example_key = TendermintKey::ConsensusKey(
+        let example_key = CometbftKey::ConsensusKey(
             PublicKey::from_raw_ed25519(&hex::decode_upper(EXAMPLE_CONSENSUS_KEY).unwrap())
                 .unwrap(),
         );
@@ -444,7 +444,7 @@ mod tests {
     fn test_account_serialization() {
         const EXAMPLE_ACCOUNT_KEY: &str =
             "02A1633CAFCC01EBFB6D78E39F687A1F0995C62FC95F51EAD10A02EE0BE551B5DC";
-        let example_key = TendermintKey::AccountKey(
+        let example_key = CometbftKey::AccountKey(
             PublicKey::from_raw_secp256k1(&hex::decode_upper(EXAMPLE_ACCOUNT_KEY).unwrap())
                 .unwrap(),
         );
@@ -471,7 +471,7 @@ mod tests {
         assert_eq!(reserialized_json.as_str(), json_string);
     }
 
-    tendermint_pb_modules! {
+    cometbft_pb_modules! {
         use super::*;
         use pb::privval::PubKeyResponse as RawPubKeyResponse;
 
@@ -480,8 +480,8 @@ mod tests {
             // test-vector generated from Go
             // import (
             // "fmt"
-            // "github.com/tendermint/tendermint/proto/tendermint/crypto"
-            // "github.com/tendermint/tendermint/proto/tendermint/privval"
+            // crypto "github.com/cometbft/cometbft/api/cometbft/crypto/v1"
+            // privval "github.com/cometbft/cometbft/api/cometbft/privval/v1"
             // )
             //
             // func ed25519_key() {

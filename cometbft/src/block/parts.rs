@@ -19,7 +19,7 @@ pub struct Header {
     pub hash: Hash,
 }
 
-tendermint_pb_modules! {
+cometbft_pb_modules! {
     use pb::types::{
         CanonicalPartSetHeader as RawCanonicalPartSetHeader, PartSetHeader as RawPartSetHeader,
     };

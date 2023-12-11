@@ -1,4 +1,4 @@
-//! Tendermint consensus
+//! CometBFT consensus
 
 pub mod params;
 pub mod state;

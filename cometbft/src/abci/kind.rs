@@ -1,6 +1,6 @@
 /// A category of ABCI method.
 ///
-/// ABCI methods are split into four categories. Tendermint opens one ABCI
+/// ABCI methods are split into four categories. CometBFT opens one ABCI
 /// connection for each category and refers to these categories as *connections*,
 /// but nothing actually restricts an ABCI connection from calling methods in
 /// multiple categories.

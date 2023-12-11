@@ -23,7 +23,7 @@ pub struct Meta {
     pub num_txs: i64,
 }
 
-tendermint_pb_modules! {
+cometbft_pb_modules! {
     use super::Meta;
     use crate::{error::Error, prelude::*};
     use pb::types::BlockMeta as RawMeta;

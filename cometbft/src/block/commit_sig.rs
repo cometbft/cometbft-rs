@@ -8,9 +8,9 @@ use crate::{account, prelude::*, Signature, Time};
 /// where there is no timestamp to speak of.
 ///
 /// It is not the standard UNIX epoch at 0 seconds, ie. 1970-01-01 00:00:00 UTC,
-/// but a custom Tendermint-specific one for 1-1-1 00:00:00 UTC
+/// but a custom CometBFT-specific one for 1-1-1 00:00:00 UTC
 ///
-/// From the corresponding Tendermint `Time` struct:
+/// From the corresponding CometBFT `Time` struct:
 ///
 /// The zero value for a Time is defined to be
 /// January 1, year 1, 00:00:00.000000000 UTC
@@ -80,7 +80,7 @@ impl CommitSig {
     }
 }
 
-tendermint_pb_modules! {
+cometbft_pb_modules! {
     use super::{CommitSig, ZERO_TIMESTAMP};
     use crate::{error::Error, prelude::*, Signature};
 

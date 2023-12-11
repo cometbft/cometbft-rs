@@ -22,11 +22,11 @@ pub const PREFIX_LENGTH: usize = 10;
 /// <https://github.com/tendermint/spec/blob/d46cd7f573a2c6a2399fcab2cde981330aa63f37/spec/core/data_structures.md#blockid>
 ///
 /// Default implementation is an empty Id as defined by the Go implementation in
-/// <https://github.com/tendermint/tendermint/blob/1635d1339c73ae6a82e062cd2dc7191b029efa14/types/block.go#L1204>.
+/// <https://github.com/cometbft/cometbft/blob/1635d1339c73ae6a82e062cd2dc7191b029efa14/types/block.go#L1204>.
 ///
 /// If the Hash is empty in BlockId, the BlockId should be empty (encoded to None).
 /// This is implemented outside of this struct. Use the Default trait to check for an empty BlockId.
-/// See: <https://github.com/informalsystems/tendermint-rs/issues/663>
+/// See: <https://github.com/cometbft/cometbft-rs/issues/663>
 #[derive(
     Serialize, Deserialize, Copy, Clone, Debug, Default, Hash, Eq, PartialEq, PartialOrd, Ord,
 )]
@@ -47,7 +47,7 @@ pub struct Id {
     /// to other peers before all the parts are known. In short, it's a fast
     /// way to propagate a large file over a gossip network.
     ///
-    /// <https://github.com/tendermint/tendermint/wiki/Block-Structure#partset>
+    /// <https://github.com/cometbft/cometbft/wiki/Block-Structure#partset>
     ///
     /// PartSetHeader in protobuf is defined as never nil using the gogoproto
     /// annotations. This does not translate to Rust, but we can indicate this
@@ -55,7 +55,7 @@ pub struct Id {
     pub part_set_header: PartSetHeader,
 }
 
-tendermint_pb_modules! {
+cometbft_pb_modules! {
     use pb::{
         types::{
             BlockId as RawBlockId, CanonicalBlockId as RawCanonicalBlockId,
@@ -85,7 +85,7 @@ tendermint_pb_modules! {
 
     impl From<Id> for RawBlockId {
         fn from(value: Id) -> Self {
-            // https://github.com/tendermint/tendermint/blob/1635d1339c73ae6a82e062cd2dc7191b029efa14/types/block.go#L1204
+            // https://github.com/cometbft/cometbft/blob/1635d1339c73ae6a82e062cd2dc7191b029efa14/types/block.go#L1204
             // The Go implementation encodes a nil value into an empty struct. We try our best to
             // anticipate an empty struct by using the default implementation which would otherwise be
             // invalid.

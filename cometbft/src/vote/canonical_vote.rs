@@ -27,7 +27,7 @@ pub struct CanonicalVote {
     pub chain_id: ChainId,
 }
 
-tendermint_pb_modules! {
+cometbft_pb_modules! {
     use super::CanonicalVote;
     use crate::Error;
     use crate::{block, chain::Id as ChainId, prelude::*};
@@ -92,7 +92,7 @@ impl CanonicalVote {
 #[cfg(test)]
 mod tests {
 
-    tendermint_pb_modules! {
+    cometbft_pb_modules! {
         use cometbft_proto::google::protobuf::Timestamp;
         use pb::types::{
             CanonicalBlockId as RawCanonicalBlockId,

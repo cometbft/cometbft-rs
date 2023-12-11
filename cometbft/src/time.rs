@@ -1,4 +1,4 @@
-//! Timestamps used by Tendermint blockchains
+//! Timestamps used by CometBFT blockchains
 
 use core::{
     convert::{TryFrom, TryInto},
@@ -18,7 +18,7 @@ use time::{
 
 use crate::{error::Error, prelude::*};
 
-/// Tendermint timestamps
+/// CometBFT timestamps
 ///
 /// A `Time` value is guaranteed to represent a valid `Timestamp` as defined
 /// by Google's well-known protobuf type [specification]. Conversions and

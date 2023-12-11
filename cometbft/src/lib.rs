@@ -1,6 +1,6 @@
-//! Tendermint is a high-performance blockchain consensus engine that powers
+//! CometBFT is a high-performance blockchain consensus engine that powers
 //! Byzantine fault tolerant applications written in any programming language.
-//! This crate provides core types for representing information about Tendermint
+//! This crate provides core types for representing information about CometBFT
 //! blockchain networks, including chain information types, secret connections,
 //! and remote procedure calls (JSON-RPC).
 
@@ -15,7 +15,7 @@
 )]
 #![forbid(unsafe_code)]
 #![doc(
-    html_logo_url = "https://raw.githubusercontent.com/informalsystems/tendermint-rs/master/img/logo-tendermint-rs_3961x4001.png"
+    html_logo_url = "https://raw.githubusercontent.com/cometbft/cometbft-rs/master/img/logo-cometbft-rs_3961x4001.png"
 )]
 
 extern crate alloc;
@@ -71,7 +71,7 @@ pub use crate::{
     moniker::Moniker,
     private_key::PrivateKey,
     proposal::Proposal,
-    public_key::{PublicKey, TendermintKey},
+    public_key::{CometbftKey, PublicKey},
     signature::Signature,
     time::Time,
     timeout::Timeout,

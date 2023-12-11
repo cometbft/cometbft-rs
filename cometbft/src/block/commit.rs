@@ -1,4 +1,4 @@
-//! Commits to a Tendermint blockchain
+//! Commits to a CometBFT blockchain
 
 use cometbft_proto::v0_37::types::Commit as RawCommit;
 use serde::{Deserialize, Serialize};
@@ -11,7 +11,7 @@ use crate::{
 /// Commit contains the justification (ie. a set of signatures) that a block was committed by a set
 /// of validators.
 /// TODO: Update links below!
-/// <https://github.com/tendermint/tendermint/blob/51dc810d041eaac78320adc6d53ad8b160b06601/types/block.go#L486-L502>
+/// <https://github.com/cometbft/cometbft/blob/51dc810d041eaac78320adc6d53ad8b160b06601/types/block.go#L486-L502>
 /// <https://github.com/tendermint/spec/blob/d46cd7f573a2c6a2399fcab2cde981330aa63f37/spec/core/data_structures.md#lastcommit>
 #[derive(Clone, PartialEq, Eq, Debug, Serialize, Deserialize)]
 #[serde(try_from = "RawCommit", into = "RawCommit")] // Used by testgen Generator trait
@@ -29,7 +29,7 @@ pub struct Commit {
     pub signatures: Vec<CommitSig>,
 }
 
-tendermint_pb_modules! {
+cometbft_pb_modules! {
     use super::Commit;
     use crate::{
         block::commit_sig::CommitSig,

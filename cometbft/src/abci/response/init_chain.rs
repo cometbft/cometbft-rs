@@ -24,7 +24,7 @@ pub struct InitChain {
 // Protobuf conversions
 // =============================================================================
 
-tendermint_pb_modules! {
+cometbft_pb_modules! {
     use super::InitChain;
 
     impl From<InitChain> for pb::abci::ResponseInitChain {

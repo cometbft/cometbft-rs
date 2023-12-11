@@ -17,7 +17,7 @@ pub struct OfferSnapshot {
 // Protobuf conversions
 // =============================================================================
 
-tendermint_pb_modules! {
+cometbft_pb_modules! {
     use super::OfferSnapshot;
 
     impl From<OfferSnapshot> for pb::abci::RequestOfferSnapshot {
