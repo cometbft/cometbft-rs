@@ -104,7 +104,7 @@ impl FromStr for Address {
         match url.scheme() {
             "tcp" => Ok(Self::Tcp {
                 peer_id: if !url.username().is_empty() {
-                    let username = url.username().parse().map_err(Error::tendermint)?;
+                    let username = url.username().parse().map_err(Error::cometbft)?;
                     Some(username)
                 } else {
                     None
