@@ -107,7 +107,7 @@ pub trait VerificationPredicates: Send + Sync {
         now: Time,
     ) -> Result<(), VerificationError> {
         let expires_at =
-            (trusted_header_time + trusting_period).map_err(VerificationError::tendermint)?;
+            (trusted_header_time + trusting_period).map_err(VerificationError::cometbft)?;
 
         if expires_at > now {
             Ok(())
@@ -123,7 +123,7 @@ pub trait VerificationPredicates: Send + Sync {
         clock_drift: Duration,
         now: Time,
     ) -> Result<(), VerificationError> {
-        let drifted = (now + clock_drift).map_err(VerificationError::tendermint)?;
+        let drifted = (now + clock_drift).map_err(VerificationError::cometbft)?;
 
         if untrusted_header_time < drifted {
             Ok(())
