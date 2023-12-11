@@ -1,4 +1,4 @@
-# tendermint-rs
+# cometbft-rs
 
 [![Crate][crate-image]][crate-link]
 [![Docs][docs-image]][docs-link]
@@ -7,14 +7,14 @@
 [![Apache 2.0 Licensed][license-image]][license-link]
 ![Rust Stable][rustc-image]
 
-[Tendermint] in Rust with [TLA+ specifications](/docs/spec).
+[CometBFT] in Rust with [TLA+ specifications](/docs/spec).
 
-Tendermint is a high-performance blockchain consensus engine for Byzantine fault
+CometBFT is a high-performance blockchain consensus engine for Byzantine fault
 tolerant applications written in any programming language.
 
 ## Tendermint Core Compatibility
 
-tendermint-rs has been tested for compatibility with Tendermint Core v0.34.21.
+cometbft-rs has been tested for compatibility with Tendermint Core v0.34.21.
 
 ## Requirements
 
@@ -34,38 +34,38 @@ See each component for the relevant documentation.
 
 Libraries:
 
-- [tendermint](./tendermint) - Tendermint data structures and serialization
-- [tendermint-abci](./abci) - A lightweight, low-level framework for building
-  Tendermint ABCI applications in Rust
-- [tendermint-light-client](./light-client) - Tendermint light client library
+- [cometbft](./cometbft) - CometBFT data structures and serialization
+- [cometbft-abci](./abci) - A lightweight, low-level framework for building
+  CometBFT ABCI applications in Rust
+- [cometbft-light-client](./light-client) - CometBFT light client library
   for verifying signed headers and tracking validator set changes
-- [tendermint-light-client-detector](./light-client-detector) - Library for
-  detecting and reporting attacks against the Tendermint light client
-- [tendermint-light-client-cli](./light-client-cli) - CLI for the light client,
+- [cometbft-light-client-detector](./light-client-detector) - Library for
+  detecting and reporting attacks against the CometBFT light client
+- [cometbft-light-client-cli](./light-client-cli) - CLI for the light client,
   for verifying headers, detecting attacks and reporting them.
-- [tendermint-light-client-js](./light-client-js) - Low-level WASM interface for
-  interacting with the Tendermint light client verification functionality
-- [tendermint-p2p](./p2p) - At present this primarily provides the ability to
-  connect to Tendermint nodes via Tendermint's [secret connection](tendermint-secret-conn)
-- [tendermint-proto](./proto) - Protobuf data structures (generated using Prost)
-  for wire-level interaction with Tendermint
-- [tendermint-rpc](./rpc) - Tendermint RPC client and response types
+- [cometbft-light-client-js](./light-client-js) - Low-level WASM interface for
+  interacting with the CometBFT light client verification functionality
+- [cometbft-p2p](./p2p) - At present this primarily provides the ability to
+  connect to CometBFT nodes via CometBFT's [secret connection](cometbft-secret-conn)
+- [cometbft-proto](./proto) - Protobuf data structures (generated using Prost)
+  for wire-level interaction with CometBFT
+- [cometbft-rpc](./rpc) - CometBFT RPC client and response types
 
 ## Releases
 
 Release tags can be found on
-[GitHub](https://github.com/informalsystems/tendermint-rs/releases).
+[GitHub](https://github.com/cometbft/cometbft-rs/releases).
 
 Crates are released on [crates.io](https://crates.io).
 
 ## Contributing
 
-The Tendermint protocols are specified in English in the [tendermint/tendermint
-repo](https://github.com/tendermint/tendermint/tree/main/spec). Any protocol
+The CometBFT protocols are specified in English in the [cometbft/cometbft
+repo](https://github.com/cometbft/cometbft/tree/main/spec). Any protocol
 changes or clarifications should be contributed there.
 
 This repo contains the TLA+ specifications and Rust implementations for various
-components of Tendermint. See the [CONTRIBUTING.md][contributing] to start
+components of CometBFT. See the [CONTRIBUTING.md][contributing] to start
 contributing.
 
 
@@ -73,14 +73,14 @@ contributing.
 
 Software, Specs, and Documentation
 
-- [Tendermint Datastructures Spec](https://github.com/tendermint/spec)
-- [Tendermint in Go](https://github.com/tendermint/tendermint)
-- [Docs for Tendermint in Go](http://docs.tendermint.com/)
+- [CometBFT Datastructures Spec](https://github.com/cometbft/spec)
+- [CometBFT in Go](https://github.com/cometbft/cometbft)
+- [Docs for CometBFT in Go](http://docs.cometbft.com/)
 
 Papers
 
 - [The latest gossip on BFT consensus](https://arxiv.org/abs/1807.04938)
-- [Ethan Buchman's Master's Thesis on Tendermint](https://atrium.lib.uoguelph.ca/xmlui/handle/10214/9769)
+- [Ethan Buchman's Master's Thesis on CometBFT](https://atrium.lib.uoguelph.ca/xmlui/handle/10214/9769)
 
 ## License
 
@@ -100,23 +100,23 @@ limitations under the License.
 
 [//]: # (badges)
 
-[crate-image]: https://img.shields.io/crates/v/tendermint.svg
-[crate-link]: https://crates.io/crates/tendermint
-[docs-image]: https://docs.rs/tendermint/badge.svg
-[docs-link]: https://docs.rs/tendermint/
-[build-image]: https://github.com/informalsystems/tendermint-rs/workflows/Rust/badge.svg
-[build-link]: https://github.com/informalsystems/tendermint-rs/actions?query=workflow%3ARust
-[audit-image]: https://github.com/informalsystems/tendermint-rs/workflows/Audit-Check/badge.svg
-[audit-link]: https://github.com/informalsystems/tendermint-rs/actions?query=workflow%3AAudit-Check
+[crate-image]: https://img.shields.io/crates/v/cometbft.svg
+[crate-link]: https://crates.io/crates/cometbft
+[docs-image]: https://docs.rs/cometbft/badge.svg
+[docs-link]: https://docs.rs/cometbft/
+[build-image]: https://github.com/cometbft/cometbft-rs/workflows/Rust/badge.svg
+[build-link]: https://github.com/cometbft/cometbft-rs/actions?query=workflow%3ARust
+[audit-image]: https://github.com/cometbft/cometbft-rs/workflows/Audit-Check/badge.svg
+[audit-link]: https://github.com/cometbft/cometbft-rs/actions?query=workflow%3AAudit-Check
 [license-image]: https://img.shields.io/badge/license-Apache2.0-blue.svg
-[license-link]: https://github.com/interchainio/tendermint-rs/blob/master/LICENSE
+[license-link]: https://github.com/interchainio/cometbft-rs/blob/master/LICENSE
 [rustc-image]: https://img.shields.io/badge/rustc-stable-blue.svg
 
 [//]: # (general links)
 
-[tendermint-docs-link]: https://docs.rs/tendermint/
-[tendermint-rpc-docs-link]: https://docs.rs/tendermint-rpc/
-[Tendermint]: https://github.com/tendermint/tendermint
-[tendermint-light-client-docs-link]: https://docs.rs/tendermint-light-client/
-[tendermint-secret-conn]: https://github.com/tendermint/tendermint/blob/v0.34.x/spec/p2p/peer.md#authenticated-encryption-handshake
+[cometbft-docs-link]: https://docs.rs/cometbft/
+[cometbft-rpc-docs-link]: https://docs.rs/cometbft-rpc/
+[CometBFT]: https://github.com/cometbft/cometbft
+[cometbft-light-client-docs-link]: https://docs.rs/cometbft-light-client/
+[cometbft-secret-conn]: https://github.com/cometbft/cometbft/blob/v0.34.x/spec/p2p/peer.md#authenticated-encryption-handshake
 [contributing]: ./CONTRIBUTING.md
