@@ -9,7 +9,7 @@ labels: enhancement
 <!--
 
 Please describe the enhancement you would like to see implemented in
-tendermint-rs. Give as much context as possible.
+cometbft-rs. Give as much context as possible.
 
 -->
 
