@@ -19,11 +19,9 @@ set -e
 # which they must be published. It's important to respect this order, since
 # each subsequent crate depends on one or more of the preceding ones.
 DEFAULT_CRATES="cometbft-proto \
-  cometbft-std-ext \
   cometbft \
   cometbft-config \
   cometbft-rpc \
-  cometbft-p2p \
   cometbft-light-client-verifier \
   cometbft-light-client \
   cometbft-light-client-detector \

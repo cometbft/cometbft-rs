@@ -9,12 +9,9 @@ members = [
     "light-client-detector",
     "light-client-cli",
     "light-client-js",
-    "p2p",
     "pbt-gen",
     "proto",
     "rpc",
-    "std-ext",
-    "test",
     "testgen"
 ]
 
