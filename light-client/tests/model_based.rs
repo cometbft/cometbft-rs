@@ -130,7 +130,7 @@ mod mbt {
 
     impl SingleStepTestFuzzer for HeaderVersionFuzzer {
         // TODO: rehash the header and re-compute commit with it
-        // TODO: Unlike in tendermint-go, we don't assert for a particular version in rust
+        // TODO: Unlike in cometbft-go, we don't assert for a particular version in rust
         // TODO: Either add this check in verification or remove this test because otherwise there's
         // no point of it
         fn fuzz_input(input: &mut BlockVerdict) -> (String, LiteVerdict) {
@@ -672,7 +672,7 @@ mod mbt {
             }
             true
         };
-        if !check_program("tendermint-testgen")
+        if !check_program("cometbft-testgen")
             || !check_program("apalache-mc")
             || !check_program("jsonatr")
             || !check_program("timeout")

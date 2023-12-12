@@ -9,7 +9,7 @@
     nonstandard_style
 )]
 #![doc(
-    html_logo_url = "https://raw.githubusercontent.com/informalsystems/tendermint-rs/master/img/logo-tendermint-rs_3961x4001.png"
+    html_logo_url = "https://raw.githubusercontent.com/cometbft/cometbft-rs/master/img/logo-cometbft-rs_3961x4001.png"
 )]
 #![cfg_attr(docsrs, feature(doc_cfg))]
 
@@ -26,7 +26,7 @@ pub mod store;
 
 pub(crate) mod utils;
 
-// Re-export `tendermint-light-client-verifier` crate.
+// Re-export `cometbft-light-client-verifier` crate.
 pub use cometbft_light_client_verifier as verifier;
 // Re-export for backward compatibility
 pub use verifier::{operations, predicates, types};

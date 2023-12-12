@@ -13,17 +13,17 @@ See documentation on [docs.rs][docs-link].
 
 ## Testing
 
-The Tendermint Light Client Attack Detector is currently primarily tested via the [Hermes][hermes] integration test suite
+The CometBFT Light Client Attack Detector is currently primarily tested via the [Hermes][hermes] integration test suite
 
 [//]: # (badges)
 
-[crate-image]: https://img.shields.io/crates/v/tendermint-light-client-detector.svg
-[crate-link]: https://crates.io/crates/tendermint-light-client-detector
-[docs-image]: https://docs.rs/tendermint-light-client-detector/badge.svg
-[docs-link]: https://docs.rs/tendermint-light-client-detector/
+[crate-image]: https://img.shields.io/crates/v/cometbft-light-client-detector.svg
+[crate-link]: https://crates.io/crates/cometbft-light-client-detector
+[docs-image]: https://docs.rs/cometbft-light-client-detector/badge.svg
+[docs-link]: https://docs.rs/cometbft-light-client-detector/
 
 [//]: # (general links)
 
-[repo root]: https://github.com/informalsystems/tendermint-rs
-[Tendermint]: https://github.com/tendermint/tendermint
-[light-client-detection]: https://github.com/informalsystems/tendermint-rs/tree/main/docs/spec/lightclient/detection
+[repo root]: https://github.com/cometbft/cometbft-rs
+[CometBFT]: https://github.com/cometbft/cometbft
+[light-client-detection]: https://github.com/cometbft/cometbft-rs/tree/main/docs/spec/lightclient/detection

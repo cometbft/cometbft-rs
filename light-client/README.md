@@ -14,7 +14,7 @@ See documentation on [docs.rs][docs-link].
 
 ## Testing
 
-The Tendermint Light Client is primarily tested through unit tests.
+The CometBFT Light Client is primarily tested through unit tests.
 
 ### Core Verification
 
@@ -26,7 +26,7 @@ by giving it a set of data along with the expected outcome of each check.
 The following command can be used to run only these tests:
 
 ```bash
-cargo test -p tendermint-light-client predicates
+cargo test -p cometbft-light-client predicates
 ```
 
 #### Model-based tests
@@ -41,7 +41,7 @@ automatically into the set of [JSON fixtures](./tests/support/model_based/single
 The following command can be used to run only these tests:
 
 ```bash
-$ cargo test -p tendermint-light-client --test model_based -- --nocapture
+$ cargo test -p cometbft-light-client --test model_based -- --nocapture
 ```
 
 Please refer to the [MBT Guide](./tests/support/model_based/README.md),
@@ -60,7 +60,7 @@ and can be found in the [`tests/light_client.rs`](./tests/light_client.rs) file.
 To run the tests:
 
 ```bash
-$ cargo test -p tendermint-light-client --test light_client bisection
+$ cargo test -p cometbft-light-client --test light_client bisection
 ```
 
 ### Attack Detection
@@ -77,26 +77,26 @@ of the computation.
 The following command can be used to run only these tests:
 
 ```bash
-$ cargo test -p tendermint-light-client voting_power
+$ cargo test -p cometbft-light-client voting_power
 ```
 
 ### Integration Tests
 
 This project also includes simple integration test which spawns a light client instance
-against a single Tendermint full node which acts both as a primary peer and as its
+against a single CometBFT full node which acts both as a primary peer and as its
 own witness.
 
-Because this test requires a running Tendermint node, it is ignored by default.
+Because this test requires a running CometBFT node, it is ignored by default.
 To run this test locally:
 
 ```bash
 # In one terminal
-$ mkdir -p /tmp/tendermint
-$ docker run -it --rm -v "/tmp/tendermint:/tendermint" tendermint/tendermint init
-$ docker run -it --rm -v "/tmp/tendermint:/tendermint" -p 26657:26657 tendermint/tendermint node --proxy_app=kvstore
+$ mkdir -p /tmp/cometbft
+$ docker run -it --rm -v "/tmp/cometbft:/cometbft" cometbft/cometbft init
+$ docker run -it --rm -v "/tmp/cometbft:/cometbft" -p 26657:26657 cometbft/cometbft node --proxy_app=kvstore
 
 # In another terminal
-$ cargo test -p tendermint-light-client --test integration -- --ignored --nocapture
+$ cargo test -p cometbft-light-client --test integration -- --ignored --nocapture
 ```
 
 ### Other tests
@@ -107,20 +107,20 @@ come with unit tests located in the same module as the implementation.
 To run these tests together with all tests described above:
 
 ```rust
-$ cargo test -p tendermint-light-client --all-features
+$ cargo test -p cometbft-light-client --all-features
 ```
 
 [//]: # (badges)
 
-[crate-image]: https://img.shields.io/crates/v/tendermint-light-client.svg
-[crate-link]: https://crates.io/crates/tendermint-light-client
-[docs-image]: https://docs.rs/tendermint-light-client/badge.svg
-[docs-link]: https://docs.rs/tendermint-light-client/
+[crate-image]: https://img.shields.io/crates/v/cometbft-light-client.svg
+[crate-link]: https://crates.io/crates/cometbft-light-client
+[docs-image]: https://docs.rs/cometbft-light-client/badge.svg
+[docs-link]: https://docs.rs/cometbft-light-client/
 
 [//]: # (general links)
 
-[repo root]: https://github.com/informalsystems/tendermint-rs
-[quick start]: https://github.com/tendermint/tendermint/blob/main/docs/introduction/quick-start.md
-[Tendermint]: https://github.com/tendermint/tendermint
-[light-client-verification]: https://github.com/informalsystems/tendermint-rs/blob/main/docs/spec/lightclient/verification/verification.md
-[detector-crate]: https://github.com/informalsystems/tendermint-rs/tree/main/light-client-detector
+[repo root]: https://github.com/cometbft/cometbft-rs
+[quick start]: https://github.com/cometbft/cometbft/blob/main/docs/introduction/quick-start.md
+[CometBFT]: https://github.com/cometbft/cometbft
+[light-client-verification]: https://github.com/cometbft/cometbft-rs/blob/main/docs/spec/lightclient/verification/verification.md
+[detector-crate]: https://github.com/cometbft/cometbft-rs/tree/main/light-client-detector
