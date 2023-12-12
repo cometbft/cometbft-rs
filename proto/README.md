@@ -1,4 +1,4 @@
-## tendermint-proto
+## cometbft-proto
 
 [![Crate][crate-image]][crate-link]
 [![Docs][docs-image]][docs-link]
@@ -7,7 +7,7 @@
 [![Apache 2.0 Licensed][license-image]][license-link]
 ![Rust Stable][rustc-image]
 
-Crate for interacting with Tendermint [proto structs][tendermint-go-proto-link].
+Crate for interacting with CometBFT [proto structs][cometbft-go-proto-link].
 
 [Documentation][docs-link]
 
@@ -33,18 +33,18 @@ limitations under the License.
 
 [//]: # (badges)
 
-[crate-image]: https://img.shields.io/crates/v/tendermint-proto.svg
-[crate-link]: https://crates.io/crates/tendermint-proto
-[docs-image]: https://docs.rs/tendermint-proto/badge.svg
-[docs-link]: https://docs.rs/tendermint-proto/
-[build-image]: https://github.com/informalsystems/tendermint-rs/workflows/Rust/badge.svg
-[build-link]: https://github.com/informalsystems/tendermint-rs/actions?query=workflow%3ARust
-[audit-image]: https://github.com/informalsystems/tendermint-rs/workflows/Audit-Check/badge.svg
-[audit-link]: https://github.com/informalsystems/tendermint-rs/actions?query=workflow%3AAudit-Check
+[crate-image]: https://img.shields.io/crates/v/cometbft-proto.svg
+[crate-link]: https://crates.io/crates/cometbft-proto
+[docs-image]: https://docs.rs/cometbft-proto/badge.svg
+[docs-link]: https://docs.rs/cometbft-proto/
+[build-image]: https://github.com/cometbft/cometbft-rs/workflows/Rust/badge.svg
+[build-link]: https://github.com/cometbft/cometbft-rs/actions?query=workflow%3ARust
+[audit-image]: https://github.com/cometbft/cometbft-rs/workflows/Audit-Check/badge.svg
+[audit-link]: https://github.com/cometbft/cometbft-rs/actions?query=workflow%3AAudit-Check
 [license-image]: https://img.shields.io/badge/license-Apache2.0-blue.svg
-[license-link]: https://github.com/informalsystems/tendermint-rs/blob/main/LICENSE
+[license-link]: https://github.com/cometbft/cometbft-rs/blob/main/LICENSE
 [rustc-image]: https://img.shields.io/badge/rustc-stable-blue.svg
 
 [//]: # (general links)
 
-[tendermint-go-proto-link]: https://github.com/tendermint/tendermint/tree/main/proto/tendermint
+[cometbft-go-proto-link]: https://github.com/cometbft/cometbft/tree/main/proto/cometbft

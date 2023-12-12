@@ -1,4 +1,4 @@
-//! Tendermint-proto auto-generated sub-modules for Tendermint
+//! CometBFT-proto auto-generated sub-modules for CometBFT
 
 pub mod abci {
     include!("../prost/v0_34/tendermint.abci.rs");
