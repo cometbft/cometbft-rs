@@ -14,12 +14,12 @@ fn read_fixture(name: &str) -> String {
     fs::read_to_string(PathBuf::from("./tests/support/config/").join(name)).unwrap()
 }
 
-/// Parse an example `config.toml` file to a `TendermintConfig` struct
+/// Parse an example `config.toml` file to a `CometbftConfig` struct
 #[allow(clippy::cognitive_complexity)]
 #[test]
 fn config_toml_parser() {
     let config_toml = read_fixture("config.toml");
-    let config = TendermintConfig::parse_toml(config_toml).unwrap();
+    let config = CometbftConfig::parse_toml(config_toml).unwrap();
 
     // main base config options
 
@@ -199,7 +199,7 @@ fn config_toml_parser() {
     assert!(!instrumentation.prometheus);
     assert_eq!(instrumentation.prometheus_listen_addr, ":26660");
     assert_eq!(instrumentation.max_open_connections, 3);
-    assert_eq!(instrumentation.namespace, "tendermint");
+    assert_eq!(instrumentation.namespace, "cometbft");
 }
 
 /// Parse an example `node_key.json` file to a `NodeKey` struct
@@ -236,15 +236,15 @@ fn priv_validator_secp256k1_json_parser() {
     );
 }
 
-/// Parse an example `config.toml` file to a `TendermintConfig` struct, then
+/// Parse an example `config.toml` file to a `CometbftConfig` struct, then
 /// serialize it and parse again.
 #[test]
 fn parsing_roundtrip() {
     let config_toml = read_fixture("config.toml");
-    let config = TendermintConfig::parse_toml(config_toml).unwrap();
+    let config = CometbftConfig::parse_toml(config_toml).unwrap();
 
     let written_config_toml = toml::to_string(&config).unwrap();
-    let written_config = TendermintConfig::parse_toml(&written_config_toml).unwrap();
+    let written_config = CometbftConfig::parse_toml(&written_config_toml).unwrap();
 
     assert_eq!(
         config, written_config,

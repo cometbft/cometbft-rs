@@ -1,7 +1,7 @@
-//! Tendermint Configuration Utilities
+//! CometBFT Configuration Utilities
 //!
-//! This crate defines the [`TendermintConfig`] type, which is used by
-//! crates such as `tendermint-rpc` to perform operations based on
+//! This crate defines the [`CometbftConfig`] type, which is used by
+//! crates such as `cometbft-rpc` to perform operations based on
 //! a common configuration type.
 
 #![cfg_attr(docsrs, feature(doc_cfg))]

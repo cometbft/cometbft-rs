@@ -1,8 +1,8 @@
-//! Tendermint configuration file types (with serde parsers/serializers)
+//! CometBFT configuration file types (with serde parsers/serializers)
 //!
 //! This module contains types which correspond to the following config files:
 //!
-//! - `config.toml`: `config::TendermintConfig`
+//! - `config.toml`: `config::CometbftConfig`
 //! - `node_key.rs`: `config::node_key::NodeKey`
 //! - `priv_validator_key.rs`: `config::priv_validator_key::PrivValidatorKey`
 
@@ -18,11 +18,11 @@ use serde::{de, de::Error as _, ser, Deserialize, Serialize};
 
 use crate::{net, node_key::NodeKey, prelude::*, Error};
 
-/// Tendermint `config.toml` file
+/// CometBFT `config.toml` file
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
-pub struct TendermintConfig {
+pub struct CometbftConfig {
     /// TCP or UNIX socket address of the ABCI application,
-    /// or the name of an ABCI application compiled in with the Tendermint binary.
+    /// or the name of an ABCI application compiled in with the CometBFT binary.
     pub proxy_app: net::Address,
 
     /// A custom human readable name for this node
@@ -55,7 +55,7 @@ pub struct TendermintConfig {
     /// Path to the JSON file containing the last sign state of a validator
     pub priv_validator_state_file: PathBuf,
 
-    /// TCP or UNIX socket address for Tendermint to listen on for
+    /// TCP or UNIX socket address for CometBFT to listen on for
     /// connections from an external PrivValidator process
     #[serde(
         deserialize_with = "deserialize_optional_value",
@@ -104,8 +104,8 @@ pub struct TendermintConfig {
     pub fastsync: FastsyncConfig,
 }
 
-impl TendermintConfig {
-    /// Parse Tendermint `config.toml`
+impl CometbftConfig {
+    /// Parse CometBFT `config.toml`
     pub fn parse_toml<T: AsRef<str>>(toml_string: T) -> Result<Self, Error> {
         let res = toml::from_str(toml_string.as_ref()).map_err(Error::toml)?;
 
@@ -282,7 +282,7 @@ pub enum AbciMode {
     Grpc,
 }
 
-/// Tendermint `config.toml` file's `[rpc]` section
+/// CometBFT `config.toml` file's `[rpc]` section
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
 pub struct RpcConfig {
     /// TCP or UNIX socket address for the RPC server to listen on
