@@ -15,14 +15,14 @@ See documentation on [crates.io][docs-link].
 
 [//]: # (badges)
 
-[crate-image]: https://img.shields.io/crates/v/tendermint-light-client-verifier.svg
-[crate-link]: https://crates.io/crates/tendermint-light-client-verifier
-[docs-image]: https://docs.rs/tendermint-light-client-verifier/badge.svg
-[docs-link]: https://docs.rs/tendermint-light-client-verifier/
+[crate-image]: https://img.shields.io/crates/v/cometbft-light-client-verifier.svg
+[crate-link]: https://crates.io/crates/cometbft-light-client-verifier
+[docs-image]: https://docs.rs/cometbft-light-client-verifier/badge.svg
+[docs-link]: https://docs.rs/cometbft-light-client-verifier/
 
 [//]: # (general links)
 
-[repo root]: https://github.com/informalsystems/tendermint-rs
-[quick start]: https://github.com/tendermint/tendermint/blob/main/docs/introduction/quick-start.md
-[Tendermint]: https://github.com/tendermint/tendermint
-[Light Client]: https://github.com/informalsystems/tendermint-rs/tree/main/light-client
+[repo root]: https://github.com/cometbft/cometbft-rs
+[quick start]: https://github.com/cometbft/cometbft/blob/main/docs/introduction/quick-start.md
+[CometBFT]: https://github.com/cometbft/cometbft
+[Light Client]: https://github.com/cometbft/cometbft-rs/tree/main/light-client
