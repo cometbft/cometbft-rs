@@ -1,5 +1,5 @@
 import * as monaco from 'monaco-editor';
-import * as LightClient from 'tendermint-light-client-js';
+import * as LightClient from 'cometbft-light-client-js';
 
 let untrustedBlockEditor = monaco.editor.create(document.getElementById("untrusted-block-editor"), {
     value: JSON.stringify({

@@ -1,7 +1,7 @@
 # Web-Based Light Client Verification
 
 This folder contains a simple *example* web application demonstrating
-Tendermint Light Client verification.
+CometBFT Light Client verification.
 
 ## Requirements
 
