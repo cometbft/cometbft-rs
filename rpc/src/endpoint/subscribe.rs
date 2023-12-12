@@ -17,7 +17,7 @@ pub struct Request {
 }
 
 impl Request {
-    /// Query the Tendermint nodes event and stream events (by default over a
+    /// Query the CometBFT nodes event and stream events (by default over a
     /// WebSocket connection).
     pub fn new(query: String) -> Self {
         Self { query }

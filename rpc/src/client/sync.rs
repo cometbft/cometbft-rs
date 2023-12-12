@@ -1,4 +1,4 @@
-//! Synchronization primitives specific to the Tendermint RPC client.
+//! Synchronization primitives specific to the CometBFT RPC client.
 //!
 //! At present, this wraps Tokio's synchronization primitives and provides some
 //! convenience methods. We also only implement unbounded channels at present.

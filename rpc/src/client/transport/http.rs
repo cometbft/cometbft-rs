@@ -1,4 +1,4 @@
-//! HTTP-based transport for Tendermint RPC Client.
+//! HTTP-based transport for CometBFT RPC Client.
 
 use core::{
     convert::{TryFrom, TryInto},
@@ -23,11 +23,11 @@ use crate::{
     Error, Order, Scheme, SimpleRequest, Url,
 };
 
-const USER_AGENT: &str = concat!("tendermint.rs/", env!("CARGO_PKG_VERSION"));
+const USER_AGENT: &str = concat!("cometbft.rs/", env!("CARGO_PKG_VERSION"));
 
-/// A JSON-RPC/HTTP Tendermint RPC client (implements [`crate::Client`]).
+/// A JSON-RPC/HTTP CometBFT RPC client (implements [`crate::Client`]).
 ///
-/// Supports both HTTP and HTTPS connections to Tendermint RPC endpoints, and
+/// Supports both HTTP and HTTPS connections to CometBFT RPC endpoints, and
 /// allows for the use of HTTP proxies (see [`HttpClient::new_with_proxy`] for
 /// details).
 ///
@@ -66,7 +66,7 @@ pub struct Builder {
 }
 
 impl Builder {
-    /// Use the specified compatibility mode for the Tendermint RPC protocol.
+    /// Use the specified compatibility mode for the CometBFT RPC protocol.
     ///
     /// The default is the latest protocol version supported by this crate.
     pub fn compat_mode(mut self, mode: CompatMode) -> Self {
@@ -108,7 +108,7 @@ impl Builder {
 }
 
 impl HttpClient {
-    /// Construct a new Tendermint RPC HTTP/S client connecting to the given
+    /// Construct a new CometBFT RPC HTTP/S client connecting to the given
     /// URL.
     pub fn new<U>(url: U) -> Result<Self, Error>
     where
@@ -118,7 +118,7 @@ impl HttpClient {
         Self::builder(url).build()
     }
 
-    /// Construct a new Tendermint RPC HTTP/S client connecting to the given
+    /// Construct a new CometBFT RPC HTTP/S client connecting to the given
     /// URL, but via the specified proxy's URL.
     ///
     /// If the RPC endpoint is secured (HTTPS), the proxy will automatically
@@ -134,7 +134,7 @@ impl HttpClient {
         Self::builder(url).proxy_url(proxy_url.try_into()?).build()
     }
 
-    /// Initiate a builder for a Tendermint RPC HTTP/S client connecting
+    /// Initiate a builder for a CometBFT RPC HTTP/S client connecting
     /// to the given URL, so that more configuration options can be specified
     /// with the builder.
     pub fn builder(url: HttpClientUrl) -> Builder {

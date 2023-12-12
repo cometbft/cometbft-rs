@@ -138,9 +138,9 @@ define_error! {
                 )
             },
 
-        Tendermint
+        Cometbft
             [ cometbft::Error ]
-            | _ | { "tendermint error" },
+            | _ | { "CometBFT error" },
 
         ParseInt
             [ DisplayOnly<core::num::ParseIntError> ]
@@ -201,20 +201,20 @@ define_error! {
                     e.version, e.supported)
             },
 
-        InvalidTendermintVersion
+        InvalidCometbftVersion
             {
                 version: String,
             }
             | e | {
-                format_args!("invalid Tendermint version reported by the node: {}", e.version)
+                format_args!("invalid CometBFT version reported by the node: {}", e.version)
             },
 
-        UnsupportedTendermintVersion
+        UnsupportedCometbftVersion
             {
                 version: String,
             }
             | e | {
-                format_args!("unsupported Tendermint version reported by the node: {}", e.version)
+                format_args!("unsupported CometBFT version reported by the node: {}", e.version)
             },
     }
 }

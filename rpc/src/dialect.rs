@@ -1,5 +1,5 @@
 //! Helper types to generalize differences in serialization between
-//! Tendermint RPC protocol versions.
+//! CometBFT RPC protocol versions.
 
 pub mod v0_34;
 pub mod v0_37;

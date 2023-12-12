@@ -28,10 +28,10 @@ pub struct Request {
 impl Request {
     /// List validators for a specific block.
     ///
-    /// See the [Tendermint RPC] for the defaults for each option when set to
+    /// See the [CometBFT RPC] for the defaults for each option when set to
     /// `None`.
     ///
-    /// [Tendermint RPC]: https://docs.tendermint.com/v0.34/rpc/#/Info/validators
+    /// [CometBFT RPC]: https://docs.cometbft.com/v1/rpc/#/Info/validators
     pub fn new(
         height: Option<block::Height>,
         page: Option<PageNumber>,

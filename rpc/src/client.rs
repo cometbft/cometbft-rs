@@ -1,4 +1,4 @@
-//! Tendermint RPC client.
+//! CometBFT RPC client.
 
 mod compat;
 pub use compat::CompatMode;
@@ -38,7 +38,7 @@ use crate::{
     Error, Order, SimpleRequest,
 };
 
-/// Provides lightweight access to the Tendermint RPC. It gives access to all
+/// Provides lightweight access to the CometBFT RPC. It gives access to all
 /// endpoints with the exception of the event subscription-related ones.
 ///
 /// To access event subscription capabilities, use a client that implements the
@@ -272,7 +272,7 @@ pub trait Client {
         self.perform(net_info::Request).await
     }
 
-    /// `/status`: get Tendermint status including node info, pubkey, latest
+    /// `/status`: get CometBFT status including node info, pubkey, latest
     /// block hash, app hash, block height and time.
     async fn status(&self) -> Result<status::Response, Error> {
         self.perform(status::Request).await

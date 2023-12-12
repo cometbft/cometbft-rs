@@ -1,4 +1,4 @@
-//! Tendermint RPC client implementations for different transports.
+//! CometBFT RPC client implementations for different transports.
 
 mod auth;
 pub mod mock;

@@ -13,7 +13,7 @@ pub struct CheckTx<Ev> {
     ///
     /// Transactions where `code != 0` will be rejected; these transactions will
     /// not be broadcast to other nodes or included in a proposal block.
-    /// Tendermint attributes no other value to the response code.
+    /// CometBFT attributes no other value to the response code.
     pub code: Code,
     /// Result bytes, if any.
     #[serde(with = "serializers::nullable")]
@@ -41,7 +41,7 @@ pub struct CheckTx<Ev> {
     /// The transaction's priority (for mempool ordering).
     #[serde(with = "serializers::from_str")]
     pub priority: i64,
-    /// mempool_error is set by Tendermint.
+    /// mempool_error is set by CometBFT.
     /// ABCI applictions should not set mempool_error.
     pub mempool_error: String,
 }

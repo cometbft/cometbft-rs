@@ -1,4 +1,4 @@
-//! CLI for performing simple interactions against a Tendermint node's RPC.
+//! CLI for performing simple interactions against a CometBFT node's RPC.
 
 use core::str::FromStr;
 
@@ -15,22 +15,22 @@ use structopt::StructOpt;
 use tokio::{task::JoinHandle, time::Duration};
 use tracing::{debug, error, info, level_filters::LevelFilter, warn};
 
-/// CLI for performing simple interactions against a Tendermint node's RPC.
+/// CLI for performing simple interactions against a CometBFT node's RPC.
 ///
 /// Supports HTTP, HTTPS, WebSocket and secure WebSocket (wss://) URLs.
 #[derive(Debug, StructOpt)]
 struct Opt {
-    /// The URL of the Tendermint node's RPC endpoint.
+    /// The URL of the CometBFT node's RPC endpoint.
     #[structopt(
         short,
         long,
         default_value = "http://127.0.0.1:26657",
-        env = "TENDERMINT_RPC_URL"
+        env = "COMETBFT_RPC_URL"
     )]
     url: Url,
 
     /// An optional HTTP/S proxy through which to submit requests to the
-    /// Tendermint node's RPC endpoint. Only available for HTTP/HTTPS endpoints
+    /// CometBFT node's RPC endpoint. Only available for HTTP/HTTPS endpoints
     /// (i.e. WebSocket proxies are not supported).
     #[structopt(long)]
     proxy_url: Option<Url>,
@@ -148,7 +148,7 @@ enum ClientRequest {
     LatestCommit,
     /// Obtain information about the P2P stack and other network connections.
     NetInfo,
-    /// Get Tendermint status (node info, public key, latest block hash, etc.).
+    /// Get CometBFT status (node info, public key, latest block hash, etc.).
     Status,
     /// Fetch a transaction by way of its hash.
     Tx {

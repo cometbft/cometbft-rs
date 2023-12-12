@@ -6,7 +6,7 @@ use serde::{de::Error as SerdeError, Deserialize, Deserializer, Serialize, Seria
 
 use crate::{error::Error, prelude::*};
 
-/// The various schemes supported by Tendermint RPC clients.
+/// The various schemes supported by CometBFT RPC clients.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum Scheme {
     Http,
@@ -41,7 +41,7 @@ impl FromStr for Scheme {
 }
 
 /// A uniform resource locator (URL), with support for only those
-/// schemes/protocols supported by Tendermint RPC clients.
+/// schemes/protocols supported by CometBFT RPC clients.
 ///
 /// Re-implements relevant parts of [`url::Url`]'s interface with convenience
 /// mechanisms for transformation to/from other types.

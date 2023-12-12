@@ -1,4 +1,4 @@
-//! Utility methods for the Tendermint RPC crate.
+//! Utility methods for the CometBFT RPC crate.
 
 use getrandom::getrandom;
 
