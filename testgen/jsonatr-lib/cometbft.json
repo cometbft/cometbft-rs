@@ -1,0 +1,31 @@
+{
+  "description": "Transformers for generating CometBFT datastructures",
+  "prerequisites": "add cometbft-testgen to your $PATH",
+  "input": [
+    {
+      "name": "cometbft_validator",
+      "kind": "COMMAND",
+      "source": "cometbft-testgen --stdin validator"
+    },
+    {
+      "name": "cometbft_header",
+      "kind": "COMMAND",
+      "source": "cometbft-testgen --stdin header"
+    },
+    {
+      "name": "cometbft_commit",
+      "kind": "COMMAND",
+      "source": "cometbft-testgen --stdin commit"
+    },
+    {
+      "name": "cometbft_vote",
+      "kind": "COMMAND",
+      "source": "cometbft-testgen --stdin vote"
+    },
+    {
+      "name": "cometbft_time",
+      "kind": "COMMAND",
+      "source": "cometbft-testgen --stdin time"
+    }
+  ]
+}

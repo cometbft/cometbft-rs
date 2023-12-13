@@ -1,14 +1,14 @@
-//! `tendermint-testgen` is a small utility for producing Tendermint data
+//! `cometbft-testgen` is a small utility for producing CometBFT data
 //! structures from minimal input (for testing purposes only).
 //!
 //! See the [repository] for details.
 //!
-//! [repository]: https://github.com/informalsystems/tendermint-rs/tree/main/testgen
+//! [repository]: https://github.com/cometbft/cometbft-rs/tree/main/testgen
 
 #[macro_use]
 pub mod helpers;
 
-/// Helper types for generating Tendermint datastructures
+/// Helper types for generating CometBFT datastructures
 pub mod commit;
 pub mod consensus;
 pub mod generator;

@@ -9,6 +9,6 @@
 //! happen           for example: on a developer machine
 //! Run:
 //!     cargo make
-//! This will start a docker container with Tendermint and attach port 26657 to the host machine.
+//! This will start a docker container with CometBFT and attach port 26657 to the host machine.
 //! Then it will run all tests against the freshly created endpoint.
 //! Make sure you installed cargo-make by running `cargo install cargo-make` first.

@@ -1,22 +1,22 @@
 #!/bin/bash
 set -euo pipefail
 
-# The version of Tendermint to build into the images.
-TMVERSION=${TMVERSION:-0.34.21}
+# The version of CometBFT to build into the images.
+CMTVERSION=${CMTVERSION:-0.34.21}
 
-echo "Building for Tendermint v${TMVERSION}..."
+echo "Building for CometBFT v${CMTVERSION}..."
 
 # Build the ABCI test harness
 docker build \
     -f abci-harness/Dockerfile \
-    --build-arg TMVERSION=${TMVERSION} \
-    --tag informaldev/tendermint:${TMVERSION} \
+    --build-arg CMTVERSION=${CMTVERSION} \
+    --tag informaldev/cometbft:${CMTVERSION} \
     ./abci-harness/
 
-# Build the Tendermint development image
+# Build the CometBFT development image
 docker build \
-    -f tendermint/Dockerfile \
-    --build-arg TMVERSION=${TMVERSION} \
-    --tag informaldev/tendermint:${TMVERSION} \
-    ./tendermint/
+    -f cometbft/Dockerfile \
+    --build-arg CMTVERSION=${CMTVERSION} \
+    --tag informaldev/cometbft:${CMTVERSION} \
+    ./cometbft/
 

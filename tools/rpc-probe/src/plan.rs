@@ -38,7 +38,7 @@ struct PlanConfig {
 }
 
 /// A structured, sequential execution plan for interactions we would like to
-/// execute against a running Tendermint node.
+/// execute against a running CometBFT node.
 #[derive(Debug, Clone)]
 pub struct Plan {
     // Overall configuration for the plan.
@@ -85,12 +85,12 @@ impl Plan {
         })
     }
 
-    /// Executes the plan against a Tendermint node running at the given URL.
+    /// Executes the plan against a CometBFT node running at the given URL.
     ///
     /// This method assumes that the URL is the full WebSocket URL to the
     /// node's RPC (e.g. `ws://127.0.0.1:26657/websocket`).
     pub async fn execute(&self, url: &str) -> Result<()> {
-        info!("Connecting to Tendermint node at {}", url);
+        info!("Connecting to CometBFT node at {}", url);
         let (mut client, driver) = Client::new(url).await?;
         let driver_handle = tokio::spawn(async move { driver.run().await });
 

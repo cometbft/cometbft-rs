@@ -34,7 +34,7 @@ proxy_app = "tcp://127.0.0.1:26658"
 
 [instrumentation]
   max_open_connections = 3
-  namespace = "tendermint"
+  namespace = "cometbft"
   prometheus = true
   prometheus_listen_addr = ":26660"
 

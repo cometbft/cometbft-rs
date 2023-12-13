@@ -10,14 +10,14 @@ use tokio::time::Duration;
 use tracing::{debug, error, info, level_filters::LevelFilter};
 
 #[derive(Debug, StructOpt)]
-/// A harness for testing tendermint-abci through a full Tendermint node
+/// A harness for testing cometbft-abci through a full CometBFT node
 /// running our in-memory key/value store application (kvstore-rs).
 struct Opt {
-    /// Tendermint RPC host address.
+    /// CometBFT RPC host address.
     #[structopt(short, long, default_value = "127.0.0.1")]
     host: String,
 
-    /// Tendermint RPC port.
+    /// CometBFT RPC port.
     #[structopt(short, long, default_value = "26657")]
     port: u16,
 
@@ -36,7 +36,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         })
         .init();
 
-    info!("Connecting to Tendermint node at {}:{}", opt.host, opt.port);
+    info!("Connecting to CometBFT node at {}:{}", opt.host, opt.port);
     let (mut client, driver) = WebSocketClient::new(Address::Tcp {
         peer_id: None,
         host: opt.host,

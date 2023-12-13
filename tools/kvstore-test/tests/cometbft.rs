@@ -1,6 +1,6 @@
 //! Integration tests
 
-/// tendermint kvstore RPC integration tests.
+/// cometbft kvstore RPC integration tests.
 ///
 /// If you have a kvstore app running on 127.0.0.1:26657,
 /// these can be run using:

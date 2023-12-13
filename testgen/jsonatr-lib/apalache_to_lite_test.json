@@ -1,13 +1,13 @@
 {
-  "description": "Transform an Apalache counterexample into a Tendermint LightClient test",
+  "description": "Transform an Apalache counterexample into a CometBFT LightClient test",
   "use": [
     "unix.json",
-    "apalache-tendermint.json"
+    "apalache-cometbft.json"
   ],
   "input": [
     {
       "name": "block_to_initial_block",
-      "description": "transforms a block from Apalache CE into a JSON-encoded Tendermint initial light block",
+      "description": "transforms a block from Apalache CE into a JSON-encoded CometBFT initial light block",
       "kind": "INLINE",
       "source": {
         "signed_header": "$ | block_to_signed_header",
@@ -18,7 +18,7 @@
     },
     {
       "name": "state_to_lite_block_verdict",
-      "description": "transforms a block from Apalache CE into a JSON-encoded Tendermint light block",
+      "description": "transforms a block from Apalache CE into a JSON-encoded CometBFT light block",
       "kind": "INLINE",
       "let": {
         "block": "$..[?(@.key.str == 'current')].value"
@@ -35,7 +35,7 @@
           "validators": "$block | block_validators | ids_to_testgen_validators",
           "next_validators": "$block | block_next_validators | ids_to_testgen_validators"
         },
-        "now": "$..[?(@.key.str == 'now')].value | unwrap | tendermint_time",
+        "now": "$..[?(@.key.str == 'now')].value | unwrap | cometbft_time",
         "verdict": "$..[?(@.key.str == 'verdict')].value.str | unwrap"
       }
     }

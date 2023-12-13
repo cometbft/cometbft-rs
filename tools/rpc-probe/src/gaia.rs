@@ -1,4 +1,4 @@
-//! Plans for interacting with Tendermint nodes running
+//! Plans for interacting with CometBFT nodes running
 //! [Gaia](https://github.com/cosmos/gaia).
 
 use std::path::Path;

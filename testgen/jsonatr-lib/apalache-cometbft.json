@@ -1,7 +1,7 @@
 {
-  "description": "Transformers for Apalache counterexamples (CEs) with Tendermint blockchains",
+  "description": "Transformers for Apalache counterexamples (CEs) with CometBFT blockchains",
   "use": [
-    "tendermint.json"
+    "cometbft.json"
   ],
   "input": [
     {
@@ -60,7 +60,7 @@
     },
     {
       "name": "id_to_validator",
-      "description": "transform an identifier into a validator expected by `tendermint-testgen validator`",
+      "description": "transform an identifier into a validator expected by `cometbft-testgen validator`",
       "kind": "INLINE",
       "source": {
         "id": "$",
@@ -69,7 +69,7 @@
     },
     {
       "name": "id_to_vote",
-      "description": "transform an identifier into a vote expected by `tendermint-testgen vote`",
+      "description": "transform an identifier into a vote expected by `cometbft-testgen vote`",
       "kind": "INLINE",
       "source": {
         "validator": "$ | id_to_validator",
@@ -78,7 +78,7 @@
     },
     {
       "name": "block_to_header",
-      "description": "transform a block from Apalache CE into a header expected by `tendermint-testgen header`",
+      "description": "transform a block from Apalache CE into a header expected by `cometbft-testgen header`",
       "kind": "INLINE",
       "source": {
         "validators": "$ | block_validators | map(id_to_validator)",
@@ -89,7 +89,7 @@
     },
     {
       "name": "block_to_commit",
-      "description": "transform a block from Apalache CE into a commit expected by `tendermint-testgen commit`",
+      "description": "transform a block from Apalache CE into a commit expected by `cometbft-testgen commit`",
       "kind": "INLINE",
       "let": {
         "header": "$ | block_to_header"
@@ -101,13 +101,13 @@
     },
     {
       "name": "ids_to_validators",
-      "description": "transform a non-empty array of identifiers into Tendermint validators",
+      "description": "transform a non-empty array of identifiers into CometBFT validators",
       "kind": "INLINE",
-      "source": "$ | map(id_to_validator) | map(tendermint_validator)"
+      "source": "$ | map(id_to_validator) | map(cometbft_validator)"
     },
     {
       "name": "ids_to_testgen_validators",
-      "description": "transform a non-empty array of identifiers into `Tendermint-testgen validators`",
+      "description": "transform a non-empty array of identifiers into `CometBFT-testgen validators`",
       "kind": "INLINE",
       "source": "$ | map(id_to_validator)"
     },
@@ -121,22 +121,23 @@
       "name": "first_validator",
       "description": "extract first validator from a non-empty array of identifiers",
       "kind": "INLINE",
-      "source": "$[0] | unwrap | id_to_validator | tendermint_validator"
+      "source": "$[0] | unwrap | id_to_validator | cometbft_validator"
     },
     {
       "name": "const_id",
       "description": "constant identifier",
       "kind": "INLINE",
       "source": "a"
-    },    {
+    },
+    {
       "name": "fixed_validator",
       "description": "extract first validator from a non-empty array of identifiers",
       "kind": "INLINE",
-      "source": "$const_id | id_to_validator | tendermint_validator"
+      "source": "$const_id | id_to_validator | cometbft_validator"
     },
     {
       "name": "ids_to_validator_set",
-      "description": "transform an array of identifiers into a JSON-encoded Tendermint validator set",
+      "description": "transform an array of identifiers into a JSON-encoded CometBFT validator set",
       "kind": "INLINE",
       "source": {
         "validators": "$ | ifelse(ids_to_validators,empty_array)",
@@ -146,11 +147,11 @@
     },
     {
       "name": "block_to_signed_header",
-      "description": "transform a block from Apalache CE into a JSON-encoded Tendermint signed header",
+      "description": "transform a block from Apalache CE into a JSON-encoded CometBFT signed header",
       "kind": "INLINE",
       "source": {
-        "header": "$ | block_to_header | tendermint_header",
-        "commit": "$ | block_to_commit | tendermint_commit"
+        "header": "$ | block_to_header | cometbft_header",
+        "commit": "$ | block_to_commit | cometbft_commit"
       }
     }
   ]

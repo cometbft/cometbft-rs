@@ -1,4 +1,4 @@
-//! RPC quick probe-related functionality specifically targeting a Tendermint
+//! RPC quick probe-related functionality specifically targeting a CometBFT
 //! node running the `kvstore` ABCI application.
 
 use std::path::Path;

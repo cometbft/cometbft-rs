@@ -1,12 +1,12 @@
 #!/usr/bin/env sh
 set -euo pipefail
 
-if [ ! -d "${TMHOME}/config" ]; then
+if [ ! -d "${CMTHOME}/config" ]; then
 
-  echo "Running tendermint init to create configuration."
-  /usr/bin/tendermint init
+  echo "Running cometbft init to create configuration."
+  /usr/bin/cometbft init
 
-  sconfig -s ${TMHOME}/config/config.toml \
+  sconfig -s ${CMTHOME}/config/config.toml \
     proxy_app=${PROXY_APP:-kvstore} \
     moniker=${MONIKER:-dockernode} \
     consensus.timeout_commit=500ms \
@@ -14,10 +14,10 @@ if [ ! -d "${TMHOME}/config" ]; then
     p2p.addr_book_strict=false \
     instrumentation.prometheus=true
 
-  sconfig -s ${TMHOME}/config/genesis.json \
+  sconfig -s ${CMTHOME}/config/genesis.json \
     chain_id=${CHAIN_ID:-dockerchain} \
     consensus_params.block.time_iota_ms=500
 
 fi
 
-exec /usr/bin/tendermint "$@"
+exec /usr/bin/cometbft "$@"
