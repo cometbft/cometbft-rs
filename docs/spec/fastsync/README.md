@@ -9,7 +9,7 @@ for the most recent version.
 ## Abstract
 
 This directory contains English and TLA+ specifications for the FastSync
-protocol as it is currently implemented in the CometBFT Core codebase.
+protocol as it is currently implemented in the CometBFT codebase.
 
 ## English Specification
 
