@@ -9,25 +9,25 @@ for the most recent version.
 ## Abstract
 
 Fastsync is a protocol that is used by a node to catch-up to the
-current state of a Tendermint blockchain. Its typical use case is a
+current state of a CometBFT blockchain. Its typical use case is a
 node that was disconnected from the system for some time. The
 recovering node locally has a copy of a prefix of the blockchain,
 and the corresponding application state that is slightly outdated. It
 then queries its peers for the blocks that were decided on by the
-Tendermint blockchain during the period the full node was
+CometBFT blockchain during the period the full node was
 disconnected. After receiving these blocks, it executes the
 transactions in the blocks in order to catch-up to the current height
 of the blockchain and the corresponding application state.
 
 In practice it is sufficient to catch-up only close to the current
-height: The Tendermint consensus reactor implements its own catch-up
+height: The CometBFT consensus reactor implements its own catch-up
 functionality and can synchronize a node that is close to the current height,
 perhaps within 10 blocks away from the current height of the blockchain.
 Fastsync should bring a node within this range.
 
 ## Outline
 
-- [Part I](#part-i---tendermint-blockchain): Introduction of Tendermint
+- [Part I](#part-i---cometbft-blockchain): Introduction of CometBFT
 blockchain terms that are relevant for FastSync protocol.
 
 - [Part II](#part-ii---sequential-definition-of-fastsync-problem): Introduction
@@ -84,7 +84,7 @@ In this document we quite extensively use tags in order to be able to
 reference assumptions, invariants, etc. in future communication. In
 these tags we frequently use the following short forms:
 
-- TMBC: Tendermint blockchain
+- TMBC: CometBFT blockchain
 - SEQ: for sequential specifications
 - FS: Fastsync
 - LIVE: liveness
@@ -96,9 +96,9 @@ these tags we frequently use the following short forms:
 - NewFS: refers to improved future Fastsync implementations
 
 
-# Part I - Tendermint Blockchain
+# Part I - CometBFT Blockchain
 
-We will briefly list some of the notions of Tendermint blockchains that are
+We will briefly list some of the notions of CometBFT blockchains that are
 required for this specification. More details can be found [here][block].
 
 #### **[TMBC-HEADER]**:
@@ -111,7 +111,7 @@ headers, rather than a list of blocks.
 
 #### **[TMBC-SEQ]**:
 
-The Tendermint blockchain is a list *chain* of headers.
+The CometBFT blockchain is a list *chain* of headers.
 
 #### **[TMBC-SEQ-GROW]**:
 
@@ -201,7 +201,7 @@ A full node has as input a block of the blockchain at height *h* and
 the corresponding application state (or the prefix of the current
 blockchain until height *h*). It has access to a set *peerIDs* of full
 nodes called *peers* that it knows of.  The full node uses the peers
-to read blocks of the Tendermint blockchain (in a safe way, that is,
+to read blocks of the CometBFT blockchain (in a safe way, that is,
 it checks the soundness conditions), until it has read the most recent
 block and then terminates.
 
@@ -216,7 +216,7 @@ as output (i) a list *L* of blocks starting at height *h* to some height
 *terminationHeight*, and (ii) the application state when applying the
 transactions of the list *L* to *s*.
 
-> In Tendermint, the commit for block of height *h* is contained in block *h + 1*,
+> In CometBFT, the commit for block of height *h* is contained in block *h + 1*,
 > and thus the block of height *h + 1* is needed to verify the block of
 > height *h*. Let us therefore clarify the following on the
 > termination height:
@@ -338,7 +338,7 @@ Initially, the set *peerIDs* contains at least one correct full node.
 > of the blockchain (it might lag behind), the property [FS-SEQ-SAFE-START]
 > cannot be ensured in an unreliable distributed setting. We consider
 > the following relaxation. (Which is typically sufficient for
-> Tendermint, as the consensus reactor then synchronizes from that
+> CometBFT, as the consensus reactor then synchronizes from that
 > height.)
 
 #### **[FS-DIST-SAFE-START]**:
@@ -420,7 +420,7 @@ are structured as finite state machines that receive input events and emit
 output events. The demuxer is responsible for all IO, including translating
 between internal events and IO messages, and routing events between components.
 
-Protocols in Tendermint can be considered to consist of two
+Protocols in CometBFT can be considered to consist of two
 components: a "core" state machine and a "peer" state machine. The core state
 machine refers to the internal state managed by the node, while the peer state
 machine determines what messages to send to peers. In the FastSync design, the
@@ -428,7 +428,7 @@ core and peer state machines correspond to the processor and scheduler,
 respectively.
 
 In the case of FastSync, the core state machine (the processor) is effectively
-just the Tendermint block execution function, while virtually all protocol logic
+just the CometBFT block execution function, while virtually all protocol logic
 is contained in the peer state machine (the scheduler). The processor is
 only implemented as a separate component due to the computationally expensive nature
 of block execution. We therefore focus our specification here on the peer state machine
@@ -548,7 +548,7 @@ type bcBlockResponseMessage struct {
 ```
 
 Remark:
-- `msg.Block` is a Tendermint block as defined in [[block]].
+- `msg.Block` is a CometBFT block as defined in [[block]].
 - `msg.Block` != nil
 
 #### bcStatusRequestMessage
@@ -1142,7 +1142,7 @@ Arguments:
 
 [[block]] Specification of the block data structure.
 
-<!-- [[blockchain]] The specification of the Tendermint blockchain. Tags referring to this specification are labeled [TMBC-*]. -->
+<!-- [[blockchain]] The specification of the CometBFT blockchain. Tags referring to this specification are labeled [TMBC-*]. -->
 
 [block]: https://github.com/tendermint/spec/blob/d46cd7f573a2c6a2399fcab2cde981330aa63f37/spec/core/data_structures.md
 

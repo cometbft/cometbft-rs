@@ -4,7 +4,7 @@
 ## Disclaimer
 
 This specification is not maintained. See
-[tendermint/spec](https://github.com/tendermint/spec/blob/master/rust-spec/lightclient/detection/)
+[cometbft/spec](https://github.com/cometbft/cometbft/tree/main/spec/light-client/detection/)
 for the most recent version.
 
 ## Abstract

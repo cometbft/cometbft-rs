@@ -2,7 +2,7 @@
 (*
  In this document we give the high level specification of the fast sync
  protocol as implemented here:
- https://github.com/tendermint/tendermint/tree/main/blockchain/v2.
+ https://github.com/cometbft/cometbft/tree/main/blockchain/v2.
 
 We assume a system in which one node is trying to sync with the blockchain
 (replicated state machine) by downloading blocks from the set of full nodes
@@ -226,7 +226,7 @@ InitNode ==
 
 \* Remove faulty peers.
 \* Returns new block pool.
-\* See https://github.com/tendermint/tendermint/blob/dac030d6daf4d3e066d84275911128856838af4e/blockchain/v2/scheduler.go#L222
+\* See https://github.com/cometbft/cometbft/blob/dac030d6daf4d3e066d84275911128856838af4e/blockchain/v2/scheduler.go#L222
 RemovePeers(rmPeers, bPool) ==
     LET keepPeers == bPool.peerIds \ rmPeers IN
     LET pHeights ==
@@ -254,7 +254,7 @@ RemovePeers(rmPeers, bPool) ==
     ELSE bPool
 
 \* Add a peer.
-\* see https://github.com/tendermint/tendermint/blob/dac030d6daf4d3e066d84275911128856838af4e/blockchain/v2/scheduler.go#L198
+\* see https://github.com/cometbft/cometbft/blob/dac030d6daf4d3e066d84275911128856838af4e/blockchain/v2/scheduler.go#L198
 AddPeer(peer, bPool) ==
     [bPool EXCEPT !.peerIds = bPool.peerIds \union {peer}]
 
@@ -264,7 +264,7 @@ Handle StatusResponse message.
 If valid status response, update peerHeights.
 If invalid (height is smaller than the current), then remove peer.
 Returns new block pool.
-See https://github.com/tendermint/tendermint/blob/dac030d6daf4d3e066d84275911128856838af4e/blockchain/v2/scheduler.go#L667
+See https://github.com/cometbft/cometbft/blob/dac030d6daf4d3e066d84275911128856838af4e/blockchain/v2/scheduler.go#L667
 *)
 HandleStatusResponse(msg, bPool) ==
     LET peerHeight == bPool.peerHeights[msg.peerId] IN
@@ -282,7 +282,7 @@ Handle BlockResponse message.
 If valid block response, update blockStore, pendingBlocks and receivedBlocks.
 If invalid (unsolicited response or malformed block), then remove peer.
 Returns new block pool.
-See https://github.com/tendermint/tendermint/blob/dac030d6daf4d3e066d84275911128856838af4e/blockchain/v2/scheduler.go#L522
+See https://github.com/cometbft/cometbft/blob/dac030d6daf4d3e066d84275911128856838af4e/blockchain/v2/scheduler.go#L522
 *)
 HandleBlockResponse(msg, bPool) ==
     LET h == msg.block.height IN
@@ -304,7 +304,7 @@ HandleBlockResponse(msg, bPool) ==
        
 
 \* Compute max peer height.
-\* See https://github.com/tendermint/tendermint/blob/dac030d6daf4d3e066d84275911128856838af4e/blockchain/v2/scheduler.go#L440
+\* See https://github.com/cometbft/cometbft/blob/dac030d6daf4d3e066d84275911128856838af4e/blockchain/v2/scheduler.go#L440
 MaxPeerHeight(bPool) ==
     IF bPool.peerIds = AsPidSet({})
     THEN 0 \* no peers, just return 0
@@ -313,7 +313,7 @@ MaxPeerHeight(bPool) ==
 
 (* Returns next height for which request should be sent.
    Returns NilHeight in case there is no height for which request can be sent.
-   See https://github.com/tendermint/tendermint/blob/dac030d6daf4d3e066d84275911128856838af4e/blockchain/v2/scheduler.go#L454 *)
+   See https://github.com/cometbft/cometbft/blob/dac030d6daf4d3e066d84275911128856838af4e/blockchain/v2/scheduler.go#L454 *)
 FindNextRequestHeight(bPool) ==
     LET S == {i \in Heights:
                 /\ i >= bPool.height
@@ -337,7 +337,7 @@ NumOfPendingRequests(bPool, peer) ==
 
 (* Returns peer that can serve block for a given height.
    Returns NilPeer in case there are no such peer.
-   See https://github.com/tendermint/tendermint/blob/dac030d6daf4d3e066d84275911128856838af4e/blockchain/v2/scheduler.go#L477 *)
+   See https://github.com/cometbft/cometbft/blob/dac030d6daf4d3e066d84275911128856838af4e/blockchain/v2/scheduler.go#L477 *)
 FindPeerToServe(bPool, h) ==
     LET peersThatCanServe == { p \in bPool.peerIds:
                 /\ bPool.peerHeights[p] >= h
@@ -375,23 +375,23 @@ CreateRequest(bPool) ==
 
 
 \* Returns node state, i.e., defines termination condition.
-\* See https://github.com/tendermint/tendermint/blob/dac030d6daf4d3e066d84275911128856838af4e/blockchain/v2/scheduler.go#L432
+\* See https://github.com/cometbft/cometbft/blob/dac030d6daf4d3e066d84275911128856838af4e/blockchain/v2/scheduler.go#L432
 ComputeNextState(bPool) ==
     IF bPool.syncedBlocks = 0  \* corresponds to the syncTimeout in case no progress has been made for a period of time.
     THEN "finished"
     ELSE IF /\ bPool.height > 1
-            /\ bPool.height >= MaxPeerHeight(bPool) \* see https://github.com/tendermint/tendermint/blob/61057a8b0af2beadee106e47c4616b279e83c920/blockchain/v2/scheduler.go#L566
+            /\ bPool.height >= MaxPeerHeight(bPool) \* see https://github.com/cometbft/cometbft/blob/61057a8b0af2beadee106e47c4616b279e83c920/blockchain/v2/scheduler.go#L566
          THEN "finished"
          ELSE "running"
 
 (* Verify if commit is for the given block id and if commit has enough voting power.
-   See https://github.com/tendermint/tendermint/blob/61057a8b0af2beadee106e47c4616b279e83c920/blockchain/v2/processor_context.go#L12 *)
+   See https://github.com/cometbft/cometbft/blob/61057a8b0af2beadee106e47c4616b279e83c920/blockchain/v2/processor_context.go#L12 *)
 VerifyCommit(block, lastCommit) ==
     PossibleCommit(block, lastCommit)
 
 (* Tries to execute next block in the pool, i.e., defines block validation logic.
    Returns new block pool (peers that has send invalid blocks are removed).
-   See https://github.com/tendermint/tendermint/blob/dac030d6daf4d3e066d84275911128856838af4e/blockchain/v2/processor.go#L135 *)
+   See https://github.com/cometbft/cometbft/blob/dac030d6daf4d3e066d84275911128856838af4e/blockchain/v2/processor.go#L135 *)
 ExecuteBlocks(bPool) ==
     LET bStore == bPool.blockStore IN
     LET block0 == bStore[bPool.height - 1] IN
@@ -422,7 +422,7 @@ ExecuteBlocks(bPool) ==
 
 
 \* Defines logic for pruning peers.
-\* See https://github.com/tendermint/tendermint/blob/dac030d6daf4d3e066d84275911128856838af4e/blockchain/v2/scheduler.go#L613
+\* See https://github.com/cometbft/cometbft/blob/dac030d6daf4d3e066d84275911128856838af4e/blockchain/v2/scheduler.go#L613
 TryPrunePeer(bPool, suspectedSet, isTimedOut) ==
     (* -----------------------------------------------------------------------------------------------------------------------*)
     (* Corresponds to function prunablePeers in scheduler.go file. Note that this function only checks if block has been  *)
@@ -432,7 +432,7 @@ TryPrunePeer(bPool, suspectedSet, isTimedOut) ==
     (* In case of faulty peers, we don't have any guarantee that they will respond.                                           *)
     (* Therefore, we model this with nondeterministic behavior as it could lead to peer removal, for both correct and faulty. *)
     (* See scheduler.go                                                                                                       *)
-    (* https://github.com/tendermint/tendermint/blob/4298bbcc4e25be78e3c4f21979d6aa01aede6e87/blockchain/v2/scheduler.go#L335 *)
+    (* https://github.com/cometbft/cometbft/blob/4298bbcc4e25be78e3c4f21979d6aa01aede6e87/blockchain/v2/scheduler.go#L335 *)
     LET toRemovePeers == bPool.peerIds \intersect suspectedSet IN
 
     (*
@@ -442,7 +442,7 @@ TryPrunePeer(bPool, suspectedSet, isTimedOut) ==
       correct peers respond timely and reliably. However, if a request is sent to a faulty peer then we 
       might get response on time or not, which is modelled with nondeterministic isTimedOut flag.
       See scheduler.go
-      https://github.com/tendermint/tendermint/blob/4298bbcc4e25be78e3c4f21979d6aa01aede6e87/blockchain/v2/scheduler.go#L617
+      https://github.com/cometbft/cometbft/blob/4298bbcc4e25be78e3c4f21979d6aa01aede6e87/blockchain/v2/scheduler.go#L617
     *)
     LET nextHeightPeer == bPool.pendingBlocks[bPool.height] IN
     LET prunablePeers ==

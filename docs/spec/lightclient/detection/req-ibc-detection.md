@@ -3,7 +3,7 @@
 ## Disclaimer
 
 This specification is not maintained. See
-[tendermint/spec](https://github.com/tendermint/spec/blob/master/rust-spec/lightclient/detection/)
+[cometbft/spec](https://github.com/cometbft/cometbft/tree/main/spec/light-client/detection/)
 for the most recent version.
 
 ## What you need to know about IBC
@@ -14,13 +14,13 @@ https://github.com/cosmos/ics/tree/master/spec/ics-002-client-semantics
 
 ### Components and their interface
 
-#### Tendermint Blockchains
+#### CometBFT Blockchains
 
 > I assume you know what that is.
 
-#### An IBC/Tendermint correspondence
+#### An IBC/CometBFT correspondence
 
-| IBC Term | Tendermint-RS Spec Term | Comment |
+| IBC Term | CometBFT-RS Spec Term | Comment |
 |----------|-------------------------| --------|
 | `CommitmentRoot` | AppState | app hash |
 | `ConsensusState` | Lightblock | not all fields are there. NextValidator is definitely needed |
@@ -68,7 +68,7 @@ https://github.com/cosmos/ics/tree/master/spec/ics-002-client-semantics
 - ICS 002 states w.r.t. `queryChainConsensusState` that "Note that
   retrieval of past consensus states by height (as opposed to just the
   current consensus state) is convenient but not required." For
-  Tendermint fork detection, this seems to be a necessity.
+  CometBFT fork detection, this seems to be a necessity.
   
 - `Header` should become a lightblock
 
@@ -99,7 +99,7 @@ A blockchain runs a **handler** that passively collects information about
 type checkValidityAndUpdateState = (Header) => Void
 ```
 
-  For Tendermint, it will perform
+  For CometBFT, it will perform
   `ValidandVerified`, that is, it does the trusting period check and the
   +1/3 check (+2/3 for sequential headers).
   If it verifies a header, it adds it to its lightstore,
@@ -273,7 +273,7 @@ validators of some smaller height.
 
 In principle everyone can detect a fork
 
-- ./detection talks about the Tendermint light client with a focus on
+- ./detection talks about the CometBFT light client with a focus on
   light nodes. A relayer runs such light clients and may detect
   forks in this way
 
