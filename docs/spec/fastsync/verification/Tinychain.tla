@@ -1,5 +1,5 @@
 -------------------------- MODULE Tinychain ----------------------------------
-(* A very abstract model of CometBFT blockchain. Its only purpose is to highlight
+(* A very abstract model of Tendermint blockchain. Its only purpose is to highlight
    the relation between validator sets, next validator sets, and last commits.
  *)
 

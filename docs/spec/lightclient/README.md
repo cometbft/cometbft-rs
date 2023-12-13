@@ -31,7 +31,7 @@ The [English specification](verification/verification.md) describes the light cl
 commit verification problem in terms of the temporal properties
 [LCV-DIST-SAFE.1](https://github.com/cometbft/cometbft-rs/blob/main/docs/spec/lightclient/verification/verification.md#lcv-dist-safe1) and 
 [LCV-DIST-LIVE.1](https://github.com/cometbft/cometbft-rs/blob/main/docs/spec/lightclient/verification/verification.md#lcv-dist-live1). 
-Commit verification is assumed to operate within the CometBFT Failure Model, where +2/3 of validators are correct for some time period and
+Commit verification is assumed to operate within the Tendermint Failure Model, where +2/3 of validators are correct for some time period and
 validator sets can change arbitrarily at each height.
 
 A light client protocol is also provided, including all checks that

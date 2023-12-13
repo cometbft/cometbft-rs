@@ -1,5 +1,5 @@
 
-# CometBFT fork detection and IBC fork detection
+# Tendermint fork detection and IBC fork detection
 
 ## Disclaimer
 
@@ -12,7 +12,7 @@ for the most recent version.
 
 This is a work in progress.
 This directory captures the ongoing work and discussion on fork
-detection both in the context of a CometBFT light node and in the
+detection both in the context of a Tendermint light node and in the
 context of IBC. It contains the following files
 
 ### [detection.md](./detection.md)
@@ -36,7 +36,7 @@ A collection of ideas and intuitions from recent discussions
 
 - a collection of requirements for fork detection in the IBC
   context. In particular it contains a section "Required Changes in
-  ICS 007" with necessary updates to ICS 007 to support CometBFT
+  ICS 007" with necessary updates to ICS 007 to support Tendermint
   fork detection
 
 
@@ -62,18 +62,18 @@ We decided to merge the files while there are still open points to
 address to record the current state an move forward. In particular,
 the following points need to be addressed:
 
-- https://github.com/cometbft/cometbft-rs/pull/479#discussion_r466504876
+- https://github.com/informalsystems/tendermint-rs/pull/479#discussion_r466504876
 
-- https://github.com/cometbft/cometbft-rs/pull/479#discussion_r466493900
+- https://github.com/informalsystems/tendermint-rs/pull/479#discussion_r466493900
   
-- https://github.com/cometbft/cometbft-rs/pull/479#discussion_r466489045
+- https://github.com/informalsystems/tendermint-rs/pull/479#discussion_r466489045
   
-- https://github.com/cometbft/cometbft-rs/pull/479#discussion_r466491471
+- https://github.com/informalsystems/tendermint-rs/pull/479#discussion_r466491471
   
 Most likely we will write a specification on the light client
 supervisor along the outcomes of
   
-- https://github.com/cometbft/cometbft-rs/pull/509
+- https://github.com/informalsystems/tendermint-rs/pull/509
 
 that also addresses initialization
 

@@ -14,11 +14,11 @@ https://github.com/cosmos/ics/tree/master/spec/ics-002-client-semantics
 
 ### Components and their interface
 
-#### CometBFT Blockchains
+#### Tendermint Blockchains
 
 > I assume you know what that is.
 
-#### An IBC/CometBFT correspondence
+#### An IBC/Tendermint correspondence
 
 | IBC Term | CometBFT-RS Spec Term | Comment |
 |----------|-------------------------| --------|
@@ -68,7 +68,7 @@ https://github.com/cosmos/ics/tree/master/spec/ics-002-client-semantics
 - ICS 002 states w.r.t. `queryChainConsensusState` that "Note that
   retrieval of past consensus states by height (as opposed to just the
   current consensus state) is convenient but not required." For
-  CometBFT fork detection, this seems to be a necessity.
+  Tendermint fork detection, this seems to be a necessity.
   
 - `Header` should become a lightblock
 
@@ -99,7 +99,7 @@ A blockchain runs a **handler** that passively collects information about
 type checkValidityAndUpdateState = (Header) => Void
 ```
 
-  For CometBFT, it will perform
+  For Tendermint, it will perform
   `ValidandVerified`, that is, it does the trusting period check and the
   +1/3 check (+2/3 for sequential headers).
   If it verifies a header, it adds it to its lightstore,
@@ -273,7 +273,7 @@ validators of some smaller height.
 
 In principle everyone can detect a fork
 
-- ./detection talks about the CometBFT light client with a focus on
+- ./detection talks about the Tendermint light client with a focus on
   light nodes. A relayer runs such light clients and may detect
   forks in this way
 
