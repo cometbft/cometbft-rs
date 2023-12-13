@@ -1,4 +1,4 @@
-//! CometBFT consensus parameters
+//! Tendermint consensus parameters
 
 use serde::{Deserialize, Serialize};
 

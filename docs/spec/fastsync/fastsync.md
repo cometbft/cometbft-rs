@@ -20,7 +20,7 @@ transactions in the blocks in order to catch-up to the current height
 of the blockchain and the corresponding application state.
 
 In practice it is sufficient to catch-up only close to the current
-height: The CometBFT consensus reactor implements its own catch-up
+height: The Tendermint consensus reactor implements its own catch-up
 functionality and can synchronize a node that is close to the current height,
 perhaps within 10 blocks away from the current height of the blockchain.
 Fastsync should bring a node within this range.

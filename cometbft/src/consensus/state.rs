@@ -1,4 +1,4 @@
-//! CometBFT consensus state
+//! Tendermint consensus state
 
 pub use core::{cmp::Ordering, fmt};
 
@@ -12,7 +12,7 @@ use crate::serializers;
 /// <https://cometbft.com/docs/spec/consensus/consensus.html>
 pub const NIL_PLACEHOLDER: &str = "<nil>";
 
-/// CometBFT consensus state
+/// Tendermint consensus state
 // Serde serialization for KMS state file read/write.
 // https://github.com/cometbft/cometbft-rs/issues/675
 #[derive(Clone, Debug, Default, Eq, PartialEq, Deserialize, Serialize)]
