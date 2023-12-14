@@ -12,7 +12,7 @@ use crate::serializers;
 /// [`DeliverTx`](super::response::DeliverTx) responses. Later, transactions may
 /// be queried using these events.
 ///
-/// [ABCI documentation](https://docs.cometbft.com/master/spec/abci/abci.html#events)
+/// [ABCI documentation](https://docs.cometbft.com/v1/spec/abci/abci.html#events)
 #[derive(Clone, PartialEq, Eq, Debug, Deserialize, Serialize, Hash)]
 pub struct Event {
     /// The kind of event.
@@ -116,7 +116,7 @@ where
 /// Generic methods are provided for more ergonomic attribute construction, see
 /// [`Event::new`] for details.
 ///
-/// [ABCI documentation](https://docs.cometbft.com/master/spec/abci/abci.html#events)
+/// [ABCI documentation](https://docs.cometbft.com/v1/spec/abci/abci.html#events)
 #[derive(Clone, PartialEq, Eq, Debug, Serialize, Deserialize, Hash)]
 pub struct EventAttribute {
     /// The event key.

@@ -3,7 +3,7 @@
 //! These types have changes from the core data structures to better accommodate
 //! ABCI applications.
 //!
-//! [ABCI documentation](https://docs.cometbft.com/master/spec/abci/abci.html#data-types)
+//! [ABCI documentation](https://docs.cometbft.com/v1/spec/abci/abci.html#data-types)
 
 use bytes::Bytes;
 use serde::{Deserialize, Serialize};
@@ -17,7 +17,7 @@ use crate::{
 
 /// A validator address with voting power.
 ///
-/// [ABCI documentation](https://docs.cometbft.com/master/spec/abci/abci.html#validator)
+/// [ABCI documentation](https://docs.cometbft.com/v1/spec/abci/abci.html#validator)
 #[derive(Clone, PartialEq, Eq, Debug)]
 pub struct Validator {
     /// The validator's address (the first 20 bytes of `SHA256(public_key)`).
@@ -112,7 +112,7 @@ pub enum MisbehaviorKind {
 
 /// Evidence of validator misbehavior.
 ///
-/// [ABCI documentation](https://docs.cometbft.com/master/spec/abci/abci.html#evidence)
+/// [ABCI documentation](https://docs.cometbft.com/v1/spec/abci/abci.html#evidence)
 #[derive(Clone, PartialEq, Eq, Debug)]
 pub struct Misbehavior {
     /// The kind of evidence.
@@ -168,7 +168,7 @@ pub struct ExtendedCommitInfo {
 ///
 /// When sent across the network, a `Snapshot` can be at most 4 MB.
 ///
-/// [ABCI documentation](https://docs.cometbft.com/master/spec/abci/abci.html#snapshot)
+/// [ABCI documentation](https://docs.cometbft.com/v1/spec/abci/abci.html#snapshot)
 #[derive(Clone, PartialEq, Eq, Debug)]
 pub struct Snapshot {
     /// The height at which the snapshot was taken

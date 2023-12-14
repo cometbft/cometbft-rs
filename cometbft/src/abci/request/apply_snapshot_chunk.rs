@@ -25,7 +25,7 @@ use crate::prelude::*;
 /// a different one via `OfferSnapshot`. The application should be prepared to
 /// reset and accept it or abort as appropriate.
 ///
-/// [ABCI documentation](https://docs.cometbft.com/master/spec/abci/abci.html#applysnapshotchunk)
+/// [ABCI documentation](https://docs.cometbft.com/v1/spec/abci/abci.html#applysnapshotchunk)
 #[derive(Clone, PartialEq, Eq, Debug)]
 pub struct ApplySnapshotChunk {
     /// The chunk index, starting from `0`.  CometBFT applies chunks sequentially.

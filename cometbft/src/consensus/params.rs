@@ -6,7 +6,7 @@ use crate::{block, evidence, prelude::*, public_key};
 
 /// All consensus-relevant parameters that can be adjusted by the ABCI app.
 ///
-/// [ABCI documentation](https://docs.cometbft.com/master/spec/abci/abci.html#consensusparams)
+/// [ABCI documentation](https://docs.cometbft.com/v1/spec/abci/abci.html#consensusparams)
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 pub struct Params {
     /// Parameters limiting the size of a block and time between consecutive blocks.
@@ -28,7 +28,7 @@ pub struct Params {
 
 /// ValidatorParams restrict the public key types validators can use.
 ///
-/// [CometBFT documentation](https://docs.cometbft.com/master/spec/core/data_structures.html#validatorparams)
+/// [CometBFT documentation](https://docs.cometbft.com/v1/spec/core/data_structures.html#validatorparams)
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq)]
 pub struct ValidatorParams {
     /// List of accepted public key types.
@@ -37,7 +37,7 @@ pub struct ValidatorParams {
 
 /// Version Parameters
 ///
-/// [CometBFT documentation](https://docs.cometbft.com/master/spec/core/data_structures.html#versionparams)
+/// [CometBFT documentation](https://docs.cometbft.com/v1/spec/core/data_structures.html#versionparams)
 #[derive(Clone, Serialize, Deserialize, Debug, Eq, PartialEq, Default)]
 pub struct VersionParams {
     /// The ABCI application version.

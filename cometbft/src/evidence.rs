@@ -124,7 +124,7 @@ impl AsRef<[Evidence]> for List {
 
 /// EvidenceParams determine how we handle evidence of malfeasance.
 ///
-/// [CometBFT documentation](https://docs.cometbft.com/master/spec/core/data_structures.html#evidenceparams)
+/// [CometBFT documentation](https://docs.cometbft.com/v1/spec/core/data_structures.html#evidenceparams)
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct Params {
     /// Max age of evidence, in blocks.

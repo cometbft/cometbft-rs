@@ -253,7 +253,7 @@ impl ProposerPriority {
 ///
 /// Used to inform CometBFT of changes to the validator set.
 ///
-/// [ABCI documentation](https://docs.cometbft.com/master/spec/abci/abci.html#validatorupdate)
+/// [ABCI documentation](https://docs.cometbft.com/v1/spec/abci/abci.html#validatorupdate)
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq, Eq)]
 pub struct Update {
     /// Validator public key

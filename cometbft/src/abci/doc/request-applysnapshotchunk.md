@@ -18,4 +18,4 @@ because no suitable peers are available), it will reject the snapshot and try
 a different one via `OfferSnapshot`. The application should be prepared to
 reset and accept it or abort as appropriate.
 
-[ABCI documentation](https://docs.cometbft.com/master/spec/abci/abci.html#applysnapshotchunk)
+[ABCI documentation](https://docs.cometbft.com/v1/spec/abci/abci.html#applysnapshotchunk)
