@@ -34,9 +34,7 @@ See each component for the relevant documentation.
 
 Libraries:
 
-- [cometbft](./cometbft) - CometBFT data structures and serialization
-- [cometbft-abci](./abci) - A lightweight, low-level framework for building
-  CometBFT ABCI applications in Rust
+- [cometbft](./cometbft) - CometBFT
 - [cometbft-light-client](./light-client) - CometBFT light client library
   for verifying signed headers and tracking validator set changes
 - [cometbft-light-client-detector](./light-client-detector) - Library for
@@ -45,8 +43,6 @@ Libraries:
   for verifying headers, detecting attacks and reporting them.
 - [cometbft-light-client-js](./light-client-js) - Low-level WASM interface for
   interacting with the CometBFT light client verification functionality
-- [cometbft-p2p](./p2p) - At present this primarily provides the ability to
-  connect to CometBFT nodes via CometBFT's [secret connection](cometbft-secret-conn)
 - [cometbft-proto](./proto) - Protobuf data structures (generated using Prost)
   for wire-level interaction with CometBFT
 - [cometbft-rpc](./rpc) - CometBFT RPC client and response types
@@ -73,7 +69,7 @@ contributing.
 
 Software, Specs, and Documentation
 
-- [CometBFT Datastructures Spec](https://github.com/cometbft/spec)
+- [CometBFT Datastructures Spec](https://github.com/cometbft/cometbft/tree/main/spec)
 - [CometBFT in Go](https://github.com/cometbft/cometbft)
 - [Docs for CometBFT in Go](http://docs.cometbft.com/)
 
