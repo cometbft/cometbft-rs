@@ -3,7 +3,7 @@
 ## Disclaimer
 
 This specification is not maintained. See
-[cometbft/spec](https://github.com/cometbft/cometbft/tree/main/spec/light-client/verification/)
+the [CometBFT spec](https://github.com/cometbft/cometbft/tree/main/spec/light-client/verification/)
 for the most recent version.
 
 ## Abstract

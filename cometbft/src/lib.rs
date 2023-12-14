@@ -15,7 +15,7 @@
 )]
 #![forbid(unsafe_code)]
 #![doc(
-    html_logo_url = "https://raw.githubusercontent.com/cometbft/cometbft-rs/master/img/logo-cometbft-rs_3961x4001.png"
+    html_logo_url = "https://raw.githubusercontent.com/cometbft/cometbft-rs/main/img/logo-cometbft-rs_3961x4001.png"
 )]
 
 extern crate alloc;

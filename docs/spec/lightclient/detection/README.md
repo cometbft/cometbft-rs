@@ -4,7 +4,7 @@
 ## Disclaimer
 
 This directory is not maintained. See
-[cometbft/spec](https://github.com/cometbft/cometbft/tree/main/spec/light-client/detection/)
+the [CometBFT spec](https://github.com/cometbft/cometbft/tree/main/spec/light-client/detection/)
 for the most recent version.
 
 

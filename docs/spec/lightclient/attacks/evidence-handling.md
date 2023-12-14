@@ -1,7 +1,7 @@
 # Disclaimer
 
 This specification is not maintained. See
-[cometbft/spec](https://github.com/cometbft/cometbft/tree/main/spec/light-client/)
+the [CometBFT spec](https://github.com/cometbft/cometbft/tree/main/spec/light-client/)
 for the most recent version.
 
 

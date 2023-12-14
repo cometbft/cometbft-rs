@@ -7,14 +7,14 @@
 [![Apache 2.0 Licensed][license-image]][license-link]
 ![Rust Stable][rustc-image]
 
-[CometBFT] in Rust with [TLA+ specifications](/docs/spec).
+[CometBFT] client framework in Rust with [TLA+ specifications](/docs/spec).
 
 CometBFT is a high-performance blockchain consensus engine for Byzantine fault
 tolerant applications written in any programming language.
 
-## Tendermint Core Compatibility
+## CometBFT Compatibility
 
-cometbft-rs has been tested for compatibility with Tendermint Core v0.34.21.
+cometbft-rs has been tested for compatibility with CometBFT v0.34.x, v0.37.x and v0.38.x.
 
 ## Requirements
 
@@ -80,7 +80,7 @@ Software, Specs, and Documentation
 Papers
 
 - [The latest gossip on BFT consensus](https://arxiv.org/abs/1807.04938)
-- [Ethan Buchman's Master's Thesis on CometBFT](https://atrium.lib.uoguelph.ca/xmlui/handle/10214/9769)
+- [Ethan Buchman's Master's Thesis on Tendermint](https://atrium.lib.uoguelph.ca/xmlui/handle/10214/9769)
 
 ## License
 

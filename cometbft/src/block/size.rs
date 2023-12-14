@@ -15,7 +15,7 @@ pub struct Size {
     #[serde(with = "serializers::from_str")]
     pub max_gas: i64,
 
-    /// This parameter has no value anymore in Tendermint
+    /// This parameter has no value anymore in CometBFT
     #[serde(with = "serializers::from_str", default = "Size::default_time_iota_ms")]
     pub time_iota_ms: i64,
 }

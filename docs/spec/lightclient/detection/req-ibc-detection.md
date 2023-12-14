@@ -3,7 +3,7 @@
 ## Disclaimer
 
 This specification is not maintained. See
-[cometbft/spec](https://github.com/cometbft/cometbft/tree/main/spec/light-client/detection/)
+the [CometBFT spec](https://github.com/cometbft/cometbft/tree/main/spec/light-client/detection/)
 for the most recent version.
 
 ## What you need to know about IBC
@@ -20,7 +20,7 @@ https://github.com/cosmos/ics/tree/master/spec/ics-002-client-semantics
 
 #### An IBC/Tendermint correspondence
 
-| IBC Term | CometBFT-RS Spec Term | Comment |
+| IBC Term | cometbft-rs Spec Term | Comment |
 |----------|-------------------------| --------|
 | `CommitmentRoot` | AppState | app hash |
 | `ConsensusState` | Lightblock | not all fields are there. NextValidator is definitely needed |

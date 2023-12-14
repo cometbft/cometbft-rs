@@ -14,8 +14,8 @@ WORKDIR $CMTHOME
 EXPOSE 26656 26657 26660
 STOPSIGNAL SIGTERM
 
-ARG TENDERMINT=cometbft
-COPY $TENDERMINT /usr/bin/cometbft
+ARG COMETBFT=cometbft
+COPY $COMETBFT /usr/bin/cometbft
 
 COPY entrypoint /usr/bin/entrypoint
 ENTRYPOINT ["/usr/bin/entrypoint"]
