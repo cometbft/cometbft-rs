@@ -1,6 +1,6 @@
 //! CometBFT Configuration Utilities
 //!
-//! This crate defines the [`CometbftConfig`] type, which is used by
+//! This crate defines the [`Config`] type, which is used by
 //! crates such as `cometbft-rpc` to perform operations based on
 //! a common configuration type.
 

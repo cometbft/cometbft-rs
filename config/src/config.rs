@@ -2,7 +2,7 @@
 //!
 //! This module contains types which correspond to the following config files:
 //!
-//! - `config.toml`: `config::CometbftConfig`
+//! - `config.toml`: `config::Config`
 //! - `node_key.rs`: `config::node_key::NodeKey`
 //! - `priv_validator_key.rs`: `config::priv_validator_key::PrivValidatorKey`
 
@@ -20,7 +20,7 @@ use crate::{net, node_key::NodeKey, prelude::*, Error};
 
 /// CometBFT `config.toml` file
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
-pub struct CometbftConfig {
+pub struct Config {
     /// TCP or UNIX socket address of the ABCI application,
     /// or the name of an ABCI application compiled in with the CometBFT binary.
     pub proxy_app: net::Address,
@@ -104,7 +104,7 @@ pub struct CometbftConfig {
     pub fastsync: FastsyncConfig,
 }
 
-impl CometbftConfig {
+impl Config {
     /// Parse CometBFT `config.toml`
     pub fn parse_toml<T: AsRef<str>>(toml_string: T) -> Result<Self, Error> {
         let res = toml::from_str(toml_string.as_ref()).map_err(Error::toml)?;
