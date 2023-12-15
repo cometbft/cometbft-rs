@@ -71,8 +71,8 @@ mod v0_38 {
 }
 
 mod v1_0 {
-    use crate::v1_0::types::v1beta1::{evidence, Evidence};
     use crate::v1_0::types::v1::{evidence as evidence3, Evidence as Evidence3};
+    use crate::v1_0::types::v1beta1::{evidence, Evidence};
     use serde::{Deserialize, Deserializer, Serialize, Serializer};
 
     impl<'de> Deserialize<'de> for Evidence {
