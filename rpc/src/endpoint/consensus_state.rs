@@ -2,13 +2,13 @@
 
 use core::{fmt, str::FromStr};
 
-use serde::{Deserialize, Deserializer, Serialize, Serializer};
-use subtle_encoding::hex;
-use tendermint::{
+use cometbft::{
     account,
     block::{Height, Round},
     hash, vote, Hash, Time,
 };
+use serde::{Deserialize, Deserializer, Serialize, Serializer};
+use subtle_encoding::hex;
 
 use crate::{dialect::Dialect, prelude::*, request::RequestMessage, Error, Method};
 
@@ -55,7 +55,7 @@ pub struct RoundState {
     #[serde(alias = "height/round/step")]
     pub height_round_step: HeightRoundStep,
 
-    #[serde(with = "tendermint::serializers::time")]
+    #[serde(with = "cometbft::serializers::time")]
     pub start_time: Time,
 
     #[serde(with = "hash::allow_empty")]

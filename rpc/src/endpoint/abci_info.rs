@@ -27,7 +27,7 @@ impl<S: Dialect> crate::SimpleRequest<S> for Request {
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct Response {
     /// ABCI info
-    pub response: tendermint::abci::response::Info,
+    pub response: cometbft::abci::response::Info,
 }
 
 impl crate::Response for Response {}

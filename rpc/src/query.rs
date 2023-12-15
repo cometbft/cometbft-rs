@@ -26,7 +26,7 @@ use crate::{prelude::*, serializers::timestamp, Error};
 /// ### Direct construction of queries
 ///
 /// ```rust
-/// use tendermint_rpc::query::{Query, EventType};
+/// use cometbft_rpc::query::{Query, EventType};
 ///
 /// let query = Query::from(EventType::NewBlock);
 /// assert_eq!("tm.event = 'NewBlock'", query.to_string());
@@ -41,7 +41,7 @@ use crate::{prelude::*, serializers::timestamp, Error};
 /// ### Query parsing
 ///
 /// ```rust
-/// use tendermint_rpc::query::{Query, EventType};
+/// use cometbft_rpc::query::{Query, EventType};
 ///
 /// let query: Query = "tm.event = 'NewBlock'".parse().unwrap();
 /// assert_eq!(query, Query::from(EventType::NewBlock));

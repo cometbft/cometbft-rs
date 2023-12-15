@@ -3,13 +3,13 @@
 use alloc::collections::BTreeSet as HashSet;
 use core::{convert::TryFrom, fmt, marker::PhantomData};
 
-use serde::{Deserialize, Serialize};
-use tendermint::{
+use cometbft::{
     block::CommitSig,
     crypto::signature,
     trust_threshold::TrustThreshold as _,
     vote::{SignedVote, ValidatorIndex, Vote},
 };
+use serde::{Deserialize, Serialize};
 
 use crate::{
     errors::VerificationError,
@@ -121,7 +121,7 @@ impl<V> Default for ProvidedVotingPowerCalculator<V> {
 /// Default implementation of a `VotingPowerCalculator`.
 #[cfg(feature = "rust-crypto")]
 pub type ProdVotingPowerCalculator =
-    ProvidedVotingPowerCalculator<tendermint::crypto::default::signature::Verifier>;
+    ProvidedVotingPowerCalculator<cometbft::crypto::default::signature::Verifier>;
 
 impl<V: signature::Verifier> VotingPowerCalculator for ProvidedVotingPowerCalculator<V> {
     fn voting_power_in(
@@ -224,7 +224,7 @@ fn non_absent_vote(
     };
 
     Some(Vote {
-        vote_type: tendermint::vote::Type::Precommit,
+        vote_type: cometbft::vote::Type::Precommit,
         height: commit.height,
         round: commit.round,
         block_id,
@@ -243,8 +243,8 @@ fn non_absent_vote(
 // TODO: We plan to add Lightweight MBT for `voting_power_in` in the near future
 #[cfg(test)]
 mod tests {
-    use tendermint::trust_threshold::TrustThresholdFraction;
-    use tendermint_testgen::{
+    use cometbft::trust_threshold::TrustThresholdFraction;
+    use cometbft_testgen::{
         light_block::generate_signed_header, Commit, Generator, Header,
         LightBlock as TestgenLightBlock, ValidatorSet, Vote as TestgenVote,
     };

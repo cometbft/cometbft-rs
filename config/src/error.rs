@@ -1,7 +1,7 @@
 use std::io::Error as IoError;
 
+use cometbft::Error as CometbftError;
 use flex_error::{define_error, DisplayOnly};
-use tendermint::Error as TendermintError;
 
 define_error! {
     #[derive(Debug, Clone, PartialEq, Eq)]
@@ -31,8 +31,8 @@ define_error! {
             [ DisplayOnly<url::ParseError> ]
             |_| { format_args!("error parsing url error") },
 
-        Tendermint
-            [ TendermintError ]
-            |_| { format_args!("tendermint error") },
+        Cometbft
+            [ CometbftError ]
+            |_| { format_args!("CometBFT error") },
     }
 }

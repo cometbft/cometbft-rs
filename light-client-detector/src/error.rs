@@ -1,7 +1,7 @@
-use tendermint::{block::Height, Hash, Time};
-use tendermint_light_client::components::io::IoError;
-use tendermint_light_client::errors::Error as LightClientError;
-use tendermint_light_client::verifier::types::LightBlock;
+use cometbft::{block::Height, Hash, Time};
+use cometbft_light_client::components::io::IoError;
+use cometbft_light_client::errors::Error as LightClientError;
+use cometbft_light_client::verifier::types::LightBlock;
 
 use crate::conflict::GatheredEvidence;
 

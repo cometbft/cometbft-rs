@@ -1,7 +1,7 @@
 //! `/block_results` endpoint JSON-RPC wrapper
 
+use cometbft::{abci, block, consensus, serializers, validator, AppHash};
 use serde::{Deserialize, Serialize};
-use tendermint::{abci, block, consensus, serializers, validator, AppHash};
 
 use crate::dialect::{self, Dialect};
 use crate::prelude::*;
@@ -98,8 +98,8 @@ pub mod v0_34 {
     use crate::dialect::v0_34::Event;
     use crate::prelude::*;
     use crate::{dialect, serializers};
+    use cometbft::{block, consensus, validator};
     use serde::{Deserialize, Serialize};
-    use tendermint::{block, consensus, validator};
 
     /// RPC dialect helper for serialization of the response.
     #[derive(Debug, Serialize, Deserialize)]

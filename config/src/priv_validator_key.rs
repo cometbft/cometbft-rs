@@ -2,12 +2,12 @@
 
 use std::{fs, path::Path};
 
-use serde::{Deserialize, Serialize};
-use tendermint::{
+use cometbft::{
     account,
     private_key::PrivateKey,
     public_key::{PublicKey, TendermintKey},
 };
+use serde::{Deserialize, Serialize};
 
 use crate::{error::Error, prelude::*};
 
@@ -31,8 +31,7 @@ impl PrivValidatorKey {
             serde_json::from_str::<Self>(json_string.as_ref()).map_err(Error::serde_json)?;
 
         // Validate that the parsed key type is usable as a consensus key
-        TendermintKey::new_consensus_key(result.priv_key.public_key())
-            .map_err(Error::tendermint)?;
+        TendermintKey::new_consensus_key(result.priv_key.public_key()).map_err(Error::cometbft)?;
 
         Ok(result)
     }

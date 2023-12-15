@@ -1,10 +1,10 @@
-use gumdrop::Options;
-use serde::{Deserialize, Serialize};
-use simple_error::*;
-use tendermint::{
+use cometbft::{
     account, consensus::state::Ordering, private_key, public_key, public_key::PublicKey, validator,
     vote,
 };
+use gumdrop::Options;
+use serde::{Deserialize, Serialize};
+use simple_error::*;
 
 use crate::{helpers::*, Generator};
 

@@ -2,8 +2,8 @@
 
 use core::ops::Range;
 
+use cometbft::block;
 use serde::{Deserialize, Serialize};
-use tendermint::block;
 
 use crate::prelude::*;
 use crate::{dialect::Dialect, request::RequestMessage};

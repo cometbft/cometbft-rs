@@ -1,7 +1,7 @@
 //! `/tx` endpoint JSON-RPC wrapper
 
+use cometbft::{abci, block, tx, Hash};
 use serde::{Deserialize, Serialize};
-use tendermint::{abci, block, tx, Hash};
 
 use crate::dialect::{self, Dialect};
 use crate::{prelude::*, request::RequestMessage, serializers, Method};
@@ -74,8 +74,8 @@ pub mod v0_34 {
     use crate::dialect::v0_34::Event;
     use crate::prelude::*;
     use crate::{dialect, serializers};
+    use cometbft::{block, tx, Hash};
     use serde::{Deserialize, Serialize};
-    use tendermint::{block, tx, Hash};
 
     /// RPC dialect helper for serialization of the response.
     #[derive(Debug, Deserialize, Serialize)]

@@ -1,5 +1,5 @@
-use tendermint::{abci, evidence};
-use tendermint_proto::v0_34::types::Evidence as RawEvidence;
+use cometbft::{abci, evidence};
+use cometbft_proto::v0_34::types::Evidence as RawEvidence;
 
 use crate::prelude::*;
 use crate::serializers::bytes::base64string;

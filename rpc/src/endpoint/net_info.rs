@@ -6,8 +6,8 @@ use core::{
 };
 use std::net::IpAddr;
 
+use cometbft::{channel::Channel, node, serializers, Time};
 use serde::{Deserialize, Serialize};
-use tendermint::{channel::Channel, node, serializers, Time};
 
 use crate::prelude::*;
 use crate::{dialect::Dialect, request::RequestMessage};

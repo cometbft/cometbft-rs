@@ -1,12 +1,12 @@
-use tendermint::evidence;
-use tendermint_proto::v0_37 as raw;
+use cometbft::evidence;
+use cometbft_proto::v0_37 as raw;
 
 use crate::prelude::*;
 use serde::{Deserialize, Serialize};
 
 /// The Event serialization in the latest RPC dialect is the canonical
 /// serialization for the ABCI domain type.
-pub use tendermint::abci::Event;
+pub use cometbft::abci::Event;
 
 #[derive(Default, Clone)]
 pub struct Dialect;

@@ -4,10 +4,10 @@
 
 use std::{fs, path::PathBuf, time::Duration};
 
+use cometbft::node;
+use cometbft_config::*;
 #[cfg(test)]
 use pretty_assertions::assert_eq;
-use tendermint::node;
-use tendermint_config::*;
 
 /// Read a fixture file from the `support/config` directory
 fn read_fixture(name: &str) -> String {

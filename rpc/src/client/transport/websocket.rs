@@ -21,8 +21,8 @@ use serde::{Deserialize, Serialize};
 use tokio::time::{Duration, Instant};
 use tracing::{debug, error};
 
-use tendermint::{block::Height, Hash};
-use tendermint_config::net;
+use cometbft::{block::Height, Hash};
+use cometbft_config::net;
 
 use super::router::{SubscriptionId, SubscriptionIdRef};
 use crate::{
@@ -97,9 +97,9 @@ pub use async_tungstenite::tungstenite::protocol::WebSocketConfig;
 /// ## Examples
 ///
 /// ```rust,ignore
-/// use tendermint::abci::Transaction;
-/// use tendermint_rpc::{WebSocketClient, SubscriptionClient, Client};
-/// use tendermint_rpc::query::EventType;
+/// use cometbft::abci::Transaction;
+/// use cometbft_rpc::{WebSocketClient, SubscriptionClient, Client};
+/// use cometbft_rpc::query::EventType;
 /// use futures::StreamExt;
 ///
 /// #[tokio::main]
@@ -1020,9 +1020,9 @@ mod test {
         tokio::{accept_async, TokioAdapter},
         tungstenite::client::IntoClientRequest,
     };
+    use cometbft_config::net;
     use futures::StreamExt;
     use http::{header::AUTHORIZATION, Uri};
-    use tendermint_config::net;
     use tokio::{
         fs,
         net::{TcpListener, TcpStream},

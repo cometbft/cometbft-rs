@@ -1,13 +1,13 @@
 [package]
-name        = "tendermint-pbt-gen"
+name        = "cometbft-pbt-gen"
 version     = "0.34.0"
 authors     = ["Informal Systems <hello@informal.systems>"]
 edition     = "2021"
 license     = "Apache-2.0"
 readme      = "README.md"
 categories  = ["development-tools"]
-keywords    = ["tendermint", "property-based testing"]
-repository  = "https://github.com/informalsystems/tendermint-rs"
+keywords    = ["cometbft", "tendermint", "property-based testing"]
+repository  = "https://github.com/cometbft/cometbft-rs"
 description = """
             An internal crate providing proptest generators used across our
             crates and not depending on any code internal to those crates.

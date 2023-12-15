@@ -1,7 +1,7 @@
 //! `/commit` endpoint JSON-RPC wrapper
 
+use cometbft::{block, block::signed_header::SignedHeader};
 use serde::{Deserialize, Serialize};
-use tendermint::{block, block::signed_header::SignedHeader};
 
 use crate::{dialect::Dialect, request::RequestMessage};
 

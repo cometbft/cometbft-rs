@@ -1,12 +1,12 @@
 use std::cmp::Ordering;
 
-use tendermint::{
+use cometbft::{
     block::{signed_header::SignedHeader, Header},
     evidence::{ConflictingBlock, LightClientAttackEvidence},
     validator,
 };
 
-use tendermint_light_client::verifier::types::LightBlock;
+use cometbft_light_client::verifier::types::LightBlock;
 
 /// Determines the type of attack and then forms the evidence filling out
 /// all the fields such that it is ready to be sent to a full node.

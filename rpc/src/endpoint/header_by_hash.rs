@@ -1,7 +1,7 @@
 //! `/header_by_hash` endpoint JSON-RPC wrapper
 
+use cometbft::{block::Header, Hash};
 use serde::{Deserialize, Serialize};
-use tendermint::{block::Header, Hash};
 
 use crate::dialect::v0_37;
 use crate::request::RequestMessage;

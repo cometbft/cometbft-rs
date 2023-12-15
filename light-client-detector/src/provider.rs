@@ -1,13 +1,13 @@
-use tendermint::block::Height;
-use tendermint::evidence::Evidence;
-use tendermint::hash::Hash;
-use tendermint_light_client::errors::Error;
-use tendermint_light_client::instance::Instance;
-use tendermint_light_client::light_client::TargetOrLatest;
-use tendermint_light_client::state::State;
-use tendermint_light_client::store::memory::MemoryStore;
-use tendermint_light_client::verifier::types::LightBlock;
-use tendermint_rpc::{Client, Error as RpcError, HttpClient};
+use cometbft::block::Height;
+use cometbft::evidence::Evidence;
+use cometbft::hash::Hash;
+use cometbft_light_client::errors::Error;
+use cometbft_light_client::instance::Instance;
+use cometbft_light_client::light_client::TargetOrLatest;
+use cometbft_light_client::state::State;
+use cometbft_light_client::store::memory::MemoryStore;
+use cometbft_light_client::verifier::types::LightBlock;
+use cometbft_rpc::{Client, Error as RpcError, HttpClient};
 
 /// A interface over a light client instance and its RPC client.
 #[derive(Debug)]
@@ -30,7 +30,7 @@ impl Provider {
         &self.chain_id
     }
 
-    pub fn peer_id(&self) -> &tendermint::node::Id {
+    pub fn peer_id(&self) -> &cometbft::node::Id {
         self.instance.peer_id()
     }
 

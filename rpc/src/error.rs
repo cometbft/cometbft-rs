@@ -139,7 +139,7 @@ define_error! {
             },
 
         Tendermint
-            [ tendermint::Error ]
+            [ cometbft::Error ]
             | _ | { "tendermint error" },
 
         ParseInt

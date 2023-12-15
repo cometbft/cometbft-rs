@@ -28,14 +28,14 @@ impl std::str::FromStr for Time {
     }
 }
 
-impl Generator<tendermint::Time> for Time {
+impl Generator<cometbft::Time> for Time {
     fn merge_with_default(self, default: Self) -> Self {
         Time {
             secs: self.secs.or(default.secs),
         }
     }
 
-    fn generate(&self) -> Result<tendermint::Time, SimpleError> {
+    fn generate(&self) -> Result<cometbft::Time, SimpleError> {
         let time = match &self.secs {
             None => bail!("time is missing"),
             Some(secs) => *secs,
@@ -51,6 +51,6 @@ mod tests {
     #[test]
     fn test_time() {
         let time = Time::new(0);
-        assert_eq!(time.generate().unwrap(), tendermint::Time::unix_epoch());
+        assert_eq!(time.generate().unwrap(), cometbft::Time::unix_epoch());
     }
 }

@@ -1,6 +1,6 @@
 //! Supervisor and Handle implementation.
 
-use tendermint::block::Height;
+use cometbft::block::Height;
 
 use crate::{
     errors::Error,
@@ -29,7 +29,7 @@ impl Instance {
     }
 
     /// Return the peer id of this instance.
-    pub fn peer_id(&self) -> &tendermint::node::Id {
+    pub fn peer_id(&self) -> &cometbft::node::Id {
         &self.light_client.peer
     }
 

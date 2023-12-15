@@ -1,7 +1,7 @@
 use std::{fs, path::PathBuf};
 
 // TODO: generate fixtures and test with v0_37::dialect as well
-use tendermint_rpc::{endpoint, event::v0_34::DialectEvent, request::RequestMessage, Response};
+use cometbft_rpc::{endpoint, event::v0_34::DialectEvent, request::RequestMessage, Response};
 
 use walkdir::WalkDir;
 

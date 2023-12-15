@@ -2,10 +2,10 @@
 
 use std::time::Duration;
 
-use flex_error::{define_error, TraceError};
-use tendermint_rpc as rpc;
+use cometbft_rpc as rpc;
 #[cfg(feature = "rpc-client")]
-use tendermint_rpc::Client;
+use cometbft_rpc::Client;
+use flex_error::{define_error, TraceError};
 
 use crate::verifier::types::{Height, LightBlock};
 
@@ -56,7 +56,7 @@ define_error! {
         },
 
         InvalidValidatorSet
-            [ tendermint::Error ]
+            [ cometbft::Error ]
             | _ | { "fetched validator set is invalid" },
 
         Timeout
@@ -133,11 +133,11 @@ pub use self::prod::ProdIo;
 mod prod {
     use std::time::Duration;
 
-    use tendermint::{
+    use cometbft::{
         account::Id as TMAccountId, block::signed_header::SignedHeader as TMSignedHeader,
         validator::Set as TMValidatorSet,
     };
-    use tendermint_rpc::Paging;
+    use cometbft_rpc::Paging;
 
     use super::*;
     use crate::{utils::block_on, verifier::types::PeerId};

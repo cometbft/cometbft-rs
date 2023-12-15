@@ -1,6 +1,6 @@
 use std::{fs, path::PathBuf};
 
-use tendermint_rpc::{endpoint, Response};
+use cometbft_rpc::{endpoint, Response};
 
 use walkdir::WalkDir;
 

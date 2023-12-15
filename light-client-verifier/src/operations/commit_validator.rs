@@ -1,6 +1,6 @@
 //! Provides an interface and default implementation for the `CommitValidator` operation
 
-use tendermint::block::CommitSig;
+use cometbft::block::CommitSig;
 
 use crate::{
     errors::VerificationError,

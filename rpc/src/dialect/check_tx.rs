@@ -1,7 +1,7 @@
 use bytes::Bytes;
 use serde::{Deserialize, Serialize};
 
-use tendermint::abci::{self, Code};
+use cometbft::abci::{self, Code};
 
 use crate::prelude::*;
 use crate::serializers;

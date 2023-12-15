@@ -13,8 +13,8 @@ use std::{
     path::{Path, PathBuf},
 };
 
+use cometbft::{genesis::Genesis, node, Moniker, Timeout};
 use serde::{de, de::Error as _, ser, Deserialize, Serialize};
-use tendermint::{genesis::Genesis, node, Moniker, Timeout};
 
 use crate::{net, node_key::NodeKey, prelude::*, Error};
 
@@ -633,7 +633,7 @@ pub struct InstrumentationConfig {
     pub prometheus: bool,
 
     /// Address to listen for Prometheus collector(s) connections
-    // TODO(tarcieri): parse to `tendermint::net::Addr`
+    // TODO(tarcieri): parse to `cometbft::net::Addr`
     pub prometheus_listen_addr: String,
 
     /// Maximum number of simultaneous connections.

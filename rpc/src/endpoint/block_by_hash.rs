@@ -1,10 +1,10 @@
 //! `/block_by_hash` endpoint JSON-RPC wrapper
 
-use serde::{Deserialize, Serialize};
-use tendermint::{
+use cometbft::{
     block::{self, Block},
     Hash,
 };
+use serde::{Deserialize, Serialize};
 
 use crate::{dialect::Dialect, request::RequestMessage};
 

@@ -2,8 +2,8 @@
 
 use core::{fmt, marker::PhantomData};
 
+use cometbft::Genesis;
 use serde::{de::DeserializeOwned, Deserialize, Serialize};
-use tendermint::Genesis;
 
 use crate::{dialect::Dialect, request::RequestMessage};
 
