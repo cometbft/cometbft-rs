@@ -1,7 +1,7 @@
 {
-  "description": "Transformers for Apalache counterexamples (CEs) with CometBFT blockchains",
+  "description": "Transformers for Apalache counterexamples (CEs) with Tendermint blockchains",
   "use": [
-    "cometbft.json"
+    "tendermint.json"
   ],
   "input": [
     {
@@ -101,13 +101,13 @@
     },
     {
       "name": "ids_to_validators",
-      "description": "transform a non-empty array of identifiers into CometBFT validators",
+      "description": "transform a non-empty array of identifiers into Tendermint validators",
       "kind": "INLINE",
-      "source": "$ | map(id_to_validator) | map(cometbft_validator)"
+      "source": "$ | map(id_to_validator) | map(tendermint_validator)"
     },
     {
       "name": "ids_to_testgen_validators",
-      "description": "transform a non-empty array of identifiers into `CometBFT-testgen validators`",
+      "description": "transform a non-empty array of identifiers into `cometbft-testgen validators`",
       "kind": "INLINE",
       "source": "$ | map(id_to_validator)"
     },
@@ -121,7 +121,7 @@
       "name": "first_validator",
       "description": "extract first validator from a non-empty array of identifiers",
       "kind": "INLINE",
-      "source": "$[0] | unwrap | id_to_validator | cometbft_validator"
+      "source": "$[0] | unwrap | id_to_validator | tendermint_validator"
     },
     {
       "name": "const_id",
@@ -133,11 +133,11 @@
       "name": "fixed_validator",
       "description": "extract first validator from a non-empty array of identifiers",
       "kind": "INLINE",
-      "source": "$const_id | id_to_validator | cometbft_validator"
+      "source": "$const_id | id_to_validator | tendermint_validator"
     },
     {
       "name": "ids_to_validator_set",
-      "description": "transform an array of identifiers into a JSON-encoded CometBFT validator set",
+      "description": "transform an array of identifiers into a JSON-encoded Tendermint validator set",
       "kind": "INLINE",
       "source": {
         "validators": "$ | ifelse(ids_to_validators,empty_array)",
@@ -147,11 +147,11 @@
     },
     {
       "name": "block_to_signed_header",
-      "description": "transform a block from Apalache CE into a JSON-encoded CometBFT signed header",
+      "description": "transform a block from Apalache CE into a JSON-encoded Tendermint signed header",
       "kind": "INLINE",
       "source": {
-        "header": "$ | block_to_header | cometbft_header",
-        "commit": "$ | block_to_commit | cometbft_commit"
+        "header": "$ | block_to_header | tendermint_header",
+        "commit": "$ | block_to_commit | tendermint_commit"
       }
     }
   ]

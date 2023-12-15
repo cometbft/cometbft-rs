@@ -3,11 +3,11 @@ use gumdrop::Options;
 use simple_error::SimpleError;
 
 const USAGE: &str = r#"
-This is a small utility for producing cometbft datastructures
+This is a small utility for producing Tendermint datastructures
 from minimal input (for testing purposes only).
 
-For example, a cometbft validator can be produced only from an identifier,
-or a cometbft header only from a set of validators.
+For example, a Tendermint validator can be produced only from an identifier,
+or a Tendermint header only from a set of validators.
 
 To get an idea which input is needed for each datastructure, try '--help CMD':
 it will list the required and optional parameters.
@@ -113,7 +113,7 @@ fn main() {
     }
     match opts.command {
         None => {
-            eprintln!("Produce CometBFT datastructures for testing from minimal input\n");
+            eprintln!("Produce Tendermint datastructures for testing from minimal input\n");
             eprintln!("Please specify a command:");
             eprintln!("{}\n", CliOptions::command_list().unwrap());
             eprintln!("{}\n", CliOptions::usage());

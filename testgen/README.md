@@ -6,7 +6,7 @@
 [![Apache 2.0 Licensed][license-image]][license-link]
 ![Rust Stable][rustc-image]
 
-`cometbft-testgen` is a small utility for producing CometBFT data
+`cometbft-testgen` is a small utility for producing Tendermint data
 structures from minimal input (for testing purposes only).
 
 ## Requirements
@@ -23,8 +23,8 @@ cargo run -- --help
 cargo run -- --help CMD
 ```
 
-As an example, a CometBFT validator can be produced only from an identifier,
-or a CometBFT header only from a set of validators.
+As an example, a Tendermint validator can be produced only from an identifier,
+or a Tendermint header only from a set of validators.
 
 The parameters can be supplied in two ways:
   - via STDIN: in that case they are expected to be a valid JSON object,

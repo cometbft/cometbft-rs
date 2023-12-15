@@ -127,7 +127,7 @@ pub fn generate_validators(vals: &[Validator]) -> Result<Vec<validator::Info>, S
         .collect::<Result<Vec<validator::Info>, SimpleError>>()
 }
 
-/// A helper function to sort validators according to the CometBFT specs.
+/// A helper function to sort validators according to the Tendermint specs.
 pub fn sort_validators(vals: &[Validator]) -> Vec<Validator> {
     let mut sorted = vals.to_owned();
     sorted.sort_by_key(|v| {
