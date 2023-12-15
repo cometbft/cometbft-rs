@@ -71,7 +71,7 @@ mod v0_38 {
 }
 
 mod v1_0 {
-    use crate::v1_0::crypto::v1beta1::{public_key, PublicKey};
+    use crate::v1_0::crypto::v1::{public_key, PublicKey};
     use serde::{Deserialize, Deserializer, Serialize, Serializer};
 
     impl<'de> Deserialize<'de> for PublicKey {
