@@ -1,87 +1,93 @@
+/// GetBlockResults is a request for the BlockResults of a given height.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetByHeightRequest {
-    /// The height of the block requested. If set to 0, the latest height will be returned.
+pub struct GetBlockResultsRequest {
     #[prost(int64, tag = "1")]
     pub height: i64,
 }
+/// GetLatestBlockResultsRequest is a request for the BlockResults of the latest block.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetByHeightResponse {
-    #[prost(message, optional, tag = "1")]
-    pub block_id: ::core::option::Option<super::super::super::types::v1beta1::BlockId>,
-    #[prost(message, optional, tag = "2")]
-    pub block: ::core::option::Option<super::super::super::types::v1beta3::Block>,
-}
+pub struct GetLatestBlockResultsRequest {}
+/// GetBlockResultsResponse contains the block results for the given height.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetLatestRequest {}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetLatestResponse {
-    #[prost(message, optional, tag = "1")]
-    pub block_id: ::core::option::Option<super::super::super::types::v1beta1::BlockId>,
-    #[prost(message, optional, tag = "2")]
-    pub block: ::core::option::Option<super::super::super::types::v1beta3::Block>,
-}
-/// GetLatestHeightRequest - empty message since no parameter is required
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetLatestHeightRequest {}
-/// GetLatestHeightResponse provides the height of the latest committed block.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetLatestHeightResponse {
-    /// The height of the latest committed block. Will be 0 if no data has been
-    /// committed yet.
+pub struct GetBlockResultsResponse {
     #[prost(int64, tag = "1")]
     pub height: i64,
+    #[prost(message, repeated, tag = "2")]
+    pub tx_results: ::prost::alloc::vec::Vec<
+        super::super::super::abci::v1::ExecTxResult,
+    >,
+    #[prost(message, repeated, tag = "3")]
+    pub finalize_block_events: ::prost::alloc::vec::Vec<
+        super::super::super::abci::v1::Event,
+    >,
+    #[prost(message, repeated, tag = "4")]
+    pub validator_updates: ::prost::alloc::vec::Vec<
+        super::super::super::abci::v1::ValidatorUpdate,
+    >,
+    #[prost(message, optional, tag = "5")]
+    pub consensus_param_updates: ::core::option::Option<
+        super::super::super::types::v1::ConsensusParams,
+    >,
+    #[prost(bytes = "vec", tag = "6")]
+    pub app_hash: ::prost::alloc::vec::Vec<u8>,
+}
+/// GetLatestBlockResultsResponse contains the block results for the latest block.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetLatestBlockResultsResponse {
+    #[prost(int64, tag = "1")]
+    pub height: i64,
+    #[prost(message, repeated, tag = "2")]
+    pub tx_results: ::prost::alloc::vec::Vec<
+        super::super::super::abci::v1::ExecTxResult,
+    >,
+    #[prost(message, repeated, tag = "3")]
+    pub finalize_block_events: ::prost::alloc::vec::Vec<
+        super::super::super::abci::v1::Event,
+    >,
+    #[prost(message, repeated, tag = "4")]
+    pub validator_updates: ::prost::alloc::vec::Vec<
+        super::super::super::abci::v1::ValidatorUpdate,
+    >,
+    #[prost(message, optional, tag = "5")]
+    pub consensus_param_updates: ::core::option::Option<
+        super::super::super::types::v1::ConsensusParams,
+    >,
+    #[prost(bytes = "vec", tag = "6")]
+    pub app_hash: ::prost::alloc::vec::Vec<u8>,
 }
 /// Generated server implementations.
 #[cfg(feature = "grpc-server")]
-pub mod block_service_server {
+pub mod block_results_service_server {
     #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
     use tonic::codegen::*;
-    /// Generated trait containing gRPC methods that should be implemented for use with BlockServiceServer.
+    /// Generated trait containing gRPC methods that should be implemented for use with BlockResultsServiceServer.
     #[async_trait]
-    pub trait BlockService: Send + Sync + 'static {
-        /// GetBlock retrieves the block information at a particular height.
-        async fn get_by_height(
+    pub trait BlockResultsService: Send + Sync + 'static {
+        /// GetBlockResults returns the BlockResults of the requested height.
+        async fn get_block_results(
             &self,
-            request: tonic::Request<super::GetByHeightRequest>,
+            request: tonic::Request<super::GetBlockResultsRequest>,
         ) -> std::result::Result<
-            tonic::Response<super::GetByHeightResponse>,
+            tonic::Response<super::GetBlockResultsResponse>,
             tonic::Status,
         >;
-        /// GetLatest retrieves the latest block.
-        async fn get_latest(
+        /// GetLatestBlockResults returns the BlockResults of the latest committed height.
+        async fn get_latest_block_results(
             &self,
-            request: tonic::Request<super::GetLatestRequest>,
+            request: tonic::Request<super::GetLatestBlockResultsRequest>,
         ) -> std::result::Result<
-            tonic::Response<super::GetLatestResponse>,
-            tonic::Status,
-        >;
-        /// Server streaming response type for the GetLatestHeight method.
-        type GetLatestHeightStream: tonic::codegen::tokio_stream::Stream<
-                Item = std::result::Result<super::GetLatestHeightResponse, tonic::Status>,
-            >
-            + Send
-            + 'static;
-        /// GetLatestHeight returns a stream of the latest block heights committed by
-        /// the network. This is a long-lived stream that is only terminated by the
-        /// server if an error occurs. The caller is expected to handle such
-        /// disconnections and automatically reconnect.
-        async fn get_latest_height(
-            &self,
-            request: tonic::Request<super::GetLatestHeightRequest>,
-        ) -> std::result::Result<
-            tonic::Response<Self::GetLatestHeightStream>,
+            tonic::Response<super::GetLatestBlockResultsResponse>,
             tonic::Status,
         >;
     }
-    /// BlockService provides information about blocks
+    ///
+    /// BlockResultService provides the block results of a given or latestheight.
     #[derive(Debug)]
-    pub struct BlockServiceServer<T: BlockService> {
+    pub struct BlockResultsServiceServer<T: BlockResultsService> {
         inner: _Inner<T>,
         accept_compression_encodings: EnabledCompressionEncodings,
         send_compression_encodings: EnabledCompressionEncodings,
@@ -89,7 +95,7 @@ pub mod block_service_server {
         max_encoding_message_size: Option<usize>,
     }
     struct _Inner<T>(Arc<T>);
-    impl<T: BlockService> BlockServiceServer<T> {
+    impl<T: BlockResultsService> BlockResultsServiceServer<T> {
         pub fn new(inner: T) -> Self {
             Self::from_arc(Arc::new(inner))
         }
@@ -141,9 +147,9 @@ pub mod block_service_server {
             self
         }
     }
-    impl<T, B> tonic::codegen::Service<http::Request<B>> for BlockServiceServer<T>
+    impl<T, B> tonic::codegen::Service<http::Request<B>> for BlockResultsServiceServer<T>
     where
-        T: BlockService,
+        T: BlockResultsService,
         B: Body + Send + 'static,
         B::Error: Into<StdError> + Send + 'static,
     {
@@ -159,119 +165,28 @@ pub mod block_service_server {
         fn call(&mut self, req: http::Request<B>) -> Self::Future {
             let inner = self.inner.clone();
             match req.uri().path() {
-                "/cometbft.services.block.v1beta1.BlockService/GetByHeight" => {
+                "/cometbft.services.block_results.v1.BlockResultsService/GetBlockResults" => {
                     #[allow(non_camel_case_types)]
-                    struct GetByHeightSvc<T: BlockService>(pub Arc<T>);
+                    struct GetBlockResultsSvc<T: BlockResultsService>(pub Arc<T>);
                     impl<
-                        T: BlockService,
-                    > tonic::server::UnaryService<super::GetByHeightRequest>
-                    for GetByHeightSvc<T> {
-                        type Response = super::GetByHeightResponse;
+                        T: BlockResultsService,
+                    > tonic::server::UnaryService<super::GetBlockResultsRequest>
+                    for GetBlockResultsSvc<T> {
+                        type Response = super::GetBlockResultsResponse;
                         type Future = BoxFuture<
                             tonic::Response<Self::Response>,
                             tonic::Status,
                         >;
                         fn call(
                             &mut self,
-                            request: tonic::Request<super::GetByHeightRequest>,
+                            request: tonic::Request<super::GetBlockResultsRequest>,
                         ) -> Self::Future {
                             let inner = Arc::clone(&self.0);
                             let fut = async move {
-                                <T as BlockService>::get_by_height(&inner, request).await
-                            };
-                            Box::pin(fut)
-                        }
-                    }
-                    let accept_compression_encodings = self.accept_compression_encodings;
-                    let send_compression_encodings = self.send_compression_encodings;
-                    let max_decoding_message_size = self.max_decoding_message_size;
-                    let max_encoding_message_size = self.max_encoding_message_size;
-                    let inner = self.inner.clone();
-                    let fut = async move {
-                        let inner = inner.0;
-                        let method = GetByHeightSvc(inner);
-                        let codec = tonic::codec::ProstCodec::default();
-                        let mut grpc = tonic::server::Grpc::new(codec)
-                            .apply_compression_config(
-                                accept_compression_encodings,
-                                send_compression_encodings,
-                            )
-                            .apply_max_message_size_config(
-                                max_decoding_message_size,
-                                max_encoding_message_size,
-                            );
-                        let res = grpc.unary(method, req).await;
-                        Ok(res)
-                    };
-                    Box::pin(fut)
-                }
-                "/cometbft.services.block.v1beta1.BlockService/GetLatest" => {
-                    #[allow(non_camel_case_types)]
-                    struct GetLatestSvc<T: BlockService>(pub Arc<T>);
-                    impl<
-                        T: BlockService,
-                    > tonic::server::UnaryService<super::GetLatestRequest>
-                    for GetLatestSvc<T> {
-                        type Response = super::GetLatestResponse;
-                        type Future = BoxFuture<
-                            tonic::Response<Self::Response>,
-                            tonic::Status,
-                        >;
-                        fn call(
-                            &mut self,
-                            request: tonic::Request<super::GetLatestRequest>,
-                        ) -> Self::Future {
-                            let inner = Arc::clone(&self.0);
-                            let fut = async move {
-                                <T as BlockService>::get_latest(&inner, request).await
-                            };
-                            Box::pin(fut)
-                        }
-                    }
-                    let accept_compression_encodings = self.accept_compression_encodings;
-                    let send_compression_encodings = self.send_compression_encodings;
-                    let max_decoding_message_size = self.max_decoding_message_size;
-                    let max_encoding_message_size = self.max_encoding_message_size;
-                    let inner = self.inner.clone();
-                    let fut = async move {
-                        let inner = inner.0;
-                        let method = GetLatestSvc(inner);
-                        let codec = tonic::codec::ProstCodec::default();
-                        let mut grpc = tonic::server::Grpc::new(codec)
-                            .apply_compression_config(
-                                accept_compression_encodings,
-                                send_compression_encodings,
-                            )
-                            .apply_max_message_size_config(
-                                max_decoding_message_size,
-                                max_encoding_message_size,
-                            );
-                        let res = grpc.unary(method, req).await;
-                        Ok(res)
-                    };
-                    Box::pin(fut)
-                }
-                "/cometbft.services.block.v1beta1.BlockService/GetLatestHeight" => {
-                    #[allow(non_camel_case_types)]
-                    struct GetLatestHeightSvc<T: BlockService>(pub Arc<T>);
-                    impl<
-                        T: BlockService,
-                    > tonic::server::ServerStreamingService<
-                        super::GetLatestHeightRequest,
-                    > for GetLatestHeightSvc<T> {
-                        type Response = super::GetLatestHeightResponse;
-                        type ResponseStream = T::GetLatestHeightStream;
-                        type Future = BoxFuture<
-                            tonic::Response<Self::ResponseStream>,
-                            tonic::Status,
-                        >;
-                        fn call(
-                            &mut self,
-                            request: tonic::Request<super::GetLatestHeightRequest>,
-                        ) -> Self::Future {
-                            let inner = Arc::clone(&self.0);
-                            let fut = async move {
-                                <T as BlockService>::get_latest_height(&inner, request)
+                                <T as BlockResultsService>::get_block_results(
+                                        &inner,
+                                        request,
+                                    )
                                     .await
                             };
                             Box::pin(fut)
@@ -284,7 +199,7 @@ pub mod block_service_server {
                     let inner = self.inner.clone();
                     let fut = async move {
                         let inner = inner.0;
-                        let method = GetLatestHeightSvc(inner);
+                        let method = GetBlockResultsSvc(inner);
                         let codec = tonic::codec::ProstCodec::default();
                         let mut grpc = tonic::server::Grpc::new(codec)
                             .apply_compression_config(
@@ -295,7 +210,57 @@ pub mod block_service_server {
                                 max_decoding_message_size,
                                 max_encoding_message_size,
                             );
-                        let res = grpc.server_streaming(method, req).await;
+                        let res = grpc.unary(method, req).await;
+                        Ok(res)
+                    };
+                    Box::pin(fut)
+                }
+                "/cometbft.services.block_results.v1.BlockResultsService/GetLatestBlockResults" => {
+                    #[allow(non_camel_case_types)]
+                    struct GetLatestBlockResultsSvc<T: BlockResultsService>(pub Arc<T>);
+                    impl<
+                        T: BlockResultsService,
+                    > tonic::server::UnaryService<super::GetLatestBlockResultsRequest>
+                    for GetLatestBlockResultsSvc<T> {
+                        type Response = super::GetLatestBlockResultsResponse;
+                        type Future = BoxFuture<
+                            tonic::Response<Self::Response>,
+                            tonic::Status,
+                        >;
+                        fn call(
+                            &mut self,
+                            request: tonic::Request<super::GetLatestBlockResultsRequest>,
+                        ) -> Self::Future {
+                            let inner = Arc::clone(&self.0);
+                            let fut = async move {
+                                <T as BlockResultsService>::get_latest_block_results(
+                                        &inner,
+                                        request,
+                                    )
+                                    .await
+                            };
+                            Box::pin(fut)
+                        }
+                    }
+                    let accept_compression_encodings = self.accept_compression_encodings;
+                    let send_compression_encodings = self.send_compression_encodings;
+                    let max_decoding_message_size = self.max_decoding_message_size;
+                    let max_encoding_message_size = self.max_encoding_message_size;
+                    let inner = self.inner.clone();
+                    let fut = async move {
+                        let inner = inner.0;
+                        let method = GetLatestBlockResultsSvc(inner);
+                        let codec = tonic::codec::ProstCodec::default();
+                        let mut grpc = tonic::server::Grpc::new(codec)
+                            .apply_compression_config(
+                                accept_compression_encodings,
+                                send_compression_encodings,
+                            )
+                            .apply_max_message_size_config(
+                                max_decoding_message_size,
+                                max_encoding_message_size,
+                            );
+                        let res = grpc.unary(method, req).await;
                         Ok(res)
                     };
                     Box::pin(fut)
@@ -315,7 +280,7 @@ pub mod block_service_server {
             }
         }
     }
-    impl<T: BlockService> Clone for BlockServiceServer<T> {
+    impl<T: BlockResultsService> Clone for BlockResultsServiceServer<T> {
         fn clone(&self) -> Self {
             let inner = self.inner.clone();
             Self {
@@ -327,7 +292,7 @@ pub mod block_service_server {
             }
         }
     }
-    impl<T: BlockService> Clone for _Inner<T> {
+    impl<T: BlockResultsService> Clone for _Inner<T> {
         fn clone(&self) -> Self {
             Self(Arc::clone(&self.0))
         }
@@ -337,7 +302,8 @@ pub mod block_service_server {
             write!(f, "{:?}", self.0)
         }
     }
-    impl<T: BlockService> tonic::server::NamedService for BlockServiceServer<T> {
-        const NAME: &'static str = "cometbft.services.block.v1beta1.BlockService";
+    impl<T: BlockResultsService> tonic::server::NamedService
+    for BlockResultsServiceServer<T> {
+        const NAME: &'static str = "cometbft.services.block_results.v1.BlockResultsService";
     }
 }

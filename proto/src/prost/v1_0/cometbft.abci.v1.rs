@@ -1,6 +1,8 @@
+/// Request represents a request to the ABCI application.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Request {
+    /// Sum of all possible messages.
     #[prost(
         oneof = "request::Value",
         tags = "1, 2, 3, 5, 6, 8, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20"
@@ -9,6 +11,7 @@ pub struct Request {
 }
 /// Nested message and enum types in `Request`.
 pub mod request {
+    /// Sum of all possible messages.
     #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, ::prost::Oneof)]
     pub enum Value {
@@ -46,15 +49,18 @@ pub mod request {
         FinalizeBlock(super::FinalizeBlockRequest),
     }
 }
+/// EchoRequest is a request to "echo" the given string.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct EchoRequest {
     #[prost(string, tag = "1")]
     pub message: ::prost::alloc::string::String,
 }
+/// FlushRequest is a request to flush the write buffer.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct FlushRequest {}
+/// InfoRequest is a request for the ABCI application version.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct InfoRequest {
@@ -67,6 +73,7 @@ pub struct InfoRequest {
     #[prost(string, tag = "4")]
     pub abci_version: ::prost::alloc::string::String,
 }
+/// InitChainRequest is a request to initialize the blockchain.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct InitChainRequest {
@@ -76,15 +83,16 @@ pub struct InitChainRequest {
     pub chain_id: ::prost::alloc::string::String,
     #[prost(message, optional, tag = "3")]
     pub consensus_params: ::core::option::Option<
-        super::super::types::v1beta3::ConsensusParams,
+        super::super::types::v1::ConsensusParams,
     >,
     #[prost(message, repeated, tag = "4")]
-    pub validators: ::prost::alloc::vec::Vec<super::v1beta1::ValidatorUpdate>,
+    pub validators: ::prost::alloc::vec::Vec<ValidatorUpdate>,
     #[prost(bytes = "bytes", tag = "5")]
     pub app_state_bytes: ::prost::bytes::Bytes,
     #[prost(int64, tag = "6")]
     pub initial_height: i64,
 }
+/// QueryRequest is a request to query the application state.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct QueryRequest {
@@ -97,6 +105,7 @@ pub struct QueryRequest {
     #[prost(bool, tag = "4")]
     pub prove: bool,
 }
+/// CheckTxRequest is a request to check that the transaction is valid.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CheckTxRequest {
@@ -105,25 +114,26 @@ pub struct CheckTxRequest {
     #[prost(enumeration = "CheckTxType", tag = "3")]
     pub r#type: i32,
 }
+/// CommitRequest is a request to commit the pending application state.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CommitRequest {}
-/// Request to list available snapshots
+/// Request to list available snapshots.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListSnapshotsRequest {}
-/// Request offering a snapshot to the application
+/// Request offering a snapshot to the application.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct OfferSnapshotRequest {
     /// snapshot offered by peers
     #[prost(message, optional, tag = "1")]
-    pub snapshot: ::core::option::Option<super::v1beta1::Snapshot>,
+    pub snapshot: ::core::option::Option<Snapshot>,
     /// light client-verified app hash for snapshot height
     #[prost(bytes = "bytes", tag = "2")]
     pub app_hash: ::prost::bytes::Bytes,
 }
-/// Request to load a snapshot chunk
+/// Request to load a snapshot chunk.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct LoadSnapshotChunkRequest {
@@ -134,7 +144,7 @@ pub struct LoadSnapshotChunkRequest {
     #[prost(uint32, tag = "3")]
     pub chunk: u32,
 }
-/// Request to apply a snapshot chunk
+/// Request to apply a snapshot chunk.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ApplySnapshotChunkRequest {
@@ -145,6 +155,8 @@ pub struct ApplySnapshotChunkRequest {
     #[prost(string, tag = "3")]
     pub sender: ::prost::alloc::string::String,
 }
+/// PrepareProposalRequest is a request for the ABCI application to prepare a new
+/// block proposal.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PrepareProposalRequest {
@@ -156,7 +168,7 @@ pub struct PrepareProposalRequest {
     #[prost(bytes = "bytes", repeated, tag = "2")]
     pub txs: ::prost::alloc::vec::Vec<::prost::bytes::Bytes>,
     #[prost(message, optional, tag = "3")]
-    pub local_last_commit: ::core::option::Option<super::v1beta3::ExtendedCommitInfo>,
+    pub local_last_commit: ::core::option::Option<ExtendedCommitInfo>,
     #[prost(message, repeated, tag = "4")]
     pub misbehavior: ::prost::alloc::vec::Vec<Misbehavior>,
     #[prost(int64, tag = "5")]
@@ -169,13 +181,15 @@ pub struct PrepareProposalRequest {
     #[prost(bytes = "bytes", tag = "8")]
     pub proposer_address: ::prost::bytes::Bytes,
 }
+/// ProcessProposalRequest is a request for the ABCI application to process a proposal
+/// received from another validator.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ProcessProposalRequest {
     #[prost(bytes = "bytes", repeated, tag = "1")]
     pub txs: ::prost::alloc::vec::Vec<::prost::bytes::Bytes>,
     #[prost(message, optional, tag = "2")]
-    pub proposed_last_commit: ::core::option::Option<super::v1beta3::CommitInfo>,
+    pub proposed_last_commit: ::core::option::Option<CommitInfo>,
     #[prost(message, repeated, tag = "3")]
     pub misbehavior: ::prost::alloc::vec::Vec<Misbehavior>,
     /// Merkle root hash of the fields of the proposed block.
@@ -191,7 +205,7 @@ pub struct ProcessProposalRequest {
     #[prost(bytes = "bytes", tag = "8")]
     pub proposer_address: ::prost::bytes::Bytes,
 }
-/// Extends a vote with application-injected data
+/// ExtendVoteRequest extends a precommit vote with application-injected data.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ExtendVoteRequest {
@@ -207,7 +221,7 @@ pub struct ExtendVoteRequest {
     #[prost(bytes = "bytes", repeated, tag = "4")]
     pub txs: ::prost::alloc::vec::Vec<::prost::bytes::Bytes>,
     #[prost(message, optional, tag = "5")]
-    pub proposed_last_commit: ::core::option::Option<super::v1beta3::CommitInfo>,
+    pub proposed_last_commit: ::core::option::Option<CommitInfo>,
     #[prost(message, repeated, tag = "6")]
     pub misbehavior: ::prost::alloc::vec::Vec<Misbehavior>,
     #[prost(bytes = "bytes", tag = "7")]
@@ -216,7 +230,8 @@ pub struct ExtendVoteRequest {
     #[prost(bytes = "bytes", tag = "8")]
     pub proposer_address: ::prost::bytes::Bytes,
 }
-/// Request to verify a vote extension
+/// VerifyVoteExtensionRequest is a request for the application to verify a vote extension
+/// produced by a different validator.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct VerifyVoteExtensionRequest {
@@ -231,13 +246,14 @@ pub struct VerifyVoteExtensionRequest {
     #[prost(bytes = "bytes", tag = "4")]
     pub vote_extension: ::prost::bytes::Bytes,
 }
+/// FinalizeBlockRequest is a request to finalize the block.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct FinalizeBlockRequest {
     #[prost(bytes = "bytes", repeated, tag = "1")]
     pub txs: ::prost::alloc::vec::Vec<::prost::bytes::Bytes>,
     #[prost(message, optional, tag = "2")]
-    pub decided_last_commit: ::core::option::Option<super::v1beta3::CommitInfo>,
+    pub decided_last_commit: ::core::option::Option<CommitInfo>,
     #[prost(message, repeated, tag = "3")]
     pub misbehavior: ::prost::alloc::vec::Vec<Misbehavior>,
     /// Merkle root hash of the fields of the decided block.
@@ -253,9 +269,11 @@ pub struct FinalizeBlockRequest {
     #[prost(bytes = "bytes", tag = "8")]
     pub proposer_address: ::prost::bytes::Bytes,
 }
+/// Response represents a response from the ABCI application.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Response {
+    /// Sum of all possible messages.
     #[prost(
         oneof = "response::Value",
         tags = "1, 2, 3, 4, 6, 7, 9, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21"
@@ -264,6 +282,7 @@ pub struct Response {
 }
 /// Nested message and enum types in `Response`.
 pub mod response {
+    /// Sum of all possible messages.
     #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, ::prost::Oneof)]
     pub enum Value {
@@ -310,15 +329,18 @@ pub struct ExceptionResponse {
     #[prost(string, tag = "1")]
     pub error: ::prost::alloc::string::String,
 }
+/// EchoResponse indicates that the connection is still alive.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct EchoResponse {
     #[prost(string, tag = "1")]
     pub message: ::prost::alloc::string::String,
 }
+/// FlushResponse indicates that the write buffer was flushed.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct FlushResponse {}
+/// InfoResponse contains the ABCI application version information.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct InfoResponse {
@@ -333,18 +355,21 @@ pub struct InfoResponse {
     #[prost(bytes = "bytes", tag = "5")]
     pub last_block_app_hash: ::prost::bytes::Bytes,
 }
+/// InitChainResponse contains the ABCI application's hash and updates to the
+/// validator set and/or the consensus params, if any.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct InitChainResponse {
     #[prost(message, optional, tag = "1")]
     pub consensus_params: ::core::option::Option<
-        super::super::types::v1beta3::ConsensusParams,
+        super::super::types::v1::ConsensusParams,
     >,
     #[prost(message, repeated, tag = "2")]
-    pub validators: ::prost::alloc::vec::Vec<super::v1beta1::ValidatorUpdate>,
+    pub validators: ::prost::alloc::vec::Vec<ValidatorUpdate>,
     #[prost(bytes = "bytes", tag = "3")]
     pub app_hash: ::prost::bytes::Bytes,
 }
+/// QueryResponse contains the ABCI application data along with a proof.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct QueryResponse {
@@ -365,12 +390,14 @@ pub struct QueryResponse {
     #[prost(bytes = "bytes", tag = "7")]
     pub value: ::prost::bytes::Bytes,
     #[prost(message, optional, tag = "8")]
-    pub proof_ops: ::core::option::Option<super::super::crypto::v1beta1::ProofOps>,
+    pub proof_ops: ::core::option::Option<super::super::crypto::v1::ProofOps>,
     #[prost(int64, tag = "9")]
     pub height: i64,
     #[prost(string, tag = "10")]
     pub codespace: ::prost::alloc::string::String,
 }
+/// CheckTxResponse shows if the transaction was deemed valid by the ABCI
+/// application.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CheckTxResponse {
@@ -389,34 +416,40 @@ pub struct CheckTxResponse {
     #[prost(int64, tag = "6")]
     pub gas_used: i64,
     #[prost(message, repeated, tag = "7")]
-    pub events: ::prost::alloc::vec::Vec<super::v1beta2::Event>,
+    pub events: ::prost::alloc::vec::Vec<Event>,
     #[prost(string, tag = "8")]
     pub codespace: ::prost::alloc::string::String,
 }
+/// CommitResponse indicates how much blocks should CometBFT retain.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CommitResponse {
     #[prost(int64, tag = "3")]
     pub retain_height: i64,
 }
+/// ListSnapshotsResponse contains the list of snapshots.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListSnapshotsResponse {
     #[prost(message, repeated, tag = "1")]
-    pub snapshots: ::prost::alloc::vec::Vec<super::v1beta1::Snapshot>,
+    pub snapshots: ::prost::alloc::vec::Vec<Snapshot>,
 }
+/// OfferSnapshotResponse indicates the ABCI application decision whenever to
+/// provide a snapshot to the requester or not.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct OfferSnapshotResponse {
     #[prost(enumeration = "OfferSnapshotResult", tag = "1")]
     pub result: i32,
 }
+/// LoadSnapshotChunkResponse returns a snapshot's chunk.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct LoadSnapshotChunkResponse {
     #[prost(bytes = "bytes", tag = "1")]
     pub chunk: ::prost::bytes::Bytes,
 }
+/// ApplySnapshotChunkResponse returns a result of applying the specified chunk.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ApplySnapshotChunkResponse {
@@ -429,48 +462,56 @@ pub struct ApplySnapshotChunkResponse {
     #[prost(string, repeated, tag = "3")]
     pub reject_senders: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
+/// PrepareProposalResponse contains a list of transactions, which will form a block.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PrepareProposalResponse {
     #[prost(bytes = "bytes", repeated, tag = "1")]
     pub txs: ::prost::alloc::vec::Vec<::prost::bytes::Bytes>,
 }
+/// ProcessProposalResponse indicates the ABCI application's decision whenever
+/// the given proposal should be accepted or not.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ProcessProposalResponse {
     #[prost(enumeration = "ProcessProposalStatus", tag = "1")]
     pub status: i32,
 }
+/// ExtendVoteResponse contains the vote extension that the application would like to
+/// attach to its next precommit vote.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ExtendVoteResponse {
     #[prost(bytes = "bytes", tag = "1")]
     pub vote_extension: ::prost::bytes::Bytes,
 }
+/// VerifyVoteExtensionResponse indicates the ABCI application's decision
+/// whenever the vote extension should be accepted or not.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct VerifyVoteExtensionResponse {
     #[prost(enumeration = "VerifyVoteExtensionStatus", tag = "1")]
     pub status: i32,
 }
+/// FinalizeBlockResponse contains the result of executing the block.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct FinalizeBlockResponse {
     /// set of block events emmitted as part of executing the block
     #[prost(message, repeated, tag = "1")]
-    pub events: ::prost::alloc::vec::Vec<super::v1beta2::Event>,
+    pub events: ::prost::alloc::vec::Vec<Event>,
     /// the result of executing each transaction including the events
     /// the particular transaction emitted. This should match the order
     /// of the transactions delivered in the block itself
     #[prost(message, repeated, tag = "2")]
-    pub tx_results: ::prost::alloc::vec::Vec<super::v1beta3::ExecTxResult>,
+    pub tx_results: ::prost::alloc::vec::Vec<ExecTxResult>,
     /// a list of updates to the validator set. These will reflect the validator set at current height + 2.
     #[prost(message, repeated, tag = "3")]
-    pub validator_updates: ::prost::alloc::vec::Vec<super::v1beta1::ValidatorUpdate>,
+    pub validator_updates: ::prost::alloc::vec::Vec<ValidatorUpdate>,
     /// updates to the consensus params, if any.
     #[prost(message, optional, tag = "4")]
     pub consensus_param_updates: ::core::option::Option<
-        super::super::types::v1beta3::ConsensusParams,
+        super::super::types::v1::ConsensusParams,
     >,
     /// app_hash is the hash of the applications' state which is used to confirm
     /// that execution of the transactions was deterministic.
@@ -478,6 +519,144 @@ pub struct FinalizeBlockResponse {
     #[prost(bytes = "bytes", tag = "5")]
     pub app_hash: ::prost::bytes::Bytes,
 }
+/// CommitInfo contains votes for the particular round.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CommitInfo {
+    #[prost(int32, tag = "1")]
+    pub round: i32,
+    #[prost(message, repeated, tag = "2")]
+    pub votes: ::prost::alloc::vec::Vec<VoteInfo>,
+}
+/// ExtendedCommitInfo is similar to CommitInfo except that it is only used in
+/// the PrepareProposal request such that Tendermint can provide vote extensions
+/// to the application.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ExtendedCommitInfo {
+    /// The round at which the block proposer decided in the previous height.
+    #[prost(int32, tag = "1")]
+    pub round: i32,
+    /// List of validators' addresses in the last validator set with their voting
+    /// information, including vote extensions.
+    #[prost(message, repeated, tag = "2")]
+    pub votes: ::prost::alloc::vec::Vec<ExtendedVoteInfo>,
+}
+/// Event allows application developers to attach additional information to
+/// ResponseFinalizeBlock and ResponseCheckTx.
+/// Up to 0.37, this could also be used in ResponseBeginBlock, ResponseEndBlock,
+/// and ResponseDeliverTx.
+/// Later, transactions may be queried using these events.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Event {
+    #[prost(string, tag = "1")]
+    pub r#type: ::prost::alloc::string::String,
+    #[prost(message, repeated, tag = "2")]
+    pub attributes: ::prost::alloc::vec::Vec<EventAttribute>,
+}
+/// EventAttribute is a single key-value pair, associated with an event.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EventAttribute {
+    #[prost(string, tag = "1")]
+    pub key: ::prost::alloc::string::String,
+    #[prost(string, tag = "2")]
+    pub value: ::prost::alloc::string::String,
+    /// nondeterministic
+    #[prost(bool, tag = "3")]
+    pub index: bool,
+}
+/// ExecTxResult contains results of executing one individual transaction.
+///
+/// * Its structure is equivalent to #ResponseDeliverTx which will be deprecated/deleted
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ExecTxResult {
+    #[prost(uint32, tag = "1")]
+    pub code: u32,
+    #[prost(bytes = "bytes", tag = "2")]
+    pub data: ::prost::bytes::Bytes,
+    /// nondeterministic
+    #[prost(string, tag = "3")]
+    pub log: ::prost::alloc::string::String,
+    /// nondeterministic
+    #[prost(string, tag = "4")]
+    pub info: ::prost::alloc::string::String,
+    #[prost(int64, tag = "5")]
+    pub gas_wanted: i64,
+    #[prost(int64, tag = "6")]
+    pub gas_used: i64,
+    /// nondeterministic
+    #[prost(message, repeated, tag = "7")]
+    pub events: ::prost::alloc::vec::Vec<Event>,
+    #[prost(string, tag = "8")]
+    pub codespace: ::prost::alloc::string::String,
+}
+/// TxResult contains results of executing the transaction.
+///
+/// One usage is indexing transaction results.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TxResult {
+    #[prost(int64, tag = "1")]
+    pub height: i64,
+    #[prost(uint32, tag = "2")]
+    pub index: u32,
+    #[prost(bytes = "bytes", tag = "3")]
+    pub tx: ::prost::bytes::Bytes,
+    #[prost(message, optional, tag = "4")]
+    pub result: ::core::option::Option<ExecTxResult>,
+}
+/// Validator in the validator set.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Validator {
+    /// The first 20 bytes of SHA256(public key)
+    #[prost(bytes = "bytes", tag = "1")]
+    pub address: ::prost::bytes::Bytes,
+    /// PubKey pub_key = 2 \[(gogoproto.nullable)=false\];
+    ///
+    /// The voting power
+    #[prost(int64, tag = "3")]
+    pub power: i64,
+}
+/// ValidatorUpdate is a singular update to a validator set.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ValidatorUpdate {
+    #[prost(message, optional, tag = "1")]
+    pub pub_key: ::core::option::Option<super::super::crypto::v1::PublicKey>,
+    #[prost(int64, tag = "2")]
+    pub power: i64,
+}
+/// VoteInfo contains the information about the vote.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct VoteInfo {
+    #[prost(message, optional, tag = "1")]
+    pub validator: ::core::option::Option<Validator>,
+    #[prost(enumeration = "super::super::types::v1::BlockIdFlag", tag = "3")]
+    pub block_id_flag: i32,
+}
+/// ExtendedVoteInfo extends VoteInfo with the vote extentions (non-deterministic).
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ExtendedVoteInfo {
+    /// The validator that sent the vote.
+    #[prost(message, optional, tag = "1")]
+    pub validator: ::core::option::Option<Validator>,
+    /// Non-deterministic extension provided by the sending validator's application.
+    #[prost(bytes = "bytes", tag = "3")]
+    pub vote_extension: ::prost::bytes::Bytes,
+    /// Vote extension signature created by CometBFT
+    #[prost(bytes = "bytes", tag = "4")]
+    pub extension_signature: ::prost::bytes::Bytes,
+    /// block_id_flag indicates whether the validator voted for a block, nil, or did not vote at all
+    #[prost(enumeration = "super::super::types::v1::BlockIdFlag", tag = "5")]
+    pub block_id_flag: i32,
+}
+/// Misbehavior is a type of misbehavior committed by a validator.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Misbehavior {
@@ -485,7 +664,7 @@ pub struct Misbehavior {
     pub r#type: i32,
     /// The offending validator
     #[prost(message, optional, tag = "2")]
-    pub validator: ::core::option::Option<super::v1beta1::Validator>,
+    pub validator: ::core::option::Option<Validator>,
     /// The height when the offense occurred
     #[prost(int64, tag = "3")]
     pub height: i64,
@@ -498,6 +677,26 @@ pub struct Misbehavior {
     #[prost(int64, tag = "5")]
     pub total_voting_power: i64,
 }
+/// Snapshot of the ABCI application state.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Snapshot {
+    /// The height at which the snapshot was taken
+    #[prost(uint64, tag = "1")]
+    pub height: u64,
+    /// The application-specific snapshot format
+    #[prost(uint32, tag = "2")]
+    pub format: u32,
+    /// Number of chunks in the snapshot
+    #[prost(uint32, tag = "3")]
+    pub chunks: u32,
+    /// Arbitrary snapshot hash, equal only if identical
+    #[prost(bytes = "bytes", tag = "4")]
+    pub hash: ::prost::bytes::Bytes,
+    /// Arbitrary application metadata
+    #[prost(bytes = "bytes", tag = "5")]
+    pub metadata: ::prost::bytes::Bytes,
+}
 /// Type of the transaction check request.
 ///
 /// This enumeration is incompatible with the CheckTxType definition in
@@ -506,8 +705,11 @@ pub struct Misbehavior {
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
 pub enum CheckTxType {
+    /// Unknown
     Unknown = 0,
+    /// Recheck (2nd, 3rd, etc.)
     Recheck = 1,
+    /// Check (1st time)
     Check = 2,
 }
 impl CheckTxType {
@@ -532,6 +734,7 @@ impl CheckTxType {
         }
     }
 }
+/// The result of offering a snapshot.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
 pub enum OfferSnapshotResult {
@@ -576,6 +779,7 @@ impl OfferSnapshotResult {
         }
     }
 }
+/// The result of applying a snapshot chunk.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
 pub enum ApplySnapshotChunkResult {
@@ -624,11 +828,15 @@ impl ApplySnapshotChunkResult {
         }
     }
 }
+/// ProcessProposalStatus is the status of the proposal processing.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
 pub enum ProcessProposalStatus {
+    /// Unknown
     Unknown = 0,
+    /// Accepted
     Accept = 1,
+    /// Rejected
     Reject = 2,
 }
 impl ProcessProposalStatus {
@@ -653,10 +861,13 @@ impl ProcessProposalStatus {
         }
     }
 }
+/// VerifyVoteExtensionStatus is the status of the vote extension verification.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
 pub enum VerifyVoteExtensionStatus {
+    /// Unknown
     Unknown = 0,
+    /// Accepted
     Accept = 1,
     /// Rejecting the vote extension will reject the entire precommit by the sender.
     /// Incorrectly implementing this thus has liveness implications as it may affect
@@ -686,11 +897,15 @@ impl VerifyVoteExtensionStatus {
         }
     }
 }
+/// The type of misbehavior committed by a validator.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
 pub enum MisbehaviorType {
+    /// Unknown
     Unknown = 0,
+    /// Duplicate vote
     DuplicateVote = 1,
+    /// Light client attack
     LightClientAttack = 2,
 }
 impl MisbehaviorType {
@@ -723,30 +938,37 @@ pub mod abci_service_server {
     /// Generated trait containing gRPC methods that should be implemented for use with AbciServiceServer.
     #[async_trait]
     pub trait AbciService: Send + Sync + 'static {
+        /// Echo returns back the same message it is sent.
         async fn echo(
             &self,
             request: tonic::Request<super::EchoRequest>,
         ) -> std::result::Result<tonic::Response<super::EchoResponse>, tonic::Status>;
+        /// Flush flushes the write buffer.
         async fn flush(
             &self,
             request: tonic::Request<super::FlushRequest>,
         ) -> std::result::Result<tonic::Response<super::FlushResponse>, tonic::Status>;
+        /// Info returns information about the application state.
         async fn info(
             &self,
             request: tonic::Request<super::InfoRequest>,
         ) -> std::result::Result<tonic::Response<super::InfoResponse>, tonic::Status>;
+        /// CheckTx validates a transaction.
         async fn check_tx(
             &self,
             request: tonic::Request<super::CheckTxRequest>,
         ) -> std::result::Result<tonic::Response<super::CheckTxResponse>, tonic::Status>;
+        /// Query queries the application state.
         async fn query(
             &self,
             request: tonic::Request<super::QueryRequest>,
         ) -> std::result::Result<tonic::Response<super::QueryResponse>, tonic::Status>;
+        /// Commit commits a block of transactions.
         async fn commit(
             &self,
             request: tonic::Request<super::CommitRequest>,
         ) -> std::result::Result<tonic::Response<super::CommitResponse>, tonic::Status>;
+        /// InitChain initializes the blockchain.
         async fn init_chain(
             &self,
             request: tonic::Request<super::InitChainRequest>,
@@ -754,6 +976,7 @@ pub mod abci_service_server {
             tonic::Response<super::InitChainResponse>,
             tonic::Status,
         >;
+        /// ListSnapshots lists all the available snapshots.
         async fn list_snapshots(
             &self,
             request: tonic::Request<super::ListSnapshotsRequest>,
@@ -761,6 +984,7 @@ pub mod abci_service_server {
             tonic::Response<super::ListSnapshotsResponse>,
             tonic::Status,
         >;
+        /// OfferSnapshot sends a snapshot offer.
         async fn offer_snapshot(
             &self,
             request: tonic::Request<super::OfferSnapshotRequest>,
@@ -768,6 +992,7 @@ pub mod abci_service_server {
             tonic::Response<super::OfferSnapshotResponse>,
             tonic::Status,
         >;
+        /// LoadSnapshotChunk returns a chunk of snapshot.
         async fn load_snapshot_chunk(
             &self,
             request: tonic::Request<super::LoadSnapshotChunkRequest>,
@@ -775,6 +1000,7 @@ pub mod abci_service_server {
             tonic::Response<super::LoadSnapshotChunkResponse>,
             tonic::Status,
         >;
+        /// ApplySnapshotChunk applies a chunk of snapshot.
         async fn apply_snapshot_chunk(
             &self,
             request: tonic::Request<super::ApplySnapshotChunkRequest>,
@@ -782,6 +1008,7 @@ pub mod abci_service_server {
             tonic::Response<super::ApplySnapshotChunkResponse>,
             tonic::Status,
         >;
+        /// PrepareProposal returns a proposal for the next block.
         async fn prepare_proposal(
             &self,
             request: tonic::Request<super::PrepareProposalRequest>,
@@ -789,6 +1016,7 @@ pub mod abci_service_server {
             tonic::Response<super::PrepareProposalResponse>,
             tonic::Status,
         >;
+        /// ProcessProposal validates a proposal.
         async fn process_proposal(
             &self,
             request: tonic::Request<super::ProcessProposalRequest>,
@@ -796,6 +1024,7 @@ pub mod abci_service_server {
             tonic::Response<super::ProcessProposalResponse>,
             tonic::Status,
         >;
+        /// ExtendVote extends a vote with application-injected data (vote extentions).
         async fn extend_vote(
             &self,
             request: tonic::Request<super::ExtendVoteRequest>,
@@ -803,6 +1032,7 @@ pub mod abci_service_server {
             tonic::Response<super::ExtendVoteResponse>,
             tonic::Status,
         >;
+        /// VerifyVoteExtension verifies a vote extension.
         async fn verify_vote_extension(
             &self,
             request: tonic::Request<super::VerifyVoteExtensionRequest>,
@@ -810,6 +1040,7 @@ pub mod abci_service_server {
             tonic::Response<super::VerifyVoteExtensionResponse>,
             tonic::Status,
         >;
+        /// FinalizeBlock finalizes a block.
         async fn finalize_block(
             &self,
             request: tonic::Request<super::FinalizeBlockRequest>,
@@ -818,6 +1049,7 @@ pub mod abci_service_server {
             tonic::Status,
         >;
     }
+    /// ABCIService is a service for an ABCI application.
     #[derive(Debug)]
     pub struct AbciServiceServer<T: AbciService> {
         inner: _Inner<T>,
@@ -897,7 +1129,7 @@ pub mod abci_service_server {
         fn call(&mut self, req: http::Request<B>) -> Self::Future {
             let inner = self.inner.clone();
             match req.uri().path() {
-                "/cometbft.abci.v1beta4.ABCIService/Echo" => {
+                "/cometbft.abci.v1.ABCIService/Echo" => {
                     #[allow(non_camel_case_types)]
                     struct EchoSvc<T: AbciService>(pub Arc<T>);
                     impl<T: AbciService> tonic::server::UnaryService<super::EchoRequest>
@@ -941,7 +1173,7 @@ pub mod abci_service_server {
                     };
                     Box::pin(fut)
                 }
-                "/cometbft.abci.v1beta4.ABCIService/Flush" => {
+                "/cometbft.abci.v1.ABCIService/Flush" => {
                     #[allow(non_camel_case_types)]
                     struct FlushSvc<T: AbciService>(pub Arc<T>);
                     impl<T: AbciService> tonic::server::UnaryService<super::FlushRequest>
@@ -985,7 +1217,7 @@ pub mod abci_service_server {
                     };
                     Box::pin(fut)
                 }
-                "/cometbft.abci.v1beta4.ABCIService/Info" => {
+                "/cometbft.abci.v1.ABCIService/Info" => {
                     #[allow(non_camel_case_types)]
                     struct InfoSvc<T: AbciService>(pub Arc<T>);
                     impl<T: AbciService> tonic::server::UnaryService<super::InfoRequest>
@@ -1029,7 +1261,7 @@ pub mod abci_service_server {
                     };
                     Box::pin(fut)
                 }
-                "/cometbft.abci.v1beta4.ABCIService/CheckTx" => {
+                "/cometbft.abci.v1.ABCIService/CheckTx" => {
                     #[allow(non_camel_case_types)]
                     struct CheckTxSvc<T: AbciService>(pub Arc<T>);
                     impl<
@@ -1075,7 +1307,7 @@ pub mod abci_service_server {
                     };
                     Box::pin(fut)
                 }
-                "/cometbft.abci.v1beta4.ABCIService/Query" => {
+                "/cometbft.abci.v1.ABCIService/Query" => {
                     #[allow(non_camel_case_types)]
                     struct QuerySvc<T: AbciService>(pub Arc<T>);
                     impl<T: AbciService> tonic::server::UnaryService<super::QueryRequest>
@@ -1119,7 +1351,7 @@ pub mod abci_service_server {
                     };
                     Box::pin(fut)
                 }
-                "/cometbft.abci.v1beta4.ABCIService/Commit" => {
+                "/cometbft.abci.v1.ABCIService/Commit" => {
                     #[allow(non_camel_case_types)]
                     struct CommitSvc<T: AbciService>(pub Arc<T>);
                     impl<
@@ -1165,7 +1397,7 @@ pub mod abci_service_server {
                     };
                     Box::pin(fut)
                 }
-                "/cometbft.abci.v1beta4.ABCIService/InitChain" => {
+                "/cometbft.abci.v1.ABCIService/InitChain" => {
                     #[allow(non_camel_case_types)]
                     struct InitChainSvc<T: AbciService>(pub Arc<T>);
                     impl<
@@ -1211,7 +1443,7 @@ pub mod abci_service_server {
                     };
                     Box::pin(fut)
                 }
-                "/cometbft.abci.v1beta4.ABCIService/ListSnapshots" => {
+                "/cometbft.abci.v1.ABCIService/ListSnapshots" => {
                     #[allow(non_camel_case_types)]
                     struct ListSnapshotsSvc<T: AbciService>(pub Arc<T>);
                     impl<
@@ -1257,7 +1489,7 @@ pub mod abci_service_server {
                     };
                     Box::pin(fut)
                 }
-                "/cometbft.abci.v1beta4.ABCIService/OfferSnapshot" => {
+                "/cometbft.abci.v1.ABCIService/OfferSnapshot" => {
                     #[allow(non_camel_case_types)]
                     struct OfferSnapshotSvc<T: AbciService>(pub Arc<T>);
                     impl<
@@ -1303,7 +1535,7 @@ pub mod abci_service_server {
                     };
                     Box::pin(fut)
                 }
-                "/cometbft.abci.v1beta4.ABCIService/LoadSnapshotChunk" => {
+                "/cometbft.abci.v1.ABCIService/LoadSnapshotChunk" => {
                     #[allow(non_camel_case_types)]
                     struct LoadSnapshotChunkSvc<T: AbciService>(pub Arc<T>);
                     impl<
@@ -1350,7 +1582,7 @@ pub mod abci_service_server {
                     };
                     Box::pin(fut)
                 }
-                "/cometbft.abci.v1beta4.ABCIService/ApplySnapshotChunk" => {
+                "/cometbft.abci.v1.ABCIService/ApplySnapshotChunk" => {
                     #[allow(non_camel_case_types)]
                     struct ApplySnapshotChunkSvc<T: AbciService>(pub Arc<T>);
                     impl<
@@ -1397,7 +1629,7 @@ pub mod abci_service_server {
                     };
                     Box::pin(fut)
                 }
-                "/cometbft.abci.v1beta4.ABCIService/PrepareProposal" => {
+                "/cometbft.abci.v1.ABCIService/PrepareProposal" => {
                     #[allow(non_camel_case_types)]
                     struct PrepareProposalSvc<T: AbciService>(pub Arc<T>);
                     impl<
@@ -1443,7 +1675,7 @@ pub mod abci_service_server {
                     };
                     Box::pin(fut)
                 }
-                "/cometbft.abci.v1beta4.ABCIService/ProcessProposal" => {
+                "/cometbft.abci.v1.ABCIService/ProcessProposal" => {
                     #[allow(non_camel_case_types)]
                     struct ProcessProposalSvc<T: AbciService>(pub Arc<T>);
                     impl<
@@ -1489,7 +1721,7 @@ pub mod abci_service_server {
                     };
                     Box::pin(fut)
                 }
-                "/cometbft.abci.v1beta4.ABCIService/ExtendVote" => {
+                "/cometbft.abci.v1.ABCIService/ExtendVote" => {
                     #[allow(non_camel_case_types)]
                     struct ExtendVoteSvc<T: AbciService>(pub Arc<T>);
                     impl<
@@ -1535,7 +1767,7 @@ pub mod abci_service_server {
                     };
                     Box::pin(fut)
                 }
-                "/cometbft.abci.v1beta4.ABCIService/VerifyVoteExtension" => {
+                "/cometbft.abci.v1.ABCIService/VerifyVoteExtension" => {
                     #[allow(non_camel_case_types)]
                     struct VerifyVoteExtensionSvc<T: AbciService>(pub Arc<T>);
                     impl<
@@ -1582,7 +1814,7 @@ pub mod abci_service_server {
                     };
                     Box::pin(fut)
                 }
-                "/cometbft.abci.v1beta4.ABCIService/FinalizeBlock" => {
+                "/cometbft.abci.v1.ABCIService/FinalizeBlock" => {
                     #[allow(non_camel_case_types)]
                     struct FinalizeBlockSvc<T: AbciService>(pub Arc<T>);
                     impl<
@@ -1666,6 +1898,6 @@ pub mod abci_service_server {
         }
     }
     impl<T: AbciService> tonic::server::NamedService for AbciServiceServer<T> {
-        const NAME: &'static str = "cometbft.abci.v1beta4.ABCIService";
+        const NAME: &'static str = "cometbft.abci.v1.ABCIService";
     }
 }

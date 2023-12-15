@@ -1,3 +1,4 @@
+/// ResponseBroadcastTx is a response of broadcasting the transaction.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ResponseBroadcastTx {
@@ -18,6 +19,7 @@ pub mod broadcast_api_server {
     /// Generated trait containing gRPC methods that should be implemented for use with BroadcastApiServer.
     #[async_trait]
     pub trait BroadcastApi: Send + Sync + 'static {
+        /// Ping the connection.
         async fn ping(
             &self,
             request: tonic::Request<super::super::v1beta1::RequestPing>,
@@ -25,6 +27,7 @@ pub mod broadcast_api_server {
             tonic::Response<super::super::v1beta1::ResponsePing>,
             tonic::Status,
         >;
+        /// BroadcastTx broadcasts the transaction.
         async fn broadcast_tx(
             &self,
             request: tonic::Request<super::super::v1beta1::RequestBroadcastTx>,
@@ -33,6 +36,7 @@ pub mod broadcast_api_server {
             tonic::Status,
         >;
     }
+    /// BroadcastAPI is an API for broadcasting transactions.
     #[derive(Debug)]
     pub struct BroadcastApiServer<T: BroadcastApi> {
         inner: _Inner<T>,

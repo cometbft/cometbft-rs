@@ -26,7 +26,7 @@ pub struct NewValidBlock {
     pub round: i32,
     #[prost(message, optional, tag = "3")]
     pub block_part_set_header: ::core::option::Option<
-        super::super::types::v1beta1::PartSetHeader,
+        super::super::types::v1::PartSetHeader,
     >,
     #[prost(message, optional, tag = "4")]
     pub block_parts: ::core::option::Option<super::super::libs::bits::v1::BitArray>,
@@ -38,7 +38,7 @@ pub struct NewValidBlock {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Proposal {
     #[prost(message, optional, tag = "1")]
-    pub proposal: ::core::option::Option<super::super::types::v1beta1::Proposal>,
+    pub proposal: ::core::option::Option<super::super::types::v1::Proposal>,
 }
 /// ProposalPOL is sent when a previous proposal is re-proposed.
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -60,14 +60,14 @@ pub struct BlockPart {
     #[prost(int32, tag = "2")]
     pub round: i32,
     #[prost(message, optional, tag = "3")]
-    pub part: ::core::option::Option<super::super::types::v1beta1::Part>,
+    pub part: ::core::option::Option<super::super::types::v1::Part>,
 }
 /// Vote is sent when voting for a proposal (or lack thereof).
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Vote {
     #[prost(message, optional, tag = "1")]
-    pub vote: ::core::option::Option<super::super::types::v1beta1::Vote>,
+    pub vote: ::core::option::Option<super::super::types::v1::Vote>,
 }
 /// HasVote is sent to indicate that a particular vote has been received.
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -77,7 +77,7 @@ pub struct HasVote {
     pub height: i64,
     #[prost(int32, tag = "2")]
     pub round: i32,
-    #[prost(enumeration = "super::super::types::v1beta1::SignedMsgType", tag = "3")]
+    #[prost(enumeration = "super::super::types::v1::SignedMsgType", tag = "3")]
     pub r#type: i32,
     #[prost(int32, tag = "4")]
     pub index: i32,
@@ -90,10 +90,10 @@ pub struct VoteSetMaj23 {
     pub height: i64,
     #[prost(int32, tag = "2")]
     pub round: i32,
-    #[prost(enumeration = "super::super::types::v1beta1::SignedMsgType", tag = "3")]
+    #[prost(enumeration = "super::super::types::v1::SignedMsgType", tag = "3")]
     pub r#type: i32,
     #[prost(message, optional, tag = "4")]
-    pub block_id: ::core::option::Option<super::super::types::v1beta1::BlockId>,
+    pub block_id: ::core::option::Option<super::super::types::v1::BlockId>,
 }
 /// VoteSetBits is sent to communicate the bit-array of votes seen for the BlockID.
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -103,19 +103,30 @@ pub struct VoteSetBits {
     pub height: i64,
     #[prost(int32, tag = "2")]
     pub round: i32,
-    #[prost(enumeration = "super::super::types::v1beta1::SignedMsgType", tag = "3")]
+    #[prost(enumeration = "super::super::types::v1::SignedMsgType", tag = "3")]
     pub r#type: i32,
     #[prost(message, optional, tag = "4")]
-    pub block_id: ::core::option::Option<super::super::types::v1beta1::BlockId>,
+    pub block_id: ::core::option::Option<super::super::types::v1::BlockId>,
     #[prost(message, optional, tag = "5")]
     pub votes: ::core::option::Option<super::super::libs::bits::v1::BitArray>,
+}
+/// HasProposalBlockPart is sent to indicate that a particular proposal block part has been received.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct HasProposalBlockPart {
+    #[prost(int64, tag = "1")]
+    pub height: i64,
+    #[prost(int32, tag = "2")]
+    pub round: i32,
+    #[prost(int32, tag = "3")]
+    pub index: i32,
 }
 /// Message is an abstract consensus message.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Message {
     /// Sum of all possible messages.
-    #[prost(oneof = "message::Sum", tags = "1, 2, 3, 4, 5, 6, 7, 8, 9")]
+    #[prost(oneof = "message::Sum", tags = "1, 2, 3, 4, 5, 6, 7, 8, 9, 10")]
     pub sum: ::core::option::Option<message::Sum>,
 }
 /// Nested message and enum types in `Message`.
@@ -142,6 +153,8 @@ pub mod message {
         VoteSetMaj23(super::VoteSetMaj23),
         #[prost(message, tag = "9")]
         VoteSetBits(super::VoteSetBits),
+        #[prost(message, tag = "10")]
+        HasProposalBlockPart(super::HasProposalBlockPart),
     }
 }
 /// MsgInfo are msgs from the reactor which may update the state
@@ -189,7 +202,7 @@ pub mod wal_message {
     #[derive(Clone, PartialEq, ::prost::Oneof)]
     pub enum Sum {
         #[prost(message, tag = "1")]
-        EventDataRoundState(super::super::super::types::v1beta1::EventDataRoundState),
+        EventDataRoundState(super::super::super::types::v1::EventDataRoundState),
         #[prost(message, tag = "2")]
         MsgInfo(super::MsgInfo),
         #[prost(message, tag = "3")]

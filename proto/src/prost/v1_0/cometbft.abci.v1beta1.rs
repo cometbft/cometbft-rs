@@ -1,6 +1,8 @@
+/// Request represents a request to the ABCI application.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Request {
+    /// Sum of all possible messages.
     #[prost(
         oneof = "request::Value",
         tags = "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15"
@@ -9,6 +11,7 @@ pub struct Request {
 }
 /// Nested message and enum types in `Request`.
 pub mod request {
+    /// Sum of all possible messages.
     #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, ::prost::Oneof)]
     pub enum Value {
@@ -44,15 +47,18 @@ pub mod request {
         ApplySnapshotChunk(super::RequestApplySnapshotChunk),
     }
 }
+/// RequestEcho is a request to "echo" the given string.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct RequestEcho {
     #[prost(string, tag = "1")]
     pub message: ::prost::alloc::string::String,
 }
+/// RequestFlush is a request to flush the write buffer.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct RequestFlush {}
+/// RequestInfo is a request for the ABCI application version.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct RequestInfo {
@@ -72,6 +78,7 @@ pub struct RequestSetOption {
     #[prost(string, tag = "2")]
     pub value: ::prost::alloc::string::String,
 }
+/// RequestInitChain is a request to initialize the blockchain.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct RequestInitChain {
@@ -88,6 +95,7 @@ pub struct RequestInitChain {
     #[prost(int64, tag = "6")]
     pub initial_height: i64,
 }
+/// RequestQuery is a request to query the application state.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct RequestQuery {
@@ -100,6 +108,7 @@ pub struct RequestQuery {
     #[prost(bool, tag = "4")]
     pub prove: bool,
 }
+/// RequestBeginBlock indicates the beginning of commiting the block.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct RequestBeginBlock {
@@ -112,6 +121,7 @@ pub struct RequestBeginBlock {
     #[prost(message, repeated, tag = "4")]
     pub byzantine_validators: ::prost::alloc::vec::Vec<Evidence>,
 }
+/// RequestCheckTx is a request to check the transaction.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct RequestCheckTx {
@@ -120,18 +130,21 @@ pub struct RequestCheckTx {
     #[prost(enumeration = "CheckTxType", tag = "2")]
     pub r#type: i32,
 }
+/// RequestDeliverTx is a request to apply the transaction.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct RequestDeliverTx {
     #[prost(bytes = "bytes", tag = "1")]
     pub tx: ::prost::bytes::Bytes,
 }
+/// RequestEndBlock indicates the end of committing the block.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct RequestEndBlock {
     #[prost(int64, tag = "1")]
     pub height: i64,
 }
+/// RequestCommit is a request to commit the pending application state.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct RequestCommit {}
@@ -172,9 +185,11 @@ pub struct RequestApplySnapshotChunk {
     #[prost(string, tag = "3")]
     pub sender: ::prost::alloc::string::String,
 }
+/// Response represents a response from the ABCI application.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Response {
+    /// Sum of all possible messages.
     #[prost(
         oneof = "response::Value",
         tags = "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16"
@@ -183,6 +198,7 @@ pub struct Response {
 }
 /// Nested message and enum types in `Response`.
 pub mod response {
+    /// Sum of all possible messages.
     #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, ::prost::Oneof)]
     pub enum Value {
@@ -227,15 +243,18 @@ pub struct ResponseException {
     #[prost(string, tag = "1")]
     pub error: ::prost::alloc::string::String,
 }
+/// ResponseEcho indicates that the connection is still alive.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ResponseEcho {
     #[prost(string, tag = "1")]
     pub message: ::prost::alloc::string::String,
 }
+/// ResponseFlush indicates that the ABCI application state was flushed?
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ResponseFlush {}
+/// ResponseInfo contains the ABCI application version information.
 #[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -269,6 +288,8 @@ pub struct ResponseSetOption {
     #[prost(string, tag = "4")]
     pub info: ::prost::alloc::string::String,
 }
+/// ResponseInitChain contains the ABCI application's hash and updates to the
+/// validator set and/or the consensus params, if any.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ResponseInitChain {
@@ -279,6 +300,7 @@ pub struct ResponseInitChain {
     #[prost(bytes = "bytes", tag = "3")]
     pub app_hash: ::prost::bytes::Bytes,
 }
+/// ResponseQuery contains the ABCI application data along with a proof.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ResponseQuery {
@@ -299,18 +321,21 @@ pub struct ResponseQuery {
     #[prost(bytes = "bytes", tag = "7")]
     pub value: ::prost::bytes::Bytes,
     #[prost(message, optional, tag = "8")]
-    pub proof_ops: ::core::option::Option<super::super::crypto::v1beta1::ProofOps>,
+    pub proof_ops: ::core::option::Option<super::super::crypto::v1::ProofOps>,
     #[prost(int64, tag = "9")]
     pub height: i64,
     #[prost(string, tag = "10")]
     pub codespace: ::prost::alloc::string::String,
 }
+/// ResponseBeginBlock contains a list of block-level events.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ResponseBeginBlock {
     #[prost(message, repeated, tag = "1")]
     pub events: ::prost::alloc::vec::Vec<Event>,
 }
+/// ResponseCheckTx shows if the transaction was deemed valid by the ABCI
+/// application.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ResponseCheckTx {
@@ -341,6 +366,8 @@ pub struct ResponseCheckTx {
     #[prost(string, tag = "11")]
     pub mempool_error: ::prost::alloc::string::String,
 }
+/// ResponseDeliverTx contains a result of committing the given transaction and a
+/// list of events.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ResponseDeliverTx {
@@ -364,6 +391,7 @@ pub struct ResponseDeliverTx {
     #[prost(string, tag = "8")]
     pub codespace: ::prost::alloc::string::String,
 }
+/// ResponseEndBlock contains updates to consensus params and/or validator set changes, if any.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ResponseEndBlock {
@@ -374,6 +402,7 @@ pub struct ResponseEndBlock {
     #[prost(message, repeated, tag = "3")]
     pub events: ::prost::alloc::vec::Vec<Event>,
 }
+/// ResponseCommit indicates how much blocks should CometBFT retain.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ResponseCommit {
@@ -383,12 +412,15 @@ pub struct ResponseCommit {
     #[prost(int64, tag = "3")]
     pub retain_height: i64,
 }
+/// ResponseListSnapshots contains the list of snapshots.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ResponseListSnapshots {
     #[prost(message, repeated, tag = "1")]
     pub snapshots: ::prost::alloc::vec::Vec<Snapshot>,
 }
+/// ResponseOfferSnapshot indicates the ABCI application decision whenever to
+/// provide a snapshot to the requester or not.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ResponseOfferSnapshot {
@@ -397,6 +429,7 @@ pub struct ResponseOfferSnapshot {
 }
 /// Nested message and enum types in `ResponseOfferSnapshot`.
 pub mod response_offer_snapshot {
+    /// The status code.
     #[derive(
         Clone,
         Copy,
@@ -452,12 +485,14 @@ pub mod response_offer_snapshot {
         }
     }
 }
+/// ResponseLoadSnapshotChunk returns a snapshot's chunk.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ResponseLoadSnapshotChunk {
     #[prost(bytes = "bytes", tag = "1")]
     pub chunk: ::prost::bytes::Bytes,
 }
+/// ResponseApplySnapshotChunk returns a result of applying the specified chunk.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ResponseApplySnapshotChunk {
@@ -472,6 +507,7 @@ pub struct ResponseApplySnapshotChunk {
 }
 /// Nested message and enum types in `ResponseApplySnapshotChunk`.
 pub mod response_apply_snapshot_chunk {
+    /// The status code.
     #[derive(
         Clone,
         Copy,
@@ -552,6 +588,7 @@ pub struct BlockParams {
     #[prost(int64, tag = "2")]
     pub max_gas: i64,
 }
+/// LastCommitInfo contains votes for the particular round.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct LastCommitInfo {
@@ -598,6 +635,7 @@ pub struct TxResult {
     #[prost(message, optional, tag = "4")]
     pub result: ::core::option::Option<ResponseDeliverTx>,
 }
+/// Validator in the validator set.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Validator {
@@ -610,14 +648,16 @@ pub struct Validator {
     #[prost(int64, tag = "3")]
     pub power: i64,
 }
+/// ValidatorUpdate is a singular update to a validator set.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ValidatorUpdate {
     #[prost(message, optional, tag = "1")]
-    pub pub_key: ::core::option::Option<super::super::crypto::v1beta1::PublicKey>,
+    pub pub_key: ::core::option::Option<super::super::crypto::v1::PublicKey>,
     #[prost(int64, tag = "2")]
     pub power: i64,
 }
+/// VoteInfo contains the information about the vote.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct VoteInfo {
@@ -626,6 +666,7 @@ pub struct VoteInfo {
     #[prost(bool, tag = "2")]
     pub signed_last_block: bool,
 }
+/// Evidence of a misbehavior committed by a validator.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Evidence {
@@ -646,6 +687,7 @@ pub struct Evidence {
     #[prost(int64, tag = "5")]
     pub total_voting_power: i64,
 }
+/// Snapshot of the ABCI application state.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Snapshot {
@@ -665,10 +707,13 @@ pub struct Snapshot {
     #[prost(bytes = "bytes", tag = "5")]
     pub metadata: ::prost::bytes::Bytes,
 }
+/// Type of the transaction check request.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
 pub enum CheckTxType {
+    /// New
     New = 0,
+    /// Recheck (2nd, 3rd, etc.)
     Recheck = 1,
 }
 impl CheckTxType {
@@ -691,11 +736,15 @@ impl CheckTxType {
         }
     }
 }
+/// The type of evidence.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
 pub enum EvidenceType {
+    /// Unknown
     Unknown = 0,
+    /// Duplicate vote
     DuplicateVote = 1,
+    /// Light client attack
     LightClientAttack = 2,
 }
 impl EvidenceType {
@@ -728,18 +777,22 @@ pub mod abci_application_server {
     /// Generated trait containing gRPC methods that should be implemented for use with AbciApplicationServer.
     #[async_trait]
     pub trait AbciApplication: Send + Sync + 'static {
+        /// Echo returns back the same message it is sent.
         async fn echo(
             &self,
             request: tonic::Request<super::RequestEcho>,
         ) -> std::result::Result<tonic::Response<super::ResponseEcho>, tonic::Status>;
+        /// Flush flushes the write buffer.
         async fn flush(
             &self,
             request: tonic::Request<super::RequestFlush>,
         ) -> std::result::Result<tonic::Response<super::ResponseFlush>, tonic::Status>;
+        /// Info returns information about the application state.
         async fn info(
             &self,
             request: tonic::Request<super::RequestInfo>,
         ) -> std::result::Result<tonic::Response<super::ResponseInfo>, tonic::Status>;
+        /// SetOption sets a parameter in the application.
         async fn set_option(
             &self,
             request: tonic::Request<super::RequestSetOption>,
@@ -747,6 +800,7 @@ pub mod abci_application_server {
             tonic::Response<super::ResponseSetOption>,
             tonic::Status,
         >;
+        /// DeliverTx applies a transaction.
         async fn deliver_tx(
             &self,
             request: tonic::Request<super::RequestDeliverTx>,
@@ -754,18 +808,22 @@ pub mod abci_application_server {
             tonic::Response<super::ResponseDeliverTx>,
             tonic::Status,
         >;
+        /// CheckTx validates a transaction.
         async fn check_tx(
             &self,
             request: tonic::Request<super::RequestCheckTx>,
         ) -> std::result::Result<tonic::Response<super::ResponseCheckTx>, tonic::Status>;
+        /// Query queries the application state.
         async fn query(
             &self,
             request: tonic::Request<super::RequestQuery>,
         ) -> std::result::Result<tonic::Response<super::ResponseQuery>, tonic::Status>;
+        /// Commit commits a block of transactions.
         async fn commit(
             &self,
             request: tonic::Request<super::RequestCommit>,
         ) -> std::result::Result<tonic::Response<super::ResponseCommit>, tonic::Status>;
+        /// InitChain initializes the blockchain.
         async fn init_chain(
             &self,
             request: tonic::Request<super::RequestInitChain>,
@@ -773,6 +831,7 @@ pub mod abci_application_server {
             tonic::Response<super::ResponseInitChain>,
             tonic::Status,
         >;
+        /// BeginBlock signals the beginning of a block.
         async fn begin_block(
             &self,
             request: tonic::Request<super::RequestBeginBlock>,
@@ -780,6 +839,7 @@ pub mod abci_application_server {
             tonic::Response<super::ResponseBeginBlock>,
             tonic::Status,
         >;
+        /// EndBlock signals the end of a block, returns changes to the validator set.
         async fn end_block(
             &self,
             request: tonic::Request<super::RequestEndBlock>,
@@ -787,6 +847,7 @@ pub mod abci_application_server {
             tonic::Response<super::ResponseEndBlock>,
             tonic::Status,
         >;
+        /// ListSnapshots lists all the available snapshots.
         async fn list_snapshots(
             &self,
             request: tonic::Request<super::RequestListSnapshots>,
@@ -794,6 +855,7 @@ pub mod abci_application_server {
             tonic::Response<super::ResponseListSnapshots>,
             tonic::Status,
         >;
+        /// OfferSnapshot sends a snapshot offer.
         async fn offer_snapshot(
             &self,
             request: tonic::Request<super::RequestOfferSnapshot>,
@@ -801,6 +863,7 @@ pub mod abci_application_server {
             tonic::Response<super::ResponseOfferSnapshot>,
             tonic::Status,
         >;
+        /// LoadSnapshotChunk returns a chunk of snapshot.
         async fn load_snapshot_chunk(
             &self,
             request: tonic::Request<super::RequestLoadSnapshotChunk>,
@@ -808,6 +871,7 @@ pub mod abci_application_server {
             tonic::Response<super::ResponseLoadSnapshotChunk>,
             tonic::Status,
         >;
+        /// ApplySnapshotChunk applies a chunk of snapshot.
         async fn apply_snapshot_chunk(
             &self,
             request: tonic::Request<super::RequestApplySnapshotChunk>,
@@ -816,6 +880,7 @@ pub mod abci_application_server {
             tonic::Status,
         >;
     }
+    /// ABCIApplication is a service for an ABCI application.
     #[derive(Debug)]
     pub struct AbciApplicationServer<T: AbciApplication> {
         inner: _Inner<T>,

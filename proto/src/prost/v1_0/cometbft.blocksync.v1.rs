@@ -12,13 +12,6 @@ pub struct NoBlockResponse {
     #[prost(int64, tag = "1")]
     pub height: i64,
 }
-/// BlockResponse returns block to the requested
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct BlockResponse {
-    #[prost(message, optional, tag = "1")]
-    pub block: ::core::option::Option<super::super::types::v1beta1::Block>,
-}
 /// StatusRequest requests the status of a peer.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -31,6 +24,15 @@ pub struct StatusResponse {
     pub height: i64,
     #[prost(int64, tag = "2")]
     pub base: i64,
+}
+/// BlockResponse returns block to the requested
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BlockResponse {
+    #[prost(message, optional, tag = "1")]
+    pub block: ::core::option::Option<super::super::types::v1::Block>,
+    #[prost(message, optional, tag = "2")]
+    pub ext_commit: ::core::option::Option<super::super::types::v1::ExtendedCommit>,
 }
 /// Message is an abtract blocksync message.
 #[allow(clippy::derive_partial_eq_without_eq)]

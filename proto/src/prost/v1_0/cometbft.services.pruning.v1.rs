@@ -1,15 +1,19 @@
+/// SetBlockRetainHeightRequest sets the retain height for blocks.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SetBlockRetainHeightRequest {
     #[prost(uint64, tag = "1")]
     pub height: u64,
 }
+/// SetBlockRetainHeightResponse is empty.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SetBlockRetainHeightResponse {}
+/// GetBlockRetainHeightRequest is a request for the retain height.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetBlockRetainHeightRequest {}
+/// GetBlockRetainHeightResponse returns the retain height for blocks.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetBlockRetainHeightResponse {
@@ -21,18 +25,22 @@ pub struct GetBlockRetainHeightResponse {
     #[prost(uint64, tag = "2")]
     pub pruning_service_retain_height: u64,
 }
+/// SetBlockResultsRetainHeightRequest sets the retain height for block results.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SetBlockResultsRetainHeightRequest {
     #[prost(uint64, tag = "1")]
     pub height: u64,
 }
+/// SetBlockResultsRetainHeightResponse is empty.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SetBlockResultsRetainHeightResponse {}
+/// GetBlockResultsRetainHeightRequest is a request for the retain height.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetBlockResultsRetainHeightRequest {}
+/// GetBlockResultsRetainHeightResponse returns the retain height for block results.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetBlockResultsRetainHeightResponse {
@@ -41,36 +49,44 @@ pub struct GetBlockResultsRetainHeightResponse {
     #[prost(uint64, tag = "1")]
     pub pruning_service_retain_height: u64,
 }
+/// SetTxIndexerRetainHeightRequest sets the retain height for the tx indexer.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SetTxIndexerRetainHeightRequest {
     #[prost(uint64, tag = "1")]
     pub height: u64,
 }
+/// SetTxIndexerRetainHeightResponse is empty.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SetTxIndexerRetainHeightResponse {}
+/// GetTxIndexerRetainHeightRequest is a request for the retain height.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetTxIndexerRetainHeightRequest {}
+/// GetTxIndexerRetainHeightResponse returns the retain height for the tx indexer.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetTxIndexerRetainHeightResponse {
     #[prost(uint64, tag = "1")]
     pub height: u64,
 }
+/// SetBlockIndexerRetainHeightRequest sets the retain height for the block indexer.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SetBlockIndexerRetainHeightRequest {
     #[prost(uint64, tag = "1")]
     pub height: u64,
 }
+/// SetBlockIndexerRetainHeightResponse is empty.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SetBlockIndexerRetainHeightResponse {}
+/// GetBlockIndexerRetainHeightRequest is a request for the retain height.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetBlockIndexerRetainHeightRequest {}
+/// GetBlockIndexerRetainHeightResponse returns the retain height for the block indexer.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetBlockIndexerRetainHeightResponse {
@@ -246,7 +262,7 @@ pub mod pruning_service_server {
         fn call(&mut self, req: http::Request<B>) -> Self::Future {
             let inner = self.inner.clone();
             match req.uri().path() {
-                "/cometbft.services.pruning.v1beta1.PruningService/SetBlockRetainHeight" => {
+                "/cometbft.services.pruning.v1.PruningService/SetBlockRetainHeight" => {
                     #[allow(non_camel_case_types)]
                     struct SetBlockRetainHeightSvc<T: PruningService>(pub Arc<T>);
                     impl<
@@ -296,7 +312,7 @@ pub mod pruning_service_server {
                     };
                     Box::pin(fut)
                 }
-                "/cometbft.services.pruning.v1beta1.PruningService/GetBlockRetainHeight" => {
+                "/cometbft.services.pruning.v1.PruningService/GetBlockRetainHeight" => {
                     #[allow(non_camel_case_types)]
                     struct GetBlockRetainHeightSvc<T: PruningService>(pub Arc<T>);
                     impl<
@@ -346,7 +362,7 @@ pub mod pruning_service_server {
                     };
                     Box::pin(fut)
                 }
-                "/cometbft.services.pruning.v1beta1.PruningService/SetBlockResultsRetainHeight" => {
+                "/cometbft.services.pruning.v1.PruningService/SetBlockResultsRetainHeight" => {
                     #[allow(non_camel_case_types)]
                     struct SetBlockResultsRetainHeightSvc<T: PruningService>(pub Arc<T>);
                     impl<
@@ -399,7 +415,7 @@ pub mod pruning_service_server {
                     };
                     Box::pin(fut)
                 }
-                "/cometbft.services.pruning.v1beta1.PruningService/GetBlockResultsRetainHeight" => {
+                "/cometbft.services.pruning.v1.PruningService/GetBlockResultsRetainHeight" => {
                     #[allow(non_camel_case_types)]
                     struct GetBlockResultsRetainHeightSvc<T: PruningService>(pub Arc<T>);
                     impl<
@@ -452,7 +468,7 @@ pub mod pruning_service_server {
                     };
                     Box::pin(fut)
                 }
-                "/cometbft.services.pruning.v1beta1.PruningService/SetTxIndexerRetainHeight" => {
+                "/cometbft.services.pruning.v1.PruningService/SetTxIndexerRetainHeight" => {
                     #[allow(non_camel_case_types)]
                     struct SetTxIndexerRetainHeightSvc<T: PruningService>(pub Arc<T>);
                     impl<
@@ -504,7 +520,7 @@ pub mod pruning_service_server {
                     };
                     Box::pin(fut)
                 }
-                "/cometbft.services.pruning.v1beta1.PruningService/GetTxIndexerRetainHeight" => {
+                "/cometbft.services.pruning.v1.PruningService/GetTxIndexerRetainHeight" => {
                     #[allow(non_camel_case_types)]
                     struct GetTxIndexerRetainHeightSvc<T: PruningService>(pub Arc<T>);
                     impl<
@@ -556,7 +572,7 @@ pub mod pruning_service_server {
                     };
                     Box::pin(fut)
                 }
-                "/cometbft.services.pruning.v1beta1.PruningService/SetBlockIndexerRetainHeight" => {
+                "/cometbft.services.pruning.v1.PruningService/SetBlockIndexerRetainHeight" => {
                     #[allow(non_camel_case_types)]
                     struct SetBlockIndexerRetainHeightSvc<T: PruningService>(pub Arc<T>);
                     impl<
@@ -609,7 +625,7 @@ pub mod pruning_service_server {
                     };
                     Box::pin(fut)
                 }
-                "/cometbft.services.pruning.v1beta1.PruningService/GetBlockIndexerRetainHeight" => {
+                "/cometbft.services.pruning.v1.PruningService/GetBlockIndexerRetainHeight" => {
                     #[allow(non_camel_case_types)]
                     struct GetBlockIndexerRetainHeightSvc<T: PruningService>(pub Arc<T>);
                     impl<
@@ -700,6 +716,6 @@ pub mod pruning_service_server {
         }
     }
     impl<T: PruningService> tonic::server::NamedService for PruningServiceServer<T> {
-        const NAME: &'static str = "cometbft.services.pruning.v1beta1.PruningService";
+        const NAME: &'static str = "cometbft.services.pruning.v1.PruningService";
     }
 }

@@ -37,6 +37,7 @@ pub struct ConsensusParamsInfo {
     #[prost(int64, tag = "2")]
     pub last_height_changed: i64,
 }
+/// ABCIResponsesInfo retains the responses of the ABCI calls during block processing.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AbciResponsesInfo {
@@ -45,14 +46,16 @@ pub struct AbciResponsesInfo {
     #[prost(int64, tag = "2")]
     pub height: i64,
 }
+/// Version is a message for storing versioning information.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Version {
     #[prost(message, optional, tag = "1")]
-    pub consensus: ::core::option::Option<super::super::version::v1beta1::Consensus>,
+    pub consensus: ::core::option::Option<super::super::version::v1::Consensus>,
     #[prost(string, tag = "2")]
     pub software: ::prost::alloc::string::String,
 }
+/// State represents the state of the blockchain.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct State {

@@ -1,15 +1,19 @@
+/// PingRequest is a request to confirm that the connection is alive.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct RequestPing {}
+/// RequestBroadcastTx is a request to broadcast the transaction.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct RequestBroadcastTx {
     #[prost(bytes = "vec", tag = "1")]
     pub tx: ::prost::alloc::vec::Vec<u8>,
 }
+/// PingResponse is a response to confirm that the connection is alive.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ResponsePing {}
+/// ResponseBroadcastTx is a response of broadcasting the transaction.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ResponseBroadcastTx {
@@ -30,10 +34,12 @@ pub mod broadcast_api_server {
     /// Generated trait containing gRPC methods that should be implemented for use with BroadcastApiServer.
     #[async_trait]
     pub trait BroadcastApi: Send + Sync + 'static {
+        /// Ping the connection.
         async fn ping(
             &self,
             request: tonic::Request<super::RequestPing>,
         ) -> std::result::Result<tonic::Response<super::ResponsePing>, tonic::Status>;
+        /// BroadcastTx broadcasts the transaction.
         async fn broadcast_tx(
             &self,
             request: tonic::Request<super::RequestBroadcastTx>,
@@ -42,6 +48,7 @@ pub mod broadcast_api_server {
             tonic::Status,
         >;
     }
+    /// BroadcastAPI is an API for broadcasting transactions.
     #[derive(Debug)]
     pub struct BroadcastApiServer<T: BroadcastApi> {
         inner: _Inner<T>,

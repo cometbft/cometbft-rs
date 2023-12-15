@@ -1,6 +1,8 @@
+/// GetVersionRequest is the request for the ABCI version.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetVersionRequest {}
+/// GetVersionResponse contains the ABCI application version info.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetVersionResponse {
@@ -40,7 +42,7 @@ pub mod version_service_server {
     ///
     /// The intention with this service is to offer a stable interface through which
     /// clients can access version information. This means that the version of the
-    /// service should be kept stable at v1beta1, with GetVersionResponse evolving only
+    /// service should be kept stable at v1, with GetVersionResponse evolving only
     /// in non-breaking ways.
     #[derive(Debug)]
     pub struct VersionServiceServer<T: VersionService> {
@@ -121,7 +123,7 @@ pub mod version_service_server {
         fn call(&mut self, req: http::Request<B>) -> Self::Future {
             let inner = self.inner.clone();
             match req.uri().path() {
-                "/cometbft.services.version.v1beta1.VersionService/GetVersion" => {
+                "/cometbft.services.version.v1.VersionService/GetVersion" => {
                     #[allow(non_camel_case_types)]
                     struct GetVersionSvc<T: VersionService>(pub Arc<T>);
                     impl<
@@ -205,6 +207,6 @@ pub mod version_service_server {
         }
     }
     impl<T: VersionService> tonic::server::NamedService for VersionServiceServer<T> {
-        const NAME: &'static str = "cometbft.services.version.v1beta1.VersionService";
+        const NAME: &'static str = "cometbft.services.version.v1.VersionService";
     }
 }

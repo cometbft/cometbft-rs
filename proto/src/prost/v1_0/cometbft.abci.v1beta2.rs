@@ -1,6 +1,8 @@
+/// Request represents a request to the ABCI application.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Request {
+    /// Sum of all possible messages.
     #[prost(
         oneof = "request::Value",
         tags = "1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17"
@@ -9,6 +11,7 @@ pub struct Request {
 }
 /// Nested message and enum types in `Request`.
 pub mod request {
+    /// Sum of all possible messages.
     #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, ::prost::Oneof)]
     pub enum Value {
@@ -46,6 +49,7 @@ pub mod request {
         ProcessProposal(super::RequestProcessProposal),
     }
 }
+/// RequestInfo is a request for the ABCI application version.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct RequestInfo {
@@ -58,6 +62,7 @@ pub struct RequestInfo {
     #[prost(string, tag = "4")]
     pub abci_version: ::prost::alloc::string::String,
 }
+/// RequestInitChain is a request to initialize the blockchain.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct RequestInitChain {
@@ -76,6 +81,7 @@ pub struct RequestInitChain {
     #[prost(int64, tag = "6")]
     pub initial_height: i64,
 }
+/// RequestBeginBlock indicates the beginning of commiting the block.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct RequestBeginBlock {
@@ -88,6 +94,8 @@ pub struct RequestBeginBlock {
     #[prost(message, repeated, tag = "4")]
     pub byzantine_validators: ::prost::alloc::vec::Vec<Misbehavior>,
 }
+/// RequestPrepareProposal is a request for the ABCI application to prepare a new
+/// block proposal.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct RequestPrepareProposal {
@@ -112,6 +120,7 @@ pub struct RequestPrepareProposal {
     #[prost(bytes = "bytes", tag = "8")]
     pub proposer_address: ::prost::bytes::Bytes,
 }
+/// RequestProcessProposal is a request for the ABCI application to process proposal.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct RequestProcessProposal {
@@ -134,9 +143,11 @@ pub struct RequestProcessProposal {
     #[prost(bytes = "bytes", tag = "8")]
     pub proposer_address: ::prost::bytes::Bytes,
 }
+/// Response represents a response from the ABCI application.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Response {
+    /// Sum of all possible messages.
     #[prost(
         oneof = "response::Value",
         tags = "1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18"
@@ -145,6 +156,7 @@ pub struct Response {
 }
 /// Nested message and enum types in `Response`.
 pub mod response {
+    /// Sum of all possible messages.
     #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, ::prost::Oneof)]
     pub enum Value {
@@ -184,6 +196,8 @@ pub mod response {
         ProcessProposal(super::ResponseProcessProposal),
     }
 }
+/// ResponseInitChain contains the ABCI application's hash and updates to the
+/// validator set and/or the consensus params, if any.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ResponseInitChain {
@@ -196,12 +210,15 @@ pub struct ResponseInitChain {
     #[prost(bytes = "bytes", tag = "3")]
     pub app_hash: ::prost::bytes::Bytes,
 }
+/// ResponseBeginBlock contains a list of block-level events.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ResponseBeginBlock {
     #[prost(message, repeated, tag = "1")]
     pub events: ::prost::alloc::vec::Vec<Event>,
 }
+/// ResponseCheckTx shows if the transaction was deemed valid by the ABCI
+/// application.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ResponseCheckTx {
@@ -232,6 +249,8 @@ pub struct ResponseCheckTx {
     #[prost(string, tag = "11")]
     pub mempool_error: ::prost::alloc::string::String,
 }
+/// ResponseDeliverTx contains a result of committing the given transaction and a
+/// list of events.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ResponseDeliverTx {
@@ -255,6 +274,7 @@ pub struct ResponseDeliverTx {
     #[prost(string, tag = "8")]
     pub codespace: ::prost::alloc::string::String,
 }
+/// ResponseEndBlock contains updates to consensus params and/or validator set changes, if any.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ResponseEndBlock {
@@ -267,12 +287,14 @@ pub struct ResponseEndBlock {
     #[prost(message, repeated, tag = "3")]
     pub events: ::prost::alloc::vec::Vec<Event>,
 }
+/// ResponsePrepareProposal contains the list of transactions that will be included in the proposal.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ResponsePrepareProposal {
     #[prost(bytes = "bytes", repeated, tag = "1")]
     pub txs: ::prost::alloc::vec::Vec<::prost::bytes::Bytes>,
 }
+/// ResponseProcessProposal contains the result of processing a proposal.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ResponseProcessProposal {
@@ -281,6 +303,7 @@ pub struct ResponseProcessProposal {
 }
 /// Nested message and enum types in `ResponseProcessProposal`.
 pub mod response_process_proposal {
+    /// The status.
     #[derive(
         Clone,
         Copy,
@@ -294,8 +317,11 @@ pub mod response_process_proposal {
     )]
     #[repr(i32)]
     pub enum ProposalStatus {
+        /// Unknown
         Unknown = 0,
+        /// Accepted
         Accept = 1,
+        /// Rejected
         Reject = 2,
     }
     impl ProposalStatus {
@@ -321,6 +347,7 @@ pub mod response_process_proposal {
         }
     }
 }
+/// CommitInfo contains votes for the particular round.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CommitInfo {
@@ -368,6 +395,7 @@ pub struct EventAttribute {
     #[prost(bool, tag = "3")]
     pub index: bool,
 }
+/// ExtendedVoteInfo extends VoteInfo with the vote extentions (non-deterministic).
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ExtendedVoteInfo {
@@ -381,6 +409,7 @@ pub struct ExtendedVoteInfo {
     #[prost(bytes = "bytes", tag = "3")]
     pub vote_extension: ::prost::bytes::Bytes,
 }
+/// Misbehavior is a type of misbehavior committed by a validator.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Misbehavior {
@@ -401,11 +430,15 @@ pub struct Misbehavior {
     #[prost(int64, tag = "5")]
     pub total_voting_power: i64,
 }
+/// The type of misbehavior committed by a validator.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
 pub enum MisbehaviorType {
+    /// Unknown
     Unknown = 0,
+    /// Duplicate vote
     DuplicateVote = 1,
+    /// Light client attack
     LightClientAttack = 2,
 }
 impl MisbehaviorType {
@@ -438,6 +471,7 @@ pub mod abci_application_server {
     /// Generated trait containing gRPC methods that should be implemented for use with AbciApplicationServer.
     #[async_trait]
     pub trait AbciApplication: Send + Sync + 'static {
+        /// Echo returns back the same message it is sent.
         async fn echo(
             &self,
             request: tonic::Request<super::super::v1beta1::RequestEcho>,
@@ -445,6 +479,7 @@ pub mod abci_application_server {
             tonic::Response<super::super::v1beta1::ResponseEcho>,
             tonic::Status,
         >;
+        /// Flush flushes the write buffer.
         async fn flush(
             &self,
             request: tonic::Request<super::super::v1beta1::RequestFlush>,
@@ -452,6 +487,7 @@ pub mod abci_application_server {
             tonic::Response<super::super::v1beta1::ResponseFlush>,
             tonic::Status,
         >;
+        /// Info returns information about the application state.
         async fn info(
             &self,
             request: tonic::Request<super::RequestInfo>,
@@ -459,6 +495,7 @@ pub mod abci_application_server {
             tonic::Response<super::super::v1beta1::ResponseInfo>,
             tonic::Status,
         >;
+        /// DeliverTx applies a transaction.
         async fn deliver_tx(
             &self,
             request: tonic::Request<super::super::v1beta1::RequestDeliverTx>,
@@ -466,10 +503,12 @@ pub mod abci_application_server {
             tonic::Response<super::ResponseDeliverTx>,
             tonic::Status,
         >;
+        /// CheckTx validates a transaction.
         async fn check_tx(
             &self,
             request: tonic::Request<super::super::v1beta1::RequestCheckTx>,
         ) -> std::result::Result<tonic::Response<super::ResponseCheckTx>, tonic::Status>;
+        /// Query queries the application state.
         async fn query(
             &self,
             request: tonic::Request<super::super::v1beta1::RequestQuery>,
@@ -477,6 +516,7 @@ pub mod abci_application_server {
             tonic::Response<super::super::v1beta1::ResponseQuery>,
             tonic::Status,
         >;
+        /// Commit commits a block of transactions.
         async fn commit(
             &self,
             request: tonic::Request<super::super::v1beta1::RequestCommit>,
@@ -484,6 +524,7 @@ pub mod abci_application_server {
             tonic::Response<super::super::v1beta1::ResponseCommit>,
             tonic::Status,
         >;
+        /// InitChain initializes the blockchain.
         async fn init_chain(
             &self,
             request: tonic::Request<super::RequestInitChain>,
@@ -491,6 +532,7 @@ pub mod abci_application_server {
             tonic::Response<super::ResponseInitChain>,
             tonic::Status,
         >;
+        /// BeginBlock signals the beginning of a block.
         async fn begin_block(
             &self,
             request: tonic::Request<super::RequestBeginBlock>,
@@ -498,6 +540,7 @@ pub mod abci_application_server {
             tonic::Response<super::ResponseBeginBlock>,
             tonic::Status,
         >;
+        /// EndBlock signals the end of a block, returns changes to the validator set.
         async fn end_block(
             &self,
             request: tonic::Request<super::super::v1beta1::RequestEndBlock>,
@@ -505,6 +548,7 @@ pub mod abci_application_server {
             tonic::Response<super::ResponseEndBlock>,
             tonic::Status,
         >;
+        /// ListSnapshots lists all the available snapshots.
         async fn list_snapshots(
             &self,
             request: tonic::Request<super::super::v1beta1::RequestListSnapshots>,
@@ -512,6 +556,7 @@ pub mod abci_application_server {
             tonic::Response<super::super::v1beta1::ResponseListSnapshots>,
             tonic::Status,
         >;
+        /// OfferSnapshot sends a snapshot offer.
         async fn offer_snapshot(
             &self,
             request: tonic::Request<super::super::v1beta1::RequestOfferSnapshot>,
@@ -519,6 +564,7 @@ pub mod abci_application_server {
             tonic::Response<super::super::v1beta1::ResponseOfferSnapshot>,
             tonic::Status,
         >;
+        /// LoadSnapshotChunk returns a chunk of snapshot.
         async fn load_snapshot_chunk(
             &self,
             request: tonic::Request<super::super::v1beta1::RequestLoadSnapshotChunk>,
@@ -526,6 +572,7 @@ pub mod abci_application_server {
             tonic::Response<super::super::v1beta1::ResponseLoadSnapshotChunk>,
             tonic::Status,
         >;
+        /// ApplySnapshotChunk applies a chunk of snapshot.
         async fn apply_snapshot_chunk(
             &self,
             request: tonic::Request<super::super::v1beta1::RequestApplySnapshotChunk>,
@@ -533,6 +580,7 @@ pub mod abci_application_server {
             tonic::Response<super::super::v1beta1::ResponseApplySnapshotChunk>,
             tonic::Status,
         >;
+        /// PrepareProposal returns a proposal for the next block.
         async fn prepare_proposal(
             &self,
             request: tonic::Request<super::RequestPrepareProposal>,
@@ -540,6 +588,7 @@ pub mod abci_application_server {
             tonic::Response<super::ResponsePrepareProposal>,
             tonic::Status,
         >;
+        /// ProcessProposal validates a proposal.
         async fn process_proposal(
             &self,
             request: tonic::Request<super::RequestProcessProposal>,
@@ -548,6 +597,7 @@ pub mod abci_application_server {
             tonic::Status,
         >;
     }
+    /// ABCIApplication is a service for an ABCI application.
     #[derive(Debug)]
     pub struct AbciApplicationServer<T: AbciApplication> {
         inner: _Inner<T>,
