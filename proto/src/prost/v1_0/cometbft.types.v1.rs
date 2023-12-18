@@ -1,3 +1,4 @@
+/// ValidatorSet defines a set of validators.
 #[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -11,6 +12,7 @@ pub struct ValidatorSet {
     #[serde(skip_serializing)]
     pub total_voting_power: i64,
 }
+/// Validator represents a node participating in the consensus protocol.
 #[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -19,7 +21,7 @@ pub struct Validator {
     #[serde(with = "crate::serializers::bytes::hexstring")]
     pub address: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "2")]
-    pub pub_key: ::core::option::Option<super::crypto::PublicKey>,
+    pub pub_key: ::core::option::Option<super::super::crypto::v1::PublicKey>,
     #[prost(int64, tag = "3")]
     #[serde(alias = "power", with = "crate::serializers::from_str")]
     pub voting_power: i64,
@@ -28,11 +30,14 @@ pub struct Validator {
     #[serde(default)]
     pub proposer_priority: i64,
 }
+/// SimpleValidator is a Validator, which is serialized and hashed in consensus.
+/// Address is removed because it's redundant with the pubkey.
+/// Proposer priority is removed because it changes every round.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SimpleValidator {
     #[prost(message, optional, tag = "1")]
-    pub pub_key: ::core::option::Option<super::crypto::PublicKey>,
+    pub pub_key: ::core::option::Option<super::super::crypto::v1::PublicKey>,
     #[prost(int64, tag = "2")]
     pub voting_power: i64,
 }
@@ -41,13 +46,13 @@ pub struct SimpleValidator {
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
 pub enum BlockIdFlag {
-    /// indicates an error condition
+    /// Indicates an error condition
     Unknown = 0,
-    /// the vote was not received
+    /// The vote was not received
     Absent = 1,
-    /// voted for the block that received the majority
+    /// Voted for the block that received the majority
     Commit = 2,
-    /// voted for nil
+    /// Voted for nil
     Nil = 3,
 }
 impl BlockIdFlag {
@@ -74,7 +79,7 @@ impl BlockIdFlag {
         }
     }
 }
-/// PartsetHeader
+/// Header of the parts set for a block.
 #[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -86,6 +91,7 @@ pub struct PartSetHeader {
     #[serde(with = "crate::serializers::bytes::hexstring")]
     pub hash: ::prost::alloc::vec::Vec<u8>,
 }
+/// Part of the block.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Part {
@@ -94,9 +100,9 @@ pub struct Part {
     #[prost(bytes = "vec", tag = "2")]
     pub bytes: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "3")]
-    pub proof: ::core::option::Option<super::crypto::Proof>,
+    pub proof: ::core::option::Option<super::super::crypto::v1::Proof>,
 }
-/// BlockID
+/// BlockID defines the unique ID of a block as its hash and its `PartSetHeader`.
 #[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -115,7 +121,7 @@ pub struct BlockId {
 pub struct Header {
     /// basic block info
     #[prost(message, optional, tag = "1")]
-    pub version: ::core::option::Option<super::version::Consensus>,
+    pub version: ::core::option::Option<super::super::version::v1::Consensus>,
     #[prost(string, tag = "2")]
     pub chain_id: ::prost::alloc::string::String,
     #[prost(int64, tag = "3")]
@@ -254,6 +260,7 @@ pub struct CommitSig {
     #[serde(with = "crate::serializers::bytes::base64string")]
     pub signature: ::prost::alloc::vec::Vec<u8>,
 }
+/// ExtendedCommit is a Commit with ExtendedCommitSig.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ExtendedCommit {
@@ -287,6 +294,7 @@ pub struct ExtendedCommitSig {
     #[prost(bytes = "vec", tag = "6")]
     pub extension_signature: ::prost::alloc::vec::Vec<u8>,
 }
+/// Block proposal.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Proposal {
@@ -305,6 +313,7 @@ pub struct Proposal {
     #[prost(bytes = "vec", tag = "7")]
     pub signature: ::prost::alloc::vec::Vec<u8>,
 }
+/// SignedHeader contains a Header(H) and Commit(H+1) with signatures of validators who signed it.
 #[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -314,6 +323,7 @@ pub struct SignedHeader {
     #[prost(message, optional, tag = "2")]
     pub commit: ::core::option::Option<Commit>,
 }
+/// LightBlock is a combination of SignedHeader and ValidatorSet. It is used by light clients.
 #[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -323,6 +333,7 @@ pub struct LightBlock {
     #[prost(message, optional, tag = "2")]
     pub validator_set: ::core::option::Option<ValidatorSet>,
 }
+/// BlockMeta contains meta information about a block.
 #[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -350,17 +361,19 @@ pub struct TxProof {
     #[serde(with = "crate::serializers::bytes::base64string")]
     pub data: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "3")]
-    pub proof: ::core::option::Option<super::crypto::Proof>,
+    pub proof: ::core::option::Option<super::super::crypto::v1::Proof>,
 }
 /// SignedMsgType is a type of signed message in the consensus.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
 pub enum SignedMsgType {
+    /// Unknown
     Unknown = 0,
-    /// Votes
+    /// Prevote
     Prevote = 1,
+    /// Precommit
     Precommit = 2,
-    /// Proposals
+    /// Proposal
     Proposal = 32,
 }
 impl SignedMsgType {
@@ -387,14 +400,17 @@ impl SignedMsgType {
         }
     }
 }
+/// Evidence is a generic type for wrapping evidence of misbehavior by a validator.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Evidence {
+    /// The type of evidence.
     #[prost(oneof = "evidence::Sum", tags = "1, 2")]
     pub sum: ::core::option::Option<evidence::Sum>,
 }
 /// Nested message and enum types in `Evidence`.
 pub mod evidence {
+    /// The type of evidence.
     #[derive(::serde::Deserialize, ::serde::Serialize)]
     #[serde(tag = "type", content = "value")]
     #[allow(clippy::derive_partial_eq_without_eq)]
@@ -446,6 +462,7 @@ pub struct LightClientAttackEvidence {
     #[prost(message, optional, tag = "5")]
     pub timestamp: ::core::option::Option<crate::google::protobuf::Timestamp>,
 }
+/// EvidenceList is a list of evidence.
 #[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -454,6 +471,7 @@ pub struct EvidenceList {
     #[serde(with = "crate::serializers::nullable")]
     pub evidence: ::prost::alloc::vec::Vec<Evidence>,
 }
+/// Block defines the structure of a block in the CometBFT blockchain.
 #[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -467,6 +485,7 @@ pub struct Block {
     #[prost(message, optional, tag = "4")]
     pub last_commit: ::core::option::Option<Commit>,
 }
+/// EventDataRoundState is emmitted with each new round step.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct EventDataRoundState {
@@ -544,6 +563,7 @@ pub struct ValidatorParams {
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct VersionParams {
+    /// Was named app_version in Tendermint 0.34
     #[prost(uint64, tag = "1")]
     pub app: u64,
 }
@@ -574,6 +594,8 @@ pub struct AbciParams {
     #[prost(int64, tag = "1")]
     pub vote_extensions_enable_height: i64,
 }
+/// CanonicalBlockID is a canonical representation of a BlockID, which gets
+/// serialized and signed.
 #[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -583,6 +605,8 @@ pub struct CanonicalBlockId {
     #[prost(message, optional, tag = "2")]
     pub part_set_header: ::core::option::Option<CanonicalPartSetHeader>,
 }
+/// CanonicalPartSetHeader is a canonical representation of a PartSetHeader,
+/// which gets serialized and signed.
 #[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -592,6 +616,8 @@ pub struct CanonicalPartSetHeader {
     #[prost(bytes = "vec", tag = "2")]
     pub hash: ::prost::alloc::vec::Vec<u8>,
 }
+/// CanonicalProposal is a canonical representation of a Proposal, which gets
+/// serialized and signed.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CanonicalProposal {
@@ -613,6 +639,8 @@ pub struct CanonicalProposal {
     #[prost(string, tag = "7")]
     pub chain_id: ::prost::alloc::string::String,
 }
+/// CanonicalVote is a canonical representation of a Vote, which gets
+/// serialized and signed.
 #[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]

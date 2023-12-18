@@ -18,13 +18,15 @@ pub mod google {
     }
 }
 
-mod error;
 #[allow(warnings)]
+mod cometbft;
+mod error;
 mod tendermint;
 
 use core::{convert::TryFrom, fmt::Display};
 
 use bytes::{Buf, BufMut};
+pub use cometbft::*;
 pub use error::Error;
 use prost::Message;
 pub use tendermint::*;

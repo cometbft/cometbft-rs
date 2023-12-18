@@ -1,3 +1,4 @@
+/// NetAddress represents a peer's network address.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct NetAddress {
@@ -8,6 +9,7 @@ pub struct NetAddress {
     #[prost(uint32, tag = "3")]
     pub port: u32,
 }
+/// ProtocolVersion represents the current p2p protocol version.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ProtocolVersion {
@@ -18,6 +20,8 @@ pub struct ProtocolVersion {
     #[prost(uint64, tag = "3")]
     pub app: u64,
 }
+/// DefaultNodeInfo is a basic node's information sent to other peers during the
+/// p2p handshake.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct DefaultNodeInfo {
@@ -38,6 +42,7 @@ pub struct DefaultNodeInfo {
     #[prost(message, optional, tag = "8")]
     pub other: ::core::option::Option<DefaultNodeInfoOther>,
 }
+/// DefaultNodeInfoOther is the misc. application specific data.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct DefaultNodeInfoOther {
@@ -46,12 +51,16 @@ pub struct DefaultNodeInfoOther {
     #[prost(string, tag = "2")]
     pub rpc_address: ::prost::alloc::string::String,
 }
+/// PacketPing is a request to confirm that the connection is alive.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PacketPing {}
+/// PacketPong is a response to confirm that the connection is alive.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PacketPong {}
+/// PacketMsg contains data for the specified channel ID. EOF means the message
+/// is fully received.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PacketMsg {
@@ -62,14 +71,17 @@ pub struct PacketMsg {
     #[prost(bytes = "vec", tag = "3")]
     pub data: ::prost::alloc::vec::Vec<u8>,
 }
+/// Packet is an abstract p2p message.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Packet {
+    /// Sum of all possible messages.
     #[prost(oneof = "packet::Sum", tags = "1, 2, 3")]
     pub sum: ::core::option::Option<packet::Sum>,
 }
 /// Nested message and enum types in `Packet`.
 pub mod packet {
+    /// Sum of all possible messages.
     #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, ::prost::Oneof)]
     pub enum Sum {
@@ -81,31 +93,38 @@ pub mod packet {
         PacketMsg(super::PacketMsg),
     }
 }
+/// AuthSigMessage is sent during the authentication and contains our/remote's
+/// signature along with the public key.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AuthSigMessage {
     #[prost(message, optional, tag = "1")]
-    pub pub_key: ::core::option::Option<super::crypto::PublicKey>,
+    pub pub_key: ::core::option::Option<super::super::crypto::v1::PublicKey>,
     #[prost(bytes = "vec", tag = "2")]
     pub sig: ::prost::alloc::vec::Vec<u8>,
 }
+/// PexRequest is a request for peer addresses.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PexRequest {}
+/// PexAddrs is a response with peer addresses.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PexAddrs {
     #[prost(message, repeated, tag = "1")]
     pub addrs: ::prost::alloc::vec::Vec<NetAddress>,
 }
+/// Message is an abstract PEX message.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Message {
+    /// Sum of all possible messages.
     #[prost(oneof = "message::Sum", tags = "1, 2")]
     pub sum: ::core::option::Option<message::Sum>,
 }
 /// Nested message and enum types in `Message`.
 pub mod message {
+    /// Sum of all possible messages.
     #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, ::prost::Oneof)]
     pub enum Sum {
