@@ -1,4 +1,4 @@
-//! CometBFT-proto auto-generated sub-modules for CometBFT
+//! CometBFT-proto auto-generated sub-modules for Tendermint. DO NOT EDIT
 
 pub mod abci {
     include!("../prost/v0_38/tendermint.abci.rs");
@@ -62,5 +62,5 @@ pub mod version {
 
 pub mod meta {
     pub const REPOSITORY: &str = "https://github.com/cometbft/cometbft";
-    pub const COMMITISH: &str = "v0.38.0";
+    pub const COMMITISH: &str = "v0.38.2";
 }
