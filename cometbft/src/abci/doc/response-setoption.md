@@ -1,1 +1,1 @@
-Undocumented, non-deterministic, was removed from Tendermint in 0.35.
+Undocumented, non-deterministic, was removed from CometBFT in 0.35.

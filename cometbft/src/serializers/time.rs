@@ -1,5 +1,5 @@
 //! An alternative timestamp serialization/deserialization mechanism for
-//! RFC3339-compatible timestamps to that provided by the `tendermint-proto`
+//! RFC3339-compatible timestamps to that provided by the `cometbft-proto`
 //! crate.
 
 use serde::{Deserialize, Deserializer, Serialize, Serializer};

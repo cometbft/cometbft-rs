@@ -16,7 +16,7 @@ pub struct LoadSnapshotChunk {
 // Protobuf conversions
 // =============================================================================
 
-tendermint_pb_modules! {
+cometbft_pb_modules! {
     use super::LoadSnapshotChunk;
 
     impl From<LoadSnapshotChunk> for pb::abci::ResponseLoadSnapshotChunk {

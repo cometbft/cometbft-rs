@@ -41,7 +41,7 @@ pub struct SignedVoteResponse {
 // Protobuf conversions
 // =============================================================================
 
-tendermint_pb_modules! {
+cometbft_pb_modules! {
     use super::{SignVoteRequest, SignedVoteResponse};
     use crate::{Error, prelude::*};
     use pb::privval::{
@@ -164,8 +164,8 @@ mod tests {
         // the following vector is generated via:
         // import (
         // "fmt"
-        // prototypes "github.com/tendermint/tendermint/proto/tendermint/types"
-        // "github.com/tendermint/tendermint/types"
+        // prototypes "github.com/cometbft/cometbft/api/cometbft/types/v1"
+        // "github.com/cometbft/cometbft/types"
         // "strings"
         // "time"
         // )
@@ -246,8 +246,8 @@ mod tests {
         // the following vector is generated via:
         // import (
         // "fmt"
-        // prototypes "github.com/tendermint/tendermint/proto/tendermint/types"
-        // "github.com/tendermint/tendermint/types"
+        // prototypes "github.com/cometbft/cometbft/api/cometbft/types/v1"
+        // "github.com/cometbft/cometbft/types"
         // "strings"
         // "time"
         // )
@@ -281,7 +281,7 @@ mod tests {
         assert_eq!(got, want);
     }
 
-    tendermint_pb_modules! {
+    cometbft_pb_modules! {
         use super::*;
         use pb::types::CanonicalVote as RawCanonicalVote;
         use crate::{Time, account, signature::Ed25519Signature};

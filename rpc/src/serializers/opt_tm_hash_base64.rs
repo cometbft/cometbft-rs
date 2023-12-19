@@ -1,4 +1,4 @@
-//! Encoding/decoding Option Tendermint hashes to/from base64.
+//! Encoding/decoding Option CometBFT hashes to/from base64.
 use cometbft::hash::Hash;
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
 

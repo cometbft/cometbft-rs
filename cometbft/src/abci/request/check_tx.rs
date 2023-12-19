@@ -17,7 +17,7 @@ pub struct CheckTx {
 /// The possible kinds of [`CheckTx`] checks.
 ///
 /// Note: the
-/// [ABCI documentation](https://docs.tendermint.com/master/spec/abci/abci.html#checktx)
+/// [ABCI documentation](https://docs.cometbft.com/v1/spec/abci/abci.html#checktx)
 /// calls this `CheckTxType`, but we follow the Rust convention and name it `CheckTxKind`
 /// to avoid confusion with Rust types.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
@@ -35,7 +35,7 @@ pub enum CheckTxKind {
 // Protobuf conversions
 // =============================================================================
 
-tendermint_pb_modules! {
+cometbft_pb_modules! {
     use super::{CheckTx, CheckTxKind};
 
     impl From<CheckTx> for pb::abci::RequestCheckTx {

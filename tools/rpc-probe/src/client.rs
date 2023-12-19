@@ -1,8 +1,8 @@
-//! WebSocket client for interacting with a remote Tendermint node.
+//! WebSocket client for interacting with a remote CometBFT node.
 //!
 //! We purposefully do not use the WebSocket client provided by the
-//! `tendermint-rpc` crate because we need to record the raw JSON-RPC responses
-//! from the remote endpoint. The `tendermint-rpc` client does not expose these
+//! `cometbft-rpc` crate because we need to record the raw JSON-RPC responses
+//! from the remote endpoint. The `cometbft-rpc` client does not expose these
 //! raw responses.
 
 use std::{borrow::Cow, collections::HashMap};

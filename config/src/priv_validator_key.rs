@@ -5,7 +5,7 @@ use std::{fs, path::Path};
 use cometbft::{
     account,
     private_key::PrivateKey,
-    public_key::{PublicKey, TendermintKey},
+    public_key::{CometbftKey, PublicKey},
 };
 use serde::{Deserialize, Serialize};
 
@@ -31,7 +31,7 @@ impl PrivValidatorKey {
             serde_json::from_str::<Self>(json_string.as_ref()).map_err(Error::serde_json)?;
 
         // Validate that the parsed key type is usable as a consensus key
-        TendermintKey::new_consensus_key(result.priv_key.public_key()).map_err(Error::cometbft)?;
+        CometbftKey::new_consensus_key(result.priv_key.public_key()).map_err(Error::cometbft)?;
 
         Ok(result)
     }
@@ -48,7 +48,7 @@ impl PrivValidatorKey {
     }
 
     /// Get the consensus public key for this validator private key
-    pub fn consensus_pubkey(&self) -> TendermintKey {
-        TendermintKey::new_consensus_key(self.priv_key.public_key()).unwrap()
+    pub fn consensus_pubkey(&self) -> CometbftKey {
+        CometbftKey::new_consensus_key(self.priv_key.public_key()).unwrap()
     }
 }

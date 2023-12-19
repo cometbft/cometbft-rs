@@ -1,4 +1,4 @@
-//! Tendermint node IDs
+//! CometBFT node IDs
 
 use core::{
     fmt::{self, Debug, Display},

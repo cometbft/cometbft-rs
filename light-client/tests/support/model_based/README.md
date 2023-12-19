@@ -19,11 +19,11 @@ When you run `cargo test` some machinery will run under the hood, namely:
   For that translation two other components are necessary:
   * [Jsonatr (JSON Arrifact Translator)](https://github.com/informalsystems/jsonatr) 
     performs the translation by executing this [transformation spec](_jsonatr-lib/apalache_to_lite_test.json);
-  * [Tendermint Testgen](https://github.com/informalsystems/tendermint-rs/tree/main/testgen)
+  * [CometBFT Testgen](https://github.com/cometbft/cometbft-rs/tree/main/testgen)
   takes care of translating abstract values from the model into the concrete implementation values.
 * `timeout` command is used to limit the test execution time.
 
-So, for the model-based test to run, the programs `apalache-mc`, `jsonatr`, `tendermint-testgen`
+So, for the model-based test to run, the programs `apalache-mc`, `jsonatr`, `cometbft-testgen`
 and `timeout` should be present in your `PATH`. 
 If any of the programs is not found, execution of a model-based test will be skipped.
 
@@ -48,10 +48,10 @@ $ cd jsonatr/
 $ cargo install --path .
 ```
 
-#### Installing `tendermint-testgen`
+#### Installing `cometbft-testgen`
 
 ```bash
-$ cargo install tendermint-testgen
+$ cargo install cometbft-testgen
 ```
 
 #### Installing `timeout`
@@ -62,7 +62,7 @@ $ cargo install tendermint-testgen
 To run your model-based tests, use this command:
  
  ```bash
-$ cargo test -p tendermint-light-client --test model_based -- --nocapture
+$ cargo test -p cometbft-light-client --test model_based -- --nocapture
  ```
 
 The results will be printed to the screen, 

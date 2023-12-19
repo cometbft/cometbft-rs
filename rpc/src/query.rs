@@ -1,4 +1,4 @@
-//! Structured querying for the Tendermint RPC event subscription system.
+//! Structured querying for the CometBFT RPC event subscription system.
 //!
 //! See [`Query`] for details as to how to construct queries.
 //!
@@ -14,7 +14,7 @@ use time::{
 
 use crate::{prelude::*, serializers::timestamp, Error};
 
-/// A structured query for use in interacting with the Tendermint RPC event
+/// A structured query for use in interacting with the CometBFT RPC event
 /// subscription system.
 ///
 /// Allows for compile-time validation of queries.
@@ -53,7 +53,7 @@ use crate::{prelude::*, serializers::timestamp, Error};
 /// assert_eq!(query, Query::from(EventType::Tx).and_gte("tx.height", 100_u64));
 /// ```
 ///
-/// [subscribe endpoint documentation]: https://docs.tendermint.com/v0.34/rpc/#/Websocket/subscribe
+/// [subscribe endpoint documentation]: https://docs.cometbft.com/v1/rpc/#/Websocket/subscribe
 #[derive(Debug, Clone, PartialEq)]
 pub struct Query {
     // We can only have at most one event type at present in a query.
@@ -174,7 +174,7 @@ impl Query {
 impl Default for Query {
     /// An empty query matches any set of events. See [these docs].
     ///
-    /// [these docs]: https://godoc.org/github.com/tendermint/tendermint/libs/pubsub/query#Empty
+    /// [these docs]: https://godoc.org/github.com/cometbft/cometbft/libs/pubsub/query#Empty
     fn default() -> Self {
         Self {
             event_type: None,
@@ -392,7 +392,7 @@ where
     Ok(())
 }
 
-/// The types of Tendermint events for which we can query at present.
+/// The types of CometBFT events for which we can query at present.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum EventType {
     NewBlock,
@@ -510,12 +510,12 @@ pub enum Operation {
 
 /// A typed operand for use in an [`Condition`].
 ///
-/// According to the [Tendermint RPC subscribe docs][tm-subscribe],
+/// According to the [CometBFT RPC subscribe docs][tm-subscribe],
 /// an operand can be a string, number, date or time. We differentiate here
 /// between integer and floating point numbers.
 ///
 /// [`Condition`]: enum.Condition.html
-/// [tm-subscribe]: https://docs.tendermint.com/v0.34/rpc/#/Websocket/subscribe
+/// [tm-subscribe]: https://docs.cometbft.com/v1/rpc/#/Websocket/subscribe
 #[derive(Debug, Clone, PartialEq)]
 pub enum Operand {
     String(String),

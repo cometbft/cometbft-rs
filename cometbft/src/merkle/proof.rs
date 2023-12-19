@@ -19,7 +19,7 @@ pub struct Proof {
 }
 
 /// Merkle proof defined by the list of ProofOps
-/// <https://github.com/tendermint/tendermint/blob/c8483531d8e756f7fbb812db1dd16d841cdf298a/crypto/merkle/merkle.proto#L26>
+/// <https://github.com/cometbft/cometbft/blob/c8483531d8e756f7fbb812db1dd16d841cdf298a/crypto/merkle/merkle.proto#L26>
 #[derive(Clone, Debug, Eq, Hash, PartialEq, Serialize, Deserialize)]
 pub struct ProofOps {
     /// The list of ProofOps
@@ -29,7 +29,7 @@ pub struct ProofOps {
 /// ProofOp defines an operation used for calculating Merkle root
 /// The data could be arbitrary format, providing necessary data
 /// for example neighbouring node hash
-/// <https://github.com/tendermint/tendermint/blob/c8483531d8e756f7fbb812db1dd16d841cdf298a/crypto/merkle/merkle.proto#L19>
+/// <https://github.com/cometbft/cometbft/blob/c8483531d8e756f7fbb812db1dd16d841cdf298a/crypto/merkle/merkle.proto#L19>
 #[derive(Clone, Debug, Eq, Hash, PartialEq, Serialize, Deserialize)]
 pub struct ProofOp {
     /// Type of the ProofOp
@@ -47,7 +47,7 @@ pub struct ProofOp {
 // Protobuf conversions
 // =============================================================================
 
-tendermint_pb_modules! {
+cometbft_pb_modules! {
     use super::{Proof, ProofOp, ProofOps};
     use crate::{prelude::*, Error};
     use pb::{

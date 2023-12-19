@@ -1,8 +1,8 @@
 # Contributing
 
-Thank you for your interest in contributing to tendermint-rs! The goal of
-tendermint-rs is to provide a high quality, formally verified interface to
-[Tendermint].
+Thank you for your interest in contributing to cometbft-rs! The goal of
+cometbft-rs is to provide a high quality, formally verified interface to
+[CometBFT].
 
 This document outlines the best practices for contributing to this repository:
 
@@ -20,7 +20,7 @@ dramatically increase the likelihood of changes being accepted quickly.
 ### Create/locate and assign yourself to an issue
 
 1. A good place to start is to search through the [existing
-   issues](https://github.com/informalsystems/tendermint-rs/issues) for the
+   issues](https://github.com/cometbft/cometbft-rs/issues) for the
    problem you're encountering.
 2. If no relevant issues exist, submit one describing the *problem* you're
    facing, as well as a *definition of done*. A definition of done, which tells
@@ -104,7 +104,7 @@ not fellow developers. Developers have much more context and care about more
 things than users do. Changelogs are for users.
 
 Changelog structure is modeled after [Tendermint
-Core](https://github.com/tendermint/tendermint/blob/main/CHANGELOG.md) and
+Core](https://github.com/cometbft/cometbft/blob/main/CHANGELOG.md) and
 [Hashicorp Consul](http://github.com/hashicorp/consul/tree/master/CHANGELOG.md).
 See those changelogs for examples.
 
@@ -115,7 +115,7 @@ Changelog entries should be formatted as follows:
 
 ```
 - `[pkg]` A description of the change with *users* in mind
-  ([#xxx](https://github.com/informalsystems/tendermint-rs/issues/xxx))
+  ([#xxx](https://github.com/cometbft/cometbft-rs/issues/xxx))
 ```
 
 Here, `pkg` is the part of the code that changed, and `xxx` is the issue or
@@ -139,11 +139,11 @@ Pull requests are squash-merged into one of the following primary development
 branches:
 
 - `main` - targeting compatibility with the [latest official release of
-  Tendermint](https://github.com/tendermint/tendermint/releases).
-- tendermint-rs version-specific branches, e.g. `v0.23.x` - targeting patches to
-  older versions of tendermint-rs.
+  CometBFT](https://github.com/cometbft/cometbft/releases).
+- cometbft-rs version-specific branches, e.g. `v0.23.x` - targeting patches to
+  older versions of cometbft-rs.
 
-Indicate in your pull request which version of Tendermint/tendermint-rs you are
+Indicate in your pull request which version of CometBFT/cometbft-rs you are
 targeting with your changes. Changes to multiple versions will require separate
 PRs. See the [README](./README.md#versioning) for the version support matrix.
 
@@ -199,9 +199,9 @@ Our release process is as follows:
       bump a new patch version (e.g. `v0.31.1`) and repeat the process
       with its corresponding new tag.
 
-[CHANGELOG.md]: https://github.com/informalsystems/tendermint-rs/blob/main/CHANGELOG.md
-[`release.sh`]: https://github.com/informalsystems/tendermint-rs/blob/main/release.sh
+[CHANGELOG.md]: https://github.com/cometbft/cometbft-rs/blob/main/CHANGELOG.md
+[`release.sh`]: https://github.com/cometbft/cometbft-rs/blob/main/release.sh
 [crates.io]: https://crates.io
 [unclog]: https://github.com/informalsystems/unclog
-[Tendermint]: https://tendermint.com
-[release.yml]: https://github.com/informalsystems/tendermint-rs/blob/main/.github/workflows/release.yml
+[CometBFT]: https://cometbft.com
+[release.yml]: https://github.com/cometbft/cometbft-rs/blob/main/.github/workflows/release.yml

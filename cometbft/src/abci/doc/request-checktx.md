@@ -8,4 +8,4 @@ transaction in full, but can instead perform lightweight or statateful
 validation (e.g., checking signatures or account balances) instead of more
 expensive checks (like running code in a virtual machine).
 
-[ABCI documentation](https://docs.tendermint.com/master/spec/abci/abci.html#checktx)
+[ABCI documentation](https://docs.cometbft.com/v1/spec/abci/abci.html#checktx)

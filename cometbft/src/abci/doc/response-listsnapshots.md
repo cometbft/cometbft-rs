@@ -1,3 +1,3 @@
 Returns a list of local state snapshots.
 
-[ABCI documentation](https://docs.tendermint.com/master/spec/abci/abci.html#listsnapshots)
+[ABCI documentation](https://docs.cometbft.com/v1/spec/abci/abci.html#listsnapshots)

@@ -1,0 +1,23 @@
+#!/usr/bin/env sh
+set -euo pipefail
+
+if [ ! -d "${CMTHOME}/config" ]; then
+
+	echo "Running cometbft init to create configuration."
+	/usr/bin/cometbft init
+
+  sconfig -s ${CMTHOME}/config/config.toml \
+    proxy_app=${PROXY_APP:-kvstore} \
+    moniker=${MONIKER:-dockernode} \
+    consensus.timeout_commit=500ms \
+    rpc.laddr=tcp://0.0.0.0:26657 \
+    p2p.addr_book_strict=false \
+    instrumentation.prometheus=true
+
+  sconfig -s ${CMTHOME}/config/genesis.json \
+    chain_id=${CHAIN_ID:-dockerchain} \
+    consensus_params.block.time_iota_ms=500
+
+fi
+
+exec /usr/bin/cometbft "$@"

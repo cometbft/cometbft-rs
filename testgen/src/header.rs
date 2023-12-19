@@ -199,7 +199,7 @@ impl Generator<block::Header> for Header {
         });
 
         let header = block::Header {
-            // block version in Tendermint-go is hardcoded with value 11
+            // block version in CometBFT-go is hardcoded with value 11
             // so we do the same with MBT for now for compatibility
             version: block::header::Version { block: 11, app: 0 },
             chain_id,

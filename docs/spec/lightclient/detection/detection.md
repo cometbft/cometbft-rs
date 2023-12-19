@@ -2,7 +2,7 @@
 # Disclaimer
 
 This specification is  an unfinished draft and not maintained. See
-[tendermint/spec](https://github.com/tendermint/spec/blob/master/rust-spec/lightclient/detection/)
+the [CometBFT spec](https://github.com/cometbft/cometbft/tree/main/spec/light-client/detection/)
 for the most recent version.
 
 
@@ -113,7 +113,7 @@ time t there exists an *h* and a sequence *a(1)*, ... *a(h)* s.t.
 
 > **TODO:** I believe the following definition
 > corresponds to **Slashable fork** in
-> [forks][tendermintfork]. Please confirm!  
+> [forks][tendermintfork]. Please confirm!
 > Observe that sign-skip-match  is even defined if there is a fork on
 > the chain.
 
@@ -723,7 +723,7 @@ func ForkDetector(ls LightStore, PoFs PoFStore)
 
 [verificationVDD]: https://github.com/informalsystems/VDD/blob/master/lightclient/failuredetector.md
 
-[verification]: https://github.com/informalsystems/tendermint-rs/blob/main/docs/spec/lightclient/verification.md
+[verification]: https://github.com/cometbft/cometbft-rs/blob/main/docs/spec/lightclient/verification.md
 
 [accountability]: https://github.com/tendermint/spec/blob/master/spec/consensus/light-client/accountability.md
 

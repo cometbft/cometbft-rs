@@ -1,13 +1,13 @@
-//! Tendermint Light Client JavaScript/WASM interface.
+//! CometBFT Light Client JavaScript/WASM interface.
 //!
-//! This crate exposes some of the [`tendermint-light-client-verifier`] crate's
+//! This crate exposes some of the [`cometbft-light-client-verifier`] crate's
 //! functionality to be used from the JavaScript ecosystem.
 //!
 //! For a detailed example, please see the [`verifier-web` example] in the
 //! repository.
 //!
-//! [`tendermint-light-client-verifier`]: https://github.com/informalsystems/tendermint-rs/tree/main/light-client-verifier
-//! [`verifier-web` example]: https://github.com/informalsystems/tendermint-rs/tree/main/light-client-js/examples/verifier-web
+//! [`cometbft-light-client-verifier`]: https://github.com/cometbft/cometbft-rs/tree/main/light-client-verifier
+//! [`verifier-web` example]: https://github.com/cometbft/cometbft-rs/tree/main/light-client-js/examples/verifier-web
 
 mod utils;
 
@@ -23,7 +23,7 @@ use serde::{Deserialize, Serialize};
 use wasm_bindgen::{prelude::*, JsValue};
 
 // TODO: Use Web Crypto API for cryptographic routines.
-// https://github.com/informalsystems/tendermint-rs/issues/1241
+// https://github.com/cometbft/cometbft-rs/issues/1241
 use cometbft_light_client_verifier::ProdVerifier;
 
 /// Check whether a given untrusted block can be trusted.

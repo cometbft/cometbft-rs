@@ -50,7 +50,7 @@ impl Default for ApplySnapshotChunkResult {
 // Protobuf conversions
 // =============================================================================
 
-tendermint_pb_modules! {
+cometbft_pb_modules! {
     use super::{ApplySnapshotChunk, ApplySnapshotChunkResult};
 
     impl From<ApplySnapshotChunk> for pb::abci::ResponseApplySnapshotChunk {

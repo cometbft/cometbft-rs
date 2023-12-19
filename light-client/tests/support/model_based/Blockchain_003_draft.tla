@@ -1,6 +1,6 @@
 ------------------------ MODULE Blockchain_003_draft -----------------------------
 (*
-  This is a high-level specification of Tendermint blockchain
+  This is a high-level specification of CometBFT blockchain
   that is designed specifically for the light client.
   Validators have the voting power of one. If you like to model various
   voting powers, introduce multiple copies of the same validator
@@ -114,7 +114,7 @@ IsCorrectPower(pFaultyNodes, pVS) ==
     CP > 2 * FP \* Note: when FP = 0, this implies CP > 0.
     
 (* @type: (Set(Str), Int, BLOCKCHAIN) => Bool;
-   This is what we believe is the assumption about failures in Tendermint *)     
+   This is what we believe is the assumption about failures in CometBFT *)     
 FaultAssumption(pFaultyNodes, pNow, pBlockchain) ==
     \A h \in Heights:
       pBlockchain[h].time + TRUSTING_PERIOD > pNow =>
@@ -158,7 +158,7 @@ InitToHeight ==
              ] \******
        
 
-(* is the blockchain in the faulty zone where the Tendermint security model does not apply *)
+(* is the blockchain in the faulty zone where the CometBFT security model does not apply *)
 InFaultyZone ==
   ~FaultAssumption(Faulty, now, blockchain)       
 

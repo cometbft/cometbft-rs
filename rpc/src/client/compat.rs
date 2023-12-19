@@ -7,7 +7,7 @@ use cometbft::Version;
 use crate::prelude::*;
 use crate::Error;
 
-/// Protocol compatibility mode for a Tendermint RPC client.
+/// Protocol compatibility mode for a CometBFT RPC client.
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
 pub enum CompatMode {
     /// Use version 0.34 of the protocol.
@@ -28,7 +28,7 @@ impl CompatMode {
         Self::V0_37
     }
 
-    /// Parse the Tendermint version string to determine
+    /// Parse the CometBFT version string to determine
     /// the compatibility mode.
     ///
     /// The version can be obtained by querying the `/status` endpoint.
@@ -41,16 +41,16 @@ impl CompatMode {
     /// be handled by the same server. In the future, the RPC protocol should
     /// follow versioning practices designed to avoid ambiguities with
     /// message formats.
-    pub fn from_version(tendermint_version: Version) -> Result<CompatMode, Error> {
-        let raw_version: String = tendermint_version.into();
+    pub fn from_version(cometbft_version: Version) -> Result<CompatMode, Error> {
+        let raw_version: String = cometbft_version.into();
         let version = semver::Version::parse(raw_version.trim_start_matches('v'))
-            .map_err(|_| Error::invalid_tendermint_version(raw_version))?;
+            .map_err(|_| Error::invalid_cometbft_version(raw_version))?;
 
         match (version.major, version.minor) {
             (0, 34) => Ok(CompatMode::V0_34),
             (0, 37) => Ok(CompatMode::V0_37),
             (0, 38) => Ok(CompatMode::V0_37),
-            _ => Err(Error::unsupported_tendermint_version(version.to_string())),
+            _ => Err(Error::unsupported_cometbft_version(version.to_string())),
         }
     }
 }

@@ -9,7 +9,7 @@ for the most recent version.
 ## Abstract
 
 This directory contains English and TLA+ specifications for the FastSync
-protocol as it is currently implemented in the Tendermint Core codebase.
+protocol as it is currently implemented in the CometBFT codebase.
 
 ## English Specification
 
@@ -36,7 +36,7 @@ the redundancies between them, improve their utility to researchers and
 engineers, and to improve their verifiability. For now, they provide a complete
 description of the fast sync protocol in TLA+; especially the
 [scheduler.tla](scheduler.tla), which maps very closely to the current
-implementation of the [scheduler in Go](https://github.com/tendermint/tendermint/blockchain/v2/scheduler.go).
+implementation of the [scheduler in Go](https://github.com/cometbft/cometbft/blockchain/v2/scheduler.go).
 
 The [scheduler.tla](scheduler.tla) can be model checked in TLC with the following
 parameters:

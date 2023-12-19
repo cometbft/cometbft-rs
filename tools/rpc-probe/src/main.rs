@@ -44,15 +44,15 @@ impl ToString for OutputPathBuf {
 }
 
 /// A utility application that primarily aims to assist in testing
-/// compatibility between tendermint.rs (https://github.com/informalsystems/tendermint-rs)
-/// and Tendermint (https://github.com/tendermint/tendermint).
+/// compatibility between cometbft.rs (https://github.com/cometbft/cometbft-rs)
+/// and CometBFT (https://github.com/cometbft/cometbft).
 ///
 /// Running this application will execute a "quick probe" against a running
-/// Tendermint node. This executes a number of RPC requests against the node,
+/// CometBFT node. This executes a number of RPC requests against the node,
 /// saving both the requests and responses to the desired output folder.
 #[derive(Debug, StructOpt)]
 struct Opts {
-    /// The address of the Tendermint node's WebSocket-based RPC endpoint.
+    /// The address of the CometBFT node's WebSocket-based RPC endpoint.
     #[structopt(default_value = "ws://127.0.0.1:26657/websocket", long)]
     pub addr: String,
 
@@ -74,7 +74,7 @@ struct Opts {
 
 #[derive(Debug, StructOpt)]
 enum Command {
-    /// Execute a quick probe of a Tendermint node running the `kvstore` ABCI
+    /// Execute a quick probe of a CometBFT node running the `kvstore` ABCI
     /// application.
     Kvstore,
     /// Execute a probe of a Gaia node.

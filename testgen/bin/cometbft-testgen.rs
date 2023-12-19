@@ -3,11 +3,11 @@ use gumdrop::Options;
 use simple_error::SimpleError;
 
 const USAGE: &str = r#"
-This is a small utility for producing tendermint datastructures
+This is a small utility for producing Tendermint datastructures
 from minimal input (for testing purposes only).
 
-For example, a tendermint validator can be produced only from an identifier,
-or a tendermint header only from a set of validators.
+For example, a Tendermint validator can be produced only from an identifier,
+or a Tendermint header only from a set of validators.
 
 To get an idea which input is needed for each datastructure, try '--help CMD':
 it will list the required and optional parameters.
@@ -24,11 +24,11 @@ In case a particular datastructure can be produced from a single parameter
 directly via STDIN, without wrapping it into JSON object.
 E.g., in the validator case, the following commands are all equivalent:
 
-    tendermint-testgen validator --id a --voting-power 3
-    echo -n '{"id": "a", "voting_power": 3}' | tendermint-testgen --stdin validator
-    echo -n a | tendermint-testgen --stdin validator --voting-power 3
-    echo -n '{"id": "a"}' | tendermint-testgen --stdin validator --voting-power 3
-    echo -n '{"id": "a", "voting_power": 100}' | tendermint-testgen --stdin validator --voting-power 3
+    cometbft-testgen validator --id a --voting-power 3
+    echo -n '{"id": "a", "voting_power": 3}' | cometbft-testgen --stdin validator
+    echo -n a | cometbft-testgen --stdin validator --voting-power 3
+    echo -n '{"id": "a"}' | cometbft-testgen --stdin validator --voting-power 3
+    echo -n '{"id": "a", "voting_power": 100}' | cometbft-testgen --stdin validator --voting-power 3
 
 The result is:
     {
@@ -113,7 +113,7 @@ fn main() {
     }
     match opts.command {
         None => {
-            eprintln!("Produce tendermint datastructures for testing from minimal input\n");
+            eprintln!("Produce Tendermint datastructures for testing from minimal input\n");
             eprintln!("Please specify a command:");
             eprintln!("{}\n", CliOptions::command_list().unwrap());
             eprintln!("{}\n", CliOptions::usage());

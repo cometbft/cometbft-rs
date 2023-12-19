@@ -1,4 +1,4 @@
-//! Pagination-related data structures for the Tendermint RPC.
+//! Pagination-related data structures for the CometBFT RPC.
 
 use core::{convert::TryInto, str::FromStr};
 

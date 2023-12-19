@@ -1,4 +1,4 @@
-//! Tendermint JSON-RPC endpoints
+//! CometBFT JSON-RPC endpoints
 
 pub mod abci_info;
 pub mod abci_query;

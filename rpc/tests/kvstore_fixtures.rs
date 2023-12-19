@@ -1,4 +1,4 @@
-//! Tendermint kvstore RPC endpoint testing.
+//! CometBFT kvstore RPC endpoint testing.
 
 use core::str::FromStr;
 use std::{collections::BTreeMap as HashMap, fs, path::PathBuf};

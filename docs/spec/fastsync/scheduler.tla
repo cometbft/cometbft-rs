@@ -6,7 +6,7 @@
 
  A specification of the fast sync scheduler that is introduced in blockchain/v2:
  
- https://github.com/tendermint/tendermint/tree/brapse/blockchain-v2-riri-reactor-2
+ https://github.com/cometbft/cometbft/tree/brapse/blockchain-v2-riri-reactor-2
  
  The model includes:
     - a scheduler that maintains the peers and blocks that it receives from the peers, and
@@ -108,7 +108,7 @@ OutEvents ==
 (* ----------------------------------------------------------------------------------------------*)
 (* The behavior of the scheduler that keeps track of peers, block requests and responses, etc.   *)
 (* See scheduler.go                                                                              *)
-(* https://github.com/tendermint/tendermint/blob/v0.33.3/blockchain/v2/scheduler.go              *)
+(* https://github.com/cometbft/cometbft/blob/v0.33.3/blockchain/v2/scheduler.go              *)
 (* ----------------------------------------------------------------------------------------------*)
 
 addPeer(sc, peerID) == 
@@ -244,7 +244,7 @@ highPeers(sc, minH) == {p \in sc.peers: sc.peerHeights[p] >= minH}
 (* ----------------------------------------------------------------------------------------------*)
 (* The behavior of the scheduler state machine                                                   *)
 (* See scheduler.go                                                                              *)
-(* https://github.com/tendermint/tendermint/tree/brapse/blockchain-v2-riri-reactor-2/scheduler.go*)
+(* https://github.com/cometbft/cometbft/tree/brapse/blockchain-v2-riri-reactor-2/scheduler.go*)
 (* ----------------------------------------------------------------------------------------------*)
 blStateInit(h, start) ==
   IF h <= start THEN

@@ -2,7 +2,7 @@
 
 We present our instantiation of model-based testing (MBT) using the TLA+ modeling language and the Apalache model checker. In our work we have created the infrastructure that facilitates model-based testing, and makes it appealing and beneficial for software developers to apply in their everyday development practice -- much more so than the standard integration testing with manually written tests that we've employed previously.
 
-Our model-based testing procedure finds its rightful place in the verification-driven development process (VDD) we apply at Informal Systems. More concretely, we use it as an alternative approach to integration testing of the implementation in the Rust programming language of the fault-tolerant distributed consensus protocol named Tendermint. In the VDD process, we start with the semi-formal English language description of the protocol, which is then formally specified in TLA+, and verified by our Apalache model checker. The TLA+ specification is used as a reference model for clarifying misunderstanding both at the English language level, and at the level of the concrete implementation in Rust. Model-based tests are expressed in pure TLA+, and represent simple assertions on the computation history the user wants to examine. Consider the model-based test below:
+Our model-based testing procedure finds its rightful place in the verification-driven development process (VDD) we apply at Informal Systems. More concretely, we use it as an alternative approach to integration testing of the implementation in the Rust programming language of the fault-tolerant distributed consensus protocol named CometBFT. In the VDD process, we start with the semi-formal English language description of the protocol, which is then formally specified in TLA+, and verified by our Apalache model checker. The TLA+ specification is used as a reference model for clarifying misunderstanding both at the English language level, and at the level of the concrete implementation in Rust. Model-based tests are expressed in pure TLA+, and represent simple assertions on the computation history the user wants to examine. Consider the model-based test below:
 
 ```tla+
 Test2NoSuccess ==
@@ -14,7 +14,7 @@ Test2NoSuccess ==
 
 ```
 
-This is the model-based test of the Tendermint LightClient sub-protocol, which is used to establish a trust in a blockchain block retrieved from an untrusted source. The test describes a computation history in which the protocol execution, despite passing through two distinct intermediate states with unsuccessful block verification, still finishes successfully. This model-based test is then used to automatically generate and execute the complete integration test for the Tendermint LightClient protocol: e.g., in a Tendermint network with 4 validators these 6 lines of TLA+ are translated to more than 500 lines of the JSON integration test with all necessary details: private and public keys, signatures, timestamps, etc.
+This is the model-based test of the CometBFT LightClient sub-protocol, which is used to establish a trust in a blockchain block retrieved from an untrusted source. The test describes a computation history in which the protocol execution, despite passing through two distinct intermediate states with unsuccessful block verification, still finishes successfully. This model-based test is then used to automatically generate and execute the complete integration test for the CometBFT LightClient protocol: e.g., in a CometBFT network with 4 validators these 6 lines of TLA+ are translated to more than 500 lines of the JSON integration test with all necessary details: private and public keys, signatures, timestamps, etc.
 
 In our presentation we would like to convey three main messages on model-based testing, which we describe below.
 
@@ -22,7 +22,7 @@ In our presentation we would like to convey three main messages on model-based t
 
 In our initial experience of implementing and applying MBT, we find quite appealing its simplicity for the end user, being it a researcher or a developer. The model-based tests are quite abstract and concise; they can precisely describe what behavior needs to be tested. At the same time, in sharp contrast to standard integration tests, they leave a lot of details unspecified. An important feature of MBT is that these missing details will be instantiated in different ways with each run of the model-based test; moreover, this behavior can be easily employed to _exhaustively_ test all scenarios falling under the abstract test. In the above example, the intermediate results are only restricted to be unsuccessful, but concrete verification errors are left open. And the model checker will indeed instantiate for each run different combinations of failures: due to the blockchain block falling out of the trusting period, not enough trust in the validator set, signature validation errors, etc.
 
-One of the main reasons for the Tendermint modeling and model-based testing being successfully implemented and accepted within our teams is the rich syntax and semantics of the TLA+ language. TLA+ allowed us to concisely model the complex aspects of the Tendermint protocol, as well as to express correctness properties and tests about it. In particular, even for developers without a prior exposure to TLA+, following the models written by our researchers has helped to clarify the protocol abstractions before diving into the implementation, thus avoiding the painful experience and countless hours of correcting them when the implementation is already done.
+One of the main reasons for the CometBFT modeling and model-based testing being successfully implemented and accepted within our teams is the rich syntax and semantics of the TLA+ language. TLA+ allowed us to concisely model the complex aspects of the CometBFT protocol, as well as to express correctness properties and tests about it. In particular, even for developers without a prior exposure to TLA+, following the models written by our researchers has helped to clarify the protocol abstractions before diving into the implementation, thus avoiding the painful experience and countless hours of correcting them when the implementation is already done.
 
 
 ## Substantial infrastructure is necessary for model-based testing, but the complexity is reasonable.
@@ -36,7 +36,7 @@ Some infrastructure naturally needs to be implemented in order to apply MBT. The
 
 Implementation of the above infrastructure took us about 3 person-months of work, which is quite a reasonable cost taking into account the reusability of most of the components.
 
-![Model-based testing of the Tendermint Light Client](LightClientMBT.png) 
+![Model-based testing of the CometBFT Light Client](LightClientMBT.png) 
 
 
 ## MBT can serve as a "missing link" to synchronize formal specification and concrete implementation, and to connect academia and industry.

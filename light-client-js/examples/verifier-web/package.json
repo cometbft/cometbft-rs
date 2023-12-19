@@ -1,7 +1,7 @@
 {
-  "name": "tendermint-light-client-verifier-web",
+  "name": "cometbft-light-client-verifier-web",
   "version": "0.1.0",
-  "description": "an example app to demonstrate Tendermint Light Client verification on the web using WASM",
+  "description": "an example app to demonstrate CometBFT Light Client verification on the web using WASM",
   "main": "index.js",
   "scripts": {
     "build": "webpack --config webpack.config.js",
@@ -9,9 +9,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/informalsystems/tendermint-rs.git"
+    "url": "git+https://github.com/cometbft/cometbft-rs.git"
   },
   "keywords": [
+    "cometbft",
     "tendermint",
     "light-client",
     "webassembly",
@@ -26,9 +27,9 @@
   ],
   "license": "(MIT OR Apache-2.0)",
   "bugs": {
-    "url": "https://github.com/informalsystems/tendermint-rs/issues"
+    "url": "https://github.com/cometbft/cometbft-rs/issues"
   },
-  "homepage": "https://github.com/informalsystems/tendermint-rs",
+  "homepage": "https://github.com/cometbft/cometbft-rs",
   "devDependencies": {
     "copy-webpack-plugin": "^5.1.2",
     "css-loader": "^5.0.2",
@@ -41,6 +42,6 @@
   },
   "dependencies": {
     "monaco-editor": "^0.22.3",
-    "tendermint-light-client-js": "file:../../pkg"
+    "cometbft-light-client-js": "file:../../pkg"
   }
 }

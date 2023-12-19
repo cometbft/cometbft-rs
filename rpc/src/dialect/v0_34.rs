@@ -53,7 +53,7 @@ pub struct EventAttribute {
         deserialize_with = "base64string::deserialize_to_string"
     )]
     pub value: String,
-    /// Whether Tendermint's indexer should index this event.
+    /// Whether CometBFT's indexer should index this event.
     ///
     /// **This field is nondeterministic**.
     pub index: bool,

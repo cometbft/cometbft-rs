@@ -5,12 +5,12 @@ See the [repo root] for build status, license, Rust version, etc.
 
 # Light Client CLI
 
-CLI for the Tendermint [Light Client][light-client].
+CLI for the CometBFT [Light Client][light-client].
 
 ## Usage
 
 ```
-Usage: tendermint-light-client-cli [OPTIONS] --chain-id <CHAIN_ID> --primary <PRIMARY> --witnesses <WITNESSES> --trusted-height <TRUSTED_HEIGHT> --trusted-hash <TRUSTED_HASH>
+Usage: cometbft-light-client-cli [OPTIONS] --chain-id <CHAIN_ID> --primary <PRIMARY> --witnesses <WITNESSES> --trusted-height <TRUSTED_HEIGHT> --trusted-hash <TRUSTED_HASH>
 
 Options:
       --chain-id <CHAIN_ID>
@@ -44,12 +44,12 @@ Options:
 
 [//]: # (badges)
 
-[crate-image]: https://img.shields.io/crates/v/tendermint-light-client-cli.svg
-[crate-link]: https://crates.io/crates/tendermint-light-client-cli
-[docs-image]: https://docs.rs/tendermint-light-client-cli/badge.svg
-[docs-link]: https://docs.rs/tendermint-light-client-cli/
+[crate-image]: https://img.shields.io/crates/v/cometbft-light-client-cli.svg
+[crate-link]: https://crates.io/crates/cometbft-light-client-cli
+[docs-image]: https://docs.rs/cometbft-light-client-cli/badge.svg
+[docs-link]: https://docs.rs/cometbft-light-client-cli/
 
 [//]: # (general links)
 
-[repo root]: https://github.com/informalsystems/tendermint-rs
-[light-client]: https://github.com/informalsystems/tendermint-rs/tree/main/light-client
+[repo root]: https://github.com/cometbft/cometbft-rs
+[light-client]: https://github.com/cometbft/cometbft-rs/tree/main/light-client

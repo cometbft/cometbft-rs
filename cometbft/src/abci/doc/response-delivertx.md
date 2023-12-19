@@ -1,4 +1,4 @@
 Returns events that occurred while executing a transaction against the
 application state.
 
-[ABCI documentation](https://docs.tendermint.com/master/spec/abci/abci.html#delivertx)
+[ABCI documentation](https://docs.cometbft.com/v1/spec/abci/abci.html#delivertx)

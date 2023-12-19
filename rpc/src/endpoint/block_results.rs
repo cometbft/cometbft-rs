@@ -92,7 +92,7 @@ pub struct Response {
 
 impl crate::Response for Response {}
 
-/// Serialization for /block_results endpoint format in Tendermint 0.34
+/// Serialization for /block_results endpoint format in CometBFT 0.34
 pub mod v0_34 {
     use super::Response;
     use crate::dialect::v0_34::Event;

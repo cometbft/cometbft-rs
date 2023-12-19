@@ -40,7 +40,7 @@ pub struct Query {
 // Protobuf conversions
 // =============================================================================
 
-tendermint_pb_modules! {
+cometbft_pb_modules! {
     use super::Query;
 
     impl From<Query> for pb::abci::ResponseQuery {

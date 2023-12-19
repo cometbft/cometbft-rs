@@ -7,7 +7,7 @@ pub struct PubKeyRequest {
     pub chain_id: ChainId,
 }
 
-tendermint_pb_modules! {
+cometbft_pb_modules! {
     use super::PubKeyRequest;
     use crate::{chain::Id as ChainId, prelude::*};
     use pb::privval::PubKeyRequest as RawPubKeyRequest;
@@ -35,7 +35,7 @@ tendermint_pb_modules! {
 
 #[cfg(test)]
 mod tests {
-    tendermint_pb_modules! {
+    cometbft_pb_modules! {
         use super::super::PubKeyRequest;
         use pb::privval::PubKeyRequest as RawPubKeyRequest;
         use crate::{chain::Id as ChainId, prelude::*};
@@ -46,7 +46,7 @@ mod tests {
             // test-vector generated via the following go code:
             // import (
             // "fmt"
-            // "github.com/tendermint/tendermint/proto/tendermint/privval"
+            // "github.com/cometbft/cometbft/proto/cometbft/privval"
             // )
             // func ed25519_empty() {
             // pkr := &privval.PubKeyRequest{

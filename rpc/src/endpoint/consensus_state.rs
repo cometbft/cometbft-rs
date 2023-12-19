@@ -12,7 +12,7 @@ use subtle_encoding::hex;
 
 use crate::{dialect::Dialect, prelude::*, request::RequestMessage, Error, Method};
 
-// From <https://github.com/tendermint/tendermint/blob/e820e68acd69737cfb63bc9ccca5f5450a42b5cf/types/vote.go#L16>
+// From <https://github.com/cometbft/cometbft/blob/e820e68acd69737cfb63bc9ccca5f5450a42b5cf/types/vote.go#L16>
 const NIL_VOTE_STR: &str = "nil-Vote";
 
 /// Get the current consensus state.
@@ -41,7 +41,7 @@ impl<S: Dialect> crate::SimpleRequest<S> for Request {
 
 /// The current consensus state (UNSTABLE).
 ///
-/// Currently based on <https://github.com/tendermint/tendermint/blob/e820e68acd69737cfb63bc9ccca5f5450a42b5cf/consensus/types/round_state.go#L97>
+/// Currently based on <https://github.com/cometbft/cometbft/blob/e820e68acd69737cfb63bc9ccca5f5450a42b5cf/consensus/types/round_state.go#L97>
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct Response {
     pub round_state: RoundState,
@@ -125,7 +125,7 @@ impl<'de> Deserialize<'de> for HeightRoundStep {
 /// Details of all votes for a particular consensus round.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct RoundVotes {
-    // A Tendermint node currently serializes this particular field as an
+    // A CometBFT node currently serializes this particular field as an
     // integer and not a string (unlike that which is expected from the `Round`
     // type).
     pub round: u32,

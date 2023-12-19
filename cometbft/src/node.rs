@@ -1,4 +1,4 @@
-//! Nodes in Tendermint blockchain networks
+//! Nodes in CometBFT blockchain networks
 
 mod id;
 pub mod info;

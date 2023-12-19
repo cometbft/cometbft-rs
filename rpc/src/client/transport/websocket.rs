@@ -1,4 +1,4 @@
-//! WebSocket-based clients for accessing Tendermint RPC functionality.
+//! WebSocket-based clients for accessing CometBFT RPC functionality.
 
 use alloc::{borrow::Cow, collections::BTreeMap as HashMap, fmt};
 use core::{
@@ -46,20 +46,20 @@ use crate::{
 // WebSocket connection times out if we haven't heard anything at all from the
 // server in this long.
 //
-// Taken from https://github.com/tendermint/tendermint/blob/309e29c245a01825fc9630103311fd04de99fa5e/rpc/jsonrpc/server/ws_handler.go#L27
+// Taken from https://github.com/cometbft/cometbft/blob/309e29c245a01825fc9630103311fd04de99fa5e/rpc/jsonrpc/server/ws_handler.go#L27
 const RECV_TIMEOUT_SECONDS: u64 = 30;
 
 const RECV_TIMEOUT: Duration = Duration::from_secs(RECV_TIMEOUT_SECONDS);
 
 // How frequently to send ping messages to the WebSocket server.
 //
-// Taken from https://github.com/tendermint/tendermint/blob/309e29c245a01825fc9630103311fd04de99fa5e/rpc/jsonrpc/server/ws_handler.go#L28
+// Taken from https://github.com/cometbft/cometbft/blob/309e29c245a01825fc9630103311fd04de99fa5e/rpc/jsonrpc/server/ws_handler.go#L28
 const PING_INTERVAL: Duration = Duration::from_secs((RECV_TIMEOUT_SECONDS * 9) / 10);
 
 /// Low-level WebSocket configuration
 pub use async_tungstenite::tungstenite::protocol::WebSocketConfig;
 
-/// Tendermint RPC client that provides access to all RPC functionality
+/// CometBFT RPC client that provides access to all RPC functionality
 /// (including [`Event`] subscription) over a WebSocket connection.
 ///
 /// The `WebSocketClient` itself is effectively just a handle to its driver
@@ -89,7 +89,7 @@ pub use async_tungstenite::tungstenite::protocol::WebSocketConfig;
 ///
 /// The WebSocket client implements a keep-alive mechanism whereby it sends a
 /// PING message to the server every 27 seconds, matching the PING cadence of
-/// the Tendermint server (see [this code][tendermint-websocket-ping] for
+/// the CometBFT server (see [this code][cometbft-websocket-ping] for
 /// details).
 ///
 /// This is not configurable at present.
@@ -137,7 +137,7 @@ pub use async_tungstenite::tungstenite::protocol::WebSocketConfig;
 /// }
 /// ```
 ///
-/// [tendermint-websocket-ping]: https://github.com/tendermint/tendermint/blob/309e29c245a01825fc9630103311fd04de99fa5e/rpc/jsonrpc/server/ws_handler.go#L28
+/// [cometbft-websocket-ping]: https://github.com/cometbft/cometbft/blob/309e29c245a01825fc9630103311fd04de99fa5e/rpc/jsonrpc/server/ws_handler.go#L28
 #[derive(Debug, Clone)]
 pub struct WebSocketClient {
     inner: sealed::WebSocketClient,
@@ -152,7 +152,7 @@ pub struct Builder {
 }
 
 impl Builder {
-    /// Use the specified compatibility mode for the Tendermint RPC protocol.
+    /// Use the specified compatibility mode for the CometBFT RPC protocol.
     ///
     /// The default is the latest protocol version supported by this crate.
     pub fn compat_mode(mut self, mode: CompatMode) -> Self {
@@ -182,7 +182,7 @@ impl Builder {
 
 impl WebSocketClient {
     /// Construct a new WebSocket-based client connecting to the given
-    /// Tendermint node's RPC endpoint.
+    /// CometBFT node's RPC endpoint.
     ///
     /// Supports both `ws://` and `wss://` protocols.
     pub async fn new<U>(url: U) -> Result<(Self, WebSocketClientDriver), Error>
@@ -194,7 +194,7 @@ impl WebSocketClient {
     }
 
     /// Construct a new WebSocket-based client connecting to the given
-    /// Tendermint node's RPC endpoint.
+    /// CometBFT node's RPC endpoint.
     ///
     /// Supports both `ws://` and `wss://` protocols.
     pub async fn new_with_config<U>(
@@ -209,7 +209,7 @@ impl WebSocketClient {
     }
 
     /// Initiate a builder for a WebSocket-based client connecting to the given
-    /// Tendermint node's RPC endpoint.
+    /// CometBFT node's RPC endpoint.
     ///
     /// Supports both `ws://` and `wss://` protocols.
     pub fn builder(url: WebSocketClientUrl) -> Builder {

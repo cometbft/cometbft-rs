@@ -2,11 +2,11 @@
 (**
  * This specification is not maintained anymore. The most recent version can be found at:
 
- * https://github.com/tendermint/spec/tree/master/rust-spec/lightclient/verification
+ * https://github.com/cometbft/cometbft/tree/main/spec/light-client/verification
 
  * A state-machine specification of the lite client, following the English spec:
  *
- * https://github.com/informalsystems/tendermint-rs/blob/main/docs/spec/lightclient/verification.md
+ * https://github.com/cometbft/cometbft-rs/blob/main/docs/spec/lightclient/verification.md
  *) 
 
 EXTENDS Integers, FiniteSets

@@ -23,7 +23,7 @@ pub struct Info {
 // Protobuf conversions
 // =============================================================================
 
-tendermint_pb_modules! {
+cometbft_pb_modules! {
     use super::Info;
 
     impl From<Info> for pb::abci::ResponseInfo {

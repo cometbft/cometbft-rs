@@ -11,7 +11,7 @@ pub struct Exception {
 // Protobuf conversions
 // =============================================================================
 
-tendermint_pb_modules! {
+cometbft_pb_modules! {
     use super::Exception;
 
     impl From<Exception> for pb::abci::ResponseException {

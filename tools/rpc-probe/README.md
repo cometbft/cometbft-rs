@@ -1,9 +1,9 @@
-# Tendermint RPC Probe
+# CometBFT RPC Probe
 
-The Tendermint RPC probe is an application that assists in testing the various
+The CometBFT RPC probe is an application that assists in testing the various
 crates in this repository. It currently allows you to execute a quick probe of
-a running [Tendermint] node, where a quick probe executes requests against all
-of the [Tendermint RPC] endpoints (including subscriptions for different event
+a running [CometBFT] node, where a quick probe executes requests against all
+of the [CometBFT RPC] endpoints (including subscriptions for different event
 types), and saves all of the responses it gets as JSON files. These JSON files
 can be used in testing in other crates.
 
@@ -26,18 +26,18 @@ cargo make
 
 This will:
 
-1. Build the `tendermint-rpc-probe` executable
-2. Pull the latest version of the Tendermint Docker image
-3. Initialize and run a Tendermint node with the `kvstore` app in the
+1. Build the `cometbft-rpc-probe` executable
+2. Pull the latest version of the CometBFT Docker image
+3. Initialize and run a CometBFT node with the `kvstore` app in the
    background. (This node exposes a WebSocket endpoint at
    `ws://127.0.0.1:26657/websocket`)
-4. Run `tendermint-rpc-probe` against the running Tendermint node.
+4. Run `cometbft-rpc-probe` against the running CometBFT node.
 5. Terminate the Docker image.
 
-To run a specific version of Tendermint, simply:
+To run a specific version of CometBFT, simply:
 
 ```bash
-cargo make --env DOCKER_IMAGE="informaldev/tendermint:v0.34.0" 
+cargo make --env DOCKER_IMAGE="informaldev/cometbft:v0.34.0" 
 ```
 
 ## Usage (without Docker)
@@ -53,7 +53,7 @@ to see what options are available to run the probe.
 For example:
 
 ```bash
-# Executes the probe with all default options (i.e. against a Tendermint node
+# Executes the probe with all default options (i.e. against a CometBFT node
 # listening on 127.0.0.1:26657)
 cargo run
 
@@ -91,6 +91,6 @@ For example, the `rpc/tests/incoming/abci_info.json` file (returned by the
 
 The full JSON-RPC wrapper is saved to disk.
 
-[Tendermint]: https://github.com/tendermint/tendermint
-[Tendermint RPC]: https://docs.tendermint.com/v0.34/rpc/
-[`abci_info`]: https://docs.tendermint.com/v0.34/rpc/#/ABCI/abci_info
+[CometBFT]: https://github.com/cometbft/cometbft
+[CometBFT RPC]: https://docs.cometbft.com/v1/rpc/
+[`abci_info`]: https://docs.cometbft.com/v1/rpc/#/ABCI/abci_info

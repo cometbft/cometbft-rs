@@ -42,7 +42,7 @@ pub struct SignedProposalResponse {
 // Protobuf conversions
 // =============================================================================
 
-tendermint_pb_modules! {
+cometbft_pb_modules! {
     use pb::privval::{
         SignProposalRequest as RawSignProposalRequest,
         SignedProposalResponse as RawSignedProposalResponse,

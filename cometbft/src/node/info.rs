@@ -18,10 +18,10 @@ pub struct Info {
     /// Listen address
     pub listen_addr: ListenAddress,
 
-    /// Tendermint network / chain ID,
+    /// CometBFT network / chain ID,
     pub network: chain::Id,
 
-    /// Tendermint version
+    /// CometBFT version
     pub version: Version,
 
     /// Channels

@@ -38,7 +38,7 @@ pub struct Proposal {
     pub signature: Option<Signature>,
 }
 
-tendermint_pb_modules! {
+cometbft_pb_modules! {
     use super::Proposal;
     use crate::{Signature, Error, block::Round};
     use pb::types::Proposal as RawProposal;
@@ -176,8 +176,8 @@ mod tests {
         // import (
         // "encoding/hex"
         // "fmt"
-        // prototypes "github.com/tendermint/tendermint/proto/tendermint/types"
-        // "github.com/tendermint/tendermint/types"
+        // prototypes "github.com/cometbft/cometbft/api/cometbft/types/v1"
+        // "github.com/cometbft/cometbft/types"
         // "strings"
         // "time"
         // )
@@ -258,8 +258,8 @@ mod tests {
         // import (
         // "encoding/hex"
         // "fmt"
-        // prototypes "github.com/tendermint/tendermint/proto/tendermint/types"
-        // "github.com/tendermint/tendermint/types"
+        // prototypes "github.com/cometbft/cometbft/api/cometbft/types/v1"
+        // "github.com/cometbft/cometbft/types"
         // "strings"
         // "time"
         // )
@@ -299,7 +299,7 @@ mod tests {
         assert_eq!(got, want)
     }
 
-    tendermint_pb_modules! {
+    cometbft_pb_modules! {
         use super::*;
 
         #[test]

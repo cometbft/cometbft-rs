@@ -1,4 +1,4 @@
-//! Blocks within the chains of a Tendermint network
+//! Blocks within the chains of a CometBFT network
 
 mod block_id_flag;
 mod commit;
@@ -50,7 +50,7 @@ pub struct Block {
     pub last_commit: Option<Commit>,
 }
 
-tendermint_pb_modules! {
+cometbft_pb_modules! {
     use super::{Block, Header, Commit};
     use crate::{Error, prelude::*};
     use pb::types::Block as RawBlock;

@@ -1,4 +1,4 @@
-//! Messages for interacting with the Tendermint RPC.
+//! Messages for interacting with the CometBFT RPC.
 
 use std::fmt;
 

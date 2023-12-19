@@ -1,4 +1,4 @@
-//! Chain information types for Tendermint networks
+//! Chain information types for CometBFT networks
 
 pub mod id;
 mod info;

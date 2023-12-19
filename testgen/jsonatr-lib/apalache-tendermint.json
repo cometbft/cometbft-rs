@@ -60,7 +60,7 @@
     },
     {
       "name": "id_to_validator",
-      "description": "transform an identifier into a validator expected by `tendermint-testgen validator`",
+      "description": "transform an identifier into a validator expected by `cometbft-testgen validator`",
       "kind": "INLINE",
       "source": {
         "id": "$",
@@ -69,7 +69,7 @@
     },
     {
       "name": "id_to_vote",
-      "description": "transform an identifier into a vote expected by `tendermint-testgen vote`",
+      "description": "transform an identifier into a vote expected by `cometbft-testgen vote`",
       "kind": "INLINE",
       "source": {
         "validator": "$ | id_to_validator",
@@ -78,7 +78,7 @@
     },
     {
       "name": "block_to_header",
-      "description": "transform a block from Apalache CE into a header expected by `tendermint-testgen header`",
+      "description": "transform a block from Apalache CE into a header expected by `cometbft-testgen header`",
       "kind": "INLINE",
       "source": {
         "validators": "$ | block_validators | map(id_to_validator)",
@@ -89,7 +89,7 @@
     },
     {
       "name": "block_to_commit",
-      "description": "transform a block from Apalache CE into a commit expected by `tendermint-testgen commit`",
+      "description": "transform a block from Apalache CE into a commit expected by `cometbft-testgen commit`",
       "kind": "INLINE",
       "let": {
         "header": "$ | block_to_header"
@@ -107,7 +107,7 @@
     },
     {
       "name": "ids_to_testgen_validators",
-      "description": "transform a non-empty array of identifiers into `Tendermint-testgen validators`",
+      "description": "transform a non-empty array of identifiers into `cometbft-testgen validators`",
       "kind": "INLINE",
       "source": "$ | map(id_to_validator)"
     },
@@ -128,7 +128,8 @@
       "description": "constant identifier",
       "kind": "INLINE",
       "source": "a"
-    },    {
+    },
+    {
       "name": "fixed_validator",
       "description": "extract first validator from a non-empty array of identifiers",
       "kind": "INLINE",

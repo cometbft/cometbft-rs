@@ -1,4 +1,4 @@
-//! Merkle tree used in Tendermint networks
+//! Merkle tree used in CometBFT networks
 
 pub mod proof;
 
@@ -28,7 +28,7 @@ where
     hasher.hash_byte_vectors(byte_vecs)
 }
 
-/// Implementation of Merkle tree hashing for Tendermint.
+/// Implementation of Merkle tree hashing for CometBFT.
 pub trait MerkleHash {
     // tmhash({})
     // Pre and post-conditions: the hasher is in the reset state

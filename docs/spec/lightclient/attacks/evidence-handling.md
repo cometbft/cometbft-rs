@@ -1,7 +1,7 @@
 # Disclaimer
 
 This specification is not maintained. See
-[tendermint/spec](https://github.com/tendermint/spec/blob/master/rust-spec/lightclient/)
+the [CometBFT spec](https://github.com/cometbft/cometbft/tree/main/spec/light-client/)
 for the most recent version.
 
 
@@ -25,7 +25,7 @@ detects an attack, it needs to send to a witness only missing data (common heigh
 and conflicting light block) as it has its trace. Keeping light client attack data of constant size 
 saves bandwidth and reduces an attack surface. As we will explain below, although in the context of 
 light client core 
-[verification](https://github.com/informalsystems/tendermint-rs/tree/main/docs/spec/lightclient/verification) 
+[verification](https://github.com/informalsystems/tendermint-rs/tree/main/docs/spec/lightclient/verification)
 the roles of primary and witness are clearly defined, 
 in case of the attack, we run the same attack detection procedure twice where the roles are swapped. 
 The rationale is that the light client does not know what peer is correct (on a right main branch) 
@@ -76,7 +76,7 @@ The following invariant holds for the primary trace:
 ### Witness with a conflicting header
 
 The verified header at height `h` is cross-checked with every witness as part of 
-[detection](https://github.com/informalsystems/tendermint-rs/tree/main/docs/spec/lightclient/detection). 
+[detection](https://github.com/cometbft/cometbft-rs/tree/main/docs/spec/lightclient/detection).
 If a witness returns the conflicting header at the height `h` the following procedure is executed to verify 
 if the conflicting header comes from the valid trace and if that's the case to create an attack evidence:
 
@@ -143,7 +143,7 @@ func DetectLightClientAttack(trace []LightBlock, peer PeerID) (LightClientAttack
 As part of on chain evidence handling, full nodes identifies misbehaving processes and informs
 the application, so they can be slashed. Note that only bonded validators should 
 be reported to the application. There are three types of attacks that can be executed against 
-Tendermint light client: 
+Tendermint light client:
   - lunatic attack
   - equivocation attack and 
   - amnesia attack.  

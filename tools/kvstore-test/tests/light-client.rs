@@ -50,7 +50,7 @@ fn make_instance(peer_id: PeerId, options: LightClientOptions, address: rpc::Url
 fn make_primary() -> Instance {
     let primary: PeerId = "BADFADAD0BEFEEDC0C0ADEADBEEFC0FFEEFACADE".parse().unwrap();
 
-    // Because our CI infrastructure can only spawn a single Tendermint node at the moment,
+    // Because our CI infrastructure can only spawn a single CometBFT node at the moment,
     // we run this test against this very node as both the primary and witness.
     // In a production environment, one should make sure that the primary and witness are
     // different nodes, and check that the configured peer IDs match the ones returned

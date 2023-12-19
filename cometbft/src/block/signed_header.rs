@@ -18,7 +18,7 @@ pub struct SignedHeader {
     pub commit: block::Commit,
 }
 
-tendermint_pb_modules! {
+cometbft_pb_modules! {
     use super::SignedHeader;
     use crate::Error;
     use pb::types::SignedHeader as RawSignedHeader;

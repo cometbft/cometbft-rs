@@ -15,7 +15,7 @@ pub struct PubKeyResponse {
 // Protobuf conversions
 // =============================================================================
 
-tendermint_pb_modules! {
+cometbft_pb_modules! {
     use super::PubKeyResponse;
     use pb::privval::PubKeyResponse as RawPubKeyResponse;
 

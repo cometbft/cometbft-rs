@@ -109,7 +109,7 @@ fn serialize_ed25519_keypair<S>(signing_key: &Ed25519, serializer: S) -> Result<
 where
     S: ser::Serializer,
 {
-    // Tendermint uses a serialization format inherited from Go that includes
+    // CometBFT uses a serialization format inherited from Go that includes
     // a cached copy of the public key as the second half.
     let mut keypair_bytes = Zeroizing::new([0u8; ED25519_KEYPAIR_SIZE]);
     keypair_bytes[0..32].copy_from_slice(signing_key.as_bytes());
@@ -135,7 +135,7 @@ where
         return Err(D::Error::custom("invalid Ed25519 keypair size"));
     }
 
-    // Tendermint uses a serialization format inherited from Go that includes a
+    // CometBFT uses a serialization format inherited from Go that includes a
     // cached copy of the public key as the second half.  This is somewhat
     // dangerous, since there's no validation that the two parts are consistent
     // with each other, so we ignore the second half and just check consistency

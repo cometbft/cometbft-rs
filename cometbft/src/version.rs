@@ -4,7 +4,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::prelude::*;
 
-/// Tendermint version
+/// CometBFT version
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq)]
 pub struct Version(String);
 

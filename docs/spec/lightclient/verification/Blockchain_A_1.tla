@@ -3,7 +3,7 @@
 
  * This specification is not maintained anymore. The most recent version can be found at:
 
- * https://github.com/tendermint/spec/tree/master/rust-spec/lightclient/verification
+ * https://github.com/cometbft/cometbft/tree/main/spec/light-client/verification
 
   This is a high-level specification of Tendermint blockchain
   that is designed specifically for the light client.
@@ -106,7 +106,7 @@ IsCorrectPower(pFaultyNodes, pVS) ==
     \* CP + FP = TP is the total voting power, so we write CP > 2.0 / 3 * TP as follows:
     CP > 2 * FP \* Note: when FP = 0, this implies CP > 0.
     
-(* This is what we believe is the assumption about failures in Tendermint *)     
+(* This is what we believe is the assumption about failures in Tendermint *)
 FaultAssumption(pFaultyNodes, pNow, pBlockchain) ==
     \A h \in Heights:
       pBlockchain[h].time + TRUSTING_PERIOD > pNow =>

@@ -1,4 +1,4 @@
-//! Tendermint RPC definitions and types.
+//! CometBFT RPC definitions and types.
 //!
 //! ## Client
 //!
@@ -9,8 +9,8 @@
 //! Several client-related features are provided at present:
 //!
 //! * `http-client` - Provides [`HttpClient`], which is a basic RPC client that interacts with
-//!   remote Tendermint nodes via **JSON-RPC over HTTP or HTTPS**. This client does not provide
-//!   [`event::Event`] subscription functionality. See the [Tendermint RPC] for more details.
+//!   remote CometBFT nodes via **JSON-RPC over HTTP or HTTPS**. This client does not provide
+//!   [`event::Event`] subscription functionality. See the [CometBFT RPC] for more details.
 //! * `websocket-client` - Provides [`WebSocketClient`], which provides full client functionality,
 //!   including general RPC functionality as well as [`event::Event`] subscription functionality.
 //!   Can be used over secure (`wss://`) and unsecure (`ws://`) connections.
@@ -22,8 +22,8 @@
 //! [`MockClient`], which implements both [`Client`] and [`SubscriptionClient`]
 //! traits.
 //!
-//! [Tendermint RPC]: https://docs.tendermint.com/v0.34/rpc/
-//! [`/subscribe` endpoint]: https://docs.tendermint.com/v0.34/rpc/#/Websocket/subscribe
+//! [CometBFT RPC]: https://docs.cometbft.com/v1/rpc/
+//! [`/subscribe` endpoint]: https://docs.cometbft.com/v1/rpc/#/Websocket/subscribe
 
 #![no_std]
 

@@ -73,7 +73,7 @@ pub struct Response {
 
 impl crate::Response for Response {}
 
-/// Serialization for /tx_search endpoint format in Tendermint 0.34
+/// Serialization for /tx_search endpoint format in CometBFT 0.34
 pub mod v0_34 {
     use super::{tx, Response};
     use crate::prelude::*;

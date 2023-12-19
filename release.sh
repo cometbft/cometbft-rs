@@ -10,8 +10,8 @@
 #   # Release all packages, prompting for each package as to whether to publish
 #   ./release.sh
 #
-#   # Just release the proto and tendermint crates, but nothing else
-#   ./release.sh proto tendermint
+#   # Just release the proto and cometbft crates, but nothing else
+#   ./release.sh proto cometbft
 
 set -e
 

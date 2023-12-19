@@ -12,12 +12,12 @@ use crate::serializers;
 /// [`DeliverTx`](super::response::DeliverTx) responses. Later, transactions may
 /// be queried using these events.
 ///
-/// [ABCI documentation](https://docs.tendermint.com/master/spec/abci/abci.html#events)
+/// [ABCI documentation](https://docs.cometbft.com/v1/spec/abci/abci.html#events)
 #[derive(Clone, PartialEq, Eq, Debug, Deserialize, Serialize, Hash)]
 pub struct Event {
     /// The kind of event.
     ///
-    /// Tendermint calls this the `type`, but we use `kind` to avoid confusion
+    /// CometBFT calls this the `type`, but we use `kind` to avoid confusion
     /// with Rust types and follow Rust conventions.
     #[serde(rename = "type")]
     pub kind: String,
@@ -116,7 +116,7 @@ where
 /// Generic methods are provided for more ergonomic attribute construction, see
 /// [`Event::new`] for details.
 ///
-/// [ABCI documentation](https://docs.tendermint.com/master/spec/abci/abci.html#events)
+/// [ABCI documentation](https://docs.cometbft.com/v1/spec/abci/abci.html#events)
 #[derive(Clone, PartialEq, Eq, Debug, Serialize, Deserialize, Hash)]
 pub struct EventAttribute {
     /// The event key.
@@ -125,7 +125,7 @@ pub struct EventAttribute {
     /// The event value.
     #[serde(with = "serializers::allow_null")]
     pub value: String,
-    /// Whether Tendermint's indexer should index this event.
+    /// Whether CometBFT's indexer should index this event.
     ///
     /// **This field is nondeterministic**.
     pub index: bool,
@@ -164,9 +164,9 @@ pub trait EventAttributeIndexExt: private::Sealed {
     type Key;
     type Value;
 
-    /// Indicate that this key/value pair should be indexed by Tendermint.
+    /// Indicate that this key/value pair should be indexed by CometBFT.
     fn index(self) -> (Self::Key, Self::Value, bool);
-    /// Indicate that this key/value pair should not be indexed by Tendermint.
+    /// Indicate that this key/value pair should not be indexed by CometBFT.
     fn no_index(self) -> (Self::Key, Self::Value, bool);
 }
 

@@ -3,7 +3,7 @@
 //! These types have changes from the core data structures to better accommodate
 //! ABCI applications.
 //!
-//! [ABCI documentation](https://docs.tendermint.com/master/spec/abci/abci.html#data-types)
+//! [ABCI documentation](https://docs.cometbft.com/v1/spec/abci/abci.html#data-types)
 
 use bytes::Bytes;
 use serde::{Deserialize, Serialize};
@@ -17,7 +17,7 @@ use crate::{
 
 /// A validator address with voting power.
 ///
-/// [ABCI documentation](https://docs.tendermint.com/master/spec/abci/abci.html#validator)
+/// [ABCI documentation](https://docs.cometbft.com/v1/spec/abci/abci.html#validator)
 #[derive(Clone, PartialEq, Eq, Debug)]
 pub struct Validator {
     /// The validator's address (the first 20 bytes of `SHA256(public_key)`).
@@ -95,7 +95,7 @@ impl BlockSignatureInfo {
 /// The possible kinds of [`Misbehavior`].
 ///
 /// Note: the
-/// [ABCI documentation](https://github.com/tendermint/tendermint/blob/main/spec/abci/abci++_methods.md#misbehaviortype)
+/// [ABCI documentation](https://github.com/cometbft/cometbft/blob/main/spec/abci/abci++_methods.md#misbehaviortype)
 /// calls this `MisbehaviorType`, but we follow the Rust convention and name it `MisbehaviorKind`
 /// to avoid confusion with Rust types.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
@@ -112,7 +112,7 @@ pub enum MisbehaviorKind {
 
 /// Evidence of validator misbehavior.
 ///
-/// [ABCI documentation](https://docs.tendermint.com/master/spec/abci/abci.html#evidence)
+/// [ABCI documentation](https://docs.cometbft.com/v1/spec/abci/abci.html#evidence)
 #[derive(Clone, PartialEq, Eq, Debug)]
 pub struct Misbehavior {
     /// The kind of evidence.
@@ -168,7 +168,7 @@ pub struct ExtendedCommitInfo {
 ///
 /// When sent across the network, a `Snapshot` can be at most 4 MB.
 ///
-/// [ABCI documentation](https://docs.tendermint.com/master/spec/abci/abci.html#snapshot)
+/// [ABCI documentation](https://docs.cometbft.com/v1/spec/abci/abci.html#snapshot)
 #[derive(Clone, PartialEq, Eq, Debug)]
 pub struct Snapshot {
     /// The height at which the snapshot was taken
@@ -176,14 +176,14 @@ pub struct Snapshot {
     /// The application-specific snapshot format identifier.
     ///
     /// This allows applications to version their snapshot data format and make
-    /// backwards-incompatible changes. Tendermint does not interpret this field.
+    /// backwards-incompatible changes. CometBFT does not interpret this field.
     pub format: u32,
     /// The number of chunks in the snapshot. Must be at least 1.
     pub chunks: u32,
     /// An arbitrary snapshot hash.
     ///
     /// This hash must be equal only for identical snapshots across nodes.
-    /// Tendermint does not interpret the hash, only compares it with other
+    /// CometBFT does not interpret the hash, only compares it with other
     /// hashes.
     pub hash: Bytes,
     /// Arbitrary application metadata, e.g., chunk hashes or other verification data.
