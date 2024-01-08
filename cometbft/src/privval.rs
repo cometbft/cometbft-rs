@@ -14,9 +14,34 @@ pub struct RemoteSignerError {
 // Protobuf conversions
 // =============================================================================
 
-cometbft_pb_modules! {
+mod v1 {
     use super::RemoteSignerError;
-    use pb::privval::RemoteSignerError as RawRemoteSignerError;
+    use cometbft_proto::privval::v1::RemoteSignerError as RawRemoteSignerError;
+
+    impl TryFrom<RawRemoteSignerError> for RemoteSignerError {
+        type Error = crate::Error;
+
+        fn try_from(message: RawRemoteSignerError) -> Result<Self, Self::Error> {
+            Ok(Self {
+                code: message.code,
+                description: message.description,
+            })
+        }
+    }
+
+    impl From<RemoteSignerError> for RawRemoteSignerError {
+        fn from(value: RemoteSignerError) -> Self {
+            Self {
+                code: value.code,
+                description: value.description,
+            }
+        }
+    }
+}
+
+mod v1beta1 {
+    use super::RemoteSignerError;
+    use cometbft_proto::privval::v1beta1::RemoteSignerError as RawRemoteSignerError;
 
     impl TryFrom<RawRemoteSignerError> for RemoteSignerError {
         type Error = crate::Error;

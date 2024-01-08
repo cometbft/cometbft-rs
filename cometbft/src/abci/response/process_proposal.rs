@@ -15,13 +15,13 @@ pub enum ProcessProposal {
 // Protobuf conversions
 // =============================================================================
 
-mod v0_37 {
+mod v1 {
     use super::ProcessProposal;
     use crate::Error;
-    use cometbft_proto::v0_37::abci as pb;
+    use cometbft_proto::abci::v1 as pb;
     use cometbft_proto::Protobuf;
 
-    impl From<ProcessProposal> for pb::ResponseProcessProposal {
+    impl From<ProcessProposal> for pb::ProcessProposalResponse {
         fn from(value: ProcessProposal) -> Self {
             Self {
                 status: value as i32,
@@ -29,11 +29,11 @@ mod v0_37 {
         }
     }
 
-    impl TryFrom<pb::ResponseProcessProposal> for ProcessProposal {
+    impl TryFrom<pb::ProcessProposalResponse> for ProcessProposal {
         type Error = Error;
 
-        fn try_from(message: pb::ResponseProcessProposal) -> Result<Self, Self::Error> {
-            use pb::response_process_proposal::ProposalStatus;
+        fn try_from(message: pb::ProcessProposalResponse) -> Result<Self, Self::Error> {
+            use pb::ProcessProposalStatus;
 
             let status = message
                 .status
@@ -41,21 +41,21 @@ mod v0_37 {
                 .map_err(|_| Error::unsupported_process_proposal_status())?;
 
             let value = match status {
-                ProposalStatus::Unknown => ProcessProposal::Unknown,
-                ProposalStatus::Accept => ProcessProposal::Accept,
-                ProposalStatus::Reject => ProcessProposal::Reject,
+                ProcessProposalStatus::Unknown => ProcessProposal::Unknown,
+                ProcessProposalStatus::Accept => ProcessProposal::Accept,
+                ProcessProposalStatus::Reject => ProcessProposal::Reject,
             };
             Ok(value)
         }
     }
 
-    impl Protobuf<pb::ResponseProcessProposal> for ProcessProposal {}
+    impl Protobuf<pb::ProcessProposalResponse> for ProcessProposal {}
 }
 
-mod v0_38 {
+mod v1beta2 {
     use super::ProcessProposal;
     use crate::Error;
-    use cometbft_proto::v0_38::abci as pb;
+    use cometbft_proto::abci::v1beta2 as pb;
     use cometbft_proto::Protobuf;
 
     impl From<ProcessProposal> for pb::ResponseProcessProposal {

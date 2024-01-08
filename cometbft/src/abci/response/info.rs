@@ -1,11 +1,11 @@
 use crate::{block, prelude::*, AppHash};
-use cometbft_proto::v0_37::abci as pb;
+use cometbft_proto::abci::v1 as pb;
 
 use serde::{Deserialize, Serialize};
 
 #[doc = include_str!("../doc/response-info.md")]
 #[derive(Clone, PartialEq, Eq, Debug, Default, Serialize, Deserialize)]
-#[serde(default, try_from = "pb::ResponseInfo", into = "pb::ResponseInfo")]
+#[serde(default, try_from = "pb::InfoResponse", into = "pb::InfoResponse")]
 pub struct Info {
     /// Some arbitrary information.
     pub data: String,
@@ -23,10 +23,12 @@ pub struct Info {
 // Protobuf conversions
 // =============================================================================
 
-cometbft_pb_modules! {
+mod v1 {
     use super::Info;
+    use cometbft_proto::abci::v1 as pb;
+    use cometbft_proto::Protobuf;
 
-    impl From<Info> for pb::abci::ResponseInfo {
+    impl From<Info> for pb::InfoResponse {
         fn from(info: Info) -> Self {
             Self {
                 data: info.data,
@@ -38,10 +40,10 @@ cometbft_pb_modules! {
         }
     }
 
-    impl TryFrom<pb::abci::ResponseInfo> for Info {
+    impl TryFrom<pb::InfoResponse> for Info {
         type Error = crate::Error;
 
-        fn try_from(info: pb::abci::ResponseInfo) -> Result<Self, Self::Error> {
+        fn try_from(info: pb::InfoResponse) -> Result<Self, Self::Error> {
             Ok(Self {
                 data: info.data,
                 version: info.version,
@@ -52,5 +54,39 @@ cometbft_pb_modules! {
         }
     }
 
-    impl Protobuf<pb::abci::ResponseInfo> for Info {}
+    impl Protobuf<pb::InfoResponse> for Info {}
+}
+
+mod v1beta1 {
+    use super::Info;
+    use cometbft_proto::abci::v1beta1 as pb;
+    use cometbft_proto::Protobuf;
+
+    impl From<Info> for pb::ResponseInfo {
+        fn from(info: Info) -> Self {
+            Self {
+                data: info.data,
+                version: info.version,
+                app_version: info.app_version,
+                last_block_height: info.last_block_height.into(),
+                last_block_app_hash: info.last_block_app_hash.into(),
+            }
+        }
+    }
+
+    impl TryFrom<pb::ResponseInfo> for Info {
+        type Error = crate::Error;
+
+        fn try_from(info: pb::ResponseInfo) -> Result<Self, Self::Error> {
+            Ok(Self {
+                data: info.data,
+                version: info.version,
+                app_version: info.app_version,
+                last_block_height: info.last_block_height.try_into()?,
+                last_block_app_hash: info.last_block_app_hash.try_into()?,
+            })
+        }
+    }
+
+    impl Protobuf<pb::ResponseInfo> for Info {}
 }

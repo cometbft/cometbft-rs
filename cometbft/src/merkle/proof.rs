@@ -1,6 +1,6 @@
 //! Merkle proofs
 
-use cometbft_proto::v0_37::crypto::Proof as RawProof;
+use cometbft_proto::crypto::v1::Proof as RawProof;
 use serde::{Deserialize, Serialize};
 
 use crate::{prelude::*, serializers, Hash};
@@ -47,14 +47,12 @@ pub struct ProofOp {
 // Protobuf conversions
 // =============================================================================
 
-cometbft_pb_modules! {
+mod v1 {
     use super::{Proof, ProofOp, ProofOps};
     use crate::{prelude::*, Error};
-    use pb::{
-        crypto::{Proof as RawProof, ProofOp as RawProofOp, ProofOps as RawProofOps},
+    use cometbft_proto::crypto::v1::{
+        Proof as RawProof, ProofOp as RawProofOp, ProofOps as RawProofOps,
     };
-
-    impl Protobuf<RawProof> for Proof {}
 
     impl TryFrom<RawProof> for Proof {
         type Error = Error;
@@ -93,8 +91,6 @@ cometbft_pb_modules! {
         }
     }
 
-    impl Protobuf<RawProofOp> for ProofOp {}
-
     impl TryFrom<RawProofOp> for ProofOp {
         type Error = Error;
 
@@ -117,13 +113,12 @@ cometbft_pb_modules! {
         }
     }
 
-    impl Protobuf<RawProofOps> for ProofOps {}
-
     impl TryFrom<RawProofOps> for ProofOps {
         type Error = Error;
 
         fn try_from(value: RawProofOps) -> Result<Self, Self::Error> {
-            let ops: Result<Vec<ProofOp>, _> = value.ops.into_iter().map(ProofOp::try_from).collect();
+            let ops: Result<Vec<ProofOp>, _> =
+                value.ops.into_iter().map(ProofOp::try_from).collect();
 
             Ok(Self { ops: ops? })
         }

@@ -9,29 +9,63 @@ pub enum BlockIdFlag {
     Nil,
 }
 
-cometbft_pb_modules! {
+// =============================================================================
+// Protobuf conversions
+// =============================================================================
+
+mod v1 {
     use super::BlockIdFlag;
     use crate::{error::Error, prelude::*};
-    use pb::types::BlockIdFlag as RawBlockIdFlag;
+    use cometbft_proto::types::v1 as pb;
 
-    impl TryFrom<RawBlockIdFlag> for BlockIdFlag {
+    impl TryFrom<pb::BlockIdFlag> for BlockIdFlag {
         type Error = Error;
 
-        fn try_from(value: RawBlockIdFlag) -> Result<Self, Self::Error> {
+        fn try_from(value: pb::BlockIdFlag) -> Result<Self, Self::Error> {
             match value {
-                RawBlockIdFlag::Absent => Ok(BlockIdFlag::Absent),
-                RawBlockIdFlag::Commit => Ok(BlockIdFlag::Commit),
-                RawBlockIdFlag::Nil => Ok(BlockIdFlag::Nil),
-                _ => Err(Error::block_id_flag()),            }
+                pb::BlockIdFlag::Absent => Ok(BlockIdFlag::Absent),
+                pb::BlockIdFlag::Commit => Ok(BlockIdFlag::Commit),
+                pb::BlockIdFlag::Nil => Ok(BlockIdFlag::Nil),
+                _ => Err(Error::block_id_flag()),
+            }
         }
     }
 
-    impl From<BlockIdFlag> for RawBlockIdFlag {
-        fn from(value: BlockIdFlag) -> RawBlockIdFlag {
+    impl From<BlockIdFlag> for pb::BlockIdFlag {
+        fn from(value: BlockIdFlag) -> pb::BlockIdFlag {
             match value {
-                BlockIdFlag::Absent => RawBlockIdFlag::Absent,
-                BlockIdFlag::Commit => RawBlockIdFlag::Commit,
-                BlockIdFlag::Nil => RawBlockIdFlag::Nil,
+                BlockIdFlag::Absent => pb::BlockIdFlag::Absent,
+                BlockIdFlag::Commit => pb::BlockIdFlag::Commit,
+                BlockIdFlag::Nil => pb::BlockIdFlag::Nil,
+            }
+        }
+    }
+}
+
+mod v1beta1 {
+    use super::BlockIdFlag;
+    use crate::{error::Error, prelude::*};
+    use cometbft_proto::types::v1beta1 as pb;
+
+    impl TryFrom<pb::BlockIdFlag> for BlockIdFlag {
+        type Error = Error;
+
+        fn try_from(value: pb::BlockIdFlag) -> Result<Self, Self::Error> {
+            match value {
+                pb::BlockIdFlag::Absent => Ok(BlockIdFlag::Absent),
+                pb::BlockIdFlag::Commit => Ok(BlockIdFlag::Commit),
+                pb::BlockIdFlag::Nil => Ok(BlockIdFlag::Nil),
+                _ => Err(Error::block_id_flag()),
+            }
+        }
+    }
+
+    impl From<BlockIdFlag> for pb::BlockIdFlag {
+        fn from(value: BlockIdFlag) -> pb::BlockIdFlag {
+            match value {
+                BlockIdFlag::Absent => pb::BlockIdFlag::Absent,
+                BlockIdFlag::Commit => pb::BlockIdFlag::Commit,
+                BlockIdFlag::Nil => pb::BlockIdFlag::Nil,
             }
         }
     }

@@ -3,7 +3,7 @@ use core::{
     str::{self, FromStr},
 };
 
-use cometbft_proto::v0_37::types::BlockId as RawBlockId;
+use cometbft_proto::types::v1::BlockId as RawBlockId;
 use serde::{Deserialize, Serialize};
 
 use crate::{
@@ -55,15 +55,90 @@ pub struct Id {
     pub part_set_header: PartSetHeader,
 }
 
-cometbft_pb_modules! {
-    use pb::{
-        types::{
-            BlockId as RawBlockId, CanonicalBlockId as RawCanonicalBlockId,
-            PartSetHeader as RawPartSetHeader,
-        }
-    };
+mod v1 {
     use super::Id;
     use crate::{prelude::*, Error};
+    use cometbft_proto::types::v1::{
+        BlockId as RawBlockId, CanonicalBlockId as RawCanonicalBlockId,
+        PartSetHeader as RawPartSetHeader,
+    };
+    use cometbft_proto::Protobuf;
+
+    impl Protobuf<RawBlockId> for Id {}
+
+    impl TryFrom<RawBlockId> for Id {
+        type Error = Error;
+
+        fn try_from(value: RawBlockId) -> Result<Self, Self::Error> {
+            if value.part_set_header.is_none() {
+                return Err(Error::invalid_part_set_header(
+                    "part_set_header is None".to_string(),
+                ));
+            }
+            Ok(Self {
+                hash: value.hash.try_into()?,
+                part_set_header: value.part_set_header.unwrap().try_into()?,
+            })
+        }
+    }
+
+    impl From<Id> for RawBlockId {
+        fn from(value: Id) -> Self {
+            // https://github.com/cometbft/cometbft/blob/1635d1339c73ae6a82e062cd2dc7191b029efa14/types/block.go#L1204
+            // The Go implementation encodes a nil value into an empty struct. We try our best to
+            // anticipate an empty struct by using the default implementation which would otherwise be
+            // invalid.
+            if value == Id::default() {
+                RawBlockId {
+                    hash: vec![],
+                    part_set_header: Some(RawPartSetHeader {
+                        total: 0,
+                        hash: vec![],
+                    }),
+                }
+            } else {
+                RawBlockId {
+                    hash: value.hash.into(),
+                    part_set_header: Some(value.part_set_header.into()),
+                }
+            }
+        }
+    }
+
+    impl TryFrom<RawCanonicalBlockId> for Id {
+        type Error = Error;
+
+        fn try_from(value: RawCanonicalBlockId) -> Result<Self, Self::Error> {
+            if value.part_set_header.is_none() {
+                return Err(Error::invalid_part_set_header(
+                    "part_set_header is None".to_string(),
+                ));
+            }
+            Ok(Self {
+                hash: value.hash.try_into()?,
+                part_set_header: value.part_set_header.unwrap().try_into()?,
+            })
+        }
+    }
+
+    impl From<Id> for RawCanonicalBlockId {
+        fn from(value: Id) -> Self {
+            RawCanonicalBlockId {
+                hash: value.hash.as_bytes().to_vec(),
+                part_set_header: Some(value.part_set_header.into()),
+            }
+        }
+    }
+}
+
+mod v1beta1 {
+    use super::Id;
+    use crate::{prelude::*, Error};
+    use cometbft_proto::types::v1beta1::{
+        BlockId as RawBlockId, CanonicalBlockId as RawCanonicalBlockId,
+        PartSetHeader as RawPartSetHeader,
+    };
+    use cometbft_proto::Protobuf;
 
     impl Protobuf<RawBlockId> for Id {}
 

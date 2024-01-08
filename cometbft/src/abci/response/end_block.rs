@@ -21,12 +21,12 @@ pub struct EndBlock {
 // Protobuf conversions
 // =============================================================================
 
-mod v0_34 {
+mod v1beta1 {
     use super::EndBlock;
-    use cometbft_proto::v0_34 as pb;
+    use cometbft_proto::abci::v1beta1 as pb;
     use cometbft_proto::Protobuf;
 
-    impl From<EndBlock> for pb::abci::ResponseEndBlock {
+    impl From<EndBlock> for pb::ResponseEndBlock {
         fn from(end_block: EndBlock) -> Self {
             Self {
                 validator_updates: end_block
@@ -40,10 +40,10 @@ mod v0_34 {
         }
     }
 
-    impl TryFrom<pb::abci::ResponseEndBlock> for EndBlock {
+    impl TryFrom<pb::ResponseEndBlock> for EndBlock {
         type Error = crate::Error;
 
-        fn try_from(end_block: pb::abci::ResponseEndBlock) -> Result<Self, Self::Error> {
+        fn try_from(end_block: pb::ResponseEndBlock) -> Result<Self, Self::Error> {
             Ok(Self {
                 validator_updates: end_block
                     .validator_updates
@@ -63,15 +63,15 @@ mod v0_34 {
         }
     }
 
-    impl Protobuf<pb::abci::ResponseEndBlock> for EndBlock {}
+    impl Protobuf<pb::ResponseEndBlock> for EndBlock {}
 }
 
-mod v0_37 {
+mod v1beta2 {
     use super::EndBlock;
-    use cometbft_proto::v0_37 as pb;
+    use cometbft_proto::abci::v1beta2 as pb;
     use cometbft_proto::Protobuf;
 
-    impl From<EndBlock> for pb::abci::ResponseEndBlock {
+    impl From<EndBlock> for pb::ResponseEndBlock {
         fn from(end_block: EndBlock) -> Self {
             Self {
                 validator_updates: end_block
@@ -85,10 +85,10 @@ mod v0_37 {
         }
     }
 
-    impl TryFrom<pb::abci::ResponseEndBlock> for EndBlock {
+    impl TryFrom<pb::ResponseEndBlock> for EndBlock {
         type Error = crate::Error;
 
-        fn try_from(end_block: pb::abci::ResponseEndBlock) -> Result<Self, Self::Error> {
+        fn try_from(end_block: pb::ResponseEndBlock) -> Result<Self, Self::Error> {
             Ok(Self {
                 validator_updates: end_block
                     .validator_updates
@@ -108,5 +108,5 @@ mod v0_37 {
         }
     }
 
-    impl Protobuf<pb::abci::ResponseEndBlock> for EndBlock {}
+    impl Protobuf<pb::ResponseEndBlock> for EndBlock {}
 }

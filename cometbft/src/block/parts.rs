@@ -1,6 +1,6 @@
 //! Block parts
 
-use cometbft_proto::v0_37::types::PartSetHeader as RawPartSetHeader;
+use cometbft_proto::types::v1::PartSetHeader as RawPartSetHeader;
 use serde::{Deserialize, Serialize};
 
 use crate::{error::Error, prelude::*, Hash};
@@ -19,17 +19,80 @@ pub struct Header {
     pub hash: Hash,
 }
 
-cometbft_pb_modules! {
-    use pb::types::{
-        CanonicalPartSetHeader as RawCanonicalPartSetHeader, PartSetHeader as RawPartSetHeader,
-    };
+mod v1 {
+    use super::Header;
     use crate::{
         error::Error,
         hash::{Algorithm, SHA256_HASH_SIZE},
         prelude::*,
         Hash,
     };
+    use cometbft_proto::types::v1::{
+        CanonicalPartSetHeader as RawCanonicalPartSetHeader, PartSetHeader as RawPartSetHeader,
+    };
+    use cometbft_proto::Protobuf;
+
+    impl Protobuf<RawPartSetHeader> for Header {}
+
+    impl TryFrom<RawPartSetHeader> for Header {
+        type Error = Error;
+
+        fn try_from(value: RawPartSetHeader) -> Result<Self, Self::Error> {
+            if !value.hash.is_empty() && value.hash.len() != SHA256_HASH_SIZE {
+                return Err(Error::invalid_hash_size());
+            }
+            Ok(Self {
+                total: value.total,
+                hash: Hash::from_bytes(Algorithm::Sha256, &value.hash)?,
+            })
+        }
+    }
+
+    impl From<Header> for RawPartSetHeader {
+        fn from(value: Header) -> Self {
+            RawPartSetHeader {
+                total: value.total,
+                hash: value.hash.into(),
+            }
+        }
+    }
+
+    impl TryFrom<RawCanonicalPartSetHeader> for Header {
+        type Error = Error;
+
+        fn try_from(value: RawCanonicalPartSetHeader) -> Result<Self, Self::Error> {
+            if !value.hash.is_empty() && value.hash.len() != SHA256_HASH_SIZE {
+                return Err(Error::invalid_hash_size());
+            }
+            Ok(Self {
+                total: value.total,
+                hash: Hash::from_bytes(Algorithm::Sha256, &value.hash)?,
+            })
+        }
+    }
+
+    impl From<Header> for RawCanonicalPartSetHeader {
+        fn from(value: Header) -> Self {
+            RawCanonicalPartSetHeader {
+                total: value.total,
+                hash: value.hash.into(),
+            }
+        }
+    }
+}
+
+mod v1beta1 {
     use super::Header;
+    use crate::{
+        error::Error,
+        hash::{Algorithm, SHA256_HASH_SIZE},
+        prelude::*,
+        Hash,
+    };
+    use cometbft_proto::types::v1beta1::{
+        CanonicalPartSetHeader as RawCanonicalPartSetHeader, PartSetHeader as RawPartSetHeader,
+    };
+    use cometbft_proto::Protobuf;
 
     impl Protobuf<RawPartSetHeader> for Header {}
 

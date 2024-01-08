@@ -12,10 +12,12 @@ pub struct ListSnapshots {
 // Protobuf conversions
 // =============================================================================
 
-cometbft_pb_modules! {
+mod v1 {
     use super::ListSnapshots;
+    use cometbft_proto::abci::v1 as pb;
+    use cometbft_proto::Protobuf;
 
-    impl From<ListSnapshots> for pb::abci::ResponseListSnapshots {
+    impl From<ListSnapshots> for pb::ListSnapshotsResponse {
         fn from(list_snapshots: ListSnapshots) -> Self {
             Self {
                 snapshots: list_snapshots
@@ -27,10 +29,10 @@ cometbft_pb_modules! {
         }
     }
 
-    impl TryFrom<pb::abci::ResponseListSnapshots> for ListSnapshots {
+    impl TryFrom<pb::ListSnapshotsResponse> for ListSnapshots {
         type Error = crate::Error;
 
-        fn try_from(list_snapshots: pb::abci::ResponseListSnapshots) -> Result<Self, Self::Error> {
+        fn try_from(list_snapshots: pb::ListSnapshotsResponse) -> Result<Self, Self::Error> {
             Ok(Self {
                 snapshots: list_snapshots
                     .snapshots
@@ -41,5 +43,39 @@ cometbft_pb_modules! {
         }
     }
 
-    impl Protobuf<pb::abci::ResponseListSnapshots> for ListSnapshots {}
+    impl Protobuf<pb::ListSnapshotsResponse> for ListSnapshots {}
+}
+
+mod v1beta1 {
+    use super::ListSnapshots;
+    use cometbft_proto::abci::v1beta1 as pb;
+    use cometbft_proto::Protobuf;
+
+    impl From<ListSnapshots> for pb::ResponseListSnapshots {
+        fn from(list_snapshots: ListSnapshots) -> Self {
+            Self {
+                snapshots: list_snapshots
+                    .snapshots
+                    .into_iter()
+                    .map(Into::into)
+                    .collect(),
+            }
+        }
+    }
+
+    impl TryFrom<pb::ResponseListSnapshots> for ListSnapshots {
+        type Error = crate::Error;
+
+        fn try_from(list_snapshots: pb::ResponseListSnapshots) -> Result<Self, Self::Error> {
+            Ok(Self {
+                snapshots: list_snapshots
+                    .snapshots
+                    .into_iter()
+                    .map(TryInto::try_into)
+                    .collect::<Result<_, _>>()?,
+            })
+        }
+    }
+
+    impl Protobuf<pb::ResponseListSnapshots> for ListSnapshots {}
 }

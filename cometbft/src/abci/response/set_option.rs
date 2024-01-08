@@ -15,7 +15,7 @@ pub struct SetOption {
 
 // The SetOption request has been removed after 0.34.
 
-use cometbft_proto::v0_34::abci as pb;
+use cometbft_proto::abci::v1beta1 as pb;
 use cometbft_proto::Protobuf;
 
 impl From<SetOption> for pb::ResponseSetOption {

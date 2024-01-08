@@ -1,6 +1,6 @@
 //! Block metadata
 
-use cometbft_proto::v0_37::types::BlockMeta as RawMeta;
+use cometbft_proto::types::v1::BlockMeta as RawMeta;
 use serde::{Deserialize, Serialize};
 
 use super::{Header, Id};
@@ -23,15 +23,15 @@ pub struct Meta {
     pub num_txs: i64,
 }
 
-cometbft_pb_modules! {
+mod v1 {
     use super::Meta;
     use crate::{error::Error, prelude::*};
-    use pb::types::BlockMeta as RawMeta;
+    use cometbft_proto::types::v1 as pb;
 
-    impl TryFrom<RawMeta> for Meta {
+    impl TryFrom<pb::BlockMeta> for Meta {
         type Error = Error;
 
-        fn try_from(value: RawMeta) -> Result<Self, Self::Error> {
+        fn try_from(value: pb::BlockMeta) -> Result<Self, Self::Error> {
             Ok(Meta {
                 block_id: value
                     .block_id
@@ -47,9 +47,45 @@ cometbft_pb_modules! {
         }
     }
 
-    impl From<Meta> for RawMeta {
+    impl From<Meta> for pb::BlockMeta {
         fn from(value: Meta) -> Self {
-            RawMeta {
+            pb::BlockMeta {
+                block_id: Some(value.block_id.into()),
+                block_size: value.block_size,
+                header: Some(value.header.into()),
+                num_txs: value.num_txs,
+            }
+        }
+    }
+}
+
+mod v1beta1 {
+    use super::Meta;
+    use crate::{error::Error, prelude::*};
+    use cometbft_proto::types::v1beta1 as pb;
+
+    impl TryFrom<pb::BlockMeta> for Meta {
+        type Error = Error;
+
+        fn try_from(value: pb::BlockMeta) -> Result<Self, Self::Error> {
+            Ok(Meta {
+                block_id: value
+                    .block_id
+                    .ok_or_else(|| Error::invalid_block("no block_id".to_string()))?
+                    .try_into()?,
+                block_size: value.block_size,
+                header: value
+                    .header
+                    .ok_or_else(|| Error::invalid_block("no header".to_string()))?
+                    .try_into()?,
+                num_txs: value.num_txs,
+            })
+        }
+    }
+
+    impl From<Meta> for pb::BlockMeta {
+        fn from(value: Meta) -> Self {
+            pb::BlockMeta {
                 block_id: Some(value.block_id.into()),
                 block_size: value.block_size,
                 header: Some(value.header.into()),

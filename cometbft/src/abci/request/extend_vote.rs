@@ -21,13 +21,13 @@ pub struct ExtendVote {
 // Protobuf conversions
 // =============================================================================
 
-mod v0_38 {
+mod v1 {
     use super::ExtendVote;
     use crate::{prelude::*, Error};
-    use cometbft_proto::v0_38 as pb;
+    use cometbft_proto::abci::v1 as pb;
     use cometbft_proto::Protobuf;
 
-    impl From<ExtendVote> for pb::abci::RequestExtendVote {
+    impl From<ExtendVote> for pb::ExtendVoteRequest {
         fn from(extend_vote: ExtendVote) -> Self {
             Self {
                 hash: extend_vote.hash.into(),
@@ -46,10 +46,10 @@ mod v0_38 {
         }
     }
 
-    impl TryFrom<pb::abci::RequestExtendVote> for ExtendVote {
+    impl TryFrom<pb::ExtendVoteRequest> for ExtendVote {
         type Error = Error;
 
-        fn try_from(message: pb::abci::RequestExtendVote) -> Result<Self, Self::Error> {
+        fn try_from(message: pb::ExtendVoteRequest) -> Result<Self, Self::Error> {
             Ok(Self {
                 hash: message.hash.try_into()?,
                 height: message.height.try_into()?,
@@ -73,5 +73,60 @@ mod v0_38 {
         }
     }
 
-    impl Protobuf<pb::abci::RequestExtendVote> for ExtendVote {}
+    impl Protobuf<pb::ExtendVoteRequest> for ExtendVote {}
+}
+
+mod v1beta3 {
+    use super::ExtendVote;
+    use crate::{prelude::*, Error};
+    use cometbft_proto::abci::v1beta3 as pb;
+    use cometbft_proto::Protobuf;
+
+    impl From<ExtendVote> for pb::RequestExtendVote {
+        fn from(extend_vote: ExtendVote) -> Self {
+            Self {
+                hash: extend_vote.hash.into(),
+                height: extend_vote.height.into(),
+                time: Some(extend_vote.time.into()),
+                txs: extend_vote.txs,
+                proposed_last_commit: extend_vote.proposed_last_commit.map(Into::into),
+                misbehavior: extend_vote
+                    .misbehavior
+                    .into_iter()
+                    .map(Into::into)
+                    .collect(),
+                next_validators_hash: extend_vote.next_validators_hash.into(),
+                proposer_address: extend_vote.proposer_address.into(),
+            }
+        }
+    }
+
+    impl TryFrom<pb::RequestExtendVote> for ExtendVote {
+        type Error = Error;
+
+        fn try_from(message: pb::RequestExtendVote) -> Result<Self, Self::Error> {
+            Ok(Self {
+                hash: message.hash.try_into()?,
+                height: message.height.try_into()?,
+                time: message
+                    .time
+                    .ok_or_else(Error::missing_timestamp)?
+                    .try_into()?,
+                txs: message.txs,
+                proposed_last_commit: message
+                    .proposed_last_commit
+                    .map(TryInto::try_into)
+                    .transpose()?,
+                misbehavior: message
+                    .misbehavior
+                    .into_iter()
+                    .map(TryInto::try_into)
+                    .collect::<Result<Vec<_>, _>>()?,
+                next_validators_hash: message.next_validators_hash.try_into()?,
+                proposer_address: message.proposer_address.try_into()?,
+            })
+        }
+    }
+
+    impl Protobuf<pb::RequestExtendVote> for ExtendVote {}
 }

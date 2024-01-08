@@ -35,10 +35,12 @@ pub enum CheckTxKind {
 // Protobuf conversions
 // =============================================================================
 
-cometbft_pb_modules! {
+mod v1 {
     use super::{CheckTx, CheckTxKind};
+    use cometbft_proto::abci::v1 as pb;
+    use cometbft_proto::Protobuf;
 
-    impl From<CheckTx> for pb::abci::RequestCheckTx {
+    impl From<CheckTx> for pb::CheckTxRequest {
         fn from(check_tx: CheckTx) -> Self {
             Self {
                 tx: check_tx.tx,
@@ -47,10 +49,10 @@ cometbft_pb_modules! {
         }
     }
 
-    impl TryFrom<pb::abci::RequestCheckTx> for CheckTx {
+    impl TryFrom<pb::CheckTxRequest> for CheckTx {
         type Error = crate::Error;
 
-        fn try_from(check_tx: pb::abci::RequestCheckTx) -> Result<Self, Self::Error> {
+        fn try_from(check_tx: pb::CheckTxRequest) -> Result<Self, Self::Error> {
             let kind = match check_tx.r#type {
                 0 => CheckTxKind::New,
                 1 => CheckTxKind::Recheck,
@@ -63,5 +65,38 @@ cometbft_pb_modules! {
         }
     }
 
-    impl Protobuf<pb::abci::RequestCheckTx> for CheckTx {}
+    impl Protobuf<pb::CheckTxRequest> for CheckTx {}
+}
+
+mod v1beta1 {
+    use super::{CheckTx, CheckTxKind};
+    use cometbft_proto::abci::v1beta1 as pb;
+    use cometbft_proto::Protobuf;
+
+    impl From<CheckTx> for pb::RequestCheckTx {
+        fn from(check_tx: CheckTx) -> Self {
+            Self {
+                tx: check_tx.tx,
+                r#type: check_tx.kind as i32,
+            }
+        }
+    }
+
+    impl TryFrom<pb::RequestCheckTx> for CheckTx {
+        type Error = crate::Error;
+
+        fn try_from(check_tx: pb::RequestCheckTx) -> Result<Self, Self::Error> {
+            let kind = match check_tx.r#type {
+                0 => CheckTxKind::New,
+                1 => CheckTxKind::Recheck,
+                _ => return Err(crate::Error::unsupported_check_tx_type()),
+            };
+            Ok(Self {
+                tx: check_tx.tx,
+                kind,
+            })
+        }
+    }
+
+    impl Protobuf<pb::RequestCheckTx> for CheckTx {}
 }

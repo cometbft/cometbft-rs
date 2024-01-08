@@ -25,11 +25,13 @@ pub struct InitChain {
 // Protobuf conversions
 // =============================================================================
 
-cometbft_pb_modules! {
+mod v1 {
     use super::InitChain;
     use crate::Error;
+    use cometbft_proto::abci::v1 as pb;
+    use cometbft_proto::Protobuf;
 
-    impl From<InitChain> for pb::abci::RequestInitChain {
+    impl From<InitChain> for pb::InitChainRequest {
         fn from(init_chain: InitChain) -> Self {
             Self {
                 time: Some(init_chain.time.into()),
@@ -42,10 +44,10 @@ cometbft_pb_modules! {
         }
     }
 
-    impl TryFrom<pb::abci::RequestInitChain> for InitChain {
+    impl TryFrom<pb::InitChainRequest> for InitChain {
         type Error = Error;
 
-        fn try_from(init_chain: pb::abci::RequestInitChain) -> Result<Self, Self::Error> {
+        fn try_from(init_chain: pb::InitChainRequest) -> Result<Self, Self::Error> {
             Ok(Self {
                 time: init_chain
                     .time
@@ -67,5 +69,146 @@ cometbft_pb_modules! {
         }
     }
 
-    impl Protobuf<pb::abci::RequestInitChain> for InitChain {}
+    impl Protobuf<pb::InitChainRequest> for InitChain {}
+}
+
+mod v1beta1 {
+    use super::InitChain;
+    use crate::Error;
+    use cometbft_proto::abci::v1beta1 as pb;
+    use cometbft_proto::Protobuf;
+
+    impl From<InitChain> for pb::RequestInitChain {
+        fn from(init_chain: InitChain) -> Self {
+            Self {
+                time: Some(init_chain.time.into()),
+                chain_id: init_chain.chain_id,
+                consensus_params: Some(init_chain.consensus_params.into()),
+                validators: init_chain.validators.into_iter().map(Into::into).collect(),
+                app_state_bytes: init_chain.app_state_bytes,
+                initial_height: init_chain.initial_height.into(),
+            }
+        }
+    }
+
+    impl TryFrom<pb::RequestInitChain> for InitChain {
+        type Error = Error;
+
+        fn try_from(init_chain: pb::RequestInitChain) -> Result<Self, Self::Error> {
+            Ok(Self {
+                time: init_chain
+                    .time
+                    .ok_or_else(Error::missing_genesis_time)?
+                    .try_into()?,
+                chain_id: init_chain.chain_id,
+                consensus_params: init_chain
+                    .consensus_params
+                    .ok_or_else(Error::missing_consensus_params)?
+                    .try_into()?,
+                validators: init_chain
+                    .validators
+                    .into_iter()
+                    .map(TryInto::try_into)
+                    .collect::<Result<_, _>>()?,
+                app_state_bytes: init_chain.app_state_bytes,
+                initial_height: init_chain.initial_height.try_into()?,
+            })
+        }
+    }
+
+    impl Protobuf<pb::RequestInitChain> for InitChain {}
+}
+
+mod v1beta2 {
+    use super::InitChain;
+    use crate::Error;
+    use cometbft_proto::abci::v1beta2 as pb;
+    use cometbft_proto::Protobuf;
+
+    impl From<InitChain> for pb::RequestInitChain {
+        fn from(init_chain: InitChain) -> Self {
+            Self {
+                time: Some(init_chain.time.into()),
+                chain_id: init_chain.chain_id,
+                consensus_params: Some(init_chain.consensus_params.into()),
+                validators: init_chain.validators.into_iter().map(Into::into).collect(),
+                app_state_bytes: init_chain.app_state_bytes,
+                initial_height: init_chain.initial_height.into(),
+            }
+        }
+    }
+
+    impl TryFrom<pb::RequestInitChain> for InitChain {
+        type Error = Error;
+
+        fn try_from(init_chain: pb::RequestInitChain) -> Result<Self, Self::Error> {
+            Ok(Self {
+                time: init_chain
+                    .time
+                    .ok_or_else(Error::missing_genesis_time)?
+                    .try_into()?,
+                chain_id: init_chain.chain_id,
+                consensus_params: init_chain
+                    .consensus_params
+                    .ok_or_else(Error::missing_consensus_params)?
+                    .try_into()?,
+                validators: init_chain
+                    .validators
+                    .into_iter()
+                    .map(TryInto::try_into)
+                    .collect::<Result<_, _>>()?,
+                app_state_bytes: init_chain.app_state_bytes,
+                initial_height: init_chain.initial_height.try_into()?,
+            })
+        }
+    }
+
+    impl Protobuf<pb::RequestInitChain> for InitChain {}
+}
+
+mod v1beta3 {
+    use super::InitChain;
+    use crate::Error;
+    use cometbft_proto::abci::v1beta3 as pb;
+    use cometbft_proto::Protobuf;
+
+    impl From<InitChain> for pb::RequestInitChain {
+        fn from(init_chain: InitChain) -> Self {
+            Self {
+                time: Some(init_chain.time.into()),
+                chain_id: init_chain.chain_id,
+                consensus_params: Some(init_chain.consensus_params.into()),
+                validators: init_chain.validators.into_iter().map(Into::into).collect(),
+                app_state_bytes: init_chain.app_state_bytes,
+                initial_height: init_chain.initial_height.into(),
+            }
+        }
+    }
+
+    impl TryFrom<pb::RequestInitChain> for InitChain {
+        type Error = Error;
+
+        fn try_from(init_chain: pb::RequestInitChain) -> Result<Self, Self::Error> {
+            Ok(Self {
+                time: init_chain
+                    .time
+                    .ok_or_else(Error::missing_genesis_time)?
+                    .try_into()?,
+                chain_id: init_chain.chain_id,
+                consensus_params: init_chain
+                    .consensus_params
+                    .ok_or_else(Error::missing_consensus_params)?
+                    .try_into()?,
+                validators: init_chain
+                    .validators
+                    .into_iter()
+                    .map(TryInto::try_into)
+                    .collect::<Result<_, _>>()?,
+                app_state_bytes: init_chain.app_state_bytes,
+                initial_height: init_chain.initial_height.try_into()?,
+            })
+        }
+    }
+
+    impl Protobuf<pb::RequestInitChain> for InitChain {}
 }

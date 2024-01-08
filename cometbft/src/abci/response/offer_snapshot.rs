@@ -31,10 +31,12 @@ impl Default for OfferSnapshot {
 // Protobuf conversions
 // =============================================================================
 
-cometbft_pb_modules! {
+mod v1 {
     use super::OfferSnapshot;
+    use cometbft_proto::abci::v1 as pb;
+    use cometbft_proto::Protobuf;
 
-    impl From<OfferSnapshot> for pb::abci::ResponseOfferSnapshot {
+    impl From<OfferSnapshot> for pb::OfferSnapshotResponse {
         fn from(offer_snapshot: OfferSnapshot) -> Self {
             Self {
                 result: offer_snapshot as i32,
@@ -42,10 +44,10 @@ cometbft_pb_modules! {
         }
     }
 
-    impl TryFrom<pb::abci::ResponseOfferSnapshot> for OfferSnapshot {
+    impl TryFrom<pb::OfferSnapshotResponse> for OfferSnapshot {
         type Error = crate::Error;
 
-        fn try_from(offer_snapshot: pb::abci::ResponseOfferSnapshot) -> Result<Self, Self::Error> {
+        fn try_from(offer_snapshot: pb::OfferSnapshotResponse) -> Result<Self, Self::Error> {
             Ok(match offer_snapshot.result {
                 0 => OfferSnapshot::Unknown,
                 1 => OfferSnapshot::Accept,
@@ -58,5 +60,37 @@ cometbft_pb_modules! {
         }
     }
 
-    impl Protobuf<pb::abci::ResponseOfferSnapshot> for OfferSnapshot {}
+    impl Protobuf<pb::OfferSnapshotResponse> for OfferSnapshot {}
+}
+
+mod v1beta1 {
+    use super::OfferSnapshot;
+    use cometbft_proto::abci::v1beta1 as pb;
+    use cometbft_proto::Protobuf;
+
+    impl From<OfferSnapshot> for pb::ResponseOfferSnapshot {
+        fn from(offer_snapshot: OfferSnapshot) -> Self {
+            Self {
+                result: offer_snapshot as i32,
+            }
+        }
+    }
+
+    impl TryFrom<pb::ResponseOfferSnapshot> for OfferSnapshot {
+        type Error = crate::Error;
+
+        fn try_from(offer_snapshot: pb::ResponseOfferSnapshot) -> Result<Self, Self::Error> {
+            Ok(match offer_snapshot.result {
+                0 => OfferSnapshot::Unknown,
+                1 => OfferSnapshot::Accept,
+                2 => OfferSnapshot::Abort,
+                3 => OfferSnapshot::Reject,
+                4 => OfferSnapshot::RejectFormat,
+                5 => OfferSnapshot::RejectSender,
+                _ => return Err(crate::Error::unsupported_offer_snapshot_chunk_result()),
+            })
+        }
+    }
+
+    impl Protobuf<pb::ResponseOfferSnapshot> for OfferSnapshot {}
 }

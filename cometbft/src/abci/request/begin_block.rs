@@ -30,13 +30,13 @@ pub struct BeginBlock {
 // Protobuf conversions
 // =============================================================================
 
-mod v0_34 {
+mod v1beta1 {
     use super::BeginBlock;
     use crate::Error;
-    use cometbft_proto::v0_34 as pb;
+    use cometbft_proto::abci::v1beta1 as pb;
     use cometbft_proto::Protobuf;
 
-    impl From<BeginBlock> for pb::abci::RequestBeginBlock {
+    impl From<BeginBlock> for pb::RequestBeginBlock {
         fn from(begin_block: BeginBlock) -> Self {
             Self {
                 hash: begin_block.hash.into(),
@@ -51,10 +51,10 @@ mod v0_34 {
         }
     }
 
-    impl TryFrom<pb::abci::RequestBeginBlock> for BeginBlock {
+    impl TryFrom<pb::RequestBeginBlock> for BeginBlock {
         type Error = Error;
 
-        fn try_from(begin_block: pb::abci::RequestBeginBlock) -> Result<Self, Self::Error> {
+        fn try_from(begin_block: pb::RequestBeginBlock) -> Result<Self, Self::Error> {
             Ok(Self {
                 hash: begin_block.hash.try_into()?,
                 header: begin_block
@@ -74,16 +74,16 @@ mod v0_34 {
         }
     }
 
-    impl Protobuf<pb::abci::RequestBeginBlock> for BeginBlock {}
+    impl Protobuf<pb::RequestBeginBlock> for BeginBlock {}
 }
 
-mod v0_37 {
+mod v1beta2 {
     use super::BeginBlock;
     use crate::Error;
-    use cometbft_proto::v0_37 as pb;
+    use cometbft_proto::abci::v1beta2 as pb;
     use cometbft_proto::Protobuf;
 
-    impl From<BeginBlock> for pb::abci::RequestBeginBlock {
+    impl From<BeginBlock> for pb::RequestBeginBlock {
         fn from(begin_block: BeginBlock) -> Self {
             Self {
                 hash: begin_block.hash.into(),
@@ -98,10 +98,10 @@ mod v0_37 {
         }
     }
 
-    impl TryFrom<pb::abci::RequestBeginBlock> for BeginBlock {
+    impl TryFrom<pb::RequestBeginBlock> for BeginBlock {
         type Error = Error;
 
-        fn try_from(begin_block: pb::abci::RequestBeginBlock) -> Result<Self, Self::Error> {
+        fn try_from(begin_block: pb::RequestBeginBlock) -> Result<Self, Self::Error> {
             Ok(Self {
                 hash: begin_block.hash.try_into()?,
                 header: begin_block
@@ -121,5 +121,5 @@ mod v0_37 {
         }
     }
 
-    impl Protobuf<pb::abci::RequestBeginBlock> for BeginBlock {}
+    impl Protobuf<pb::RequestBeginBlock> for BeginBlock {}
 }

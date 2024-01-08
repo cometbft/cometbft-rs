@@ -1,8 +1,7 @@
-use cometbft_proto::v0_37::types::TxProof as RawTxProof;
-use cometbft_proto::Protobuf;
+use cometbft_proto::types::v1::TxProof as RawTxProof;
 use serde::{Deserialize, Serialize};
 
-use crate::{merkle, prelude::*, Error, Hash};
+use crate::{merkle, prelude::*, Hash};
 
 /// Merkle proof of the presence of a transaction in the Merkle tree.
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -13,26 +12,62 @@ pub struct Proof {
     pub proof: merkle::Proof,
 }
 
-impl Protobuf<RawTxProof> for Proof {}
+// =============================================================================
+// Protobuf conversions
+// =============================================================================
 
-impl TryFrom<RawTxProof> for Proof {
-    type Error = Error;
+mod v1 {
+    use super::Proof;
+    use crate::Error;
+    use cometbft_proto::types::v1 as pb;
 
-    fn try_from(message: RawTxProof) -> Result<Self, Self::Error> {
-        Ok(Self {
-            root_hash: message.root_hash.try_into()?,
-            data: message.data,
-            proof: message.proof.ok_or_else(Error::missing_data)?.try_into()?,
-        })
+    impl TryFrom<pb::TxProof> for Proof {
+        type Error = Error;
+
+        fn try_from(message: pb::TxProof) -> Result<Self, Self::Error> {
+            Ok(Self {
+                root_hash: message.root_hash.try_into()?,
+                data: message.data,
+                proof: message.proof.ok_or_else(Error::missing_data)?.try_into()?,
+            })
+        }
+    }
+
+    impl From<Proof> for pb::TxProof {
+        fn from(value: Proof) -> Self {
+            Self {
+                root_hash: value.root_hash.into(),
+                data: value.data,
+                proof: Some(value.proof.into()),
+            }
+        }
     }
 }
 
-impl From<Proof> for RawTxProof {
-    fn from(value: Proof) -> Self {
-        Self {
-            root_hash: value.root_hash.into(),
-            data: value.data,
-            proof: Some(value.proof.into()),
+mod v1beta1 {
+    use super::Proof;
+    use crate::Error;
+    use cometbft_proto::types::v1beta1 as pb;
+
+    impl TryFrom<pb::TxProof> for Proof {
+        type Error = Error;
+
+        fn try_from(message: pb::TxProof) -> Result<Self, Self::Error> {
+            Ok(Self {
+                root_hash: message.root_hash.try_into()?,
+                data: message.data,
+                proof: message.proof.ok_or_else(Error::missing_data)?.try_into()?,
+            })
+        }
+    }
+
+    impl From<Proof> for pb::TxProof {
+        fn from(value: Proof) -> Self {
+            Self {
+                root_hash: value.root_hash.into(),
+                data: value.data,
+                proof: Some(value.proof.into()),
+            }
         }
     }
 }

@@ -14,12 +14,12 @@ pub struct BeginBlock {
 // Protobuf conversions
 // =============================================================================
 
-mod v0_34 {
+mod v1beta1 {
     use super::BeginBlock;
-    use cometbft_proto::v0_34 as pb;
+    use cometbft_proto::abci::v1beta1 as pb;
     use cometbft_proto::Protobuf;
 
-    impl From<BeginBlock> for pb::abci::ResponseBeginBlock {
+    impl From<BeginBlock> for pb::ResponseBeginBlock {
         fn from(begin_block: BeginBlock) -> Self {
             Self {
                 events: begin_block.events.into_iter().map(Into::into).collect(),
@@ -27,10 +27,10 @@ mod v0_34 {
         }
     }
 
-    impl TryFrom<pb::abci::ResponseBeginBlock> for BeginBlock {
+    impl TryFrom<pb::ResponseBeginBlock> for BeginBlock {
         type Error = crate::Error;
 
-        fn try_from(begin_block: pb::abci::ResponseBeginBlock) -> Result<Self, Self::Error> {
+        fn try_from(begin_block: pb::ResponseBeginBlock) -> Result<Self, Self::Error> {
             Ok(Self {
                 events: begin_block
                     .events
@@ -41,15 +41,15 @@ mod v0_34 {
         }
     }
 
-    impl Protobuf<pb::abci::ResponseBeginBlock> for BeginBlock {}
+    impl Protobuf<pb::ResponseBeginBlock> for BeginBlock {}
 }
 
-mod v0_37 {
+mod v1beta2 {
     use super::BeginBlock;
-    use cometbft_proto::v0_37 as pb;
+    use cometbft_proto::abci::v1beta2 as pb;
     use cometbft_proto::Protobuf;
 
-    impl From<BeginBlock> for pb::abci::ResponseBeginBlock {
+    impl From<BeginBlock> for pb::ResponseBeginBlock {
         fn from(begin_block: BeginBlock) -> Self {
             Self {
                 events: begin_block.events.into_iter().map(Into::into).collect(),
@@ -57,10 +57,10 @@ mod v0_37 {
         }
     }
 
-    impl TryFrom<pb::abci::ResponseBeginBlock> for BeginBlock {
+    impl TryFrom<pb::ResponseBeginBlock> for BeginBlock {
         type Error = crate::Error;
 
-        fn try_from(begin_block: pb::abci::ResponseBeginBlock) -> Result<Self, Self::Error> {
+        fn try_from(begin_block: pb::ResponseBeginBlock) -> Result<Self, Self::Error> {
             Ok(Self {
                 events: begin_block
                     .events
@@ -71,5 +71,5 @@ mod v0_37 {
         }
     }
 
-    impl Protobuf<pb::abci::ResponseBeginBlock> for BeginBlock {}
+    impl Protobuf<pb::ResponseBeginBlock> for BeginBlock {}
 }
