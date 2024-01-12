@@ -252,7 +252,7 @@ pub mod v0_34 {
 }
 
 /// Shared serialization/deserialization helpers for the RPC protocol used since CometBFT 0.37
-mod latest {
+pub mod v1 {
     use super::{Event, EventData, TxInfo, TxResult};
     use crate::prelude::*;
     use crate::{serializers, Response};
@@ -404,7 +404,7 @@ mod latest {
     }
 }
 
-/// Serialization helpers for the RPC protocol used in CometBFT 0.37
+/// Serialization helpers for the RPC protocol specific to CometBFT 0.37
 pub mod v0_37 {
     use super::{Event, EventData};
     use crate::prelude::*;
@@ -412,7 +412,7 @@ pub mod v0_37 {
     use cometbft::{abci, Block};
     use serde::Serialize;
 
-    pub use super::latest::*;
+    pub use super::v1::*;
 
     #[derive(Serialize, Debug)]
     pub struct SerEvent {
@@ -483,7 +483,7 @@ pub mod v0_37 {
     }
 }
 
-/// Serialization helpers for the RPC protocol used in CometBFT 0.38
+/// Serialization helpers for the RPC protocol specific to CometBFT 0.38
 pub mod v0_38 {
     use super::{Event, EventData};
     use crate::prelude::*;
@@ -491,7 +491,7 @@ pub mod v0_38 {
     use cometbft::{abci, block, Block};
     use serde::Serialize;
 
-    pub use super::latest::*;
+    pub use super::v1::*;
 
     #[derive(Serialize, Debug)]
     pub struct SerEvent {

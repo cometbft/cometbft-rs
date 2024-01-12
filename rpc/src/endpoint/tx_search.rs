@@ -52,7 +52,7 @@ impl crate::Request<dialect::v0_34::Dialect> for Request {
     type Response = self::v0_34::DialectResponse;
 }
 
-impl crate::Request<dialect::v0_37::Dialect> for Request {
+impl crate::Request<dialect::v1::Dialect> for Request {
     type Response = Response;
 }
 

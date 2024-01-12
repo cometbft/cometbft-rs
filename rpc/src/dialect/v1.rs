@@ -1,5 +1,5 @@
 use cometbft::evidence;
-use cometbft_proto::v0_37 as raw;
+use cometbft_proto::types::v1 as pb;
 
 use crate::prelude::*;
 use serde::{Deserialize, Serialize};
@@ -17,19 +17,19 @@ impl crate::dialect::Dialect for Dialect {
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
-#[serde(into = "raw::types::Evidence", try_from = "raw::types::Evidence")]
+#[serde(into = "pb::Evidence", try_from = "pb::Evidence")]
 pub struct Evidence(evidence::Evidence);
 
-impl From<Evidence> for raw::types::Evidence {
+impl From<Evidence> for pb::Evidence {
     fn from(evidence: Evidence) -> Self {
         evidence.0.into()
     }
 }
 
-impl TryFrom<raw::types::Evidence> for Evidence {
-    type Error = <evidence::Evidence as TryFrom<raw::types::Evidence>>::Error;
+impl TryFrom<pb::Evidence> for Evidence {
+    type Error = <evidence::Evidence as TryFrom<pb::Evidence>>::Error;
 
-    fn try_from(value: raw::types::Evidence) -> Result<Self, Self::Error> {
+    fn try_from(value: pb::Evidence) -> Result<Self, Self::Error> {
         Ok(Self(evidence::Evidence::try_from(value)?))
     }
 }
