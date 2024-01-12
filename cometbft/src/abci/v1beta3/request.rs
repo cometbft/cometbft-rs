@@ -1,15 +1,16 @@
-use cometbft_proto::v0_37::abci as pb;
+use cometbft_proto::abci::v1beta1 as pb1;
+use cometbft_proto::abci::v1beta3 as pb;
 use cometbft_proto::Protobuf;
 
 use crate::abci::MethodKind;
 use crate::Error;
 
 pub use crate::abci::request::{
-    ApplySnapshotChunk, BeginBlock, CheckTx, CheckTxKind, DeliverTx, Echo, EndBlock, Info,
-    InitChain, LoadSnapshotChunk, OfferSnapshot, PrepareProposal, ProcessProposal, Query,
+    ApplySnapshotChunk, CheckTx, CheckTxKind, Echo, ExtendVote, FinalizeBlock, Info, InitChain,
+    LoadSnapshotChunk, OfferSnapshot, PrepareProposal, ProcessProposal, Query, VerifyVoteExtension,
 };
 
-/// All possible ABCI requests in CometBFT 0.37.
+/// All possible ABCI requests in CometBFT 0.38.
 #[allow(clippy::large_enum_variant)]
 #[derive(Clone, PartialEq, Eq, Debug)]
 pub enum Request {
@@ -23,14 +24,8 @@ pub enum Request {
     InitChain(InitChain),
     #[doc = include_str!("../../abci/doc/request-query.md")]
     Query(Query),
-    #[doc = include_str!("../../abci/doc/request-beginblock.md")]
-    BeginBlock(BeginBlock),
     #[doc = include_str!("../../abci/doc/request-checktx.md")]
     CheckTx(CheckTx),
-    #[doc = include_str!("../../abci/doc/request-delivertx.md")]
-    DeliverTx(DeliverTx),
-    #[doc = include_str!("../../abci/doc/request-endblock.md")]
-    EndBlock(EndBlock),
     #[doc = include_str!("../../abci/doc/request-commit.md")]
     Commit,
     #[doc = include_str!("../../abci/doc/request-listsnapshots.md")]
@@ -45,6 +40,12 @@ pub enum Request {
     PrepareProposal(PrepareProposal),
     #[doc = include_str!("../../abci/doc/request-processproposal.md")]
     ProcessProposal(ProcessProposal),
+    #[doc = include_str!("../../abci/doc/request-extendvote.md")]
+    ExtendVote(ExtendVote),
+    #[doc = include_str!("../../abci/doc/request-verifyvoteextension.md")]
+    VerifyVoteExtension(VerifyVoteExtension),
+    #[doc = include_str!("../../abci/doc/request-finalizeblock.md")]
+    FinalizeBlock(FinalizeBlock),
 }
 
 /// The consensus category of ABCI requests.
@@ -57,14 +58,14 @@ pub enum ConsensusRequest {
     PrepareProposal(PrepareProposal),
     #[doc = include_str!("../../abci/doc/request-processproposal.md")]
     ProcessProposal(ProcessProposal),
-    #[doc = include_str!("../../abci/doc/request-beginblock.md")]
-    BeginBlock(BeginBlock),
-    #[doc = include_str!("../../abci/doc/request-delivertx.md")]
-    DeliverTx(DeliverTx),
-    #[doc = include_str!("../../abci/doc/request-endblock.md")]
-    EndBlock(EndBlock),
     #[doc = include_str!("../../abci/doc/request-commit.md")]
     Commit,
+    #[doc = include_str!("../../abci/doc/request-extendvote.md")]
+    ExtendVote(ExtendVote),
+    #[doc = include_str!("../../abci/doc/request-verifyvoteextension.md")]
+    VerifyVoteExtension(VerifyVoteExtension),
+    #[doc = include_str!("../../abci/doc/request-finalizeblock.md")]
+    FinalizeBlock(FinalizeBlock),
 }
 
 /// The mempool category of ABCI requests.
@@ -105,12 +106,12 @@ impl Request {
         match self {
             Flush => MethodKind::Flush,
             InitChain(_) => MethodKind::Consensus,
-            BeginBlock(_) => MethodKind::Consensus,
-            DeliverTx(_) => MethodKind::Consensus,
-            EndBlock(_) => MethodKind::Consensus,
             Commit => MethodKind::Consensus,
             PrepareProposal(_) => MethodKind::Consensus,
             ProcessProposal(_) => MethodKind::Consensus,
+            ExtendVote(_) => MethodKind::Consensus,
+            VerifyVoteExtension(_) => MethodKind::Consensus,
+            FinalizeBlock(_) => MethodKind::Consensus,
             CheckTx(_) => MethodKind::Mempool,
             ListSnapshots => MethodKind::Snapshot,
             OfferSnapshot(_) => MethodKind::Snapshot,
@@ -129,10 +130,10 @@ impl From<ConsensusRequest> for Request {
             ConsensusRequest::InitChain(x) => Self::InitChain(x),
             ConsensusRequest::PrepareProposal(x) => Self::PrepareProposal(x),
             ConsensusRequest::ProcessProposal(x) => Self::ProcessProposal(x),
-            ConsensusRequest::BeginBlock(x) => Self::BeginBlock(x),
-            ConsensusRequest::DeliverTx(x) => Self::DeliverTx(x),
-            ConsensusRequest::EndBlock(x) => Self::EndBlock(x),
             ConsensusRequest::Commit => Self::Commit,
+            ConsensusRequest::ExtendVote(x) => Self::ExtendVote(x),
+            ConsensusRequest::VerifyVoteExtension(x) => Self::VerifyVoteExtension(x),
+            ConsensusRequest::FinalizeBlock(x) => Self::FinalizeBlock(x),
         }
     }
 }
@@ -144,10 +145,10 @@ impl TryFrom<Request> for ConsensusRequest {
             Request::InitChain(x) => Ok(Self::InitChain(x)),
             Request::PrepareProposal(x) => Ok(Self::PrepareProposal(x)),
             Request::ProcessProposal(x) => Ok(Self::ProcessProposal(x)),
-            Request::BeginBlock(x) => Ok(Self::BeginBlock(x)),
-            Request::DeliverTx(x) => Ok(Self::DeliverTx(x)),
-            Request::EndBlock(x) => Ok(Self::EndBlock(x)),
             Request::Commit => Ok(Self::Commit),
+            Request::ExtendVote(x) => Ok(Self::ExtendVote(x)),
+            Request::VerifyVoteExtension(x) => Ok(Self::VerifyVoteExtension(x)),
+            Request::FinalizeBlock(x) => Ok(Self::FinalizeBlock(x)),
             _ => Err(Error::invalid_abci_request_type()),
         }
     }
@@ -230,10 +231,7 @@ impl From<Request> for pb::Request {
             Request::Info(x) => Some(Value::Info(x.into())),
             Request::InitChain(x) => Some(Value::InitChain(x.into())),
             Request::Query(x) => Some(Value::Query(x.into())),
-            Request::BeginBlock(x) => Some(Value::BeginBlock(x.into())),
             Request::CheckTx(x) => Some(Value::CheckTx(x.into())),
-            Request::DeliverTx(x) => Some(Value::DeliverTx(x.into())),
-            Request::EndBlock(x) => Some(Value::EndBlock(x.into())),
             Request::Commit => Some(Value::Commit(Default::default())),
             Request::ListSnapshots => Some(Value::ListSnapshots(Default::default())),
             Request::OfferSnapshot(x) => Some(Value::OfferSnapshot(x.into())),
@@ -241,6 +239,9 @@ impl From<Request> for pb::Request {
             Request::ApplySnapshotChunk(x) => Some(Value::ApplySnapshotChunk(x.into())),
             Request::PrepareProposal(x) => Some(Value::PrepareProposal(x.into())),
             Request::ProcessProposal(x) => Some(Value::ProcessProposal(x.into())),
+            Request::ExtendVote(x) => Some(Value::ExtendVote(x.into())),
+            Request::VerifyVoteExtension(x) => Some(Value::VerifyVoteExtension(x.into())),
+            Request::FinalizeBlock(x) => Some(Value::FinalizeBlock(x.into())),
         };
         pb::Request { value }
     }
@@ -251,25 +252,27 @@ impl TryFrom<pb::Request> for Request {
 
     fn try_from(request: pb::Request) -> Result<Self, Self::Error> {
         use pb::request::Value;
-        match request.value {
-            Some(Value::Echo(x)) => Ok(Request::Echo(x.try_into()?)),
-            Some(Value::Flush(pb::RequestFlush {})) => Ok(Request::Flush),
-            Some(Value::Info(x)) => Ok(Request::Info(x.try_into()?)),
-            Some(Value::InitChain(x)) => Ok(Request::InitChain(x.try_into()?)),
-            Some(Value::Query(x)) => Ok(Request::Query(x.try_into()?)),
-            Some(Value::BeginBlock(x)) => Ok(Request::BeginBlock(x.try_into()?)),
-            Some(Value::CheckTx(x)) => Ok(Request::CheckTx(x.try_into()?)),
-            Some(Value::DeliverTx(x)) => Ok(Request::DeliverTx(x.try_into()?)),
-            Some(Value::EndBlock(x)) => Ok(Request::EndBlock(x.try_into()?)),
-            Some(Value::Commit(pb::RequestCommit {})) => Ok(Request::Commit),
-            Some(Value::ListSnapshots(pb::RequestListSnapshots {})) => Ok(Request::ListSnapshots),
-            Some(Value::OfferSnapshot(x)) => Ok(Request::OfferSnapshot(x.try_into()?)),
-            Some(Value::LoadSnapshotChunk(x)) => Ok(Request::LoadSnapshotChunk(x.try_into()?)),
-            Some(Value::ApplySnapshotChunk(x)) => Ok(Request::ApplySnapshotChunk(x.try_into()?)),
-            Some(Value::PrepareProposal(x)) => Ok(Request::PrepareProposal(x.try_into()?)),
-            Some(Value::ProcessProposal(x)) => Ok(Request::ProcessProposal(x.try_into()?)),
-            None => Err(crate::Error::missing_data()),
-        }
+
+        let value = request.value.ok_or_else(Error::missing_data)?;
+        let request = match value {
+            Value::Echo(x) => Request::Echo(x.try_into()?),
+            Value::Flush(pb1::RequestFlush {}) => Request::Flush,
+            Value::Info(x) => Request::Info(x.try_into()?),
+            Value::InitChain(x) => Request::InitChain(x.try_into()?),
+            Value::Query(x) => Request::Query(x.try_into()?),
+            Value::CheckTx(x) => Request::CheckTx(x.try_into()?),
+            Value::Commit(pb1::RequestCommit {}) => Request::Commit,
+            Value::ListSnapshots(pb1::RequestListSnapshots {}) => Request::ListSnapshots,
+            Value::OfferSnapshot(x) => Request::OfferSnapshot(x.try_into()?),
+            Value::LoadSnapshotChunk(x) => Request::LoadSnapshotChunk(x.try_into()?),
+            Value::ApplySnapshotChunk(x) => Request::ApplySnapshotChunk(x.try_into()?),
+            Value::PrepareProposal(x) => Request::PrepareProposal(x.try_into()?),
+            Value::ProcessProposal(x) => Request::ProcessProposal(x.try_into()?),
+            Value::ExtendVote(x) => Request::ExtendVote(x.try_into()?),
+            Value::VerifyVoteExtension(x) => Request::VerifyVoteExtension(x.try_into()?),
+            Value::FinalizeBlock(x) => Request::FinalizeBlock(x.try_into()?),
+        };
+        Ok(request)
     }
 }
 

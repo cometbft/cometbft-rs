@@ -1,11 +1,11 @@
 pub use crate::abci::response::{
-    ApplySnapshotChunk, BeginBlock, CheckTx, Commit, DeliverTx, Echo, EndBlock, Exception, Info,
-    InitChain, ListSnapshots, LoadSnapshotChunk, OfferSnapshot, PrepareProposal, ProcessProposal,
-    Query,
+    ApplySnapshotChunk, BeginBlock, CheckTx, Commit, DeliverTx, Echo, EndBlock, Exception,
+    ExtendVote, FinalizeBlock, Info, InitChain, ListSnapshots, LoadSnapshotChunk, OfferSnapshot,
+    PrepareProposal, ProcessProposal, Query, VerifyVoteExtension,
 };
 use crate::Error;
 
-/// All possible ABCI responses for this protocol version.
+/// All possible ABCI responses in CometBFT 1.0.
 #[derive(Clone, PartialEq, Eq, Debug)]
 pub enum Response {
     #[doc = include_str!("../../abci/doc/response-exception.md")]
@@ -20,14 +20,8 @@ pub enum Response {
     InitChain(InitChain),
     #[doc = include_str!("../../abci/doc/response-query.md")]
     Query(Query),
-    #[doc = include_str!("../../abci/doc/response-beginblock.md")]
-    BeginBlock(BeginBlock),
     #[doc = include_str!("../../abci/doc/response-checktx.md")]
     CheckTx(CheckTx),
-    #[doc = include_str!("../../abci/doc/response-delivertx.md")]
-    DeliverTx(DeliverTx),
-    #[doc = include_str!("../../abci/doc/response-endblock.md")]
-    EndBlock(EndBlock),
     #[doc = include_str!("../../abci/doc/response-commit.md")]
     Commit(Commit),
     #[doc = include_str!("../../abci/doc/response-listsnapshots.md")]
@@ -42,6 +36,12 @@ pub enum Response {
     PrepareProposal(PrepareProposal),
     #[doc = include_str!("../../abci/doc/response-processproposal.md")]
     ProcessProposal(ProcessProposal),
+    #[doc = include_str!("../../abci/doc/response-extendvote.md")]
+    ExtendVote(ExtendVote),
+    #[doc = include_str!("../../abci/doc/response-verifyvoteextension.md")]
+    VerifyVoteExtension(VerifyVoteExtension),
+    #[doc = include_str!("../../abci/doc/response-finalizeblock.md")]
+    FinalizeBlock(FinalizeBlock),
 }
 
 /// The consensus category of ABCI responses.
@@ -53,14 +53,14 @@ pub enum ConsensusResponse {
     PrepareProposal(PrepareProposal),
     #[doc = include_str!("../../abci/doc/response-processproposal.md")]
     ProcessProposal(ProcessProposal),
-    #[doc = include_str!("../../abci/doc/response-beginblock.md")]
-    BeginBlock(BeginBlock),
-    #[doc = include_str!("../../abci/doc/response-delivertx.md")]
-    DeliverTx(DeliverTx),
-    #[doc = include_str!("../../abci/doc/response-endblock.md")]
-    EndBlock(EndBlock),
     #[doc = include_str!("../../abci/doc/response-commit.md")]
     Commit(Commit),
+    #[doc = include_str!("../../abci/doc/response-extendvote.md")]
+    ExtendVote(ExtendVote),
+    #[doc = include_str!("../../abci/doc/response-verifyvoteextension.md")]
+    VerifyVoteExtension(VerifyVoteExtension),
+    #[doc = include_str!("../../abci/doc/response-finalizeblock.md")]
+    FinalizeBlock(FinalizeBlock),
 }
 
 /// The mempool category of ABCI responses.
@@ -100,10 +100,10 @@ impl From<ConsensusResponse> for Response {
             ConsensusResponse::InitChain(x) => Self::InitChain(x),
             ConsensusResponse::PrepareProposal(x) => Self::PrepareProposal(x),
             ConsensusResponse::ProcessProposal(x) => Self::ProcessProposal(x),
-            ConsensusResponse::BeginBlock(x) => Self::BeginBlock(x),
-            ConsensusResponse::DeliverTx(x) => Self::DeliverTx(x),
-            ConsensusResponse::EndBlock(x) => Self::EndBlock(x),
             ConsensusResponse::Commit(x) => Self::Commit(x),
+            ConsensusResponse::ExtendVote(x) => Self::ExtendVote(x),
+            ConsensusResponse::VerifyVoteExtension(x) => Self::VerifyVoteExtension(x),
+            ConsensusResponse::FinalizeBlock(x) => Self::FinalizeBlock(x),
         }
     }
 }
@@ -115,10 +115,10 @@ impl TryFrom<Response> for ConsensusResponse {
             Response::InitChain(x) => Ok(Self::InitChain(x)),
             Response::PrepareProposal(x) => Ok(Self::PrepareProposal(x)),
             Response::ProcessProposal(x) => Ok(Self::ProcessProposal(x)),
-            Response::BeginBlock(x) => Ok(Self::BeginBlock(x)),
-            Response::DeliverTx(x) => Ok(Self::DeliverTx(x)),
-            Response::EndBlock(x) => Ok(Self::EndBlock(x)),
             Response::Commit(x) => Ok(Self::Commit(x)),
+            Response::ExtendVote(x) => Ok(Self::ExtendVote(x)),
+            Response::VerifyVoteExtension(x) => Ok(Self::VerifyVoteExtension(x)),
+            Response::FinalizeBlock(x) => Ok(Self::FinalizeBlock(x)),
             _ => Err(Error::invalid_abci_response_type()),
         }
     }
@@ -192,7 +192,7 @@ impl TryFrom<Response> for SnapshotResponse {
 // Protobuf conversions
 // =============================================================================
 
-use cometbft_proto::v0_37::abci as pb;
+use cometbft_proto::abci::v1 as pb;
 use cometbft_proto::Protobuf;
 
 impl From<Response> for pb::Response {
@@ -205,10 +205,7 @@ impl From<Response> for pb::Response {
             Response::Info(x) => Some(Value::Info(x.into())),
             Response::InitChain(x) => Some(Value::InitChain(x.into())),
             Response::Query(x) => Some(Value::Query(x.into())),
-            Response::BeginBlock(x) => Some(Value::BeginBlock(x.into())),
             Response::CheckTx(x) => Some(Value::CheckTx(x.into())),
-            Response::DeliverTx(x) => Some(Value::DeliverTx(x.into())),
-            Response::EndBlock(x) => Some(Value::EndBlock(x.into())),
             Response::Commit(x) => Some(Value::Commit(x.into())),
             Response::ListSnapshots(x) => Some(Value::ListSnapshots(x.into())),
             Response::OfferSnapshot(x) => Some(Value::OfferSnapshot(x.into())),
@@ -216,6 +213,9 @@ impl From<Response> for pb::Response {
             Response::ApplySnapshotChunk(x) => Some(Value::ApplySnapshotChunk(x.into())),
             Response::PrepareProposal(x) => Some(Value::PrepareProposal(x.into())),
             Response::ProcessProposal(x) => Some(Value::ProcessProposal(x.into())),
+            Response::ExtendVote(x) => Some(Value::ExtendVote(x.into())),
+            Response::VerifyVoteExtension(x) => Some(Value::VerifyVoteExtension(x.into())),
+            Response::FinalizeBlock(x) => Some(Value::FinalizeBlock(x.into())),
         };
         pb::Response { value }
     }
@@ -226,26 +226,29 @@ impl TryFrom<pb::Response> for Response {
 
     fn try_from(response: pb::Response) -> Result<Self, Self::Error> {
         use pb::response::Value;
-        match response.value {
-            Some(Value::Exception(x)) => Ok(Response::Exception(x.try_into()?)),
-            Some(Value::Echo(x)) => Ok(Response::Echo(x.try_into()?)),
-            Some(Value::Flush(_)) => Ok(Response::Flush),
-            Some(Value::Info(x)) => Ok(Response::Info(x.try_into()?)),
-            Some(Value::InitChain(x)) => Ok(Response::InitChain(x.try_into()?)),
-            Some(Value::Query(x)) => Ok(Response::Query(x.try_into()?)),
-            Some(Value::BeginBlock(x)) => Ok(Response::BeginBlock(x.try_into()?)),
-            Some(Value::CheckTx(x)) => Ok(Response::CheckTx(x.try_into()?)),
-            Some(Value::DeliverTx(x)) => Ok(Response::DeliverTx(x.try_into()?)),
-            Some(Value::EndBlock(x)) => Ok(Response::EndBlock(x.try_into()?)),
-            Some(Value::Commit(x)) => Ok(Response::Commit(x.try_into()?)),
-            Some(Value::ListSnapshots(x)) => Ok(Response::ListSnapshots(x.try_into()?)),
-            Some(Value::OfferSnapshot(x)) => Ok(Response::OfferSnapshot(x.try_into()?)),
-            Some(Value::LoadSnapshotChunk(x)) => Ok(Response::LoadSnapshotChunk(x.try_into()?)),
-            Some(Value::ApplySnapshotChunk(x)) => Ok(Response::ApplySnapshotChunk(x.try_into()?)),
-            Some(Value::PrepareProposal(x)) => Ok(Response::PrepareProposal(x.try_into()?)),
-            Some(Value::ProcessProposal(x)) => Ok(Response::ProcessProposal(x.try_into()?)),
-            None => Err(crate::Error::missing_data()),
-        }
+
+        let value = response.value.ok_or_else(Error::missing_data)?;
+
+        let response = match value {
+            Value::Exception(x) => Response::Exception(x.try_into()?),
+            Value::Echo(x) => Response::Echo(x.try_into()?),
+            Value::Flush(_) => Response::Flush,
+            Value::Info(x) => Response::Info(x.try_into()?),
+            Value::InitChain(x) => Response::InitChain(x.try_into()?),
+            Value::Query(x) => Response::Query(x.try_into()?),
+            Value::CheckTx(x) => Response::CheckTx(x.try_into()?),
+            Value::Commit(x) => Response::Commit(x.try_into()?),
+            Value::ListSnapshots(x) => Response::ListSnapshots(x.try_into()?),
+            Value::OfferSnapshot(x) => Response::OfferSnapshot(x.try_into()?),
+            Value::LoadSnapshotChunk(x) => Response::LoadSnapshotChunk(x.try_into()?),
+            Value::ApplySnapshotChunk(x) => Response::ApplySnapshotChunk(x.try_into()?),
+            Value::PrepareProposal(x) => Response::PrepareProposal(x.try_into()?),
+            Value::ProcessProposal(x) => Response::ProcessProposal(x.try_into()?),
+            Value::ExtendVote(x) => Response::ExtendVote(x.try_into()?),
+            Value::VerifyVoteExtension(x) => Response::VerifyVoteExtension(x.try_into()?),
+            Value::FinalizeBlock(x) => Response::FinalizeBlock(x.try_into()?),
+        };
+        Ok(response)
     }
 }
 

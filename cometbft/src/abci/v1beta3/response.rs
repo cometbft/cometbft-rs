@@ -5,7 +5,7 @@ pub use crate::abci::response::{
 };
 use crate::Error;
 
-/// All possible ABCI responses for this protocol version.
+/// All possible ABCI responses in CometBFT 0.38.
 #[derive(Clone, PartialEq, Eq, Debug)]
 pub enum Response {
     #[doc = include_str!("../../abci/doc/response-exception.md")]
@@ -192,7 +192,7 @@ impl TryFrom<Response> for SnapshotResponse {
 // Protobuf conversions
 // =============================================================================
 
-use cometbft_proto::v0_38::abci as pb;
+use cometbft_proto::abci::v1beta3 as pb;
 use cometbft_proto::Protobuf;
 
 impl From<Response> for pb::Response {

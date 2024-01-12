@@ -1,4 +1,4 @@
-use cometbft_proto::v0_38::abci as pb;
+use cometbft_proto::abci::v1 as pb;
 use cometbft_proto::Protobuf;
 
 use crate::abci::MethodKind;
@@ -9,7 +9,7 @@ pub use crate::abci::request::{
     LoadSnapshotChunk, OfferSnapshot, PrepareProposal, ProcessProposal, Query, VerifyVoteExtension,
 };
 
-/// All possible ABCI requests in CometBFT 0.38.
+/// All possible ABCI requests in CometBFT 1.0.
 #[allow(clippy::large_enum_variant)]
 #[derive(Clone, PartialEq, Eq, Debug)]
 pub enum Request {
@@ -255,13 +255,13 @@ impl TryFrom<pb::Request> for Request {
         let value = request.value.ok_or_else(Error::missing_data)?;
         let request = match value {
             Value::Echo(x) => Request::Echo(x.try_into()?),
-            Value::Flush(pb::RequestFlush {}) => Request::Flush,
+            Value::Flush(pb::FlushRequest {}) => Request::Flush,
             Value::Info(x) => Request::Info(x.try_into()?),
             Value::InitChain(x) => Request::InitChain(x.try_into()?),
             Value::Query(x) => Request::Query(x.try_into()?),
             Value::CheckTx(x) => Request::CheckTx(x.try_into()?),
-            Value::Commit(pb::RequestCommit {}) => Request::Commit,
-            Value::ListSnapshots(pb::RequestListSnapshots {}) => Request::ListSnapshots,
+            Value::Commit(pb::CommitRequest {}) => Request::Commit,
+            Value::ListSnapshots(pb::ListSnapshotsRequest {}) => Request::ListSnapshots,
             Value::OfferSnapshot(x) => Request::OfferSnapshot(x.try_into()?),
             Value::LoadSnapshotChunk(x) => Request::LoadSnapshotChunk(x.try_into()?),
             Value::ApplySnapshotChunk(x) => Request::ApplySnapshotChunk(x.try_into()?),
