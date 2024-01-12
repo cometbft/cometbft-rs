@@ -102,6 +102,7 @@ pub static CUSTOM_TYPE_ATTRIBUTES: &[(&str, &str)] = &[
     (".cometbft.crypto.v1.PublicKey.sum", SERIALIZED),
     (".cometbft.crypto.v1.PublicKey.sum", TYPE_TAG),
     (".cometbft.abci.v1beta1.ResponseInfo", SERIALIZED),
+    (".cometbft.abci.v1.InfoResponse", SERIALIZED),
     (".cometbft.types.v1beta1.CanonicalBlockID", SERIALIZED),
     (".cometbft.types.v1.CanonicalBlockID", SERIALIZED),
     (".cometbft.types.v1beta1.CanonicalPartSetHeader", SERIALIZED),
