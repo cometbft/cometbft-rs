@@ -288,6 +288,8 @@ pub static CUSTOM_FIELD_ATTRIBUTES: &[(&str, &str)] = &[
     (".cometbft.types.v1.Vote.signature", BASE64STRING),
     (".cometbft.types.v1beta1.Vote.timestamp", OPTIONAL),
     (".cometbft.types.v1.Vote.timestamp", OPTIONAL),
+    (".cometbft.types.v1.Vote.extension", DEFAULT),
+    (".cometbft.types.v1.Vote.extension_signature", DEFAULT),
     (".cometbft.types.v1beta1.Validator.address", HEXSTRING),
     (".cometbft.types.v1.Validator.address", HEXSTRING),
     (
