@@ -346,14 +346,20 @@ pub struct FlushResponse {}
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct InfoResponse {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub data: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub version: ::prost::alloc::string::String,
     #[prost(uint64, tag = "3")]
+    #[serde(with = "crate::serializers::from_str", default)]
     pub app_version: u64,
     #[prost(int64, tag = "4")]
+    #[serde(with = "crate::serializers::from_str", default)]
     pub last_block_height: i64,
     #[prost(bytes = "bytes", tag = "5")]
+    #[serde(default)]
+    #[serde(skip_serializing_if = "bytes::Bytes::is_empty")]
     pub last_block_app_hash: ::prost::bytes::Bytes,
 }
 /// InitChainResponse contains the ABCI application's hash and updates to the

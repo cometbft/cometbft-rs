@@ -142,6 +142,24 @@ pub static CUSTOM_FIELD_ATTRIBUTES: &[(&str, &str)] = &[
     ),
     (".cometbft.version.v1.Consensus.block", QUOTED),
     (".cometbft.version.v1.Consensus.app", QUOTED_WITH_DEFAULT),
+    (".cometbft.abci.v1.InfoResponse.data", DEFAULT),
+    (".cometbft.abci.v1.InfoResponse.version", DEFAULT),
+    (
+        ".cometbft.abci.v1.InfoResponse.app_version",
+        QUOTED_WITH_DEFAULT,
+    ),
+    (
+        ".cometbft.abci.v1.InfoResponse.last_block_height",
+        QUOTED_WITH_DEFAULT,
+    ),
+    (
+        ".cometbft.abci.v1.InfoResponse.last_block_app_hash",
+        DEFAULT,
+    ),
+    (
+        ".cometbft.abci.v1.InfoResponse.last_block_app_hash",
+        BYTES_SKIP_IF_EMPTY,
+    ),
     (".cometbft.abci.v1beta1.ResponseInfo.data", DEFAULT),
     (".cometbft.abci.v1beta1.ResponseInfo.version", DEFAULT),
     (
