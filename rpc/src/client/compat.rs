@@ -12,8 +12,8 @@ use crate::Error;
 pub enum CompatMode {
     /// Use a compatibility mode for the RPC protocol used in CometBFT 0.34.
     V0_34,
-    /// Use the RPC protocol that's been in use since CometBFT 0.37.
-    V1,
+    /// Use a compatibility mode for the RPC protocol used in CometBFT 0.37 and 0.38.
+    V0_37,
 }
 
 impl Default for CompatMode {
@@ -25,7 +25,7 @@ impl Default for CompatMode {
 impl CompatMode {
     /// The latest supported version, selected by default.
     pub const fn latest() -> Self {
-        Self::V1
+        Self::V0_37
     }
 
     /// Parse the CometBFT version string to determine
@@ -47,10 +47,9 @@ impl CompatMode {
             .map_err(|_| Error::invalid_cometbft_version(raw_version))?;
 
         match (version.major, version.minor) {
-            (1, _) => Ok(CompatMode::V1),
             (0, 34) => Ok(CompatMode::V0_34),
-            (0, 37) => Ok(CompatMode::V1),
-            (0, 38) => Ok(CompatMode::V1),
+            (0, 37) => Ok(CompatMode::V0_37),
+            (0, 38) => Ok(CompatMode::V0_37),
             _ => Err(Error::unsupported_cometbft_version(version.to_string())),
         }
     }
@@ -60,7 +59,7 @@ impl fmt::Display for CompatMode {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
             CompatMode::V0_34 => f.write_str("v0.34"),
-            CompatMode::V1 => f.write_str("v1.0"),
+            CompatMode::V0_37 => f.write_str("v0.37"),
         }
     }
 }
@@ -84,19 +83,15 @@ mod tests {
         );
         assert_eq!(
             CompatMode::from_version(parse_version("v0.37.0-pre1")).unwrap(),
-            CompatMode::V1
+            CompatMode::V0_37
         );
         assert_eq!(
             CompatMode::from_version(parse_version("v0.37.0")).unwrap(),
-            CompatMode::V1
+            CompatMode::V0_37
         );
         assert_eq!(
             CompatMode::from_version(parse_version("v0.38.0")).unwrap(),
-            CompatMode::V1
-        );
-        assert_eq!(
-            CompatMode::from_version(parse_version("v1.0.0")).unwrap(),
-            CompatMode::V1
+            CompatMode::V0_37
         );
         let res = CompatMode::from_version(parse_version("v0.39.0"));
         assert!(res.is_err());

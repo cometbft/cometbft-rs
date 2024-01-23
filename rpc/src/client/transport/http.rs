@@ -229,7 +229,7 @@ impl Client for HttpClient {
     {
         let height = height.into();
         match self.compat {
-            CompatMode::V1 => self.perform(endpoint::header::Request::new(height)).await,
+            CompatMode::V0_37 => self.perform(endpoint::header::Request::new(height)).await,
             CompatMode::V0_34 => {
                 // Back-fill with a request to /block endpoint and
                 // taking just the header from the response.
@@ -246,7 +246,7 @@ impl Client for HttpClient {
         hash: Hash,
     ) -> Result<endpoint::header_by_hash::Response, Error> {
         match self.compat {
-            CompatMode::V1 => {
+            CompatMode::V0_37 => {
                 self.perform(endpoint::header_by_hash::Request::new(hash))
                     .await
             },
@@ -267,7 +267,7 @@ impl Client for HttpClient {
     /// `/broadcast_evidence`: broadcast an evidence.
     async fn broadcast_evidence(&self, e: Evidence) -> Result<endpoint::evidence::Response, Error> {
         match self.compat {
-            CompatMode::V1 => self.perform(endpoint::evidence::Request::new(e)).await,
+            CompatMode::V0_37 => self.perform(endpoint::evidence::Request::new(e)).await,
             CompatMode::V0_34 => {
                 self.perform_with_dialect(endpoint::evidence::Request::new(e), v0_34::Dialect)
                     .await

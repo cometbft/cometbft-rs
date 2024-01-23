@@ -8,7 +8,7 @@ macro_rules! perform_with_compat {
     ($self:expr, $request:expr) => {{
         let request = $request;
         match $self.compat {
-            CompatMode::V1 => {
+            CompatMode::V0_37 => {
                 $self
                     .perform_with_dialect(request, crate::dialect::v1::Dialect)
                     .await
