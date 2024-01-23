@@ -1,0 +1,21 @@
+version: v1
+managed:
+  enabled: true
+plugins:
+  - plugin: buf.build/community/neoeinstein-prost:v0.2.3
+    out: src/prost
+  - plugin: buf.build/community/neoeinstein-tonic:v0.3.0
+    out: src/prost
+    opt:
+      - no_client
+      - server_mod_attribute=cometbft.abci.v1beta1=#[cfg(feature = "grpc-server")]
+      - server_mod_attribute=cometbft.abci.v1beta2=#[cfg(feature = "grpc-server")]
+      - server_mod_attribute=cometbft.abci.v1beta3=#[cfg(feature = "grpc-server")]
+      - server_mod_attribute=cometbft.abci.v1=#[cfg(feature = "grpc-server")]
+      - server_mod_attribute=cometbft.rpc.grpc.v1beta1=#[cfg(feature = "grpc-server")]
+      - server_mod_attribute=cometbft.rpc.grpc.v1beta2=#[cfg(feature = "grpc-server")]
+      - server_mod_attribute=cometbft.rpc.grpc.v1beta3=#[cfg(feature = "grpc-server")]
+      - server_mod_attribute=cometbft.services.block.v1=#[cfg(feature = "grpc-server")]
+      - server_mod_attribute=cometbft.services.block_results.v1=#[cfg(feature = "grpc-server")]
+      - server_mod_attribute=cometbft.services.pruning.v1=#[cfg(feature = "grpc-server")]
+      - server_mod_attribute=cometbft.services.version.v1=#[cfg(feature = "grpc-server")]
