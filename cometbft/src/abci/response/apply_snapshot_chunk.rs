@@ -50,10 +50,12 @@ impl Default for ApplySnapshotChunkResult {
 // Protobuf conversions
 // =============================================================================
 
-cometbft_pb_modules! {
+mod v1 {
     use super::{ApplySnapshotChunk, ApplySnapshotChunkResult};
+    use cometbft_proto::abci::v1 as pb;
+    use cometbft_proto::Protobuf;
 
-    impl From<ApplySnapshotChunk> for pb::abci::ResponseApplySnapshotChunk {
+    impl From<ApplySnapshotChunk> for pb::ApplySnapshotChunkResponse {
         fn from(apply_snapshot_chunk: ApplySnapshotChunk) -> Self {
             Self {
                 result: apply_snapshot_chunk.result as i32,
@@ -63,10 +65,12 @@ cometbft_pb_modules! {
         }
     }
 
-    impl TryFrom<pb::abci::ResponseApplySnapshotChunk> for ApplySnapshotChunk {
+    impl TryFrom<pb::ApplySnapshotChunkResponse> for ApplySnapshotChunk {
         type Error = crate::Error;
 
-        fn try_from(apply_snapshot_chunk: pb::abci::ResponseApplySnapshotChunk) -> Result<Self, Self::Error> {
+        fn try_from(
+            apply_snapshot_chunk: pb::ApplySnapshotChunkResponse,
+        ) -> Result<Self, Self::Error> {
             let result = match apply_snapshot_chunk.result {
                 0 => ApplySnapshotChunkResult::Unknown,
                 1 => ApplySnapshotChunkResult::Accept,
@@ -84,5 +88,46 @@ cometbft_pb_modules! {
         }
     }
 
-    impl Protobuf<pb::abci::ResponseApplySnapshotChunk> for ApplySnapshotChunk {}
+    impl Protobuf<pb::ApplySnapshotChunkResponse> for ApplySnapshotChunk {}
+}
+
+mod v1beta1 {
+    use super::{ApplySnapshotChunk, ApplySnapshotChunkResult};
+    use cometbft_proto::abci::v1beta1 as pb;
+    use cometbft_proto::Protobuf;
+
+    impl From<ApplySnapshotChunk> for pb::ResponseApplySnapshotChunk {
+        fn from(apply_snapshot_chunk: ApplySnapshotChunk) -> Self {
+            Self {
+                result: apply_snapshot_chunk.result as i32,
+                refetch_chunks: apply_snapshot_chunk.refetch_chunks,
+                reject_senders: apply_snapshot_chunk.reject_senders,
+            }
+        }
+    }
+
+    impl TryFrom<pb::ResponseApplySnapshotChunk> for ApplySnapshotChunk {
+        type Error = crate::Error;
+
+        fn try_from(
+            apply_snapshot_chunk: pb::ResponseApplySnapshotChunk,
+        ) -> Result<Self, Self::Error> {
+            let result = match apply_snapshot_chunk.result {
+                0 => ApplySnapshotChunkResult::Unknown,
+                1 => ApplySnapshotChunkResult::Accept,
+                2 => ApplySnapshotChunkResult::Abort,
+                3 => ApplySnapshotChunkResult::Retry,
+                4 => ApplySnapshotChunkResult::RetrySnapshot,
+                5 => ApplySnapshotChunkResult::RejectSnapshot,
+                _ => return Err(crate::Error::unsupported_apply_snapshot_chunk_result()),
+            };
+            Ok(Self {
+                result,
+                refetch_chunks: apply_snapshot_chunk.refetch_chunks,
+                reject_senders: apply_snapshot_chunk.reject_senders,
+            })
+        }
+    }
+
+    impl Protobuf<pb::ResponseApplySnapshotChunk> for ApplySnapshotChunk {}
 }

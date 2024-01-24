@@ -3,7 +3,7 @@
 use cometbft::{block::Header, Hash};
 use serde::{Deserialize, Serialize};
 
-use crate::dialect::v0_37;
+use crate::dialect::v1;
 use crate::request::RequestMessage;
 
 /// Get information about a specific block by its hash
@@ -36,11 +36,11 @@ impl RequestMessage for Request {
     }
 }
 
-impl crate::Request<v0_37::Dialect> for Request {
+impl crate::Request<v1::Dialect> for Request {
     type Response = Response;
 }
 
-impl crate::SimpleRequest<v0_37::Dialect> for Request {
+impl crate::SimpleRequest<v1::Dialect> for Request {
     type Output = Response;
 }
 

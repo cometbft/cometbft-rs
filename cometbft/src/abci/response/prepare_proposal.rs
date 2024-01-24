@@ -12,9 +12,9 @@ pub struct PrepareProposal {
 // Protobuf conversions
 // =============================================================================
 
-mod v0_37 {
+mod v1beta2 {
     use super::PrepareProposal;
-    use cometbft_proto::v0_37::abci as pb;
+    use cometbft_proto::abci::v1beta2 as pb;
     use cometbft_proto::Protobuf;
 
     impl From<PrepareProposal> for pb::ResponsePrepareProposal {
@@ -34,24 +34,24 @@ mod v0_37 {
     impl Protobuf<pb::ResponsePrepareProposal> for PrepareProposal {}
 }
 
-mod v0_38 {
+mod v1 {
     use super::PrepareProposal;
-    use cometbft_proto::v0_38::abci as pb;
+    use cometbft_proto::abci::v1 as pb;
     use cometbft_proto::Protobuf;
 
-    impl From<PrepareProposal> for pb::ResponsePrepareProposal {
+    impl From<PrepareProposal> for pb::PrepareProposalResponse {
         fn from(value: PrepareProposal) -> Self {
             Self { txs: value.txs }
         }
     }
 
-    impl TryFrom<pb::ResponsePrepareProposal> for PrepareProposal {
+    impl TryFrom<pb::PrepareProposalResponse> for PrepareProposal {
         type Error = crate::Error;
 
-        fn try_from(message: pb::ResponsePrepareProposal) -> Result<Self, Self::Error> {
+        fn try_from(message: pb::PrepareProposalResponse) -> Result<Self, Self::Error> {
             Ok(Self { txs: message.txs })
         }
     }
 
-    impl Protobuf<pb::ResponsePrepareProposal> for PrepareProposal {}
+    impl Protobuf<pb::PrepareProposalResponse> for PrepareProposal {}
 }

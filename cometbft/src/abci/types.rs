@@ -231,12 +231,12 @@ pub struct ExecTxResult {
 // Protobuf conversions
 // =============================================================================
 
-mod v0_34 {
+mod v1beta1 {
     use super::{
         BlockSignatureInfo, CommitInfo, Misbehavior, MisbehaviorKind, Snapshot, Validator, VoteInfo,
     };
     use crate::{block::BlockIdFlag, prelude::*, Error};
-    use cometbft_proto::v0_34::abci as pb;
+    use cometbft_proto::abci::v1beta1 as pb;
     use cometbft_proto::Protobuf;
 
     use bytes::Bytes;
@@ -397,76 +397,14 @@ mod v0_34 {
     impl Protobuf<pb::Snapshot> for Snapshot {}
 }
 
-mod v0_37 {
+mod v1beta2 {
     use super::{
         BlockSignatureInfo, CommitInfo, ExtendedCommitInfo, ExtendedVoteInfo, Misbehavior,
-        MisbehaviorKind, Snapshot, Validator, VoteInfo,
+        MisbehaviorKind,
     };
     use crate::{block::BlockIdFlag, prelude::*, Error};
-    use cometbft_proto::v0_37::abci as pb;
+    use cometbft_proto::abci::v1beta2 as pb;
     use cometbft_proto::Protobuf;
-
-    use bytes::Bytes;
-
-    impl From<Validator> for pb::Validator {
-        fn from(v: Validator) -> Self {
-            Self {
-                address: Bytes::copy_from_slice(&v.address[..]),
-                power: v.power.into(),
-            }
-        }
-    }
-
-    impl TryFrom<pb::Validator> for Validator {
-        type Error = Error;
-
-        fn try_from(vu: pb::Validator) -> Result<Self, Self::Error> {
-            let address = if vu.address.len() == 20 {
-                let mut bytes = [0u8; 20];
-                bytes.copy_from_slice(&vu.address);
-                bytes
-            } else {
-                return Err(Error::invalid_account_id_length());
-            };
-
-            Ok(Self {
-                address,
-                power: vu.power.try_into()?,
-            })
-        }
-    }
-
-    impl Protobuf<pb::Validator> for Validator {}
-
-    impl From<VoteInfo> for pb::VoteInfo {
-        fn from(vi: VoteInfo) -> Self {
-            Self {
-                validator: Some(vi.validator.into()),
-                signed_last_block: vi.sig_info.is_signed(),
-            }
-        }
-    }
-
-    impl TryFrom<pb::VoteInfo> for VoteInfo {
-        type Error = Error;
-
-        fn try_from(vi: pb::VoteInfo) -> Result<Self, Self::Error> {
-            let sig_info = if vi.signed_last_block {
-                BlockSignatureInfo::LegacySigned
-            } else {
-                BlockSignatureInfo::Flag(BlockIdFlag::Absent)
-            };
-            Ok(Self {
-                validator: vi
-                    .validator
-                    .ok_or_else(Error::missing_validator)?
-                    .try_into()?,
-                sig_info,
-            })
-        }
-    }
-
-    impl Protobuf<pb::VoteInfo> for VoteInfo {}
 
     // ExtendedVoteInfo is defined in 0.37, but the vote_extension field
     // should be always nil and is ignored.
@@ -596,44 +534,193 @@ mod v0_37 {
     }
 
     impl Protobuf<pb::ExtendedCommitInfo> for ExtendedCommitInfo {}
+}
 
-    impl From<Snapshot> for pb::Snapshot {
-        fn from(snapshot: Snapshot) -> Self {
-            Self {
-                height: snapshot.height.into(),
-                format: snapshot.format,
-                chunks: snapshot.chunks,
-                hash: snapshot.hash,
-                metadata: snapshot.metadata,
+mod v1beta3 {
+    use super::{
+        BlockSignatureInfo, CommitInfo, ExecTxResult, ExtendedCommitInfo, ExtendedVoteInfo,
+        VoteInfo,
+    };
+    use crate::{prelude::*, Error, Signature};
+    use cometbft_proto::abci::v1beta3 as pb;
+    use cometbft_proto::types::v1beta1::BlockIdFlag as RawBlockIdFlag;
+    use cometbft_proto::Protobuf;
+
+    impl From<BlockSignatureInfo> for RawBlockIdFlag {
+        fn from(value: BlockSignatureInfo) -> Self {
+            // The API user should not use the LegacySigned flag in
+            // values for 0.38-based chains. As this conversion is infallible,
+            // silently convert it to the undefined value.
+            match value {
+                BlockSignatureInfo::Flag(flag) => flag.into(),
+                BlockSignatureInfo::LegacySigned => RawBlockIdFlag::Unknown,
             }
         }
     }
 
-    impl TryFrom<pb::Snapshot> for Snapshot {
+    impl From<VoteInfo> for pb::VoteInfo {
+        fn from(vi: VoteInfo) -> Self {
+            let block_id_flag: RawBlockIdFlag = vi.sig_info.into();
+            Self {
+                validator: Some(vi.validator.into()),
+                block_id_flag: block_id_flag as i32,
+            }
+        }
+    }
+
+    impl TryFrom<pb::VoteInfo> for VoteInfo {
         type Error = Error;
 
-        fn try_from(snapshot: pb::Snapshot) -> Result<Self, Self::Error> {
+        fn try_from(vi: pb::VoteInfo) -> Result<Self, Self::Error> {
+            let block_id_flag: RawBlockIdFlag = vi
+                .block_id_flag
+                .try_into()
+                .map_err(|_| Error::block_id_flag())?;
             Ok(Self {
-                height: snapshot.height.try_into()?,
-                format: snapshot.format,
-                chunks: snapshot.chunks,
-                hash: snapshot.hash,
-                metadata: snapshot.metadata,
+                validator: vi
+                    .validator
+                    .ok_or_else(Error::missing_validator)?
+                    .try_into()?,
+                sig_info: BlockSignatureInfo::Flag(block_id_flag.try_into()?),
             })
         }
     }
 
-    impl Protobuf<pb::Snapshot> for Snapshot {}
+    impl Protobuf<pb::VoteInfo> for VoteInfo {}
+
+    impl From<ExtendedVoteInfo> for pb::ExtendedVoteInfo {
+        fn from(vi: ExtendedVoteInfo) -> Self {
+            let block_id_flag: RawBlockIdFlag = vi.sig_info.into();
+            Self {
+                validator: Some(vi.validator.into()),
+                vote_extension: vi.vote_extension,
+                extension_signature: vi.extension_signature.map(Into::into).unwrap_or_default(),
+                block_id_flag: block_id_flag as i32,
+            }
+        }
+    }
+
+    impl TryFrom<pb::ExtendedVoteInfo> for ExtendedVoteInfo {
+        type Error = Error;
+
+        fn try_from(vi: pb::ExtendedVoteInfo) -> Result<Self, Self::Error> {
+            let block_id_flag: RawBlockIdFlag = vi
+                .block_id_flag
+                .try_into()
+                .map_err(|_| Error::block_id_flag())?;
+            Ok(Self {
+                validator: vi
+                    .validator
+                    .ok_or_else(Error::missing_validator)?
+                    .try_into()?,
+                sig_info: BlockSignatureInfo::Flag(block_id_flag.try_into()?),
+                vote_extension: vi.vote_extension,
+                extension_signature: Signature::new(vi.extension_signature)?,
+            })
+        }
+    }
+
+    impl Protobuf<pb::ExtendedVoteInfo> for ExtendedVoteInfo {}
+
+    impl From<CommitInfo> for pb::CommitInfo {
+        fn from(lci: CommitInfo) -> Self {
+            Self {
+                round: lci.round.into(),
+                votes: lci.votes.into_iter().map(Into::into).collect(),
+            }
+        }
+    }
+
+    impl TryFrom<pb::CommitInfo> for CommitInfo {
+        type Error = Error;
+
+        fn try_from(lci: pb::CommitInfo) -> Result<Self, Self::Error> {
+            Ok(Self {
+                round: lci.round.try_into()?,
+                votes: lci
+                    .votes
+                    .into_iter()
+                    .map(TryInto::try_into)
+                    .collect::<Result<_, _>>()?,
+            })
+        }
+    }
+
+    impl Protobuf<pb::CommitInfo> for CommitInfo {}
+
+    impl From<ExtendedCommitInfo> for pb::ExtendedCommitInfo {
+        fn from(lci: ExtendedCommitInfo) -> Self {
+            Self {
+                round: lci.round.into(),
+                votes: lci.votes.into_iter().map(Into::into).collect(),
+            }
+        }
+    }
+
+    impl TryFrom<pb::ExtendedCommitInfo> for ExtendedCommitInfo {
+        type Error = Error;
+
+        fn try_from(lci: pb::ExtendedCommitInfo) -> Result<Self, Self::Error> {
+            Ok(Self {
+                round: lci.round.try_into()?,
+                votes: lci
+                    .votes
+                    .into_iter()
+                    .map(TryInto::try_into)
+                    .collect::<Result<_, _>>()?,
+            })
+        }
+    }
+
+    impl Protobuf<pb::ExtendedCommitInfo> for ExtendedCommitInfo {}
+
+    impl From<ExecTxResult> for pb::ExecTxResult {
+        fn from(deliver_tx: ExecTxResult) -> Self {
+            Self {
+                code: deliver_tx.code.into(),
+                data: deliver_tx.data,
+                log: deliver_tx.log,
+                info: deliver_tx.info,
+                gas_wanted: deliver_tx.gas_wanted,
+                gas_used: deliver_tx.gas_used,
+                events: deliver_tx.events.into_iter().map(Into::into).collect(),
+                codespace: deliver_tx.codespace,
+            }
+        }
+    }
+
+    impl TryFrom<pb::ExecTxResult> for ExecTxResult {
+        type Error = Error;
+
+        fn try_from(deliver_tx: pb::ExecTxResult) -> Result<Self, Self::Error> {
+            Ok(Self {
+                code: deliver_tx.code.into(),
+                data: deliver_tx.data,
+                log: deliver_tx.log,
+                info: deliver_tx.info,
+                gas_wanted: deliver_tx.gas_wanted,
+                gas_used: deliver_tx.gas_used,
+                events: deliver_tx
+                    .events
+                    .into_iter()
+                    .map(TryInto::try_into)
+                    .collect::<Result<_, _>>()?,
+                codespace: deliver_tx.codespace,
+            })
+        }
+    }
+
+    impl Protobuf<pb::ExecTxResult> for ExecTxResult {}
 }
 
-mod v0_38 {
+mod v1 {
     use super::{
         BlockSignatureInfo, CommitInfo, ExecTxResult, ExtendedCommitInfo, ExtendedVoteInfo,
         Misbehavior, MisbehaviorKind, Snapshot, Validator, VoteInfo,
     };
     use crate::{prelude::*, Error, Signature};
-    use cometbft_proto::v0_38::abci as pb;
-    use cometbft_proto::v0_38::types::BlockIdFlag as RawBlockIdFlag;
+    use cometbft_proto::abci::v1 as pb;
+    use cometbft_proto::types::v1::BlockIdFlag as RawBlockIdFlag;
     use cometbft_proto::Protobuf;
 
     use bytes::Bytes;

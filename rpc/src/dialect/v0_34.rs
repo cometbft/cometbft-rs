@@ -1,5 +1,5 @@
 use cometbft::{abci, evidence};
-use cometbft_proto::v0_34::types::Evidence as RawEvidence;
+use cometbft_proto::types::v1beta1::Evidence as RawEvidence;
 
 use crate::prelude::*;
 use crate::serializers::bytes::base64string;

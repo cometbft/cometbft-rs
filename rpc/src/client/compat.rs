@@ -10,9 +10,9 @@ use crate::Error;
 /// Protocol compatibility mode for a CometBFT RPC client.
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
 pub enum CompatMode {
-    /// Use version 0.34 of the protocol.
+    /// Use a compatibility mode for the RPC protocol used in CometBFT 0.34.
     V0_34,
-    /// Use version 0.37 of the protocol.
+    /// Use a compatibility mode for the RPC protocol used in CometBFT 0.37 and 0.38.
     V0_37,
 }
 
@@ -94,8 +94,6 @@ mod tests {
             CompatMode::V0_37
         );
         let res = CompatMode::from_version(parse_version("v0.39.0"));
-        assert!(res.is_err());
-        let res = CompatMode::from_version(parse_version("v1.0.0"));
         assert!(res.is_err());
         let res = CompatMode::from_version(parse_version("poobah"));
         assert!(res.is_err());

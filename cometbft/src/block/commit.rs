@@ -1,6 +1,6 @@
 //! Commits to a CometBFT blockchain
 
-use cometbft_proto::v0_37::types::Commit as RawCommit;
+use cometbft_proto::types::v1::Commit as RawCommit;
 use serde::{Deserialize, Serialize};
 
 use crate::{
@@ -29,19 +29,15 @@ pub struct Commit {
     pub signatures: Vec<CommitSig>,
 }
 
-cometbft_pb_modules! {
+mod v1 {
     use super::Commit;
-    use crate::{
-        block::commit_sig::CommitSig,
-        error::Error,
-        prelude::*,
-    };
-    use pb::types::Commit as RawCommit;
+    use crate::{block::commit_sig::CommitSig, error::Error, prelude::*};
+    use cometbft_proto::types::v1 as pb;
 
-    impl TryFrom<RawCommit> for Commit {
+    impl TryFrom<pb::Commit> for Commit {
         type Error = Error;
 
-        fn try_from(value: RawCommit) -> Result<Self, Self::Error> {
+        fn try_from(value: pb::Commit) -> Result<Self, Self::Error> {
             let signatures: Result<Vec<CommitSig>, Error> = value
                 .signatures
                 .into_iter()
@@ -59,9 +55,47 @@ cometbft_pb_modules! {
         }
     }
 
-    impl From<Commit> for RawCommit {
+    impl From<Commit> for pb::Commit {
         fn from(value: Commit) -> Self {
-            RawCommit {
+            pb::Commit {
+                height: value.height.into(),
+                round: value.round.into(),
+                block_id: Some(value.block_id.into()),
+                signatures: value.signatures.into_iter().map(Into::into).collect(),
+            }
+        }
+    }
+}
+
+mod v1beta1 {
+    use super::Commit;
+    use crate::{block::commit_sig::CommitSig, error::Error, prelude::*};
+    use cometbft_proto::types::v1beta1 as pb;
+
+    impl TryFrom<pb::Commit> for Commit {
+        type Error = Error;
+
+        fn try_from(value: pb::Commit) -> Result<Self, Self::Error> {
+            let signatures: Result<Vec<CommitSig>, Error> = value
+                .signatures
+                .into_iter()
+                .map(TryFrom::try_from)
+                .collect();
+            Ok(Self {
+                height: value.height.try_into()?,
+                round: value.round.try_into()?,
+                block_id: value
+                    .block_id
+                    .ok_or_else(|| Error::invalid_block("missing block id".to_string()))?
+                    .try_into()?, // gogoproto.nullable = false
+                signatures: signatures?,
+            })
+        }
+    }
+
+    impl From<Commit> for pb::Commit {
+        fn from(value: Commit) -> Self {
+            pb::Commit {
                 height: value.height.into(),
                 round: value.round.into(),
                 block_id: Some(value.block_id.into()),

@@ -115,10 +115,15 @@ where
     .map_err(serde::de::Error::custom)
 }
 
-cometbft_pb_modules! {
-    use super::{PublicKey, Ed25519};
-    use pb::crypto::{PublicKey as RawPublicKey, public_key::Sum};
+// =============================================================================
+// Protobuf conversions
+// =============================================================================
+
+mod v1 {
+    use super::{Ed25519, PublicKey};
     use crate::{prelude::*, Error};
+    use cometbft_proto::crypto::v1::{public_key::Sum, PublicKey as RawPublicKey};
+    use cometbft_proto::Protobuf;
 
     impl Protobuf<RawPublicKey> for PublicKey {}
 
@@ -146,15 +151,11 @@ cometbft_pb_modules! {
         fn from(value: PublicKey) -> Self {
             match value {
                 PublicKey::Ed25519(ref pk) => RawPublicKey {
-                    sum: Some(Sum::Ed25519(
-                        pk.as_bytes().to_vec(),
-                    )),
+                    sum: Some(Sum::Ed25519(pk.as_bytes().to_vec())),
                 },
                 #[cfg(feature = "secp256k1")]
                 PublicKey::Secp256k1(ref pk) => RawPublicKey {
-                    sum: Some(Sum::Secp256k1(
-                        pk.to_sec1_bytes().into(),
-                    )),
+                    sum: Some(Sum::Secp256k1(pk.to_sec1_bytes().into())),
                 },
             }
         }
@@ -471,9 +472,10 @@ mod tests {
         assert_eq!(reserialized_json.as_str(), json_string);
     }
 
-    cometbft_pb_modules! {
+    mod v1 {
         use super::*;
-        use pb::privval::PubKeyResponse as RawPubKeyResponse;
+        use cometbft_proto::privval::v1::PubKeyResponse as RawPubKeyResponse;
+        use cometbft_proto::Protobuf;
 
         #[test]
         fn test_ed25519_pubkey_msg() {
@@ -500,9 +502,9 @@ mod tests {
             //
             // }
             let encoded = vec![
-                0xa, 0x22, 0xa, 0x20, 0xd7, 0x5a, 0x98, 0x1, 0x82, 0xb1, 0xa, 0xb7, 0xd5, 0x4b, 0xfe,
-                0xd3, 0xc9, 0x64, 0x7, 0x3a, 0xe, 0xe1, 0x72, 0xf3, 0xda, 0xa6, 0x23, 0x25, 0xaf, 0x2,
-                0x1a, 0x68, 0xf7, 0x7, 0x51, 0x1a,
+                0xa, 0x22, 0xa, 0x20, 0xd7, 0x5a, 0x98, 0x1, 0x82, 0xb1, 0xa, 0xb7, 0xd5, 0x4b,
+                0xfe, 0xd3, 0xc9, 0x64, 0x7, 0x3a, 0xe, 0xe1, 0x72, 0xf3, 0xda, 0xa6, 0x23, 0x25,
+                0xaf, 0x2, 0x1a, 0x68, 0xf7, 0x7, 0x51, 0x1a,
             ];
 
             let msg = PubKeyResponse {
@@ -518,9 +520,8 @@ mod tests {
             let got = Protobuf::<RawPubKeyResponse>::encode_vec(msg.clone());
 
             assert_eq!(got, encoded);
-            let decoded = <PubKeyResponse as Protobuf<RawPubKeyResponse>>::decode_vec(
-                &encoded
-            ).unwrap();
+            let decoded =
+                <PubKeyResponse as Protobuf<RawPubKeyResponse>>::decode_vec(&encoded).unwrap();
             assert_eq!(decoded, msg);
         }
     }

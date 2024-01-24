@@ -206,7 +206,7 @@ mod v0_34 {
     use crate::prelude::*;
     use core::convert::{TryFrom, TryInto};
 
-    use cometbft_proto::v0_34::abci as pb;
+    use cometbft_proto::abci::v1beta1 as pb;
     use cometbft_proto::Protobuf;
 
     impl From<EventAttribute> for pb::EventAttribute {
@@ -268,7 +268,7 @@ mod v0_37 {
     use crate::prelude::*;
     use core::convert::{TryFrom, TryInto};
 
-    use cometbft_proto::v0_37::abci as pb;
+    use cometbft_proto::abci::v1beta2 as pb;
     use cometbft_proto::Protobuf;
 
     impl From<EventAttribute> for pb::EventAttribute {
@@ -322,12 +322,12 @@ mod v0_37 {
     impl Protobuf<pb::Event> for Event {}
 }
 
-mod v0_38 {
+mod v1 {
     use super::{Event, EventAttribute};
     use crate::prelude::*;
     use core::convert::{TryFrom, TryInto};
 
-    use cometbft_proto::v0_38::abci as pb;
+    use cometbft_proto::abci::v1 as pb;
     use cometbft_proto::Protobuf;
 
     impl From<EventAttribute> for pb::EventAttribute {

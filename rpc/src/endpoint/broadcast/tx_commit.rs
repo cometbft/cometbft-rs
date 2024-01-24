@@ -37,7 +37,7 @@ impl crate::Request<dialect::v0_34::Dialect> for Request {
     type Response = self::v0_34::DialectResponse;
 }
 
-impl crate::Request<dialect::v0_37::Dialect> for Request {
+impl crate::Request<dialect::v1::Dialect> for Request {
     type Response = Response;
 }
 
@@ -77,43 +77,6 @@ pub mod v0_34 {
     use crate::dialect;
     use crate::dialect::v0_34::Event;
     use cometbft::{block, Hash};
-    use serde::{Deserialize, Serialize};
-
-    /// RPC dialect helper for serialization of the response.
-    #[derive(Debug, Deserialize, Serialize)]
-    pub struct DialectResponse {
-        /// `CheckTx` result
-        pub check_tx: dialect::CheckTx<Event>,
-
-        /// `DeliverTx` result
-        pub deliver_tx: dialect::DeliverTx<Event>,
-
-        /// Transaction
-        pub hash: Hash,
-
-        /// Height
-        pub height: block::Height,
-    }
-
-    impl crate::Response for DialectResponse {}
-
-    impl From<DialectResponse> for Response {
-        fn from(msg: DialectResponse) -> Self {
-            Self {
-                check_tx: msg.check_tx.into(),
-                tx_result: msg.deliver_tx.into(),
-                hash: msg.hash,
-                height: msg.height,
-            }
-        }
-    }
-}
-
-/// Serialization for /broadcast_tx_commit endpoint format in CometBFT 0.37
-pub mod v0_37 {
-    use super::Response;
-    use crate::dialect;
-    use cometbft::{abci::Event, block, Hash};
     use serde::{Deserialize, Serialize};
 
     /// RPC dialect helper for serialization of the response.

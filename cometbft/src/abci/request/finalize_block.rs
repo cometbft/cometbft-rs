@@ -33,13 +33,13 @@ pub struct FinalizeBlock {
 // Protobuf conversions
 // =============================================================================
 
-mod v0_38 {
+mod v1 {
     use super::FinalizeBlock;
     use crate::Error;
-    use cometbft_proto::v0_38 as pb;
+    use cometbft_proto::abci::v1 as pb;
     use cometbft_proto::Protobuf;
 
-    impl From<FinalizeBlock> for pb::abci::RequestFinalizeBlock {
+    impl From<FinalizeBlock> for pb::FinalizeBlockRequest {
         fn from(value: FinalizeBlock) -> Self {
             Self {
                 txs: value.txs,
@@ -54,10 +54,10 @@ mod v0_38 {
         }
     }
 
-    impl TryFrom<pb::abci::RequestFinalizeBlock> for FinalizeBlock {
+    impl TryFrom<pb::FinalizeBlockRequest> for FinalizeBlock {
         type Error = Error;
 
-        fn try_from(message: pb::abci::RequestFinalizeBlock) -> Result<Self, Self::Error> {
+        fn try_from(message: pb::FinalizeBlockRequest) -> Result<Self, Self::Error> {
             Ok(Self {
                 txs: message.txs,
                 decided_last_commit: message
@@ -81,5 +81,56 @@ mod v0_38 {
         }
     }
 
-    impl Protobuf<pb::abci::RequestFinalizeBlock> for FinalizeBlock {}
+    impl Protobuf<pb::FinalizeBlockRequest> for FinalizeBlock {}
+}
+
+mod v1beta3 {
+    use super::FinalizeBlock;
+    use crate::Error;
+    use cometbft_proto::abci::v1beta3 as pb;
+    use cometbft_proto::Protobuf;
+
+    impl From<FinalizeBlock> for pb::RequestFinalizeBlock {
+        fn from(value: FinalizeBlock) -> Self {
+            Self {
+                txs: value.txs,
+                decided_last_commit: Some(value.decided_last_commit.into()),
+                misbehavior: value.misbehavior.into_iter().map(Into::into).collect(),
+                hash: value.hash.into(),
+                height: value.height.into(),
+                time: Some(value.time.into()),
+                next_validators_hash: value.next_validators_hash.into(),
+                proposer_address: value.proposer_address.into(),
+            }
+        }
+    }
+
+    impl TryFrom<pb::RequestFinalizeBlock> for FinalizeBlock {
+        type Error = Error;
+
+        fn try_from(message: pb::RequestFinalizeBlock) -> Result<Self, Self::Error> {
+            Ok(Self {
+                txs: message.txs,
+                decided_last_commit: message
+                    .decided_last_commit
+                    .ok_or_else(Error::missing_last_commit_info)?
+                    .try_into()?,
+                misbehavior: message
+                    .misbehavior
+                    .into_iter()
+                    .map(TryInto::try_into)
+                    .collect::<Result<_, _>>()?,
+                hash: message.hash.try_into()?,
+                height: message.height.try_into()?,
+                time: message
+                    .time
+                    .ok_or_else(Error::missing_timestamp)?
+                    .try_into()?,
+                next_validators_hash: message.next_validators_hash.try_into()?,
+                proposer_address: message.proposer_address.try_into()?,
+            })
+        }
+    }
+
+    impl Protobuf<pb::RequestFinalizeBlock> for FinalizeBlock {}
 }

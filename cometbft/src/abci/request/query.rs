@@ -32,10 +32,12 @@ pub struct Query {
 // Protobuf conversions
 // =============================================================================
 
-cometbft_pb_modules! {
+mod v1 {
     use super::Query;
+    use cometbft_proto::abci::v1 as pb;
+    use cometbft_proto::Protobuf;
 
-    impl From<Query> for pb::abci::RequestQuery {
+    impl From<Query> for pb::QueryRequest {
         fn from(query: Query) -> Self {
             Self {
                 data: query.data,
@@ -46,10 +48,10 @@ cometbft_pb_modules! {
         }
     }
 
-    impl TryFrom<pb::abci::RequestQuery> for Query {
+    impl TryFrom<pb::QueryRequest> for Query {
         type Error = crate::Error;
 
-        fn try_from(query: pb::abci::RequestQuery) -> Result<Self, Self::Error> {
+        fn try_from(query: pb::QueryRequest) -> Result<Self, Self::Error> {
             Ok(Self {
                 data: query.data,
                 path: query.path,
@@ -59,5 +61,37 @@ cometbft_pb_modules! {
         }
     }
 
-    impl Protobuf<pb::abci::RequestQuery> for Query {}
+    impl Protobuf<pb::QueryRequest> for Query {}
+}
+
+mod v1beta1 {
+    use super::Query;
+    use cometbft_proto::abci::v1beta1 as pb;
+    use cometbft_proto::Protobuf;
+
+    impl From<Query> for pb::RequestQuery {
+        fn from(query: Query) -> Self {
+            Self {
+                data: query.data,
+                path: query.path,
+                height: query.height.into(),
+                prove: query.prove,
+            }
+        }
+    }
+
+    impl TryFrom<pb::RequestQuery> for Query {
+        type Error = crate::Error;
+
+        fn try_from(query: pb::RequestQuery) -> Result<Self, Self::Error> {
+            Ok(Self {
+                data: query.data,
+                path: query.path,
+                height: query.height.try_into()?,
+                prove: query.prove,
+            })
+        }
+    }
+
+    impl Protobuf<pb::RequestQuery> for Query {}
 }

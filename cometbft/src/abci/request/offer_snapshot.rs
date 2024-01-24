@@ -17,10 +17,12 @@ pub struct OfferSnapshot {
 // Protobuf conversions
 // =============================================================================
 
-cometbft_pb_modules! {
+mod v1 {
     use super::OfferSnapshot;
+    use cometbft_proto::abci::v1 as pb;
+    use cometbft_proto::Protobuf;
 
-    impl From<OfferSnapshot> for pb::abci::RequestOfferSnapshot {
+    impl From<OfferSnapshot> for pb::OfferSnapshotRequest {
         fn from(offer_snapshot: OfferSnapshot) -> Self {
             Self {
                 snapshot: Some(offer_snapshot.snapshot.into()),
@@ -29,10 +31,10 @@ cometbft_pb_modules! {
         }
     }
 
-    impl TryFrom<pb::abci::RequestOfferSnapshot> for OfferSnapshot {
+    impl TryFrom<pb::OfferSnapshotRequest> for OfferSnapshot {
         type Error = crate::Error;
 
-        fn try_from(offer_snapshot: pb::abci::RequestOfferSnapshot) -> Result<Self, Self::Error> {
+        fn try_from(offer_snapshot: pb::OfferSnapshotRequest) -> Result<Self, Self::Error> {
             Ok(Self {
                 snapshot: offer_snapshot
                     .snapshot
@@ -43,5 +45,36 @@ cometbft_pb_modules! {
         }
     }
 
-    impl Protobuf<pb::abci::RequestOfferSnapshot> for OfferSnapshot {}
+    impl Protobuf<pb::OfferSnapshotRequest> for OfferSnapshot {}
+}
+
+mod v1beta1 {
+    use super::OfferSnapshot;
+    use cometbft_proto::abci::v1beta1 as pb;
+    use cometbft_proto::Protobuf;
+
+    impl From<OfferSnapshot> for pb::RequestOfferSnapshot {
+        fn from(offer_snapshot: OfferSnapshot) -> Self {
+            Self {
+                snapshot: Some(offer_snapshot.snapshot.into()),
+                app_hash: offer_snapshot.app_hash.into(),
+            }
+        }
+    }
+
+    impl TryFrom<pb::RequestOfferSnapshot> for OfferSnapshot {
+        type Error = crate::Error;
+
+        fn try_from(offer_snapshot: pb::RequestOfferSnapshot) -> Result<Self, Self::Error> {
+            Ok(Self {
+                snapshot: offer_snapshot
+                    .snapshot
+                    .ok_or_else(crate::Error::missing_data)?
+                    .try_into()?,
+                app_hash: offer_snapshot.app_hash.try_into()?,
+            })
+        }
+    }
+
+    impl Protobuf<pb::RequestOfferSnapshot> for OfferSnapshot {}
 }

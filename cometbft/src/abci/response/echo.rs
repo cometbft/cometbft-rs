@@ -11,10 +11,12 @@ pub struct Echo {
 // Protobuf conversions
 // =============================================================================
 
-cometbft_pb_modules! {
+mod v1 {
     use super::Echo;
+    use cometbft_proto::abci::v1 as pb;
+    use cometbft_proto::Protobuf;
 
-    impl From<Echo> for pb::abci::ResponseEcho {
+    impl From<Echo> for pb::EchoResponse {
         fn from(echo: Echo) -> Self {
             Self {
                 message: echo.message,
@@ -22,15 +24,41 @@ cometbft_pb_modules! {
         }
     }
 
-    impl TryFrom<pb::abci::ResponseEcho> for Echo {
+    impl TryFrom<pb::EchoResponse> for Echo {
         type Error = crate::Error;
 
-        fn try_from(echo: pb::abci::ResponseEcho) -> Result<Self, Self::Error> {
+        fn try_from(echo: pb::EchoResponse) -> Result<Self, Self::Error> {
             Ok(Self {
                 message: echo.message,
             })
         }
     }
 
-    impl Protobuf<pb::abci::ResponseEcho> for Echo {}
+    impl Protobuf<pb::EchoResponse> for Echo {}
+}
+
+mod v1beta1 {
+    use super::Echo;
+    use cometbft_proto::abci::v1beta1 as pb;
+    use cometbft_proto::Protobuf;
+
+    impl From<Echo> for pb::ResponseEcho {
+        fn from(echo: Echo) -> Self {
+            Self {
+                message: echo.message,
+            }
+        }
+    }
+
+    impl TryFrom<pb::ResponseEcho> for Echo {
+        type Error = crate::Error;
+
+        fn try_from(echo: pb::ResponseEcho) -> Result<Self, Self::Error> {
+            Ok(Self {
+                message: echo.message,
+            })
+        }
+    }
+
+    impl Protobuf<pb::ResponseEcho> for Echo {}
 }

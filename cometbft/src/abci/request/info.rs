@@ -17,9 +17,9 @@ pub struct Info {
 // Protobuf conversions
 // =============================================================================
 
-mod v0_34 {
+mod v1beta1 {
     use super::Info;
-    use cometbft_proto::v0_34::abci as pb;
+    use cometbft_proto::abci::v1beta1 as pb;
     use cometbft_proto::Protobuf;
 
     impl From<Info> for pb::RequestInfo {
@@ -48,9 +48,9 @@ mod v0_34 {
     impl Protobuf<pb::RequestInfo> for Info {}
 }
 
-mod v0_37 {
+mod v1beta2 {
     use super::Info;
-    use cometbft_proto::v0_37::abci as pb;
+    use cometbft_proto::abci::v1beta2 as pb;
     use cometbft_proto::Protobuf;
 
     impl From<Info> for pb::RequestInfo {
@@ -80,12 +80,12 @@ mod v0_37 {
     impl Protobuf<pb::RequestInfo> for Info {}
 }
 
-mod v0_38 {
+mod v1 {
     use super::Info;
-    use cometbft_proto::v0_38::abci as pb;
+    use cometbft_proto::abci::v1 as pb;
     use cometbft_proto::Protobuf;
 
-    impl From<Info> for pb::RequestInfo {
+    impl From<Info> for pb::InfoRequest {
         fn from(info: Info) -> Self {
             Self {
                 version: info.version,
@@ -96,10 +96,10 @@ mod v0_38 {
         }
     }
 
-    impl TryFrom<pb::RequestInfo> for Info {
+    impl TryFrom<pb::InfoRequest> for Info {
         type Error = crate::Error;
 
-        fn try_from(info: pb::RequestInfo) -> Result<Self, Self::Error> {
+        fn try_from(info: pb::InfoRequest) -> Result<Self, Self::Error> {
             Ok(Self {
                 version: info.version,
                 block_version: info.block_version,
@@ -109,5 +109,5 @@ mod v0_38 {
         }
     }
 
-    impl Protobuf<pb::RequestInfo> for Info {}
+    impl Protobuf<pb::InfoRequest> for Info {}
 }

@@ -27,10 +27,10 @@ pub struct PrepareProposal {
 // Protobuf conversions
 // =============================================================================
 
-mod v0_37 {
+mod v1beta2 {
     use super::PrepareProposal;
     use crate::{prelude::*, Error};
-    use cometbft_proto::v0_37::abci as pb;
+    use cometbft_proto::abci::v1beta2 as pb;
     use cometbft_proto::Protobuf;
 
     impl From<PrepareProposal> for pb::RequestPrepareProposal {
@@ -79,10 +79,10 @@ mod v0_37 {
     impl Protobuf<pb::RequestPrepareProposal> for PrepareProposal {}
 }
 
-mod v0_38 {
+mod v1beta3 {
     use super::PrepareProposal;
     use crate::{prelude::*, Error};
-    use cometbft_proto::v0_38::abci as pb;
+    use cometbft_proto::abci::v1beta3 as pb;
     use cometbft_proto::Protobuf;
 
     impl From<PrepareProposal> for pb::RequestPrepareProposal {
@@ -129,4 +129,56 @@ mod v0_38 {
     }
 
     impl Protobuf<pb::RequestPrepareProposal> for PrepareProposal {}
+}
+
+mod v1 {
+    use super::PrepareProposal;
+    use crate::{prelude::*, Error};
+    use cometbft_proto::abci::v1 as pb;
+    use cometbft_proto::Protobuf;
+
+    impl From<PrepareProposal> for pb::PrepareProposalRequest {
+        fn from(value: PrepareProposal) -> Self {
+            Self {
+                max_tx_bytes: value.max_tx_bytes,
+                txs: value.txs,
+                local_last_commit: value.local_last_commit.map(Into::into),
+                misbehavior: value.misbehavior.into_iter().map(Into::into).collect(),
+                height: value.height.into(),
+                time: Some(value.time.into()),
+                next_validators_hash: value.next_validators_hash.into(),
+                proposer_address: value.proposer_address.into(),
+            }
+        }
+    }
+
+    impl TryFrom<pb::PrepareProposalRequest> for PrepareProposal {
+        type Error = Error;
+
+        fn try_from(message: pb::PrepareProposalRequest) -> Result<Self, Self::Error> {
+            let req = Self {
+                max_tx_bytes: message.max_tx_bytes,
+                txs: message.txs,
+                local_last_commit: message
+                    .local_last_commit
+                    .map(TryInto::try_into)
+                    .transpose()?,
+                misbehavior: message
+                    .misbehavior
+                    .into_iter()
+                    .map(TryInto::try_into)
+                    .collect::<Result<Vec<_>, _>>()?,
+                height: message.height.try_into()?,
+                time: message
+                    .time
+                    .ok_or_else(Error::missing_timestamp)?
+                    .try_into()?,
+                next_validators_hash: message.next_validators_hash.try_into()?,
+                proposer_address: message.proposer_address.try_into()?,
+            };
+            Ok(req)
+        }
+    }
+
+    impl Protobuf<pb::PrepareProposalRequest> for PrepareProposal {}
 }

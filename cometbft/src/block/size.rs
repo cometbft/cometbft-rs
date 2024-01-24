@@ -27,13 +27,11 @@ impl Size {
     }
 }
 
-mod v0_34 {
+mod v1beta1 {
     use super::Size;
     use crate::error::Error;
-    use cometbft_proto::v0_34::{abci::BlockParams as RawAbciSize, types::BlockParams as RawSize};
-    use cometbft_proto::Protobuf;
-
-    impl Protobuf<RawSize> for Size {}
+    use cometbft_proto::abci::v1beta1::BlockParams as RawAbciSize;
+    use cometbft_proto::types::v1beta1::BlockParams as RawSize;
 
     impl TryFrom<RawSize> for Size {
         type Error = Error;
@@ -60,8 +58,6 @@ mod v0_34 {
             }
         }
     }
-
-    impl Protobuf<RawAbciSize> for Size {}
 
     impl TryFrom<RawAbciSize> for Size {
         type Error = Error;
@@ -89,13 +85,10 @@ mod v0_34 {
     }
 }
 
-mod v0_37 {
+mod v1beta2 {
     use super::Size;
     use crate::error::Error;
-    use cometbft_proto::v0_37::types::BlockParams as RawSize;
-    use cometbft_proto::Protobuf;
-
-    impl Protobuf<RawSize> for Size {}
+    use cometbft_proto::types::v1beta2::BlockParams as RawSize;
 
     impl TryFrom<RawSize> for Size {
         type Error = Error;
@@ -123,13 +116,10 @@ mod v0_37 {
     }
 }
 
-mod v0_38 {
+mod v1 {
     use super::Size;
     use crate::error::Error;
-    use cometbft_proto::v0_38::types::BlockParams as RawSize;
-    use cometbft_proto::Protobuf;
-
-    impl Protobuf<RawSize> for Size {}
+    use cometbft_proto::types::v1::BlockParams as RawSize;
 
     impl TryFrom<RawSize> for Size {
         type Error = Error;

@@ -2,7 +2,7 @@
 //! It is what the rpc endpoint /commit returns and hence can be used by a
 //! light client.
 
-use cometbft_proto::v0_37::types::SignedHeader as RawSignedHeader;
+use cometbft_proto::types::v1::SignedHeader as RawSignedHeader;
 use serde::{Deserialize, Serialize};
 
 use crate::{block, Error};
@@ -18,15 +18,15 @@ pub struct SignedHeader {
     pub commit: block::Commit,
 }
 
-cometbft_pb_modules! {
+mod v1 {
     use super::SignedHeader;
     use crate::Error;
-    use pb::types::SignedHeader as RawSignedHeader;
+    use cometbft_proto::types::v1 as pb;
 
-    impl TryFrom<RawSignedHeader> for SignedHeader {
+    impl TryFrom<pb::SignedHeader> for SignedHeader {
         type Error = Error;
 
-        fn try_from(value: RawSignedHeader) -> Result<Self, Self::Error> {
+        fn try_from(value: pb::SignedHeader) -> Result<Self, Self::Error> {
             let header = value
                 .header
                 .ok_or_else(Error::invalid_signed_header)?
@@ -39,16 +39,45 @@ cometbft_pb_modules! {
         }
     }
 
-    impl From<SignedHeader> for RawSignedHeader {
+    impl From<SignedHeader> for pb::SignedHeader {
         fn from(value: SignedHeader) -> Self {
-            RawSignedHeader {
+            pb::SignedHeader {
                 header: Some(value.header.into()),
                 commit: Some(value.commit.into()),
             }
         }
     }
+}
 
-    impl Protobuf<RawSignedHeader> for SignedHeader {}
+mod v1beta1 {
+    use super::SignedHeader;
+    use crate::Error;
+    use cometbft_proto::types::v1beta1 as pb;
+
+    impl TryFrom<pb::SignedHeader> for SignedHeader {
+        type Error = Error;
+
+        fn try_from(value: pb::SignedHeader) -> Result<Self, Self::Error> {
+            let header = value
+                .header
+                .ok_or_else(Error::invalid_signed_header)?
+                .try_into()?;
+            let commit = value
+                .commit
+                .ok_or_else(Error::invalid_signed_header)?
+                .try_into()?;
+            Self::new(header, commit) // Additional checks
+        }
+    }
+
+    impl From<SignedHeader> for pb::SignedHeader {
+        fn from(value: SignedHeader) -> Self {
+            pb::SignedHeader {
+                header: Some(value.header.into()),
+                commit: Some(value.commit.into()),
+            }
+        }
+    }
 }
 
 impl SignedHeader {

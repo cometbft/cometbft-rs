@@ -37,12 +37,12 @@ pub struct DeliverTx {
 // Protobuf conversions
 // =============================================================================
 
-mod v0_34 {
+mod v1beta1 {
     use super::DeliverTx;
-    use cometbft_proto::v0_34 as pb;
+    use cometbft_proto::abci::v1beta1 as pb;
     use cometbft_proto::Protobuf;
 
-    impl From<DeliverTx> for pb::abci::ResponseDeliverTx {
+    impl From<DeliverTx> for pb::ResponseDeliverTx {
         fn from(deliver_tx: DeliverTx) -> Self {
             Self {
                 code: deliver_tx.code.into(),
@@ -57,10 +57,10 @@ mod v0_34 {
         }
     }
 
-    impl TryFrom<pb::abci::ResponseDeliverTx> for DeliverTx {
+    impl TryFrom<pb::ResponseDeliverTx> for DeliverTx {
         type Error = crate::Error;
 
-        fn try_from(deliver_tx: pb::abci::ResponseDeliverTx) -> Result<Self, Self::Error> {
+        fn try_from(deliver_tx: pb::ResponseDeliverTx) -> Result<Self, Self::Error> {
             Ok(Self {
                 code: deliver_tx.code.into(),
                 data: deliver_tx.data,
@@ -78,15 +78,15 @@ mod v0_34 {
         }
     }
 
-    impl Protobuf<pb::abci::ResponseDeliverTx> for DeliverTx {}
+    impl Protobuf<pb::ResponseDeliverTx> for DeliverTx {}
 }
 
-mod v0_37 {
+mod v1beta2 {
     use super::DeliverTx;
-    use cometbft_proto::v0_37 as pb;
+    use cometbft_proto::abci::v1beta2 as pb;
     use cometbft_proto::Protobuf;
 
-    impl From<DeliverTx> for pb::abci::ResponseDeliverTx {
+    impl From<DeliverTx> for pb::ResponseDeliverTx {
         fn from(deliver_tx: DeliverTx) -> Self {
             Self {
                 code: deliver_tx.code.into(),
@@ -101,10 +101,10 @@ mod v0_37 {
         }
     }
 
-    impl TryFrom<pb::abci::ResponseDeliverTx> for DeliverTx {
+    impl TryFrom<pb::ResponseDeliverTx> for DeliverTx {
         type Error = crate::Error;
 
-        fn try_from(deliver_tx: pb::abci::ResponseDeliverTx) -> Result<Self, Self::Error> {
+        fn try_from(deliver_tx: pb::ResponseDeliverTx) -> Result<Self, Self::Error> {
             Ok(Self {
                 code: deliver_tx.code.into(),
                 data: deliver_tx.data,
@@ -122,5 +122,5 @@ mod v0_37 {
         }
     }
 
-    impl Protobuf<pb::abci::ResponseDeliverTx> for DeliverTx {}
+    impl Protobuf<pb::ResponseDeliverTx> for DeliverTx {}
 }

@@ -12,7 +12,7 @@ mod round;
 pub mod signed_header;
 mod size;
 
-use cometbft_proto::v0_37::types::Block as RawBlock;
+use cometbft_proto::types::v1::Block as RawBlock;
 use serde::{Deserialize, Serialize};
 
 pub use self::{
@@ -50,17 +50,18 @@ pub struct Block {
     pub last_commit: Option<Commit>,
 }
 
-cometbft_pb_modules! {
-    use super::{Block, Header, Commit};
-    use crate::{Error, prelude::*};
-    use pb::types::Block as RawBlock;
+mod v1 {
+    use super::{Block, Commit, Header};
+    use crate::{prelude::*, Error};
+    use cometbft_proto::types::v1 as pb;
+    use cometbft_proto::Protobuf;
 
-    impl Protobuf<RawBlock> for Block {}
+    impl Protobuf<pb::Block> for Block {}
 
-    impl TryFrom<RawBlock> for Block {
+    impl TryFrom<pb::Block> for Block {
         type Error = Error;
 
-        fn try_from(value: RawBlock) -> Result<Self, Self::Error> {
+        fn try_from(value: pb::Block) -> Result<Self, Self::Error> {
             let header: Header = value.header.ok_or_else(Error::missing_header)?.try_into()?;
             // if last_commit is Commit::Default, it is considered nil by Go.
             let last_commit = value
@@ -83,18 +84,77 @@ cometbft_pb_modules! {
             Ok(Block {
                 header,
                 data: value.data.ok_or_else(Error::missing_data)?.txs,
-                evidence: value.evidence.map(TryInto::try_into).transpose()?.unwrap_or_default(),
+                evidence: value
+                    .evidence
+                    .map(TryInto::try_into)
+                    .transpose()?
+                    .unwrap_or_default(),
                 last_commit,
             })
         }
     }
 
-    impl From<Block> for RawBlock {
+    impl From<Block> for pb::Block {
         fn from(value: Block) -> Self {
-            use pb::types::Data as RawData;
-            RawBlock {
+            pb::Block {
                 header: Some(value.header.into()),
-                data: Some(RawData { txs: value.data }),
+                data: Some(pb::Data { txs: value.data }),
+                evidence: Some(value.evidence.into()),
+                last_commit: value.last_commit.map(Into::into),
+            }
+        }
+    }
+}
+
+mod v1beta1 {
+    use super::{Block, Commit, Header};
+    use crate::{prelude::*, Error};
+    use cometbft_proto::types::v1beta1 as pb;
+    use cometbft_proto::Protobuf;
+
+    impl Protobuf<pb::Block> for Block {}
+
+    impl TryFrom<pb::Block> for Block {
+        type Error = Error;
+
+        fn try_from(value: pb::Block) -> Result<Self, Self::Error> {
+            let header: Header = value.header.ok_or_else(Error::missing_header)?.try_into()?;
+            // if last_commit is Commit::Default, it is considered nil by Go.
+            let last_commit = value
+                .last_commit
+                .map(TryInto::try_into)
+                .transpose()?
+                .filter(|c| c != &Commit::default());
+            if last_commit.is_none() && header.height.value() != 1 {
+                return Err(Error::invalid_block(
+                    "last_commit is empty on non-first block".to_string(),
+                ));
+            }
+
+            // Todo: Figure out requirements.
+            // if last_commit.is_some() && header.height.value() == 1 {
+            //    return Err(Kind::InvalidFirstBlock.context("last_commit is not null on first
+            // height").into());
+            //}
+
+            Ok(Block {
+                header,
+                data: value.data.ok_or_else(Error::missing_data)?.txs,
+                evidence: value
+                    .evidence
+                    .map(TryInto::try_into)
+                    .transpose()?
+                    .unwrap_or_default(),
+                last_commit,
+            })
+        }
+    }
+
+    impl From<Block> for pb::Block {
+        fn from(value: Block) -> Self {
+            pb::Block {
+                header: Some(value.header.into()),
+                data: Some(pb::Data { txs: value.data }),
                 evidence: Some(value.evidence.into()),
                 last_commit: value.last_commit.map(Into::into),
             }

@@ -1,7 +1,7 @@
 use std::{
     collections::BTreeSet,
     fs::{copy, create_dir_all, remove_dir_all, File},
-    io::Write,
+    io::{Error, Write},
     path::{Path, PathBuf},
 };
 
@@ -11,9 +11,8 @@ use git2::{
 };
 use subtle_encoding::hex;
 use walkdir::WalkDir;
-use std::io::Error;
 
-use crate::constants::TendermintVersion;
+use crate::constants::{COMETBFT_COMMITISH, COMETBFT_REPO};
 
 /// Clone or open+fetch a repository and check out a specific commitish
 /// In case of an existing repository, the origin remote will be set to `url`.
@@ -160,13 +159,12 @@ fn find_reference_or_commit<'a>(
 }
 
 /// Copy generated files to target folder
-pub fn copy_files(src_dir: &Path, target_dir: &Path, project:&str) {
+pub fn copy_files(src_dir: &Path, target_dir: &Path) {
     // Remove old compiled files
     remove_dir_all(target_dir).unwrap_or_default();
     create_dir_all(target_dir).unwrap();
 
     // Copy new compiled files (prost does not use folder structures)
-    let project_dot = format!("{project}.");
     let errors = WalkDir::new(src_dir)
         .contents_first(true)
         .into_iter()
@@ -174,7 +172,7 @@ pub fn copy_files(src_dir: &Path, target_dir: &Path, project:&str) {
             e.file_type().is_file()
                 && e.file_name()
                     .to_str()
-                    .map(|name| name.starts_with(&project_dot))
+                    .map(|name| name.starts_with("cometbft."))
                     .unwrap_or(false)
         })
         .map(|res| {
@@ -223,28 +221,30 @@ impl ModNode {
         }
     }
     fn get_or_add_child(&mut self, child_name: String) -> &mut Self {
-        let idx = self.children
-                .iter()
-                .position(|c| c.name == child_name)
-                .unwrap_or_else(| | {
-                    let new_child = ModNode::new(child_name);
-                    self.children.push(new_child);
-                    self.children.len() - 1
-                });
+        let idx = self
+            .children
+            .iter()
+            .position(|c| c.name == child_name)
+            .unwrap_or_else(|| {
+                let new_child = ModNode::new(child_name);
+                self.children.push(new_child);
+                self.children.len() - 1
+            });
         &mut self.children[idx]
     }
-    fn traverse_children(&self, version: &str, file: &mut File, mod_names: &Vec<String>) -> Result<(), Error> {
+    fn traverse_children(&self, file: &mut File, mod_names: &Vec<String>) -> Result<(), Error> {
         for child in &self.children {
-            child.generate_mods(version, file, &mod_names)?;
+            child.generate_mods(file, &mod_names)?;
             if mod_names.len() == 1 {
                 writeln!(file)?
             }
         }
         Ok(())
     }
-    fn generate_mods(&self, version: &str, file: &mut File, mod_names: &Vec<String>) -> Result<(), Error> {
-        if mod_names.is_empty() { // Top module, shouldn't be present
-            return self.traverse_children(version, file, &vec![self.name.clone()]);
+    fn generate_mods(&self, file: &mut File, mod_names: &Vec<String>) -> Result<(), Error> {
+        if mod_names.is_empty() {
+            // Top module, shouldn't be present
+            return self.traverse_children(file, &vec![self.name.clone()]);
         }
 
         let tabs = "    ".to_owned().repeat(mod_names.len() - 1);
@@ -252,11 +252,12 @@ impl ModNode {
 
         let mut updated_mod_names = mod_names.clone();
         updated_mod_names.push(self.name.clone());
-        self.traverse_children(version, file, &updated_mod_names)?;
+        self.traverse_children(file, &updated_mod_names)?;
         if self.children.is_empty() {
-            writeln!(file, "    {}include!(\"../prost/{}/{}.rs\");",
+            writeln!(
+                file,
+                "    {}include!(\"prost/{}.rs\");",
                 tabs,
-                version,
                 updated_mod_names.join(".")
             )?;
         }
@@ -267,32 +268,30 @@ impl ModNode {
 
 /// Create a module including generated content for the specified
 /// Tendermint source version.
-pub fn generate_tendermint_mod(prost_dir: &Path, version: &TendermintVersion, target_dir: &Path) -> Result<(), Error> {
-    create_dir_all(target_dir)?;
-
-    let project_dot = format!("{}.", version.project);
+pub fn generate_cometbft_mod(prost_dir: &Path, target_mod: &Path) -> Result<(), Error> {
     let file_names = WalkDir::new(prost_dir)
         .into_iter()
         .filter_map(|e| e.ok())
         .filter(|e| {
             e.file_type().is_file()
-                && e.file_name().to_str().unwrap().starts_with(&project_dot)
+                && e.file_name().to_str().unwrap().starts_with("cometbft.")
                 && e.file_name().to_str().unwrap().ends_with(".rs")
         })
         .map(|d| d.file_name().to_str().unwrap().to_owned())
         .collect::<BTreeSet<_>>();
     let file_names = Vec::from_iter(file_names);
 
-    let tendermint_mod_target = target_dir.join(format!("{}.rs", version.ident));
-    let mut file =
-        File::create(tendermint_mod_target)?;
+    let mut file = File::create(target_mod)?;
 
-    writeln!(&mut file, "//! Protobuf auto-generated sub-modules for Tendermint. DO NOT EDIT\n")?;
+    writeln!(
+        &mut file,
+        "//! cometbft-proto auto-generated sub-modules for Tendermint. DO NOT EDIT\n"
+    )?;
 
-    let mut root_mod = ModNode::new(version.project.to_owned());
+    let mut root_mod = ModNode::new("cometbft".into());
     for file_name in file_names {
         let parts: Vec<_> = file_name
-            .strip_prefix(&project_dot)
+            .strip_prefix("cometbft.")
             .unwrap()
             .strip_suffix(".rs")
             .unwrap()
@@ -300,34 +299,18 @@ pub fn generate_tendermint_mod(prost_dir: &Path, version: &TendermintVersion, ta
             .collect();
         let mut curr_mod = &mut root_mod;
         for part in parts {
-            //eprintln!("Part: {part}");
             curr_mod = curr_mod.get_or_add_child(part.to_owned());
         }
     }
-    root_mod.generate_mods(&version.ident, &mut file, &vec![])?;
+    root_mod.generate_mods(&mut file, &vec![])?;
 
     // Add meta
     let tab = "    ".to_string();
     writeln!(&mut file,
         "pub mod meta {{\n{}pub const REPOSITORY: &str = \"{}\";\n{}pub const COMMITISH: &str = \"{}\";\n}}",
         tab,
-        version.repo,
+        COMETBFT_REPO,
         tab,
-        version.commitish,
+        COMETBFT_COMMITISH,
     )
-}
-
-pub fn generate_tendermint_lib(versions: &[TendermintVersion], tendermint_lib_target_dir: &Path, project: &str, write_use: bool) -> Result<(), Error> {
-    let tendermint_lib_target = tendermint_lib_target_dir.join(format!("{project}.rs"));
-    let mut file =
-        File::create(tendermint_lib_target).expect("tendermint library file create failed");
-    let project_versions = versions.iter().filter(|v| v.project == project).collect::<Vec<_>>();
-    for version in &project_versions {
-        writeln!(&mut file, "pub mod {};", version.ident)?;
-    }
-    if write_use {
-        let last_version = project_versions.last().unwrap();
-        writeln!(&mut file, "pub use {}::*;", last_version.ident)?
-    }
-    Ok(())
 }
