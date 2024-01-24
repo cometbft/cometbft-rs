@@ -16,7 +16,6 @@
     with the variants valid per CometBFT 1.0, while `v1beta*` modules provide
     revisions corresponding to earlier ABCI versions.
 - `[cometbft-rpc]` Update to changes in CometBFT 1.0 ([\#7](https://github.com/cometbft/cometbft-rs/pull/7)):
-  * The version variants in `CompatMode` are `V0_34` and `V1`, to reflect that
-    the RPC dialect used since 0.37 has graduated into 1.0.
+  * Renamed `dialect::v0_37` module to `dialect::v1`.
 
 [proto-readme]: https://github.com/cometbft/cometbft/blob/main/proto/README.md
