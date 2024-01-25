@@ -94,6 +94,17 @@ pub use async_tungstenite::tungstenite::protocol::WebSocketConfig;
 ///
 /// This is not configurable at present.
 ///
+/// ### Versioned API
+///
+/// Since CometBFT 1.0, the RPC endpoints provided by the node should be
+/// provided under the `/v1` path segment in order to enable future changes
+/// without breaking backward compatibility. It's up to the user of the client
+/// API to encode the version path in the URL.
+///
+/// To use the RPC client with earlier versions of CometBFT, use the
+/// appropriate [`CompatMode`] value when setting up the client with
+/// [`Builder::compat_mode`] and do not use the versioned URL path.
+///
 /// ## Examples
 ///
 /// ```rust,ignore
@@ -104,7 +115,7 @@ pub use async_tungstenite::tungstenite::protocol::WebSocketConfig;
 ///
 /// #[tokio::main]
 /// async fn main() {
-///     let (client, driver) = WebSocketClient::new("ws://127.0.0.1:26657/websocket")
+///     let (client, driver) = WebSocketClient::new("ws://127.0.0.1:26657/v1/websocket")
 ///         .await
 ///         .unwrap();
 ///     let driver_handle = tokio::spawn(async move { driver.run().await });

@@ -34,6 +34,17 @@ const USER_AGENT: &str = concat!("cometbft.rs/", env!("CARGO_PKG_VERSION"));
 /// Does not provide [`crate::event::Event`] subscription facilities (see
 /// [`crate::WebSocketClient`] for a client that does).
 ///
+/// ## Versioned API
+///
+/// Since CometBFT 1.0, the RPC endpoints provided by the node should be
+/// provided under the `/v1` path segment in order to enable future changes
+/// without breaking backward compatibility. It's up to the user of the client
+/// API to encode the version path in the URL.
+///
+/// To use the RPC client with earlier versions of CometBFT, use the
+/// appropriate [`CompatMode`] value when setting up the client with
+/// [`Builder::compat_mode`] and do not use the versioned URL path.
+///
 /// ## Examples
 ///
 /// ```rust,ignore
@@ -41,7 +52,7 @@ const USER_AGENT: &str = concat!("cometbft.rs/", env!("CARGO_PKG_VERSION"));
 ///
 /// #[tokio::main]
 /// async fn main() {
-///     let client = HttpClient::new("http://127.0.0.1:26657")
+///     let client = HttpClient::new("http://127.0.0.1:26657/v1")
 ///         .unwrap();
 ///
 ///     let abci_info = client.abci_info()

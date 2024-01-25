@@ -79,12 +79,12 @@ cometbft-rpc abci-query somekey
 
 # Subscribe to receive new blocks (must use the WebSocket endpoint)
 # Prints out all incoming events
-cometbft-rpc -u ws://127.0.0.1:26657/websocket subscribe "tm.event='NewBlock'"
+cometbft-rpc -u ws://127.0.0.1:26657/v1/websocket subscribe "tm.event='NewBlock'"
 
 # If you want to execute a number of queries against a specific endpoint and
 # don't feel like re-typing the URL over and over again, just set the
 # COMETBFT_RPC_URL environment variable
-export COMETBFT_RPC_URL=ws://127.0.0.1:26657/websocket
+export COMETBFT_RPC_URL=ws://127.0.0.1:26657/v1/websocket
 cometbft-rpc subscribe "tm.event='Tx'"
 ```
 
