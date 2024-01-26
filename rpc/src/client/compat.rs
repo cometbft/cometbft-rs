@@ -12,7 +12,8 @@ use crate::Error;
 pub enum CompatMode {
     /// Use a compatibility mode for the RPC protocol used in CometBFT 0.34.
     V0_34,
-    /// Use a compatibility mode for the RPC protocol used in CometBFT 0.37 and 0.38.
+    /// Use a compatibility mode for the RPC protocol used since CometBFT 0.37.
+    /// This is the default mode that has persisted into CometBFT 1.0.
     V0_37,
 }
 
@@ -47,6 +48,7 @@ impl CompatMode {
             .map_err(|_| Error::invalid_cometbft_version(raw_version))?;
 
         match (version.major, version.minor) {
+            (1, _) => Ok(CompatMode::V0_37),
             (0, 34) => Ok(CompatMode::V0_34),
             (0, 37) => Ok(CompatMode::V0_37),
             (0, 38) => Ok(CompatMode::V0_37),
@@ -95,6 +97,18 @@ mod tests {
         );
         let res = CompatMode::from_version(parse_version("v0.39.0"));
         assert!(res.is_err());
+        assert_eq!(
+            CompatMode::from_version(parse_version("v1.0.0-alpha.1")).unwrap(),
+            CompatMode::V0_37
+        );
+        assert_eq!(
+            CompatMode::from_version(parse_version("v1.0.0")).unwrap(),
+            CompatMode::V0_37
+        );
+        assert_eq!(
+            CompatMode::from_version(parse_version("v1.1.0")).unwrap(),
+            CompatMode::V0_37
+        );
         let res = CompatMode::from_version(parse_version("poobah"));
         assert!(res.is_err());
     }
