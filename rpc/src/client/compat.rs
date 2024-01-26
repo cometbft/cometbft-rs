@@ -12,7 +12,8 @@ use crate::Error;
 pub enum CompatMode {
     /// Use a compatibility mode for the RPC protocol used in CometBFT 0.34.
     V0_34,
-    /// Use a compatibility mode for the RPC protocol used in CometBFT 0.37 and 0.38.
+    /// Use a compatibility mode for the RPC protocol used since CometBFT 0.37.
+    /// This is the default mode that has persisted into CometBFT 1.0.
     V0_37,
 }
 
