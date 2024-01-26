@@ -1,6 +1,6 @@
 [package]
 name       = "cometbft-light-client-verifier"
-version    = "0.1.0-alpha.1"
+version    = "0.1.0-alpha.2"
 edition    = "2021"
 license    = "Apache-2.0"
 readme     = "README.md"
@@ -27,7 +27,7 @@ default = ["rust-crypto", "flex-error/std"]
 rust-crypto = ["cometbft/rust-crypto"]
 
 [dependencies]
-cometbft = { version = "0.1.0-alpha.1", path = "../cometbft", default-features = false }
+cometbft = { version = "0.1.0-alpha.2", path = "../cometbft", default-features = false }
 
 derive_more = { version = "0.99.5", default-features = false, features = ["display"] }
 serde = { version = "1.0.106", default-features = false }

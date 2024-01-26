@@ -1,6 +1,6 @@
 [package]
 name        = "cometbft-pbt-gen"
-version     = "0.1.0-alpha.1"
+version     = "0.1.0-alpha.2"
 authors     = ["Informal Systems <hello@informal.systems>"]
 edition     = "2021"
 license     = "Apache-2.0"
