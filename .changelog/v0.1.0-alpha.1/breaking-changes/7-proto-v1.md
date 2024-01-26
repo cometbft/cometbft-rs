@@ -9,7 +9,7 @@
     level, e.g. `crate::abci`, `crate::types`. Each of these has a `v1` module
     corresponding to the protobufs released in 1.0.0, and possibly a series of
     `v1beta1`, `v1beta2`, ... modules with earlier revisions of the protocol,
-    as documented in the [CometBFT protobuf README][proto-readme]
+    as documented in the [CometBFT protobuf README](https://github.com/cometbft/cometbft/blob/main/proto/README.md)
 - `[cometbft]` Update to the new version structure in `cometbft-proto` ([\#7](https://github.com/cometbft/cometbft-rs/pull/7)):
   * Relocated the modules for version-targeted ABCI support. Now under the
     `abci` module, `v1` provides the `Request` and `Response` enum definitions
@@ -17,5 +17,3 @@
     revisions corresponding to earlier ABCI versions.
 - `[cometbft-rpc]` Update to changes in CometBFT 1.0 ([\#7](https://github.com/cometbft/cometbft-rs/pull/7)):
   * Renamed `dialect::v0_37` module to `dialect::v1`.
-
-[proto-readme]: https://github.com/cometbft/cometbft/blob/main/proto/README.md
