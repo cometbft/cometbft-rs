@@ -6,7 +6,7 @@ homepage   = "https://cometbft.com/"
 repository = "https://github.com/cometbft/cometbft-rs"
 readme     = "../README.md"
 categories = ["cryptography", "cryptography::cryptocurrencies", "database"]
-keywords   = ["blockchain", "bft", "consensus", "cosmos", "cometbft", "tendermint"]
+keywords   = ["blockchain", "bft", "consensus", "cometbft", "tendermint"]
 edition    = "2021"
 
 description = """
