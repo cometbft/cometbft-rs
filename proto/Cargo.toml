@@ -6,8 +6,8 @@ edition    = "2021"
 license    = "Apache-2.0"
 repository = "https://github.com/cometbft/cometbft-rs"
 readme     = "README.md"
-categories = ["cryptography", "cryptography::cryptocurrencies", "database"]
-keywords   = ["blockchain", "cometbft", "tendermint", "proto"]
+categories = ["cryptography", "cryptography::cryptocurrencies", "network-programming"]
+keywords   = ["blockchain", "cometbft", "tendermint", "protobuf"]
 
 description = """
     A Rust implementation of the CometBFT proto structs.
