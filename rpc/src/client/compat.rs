@@ -48,6 +48,7 @@ impl CompatMode {
             .map_err(|_| Error::invalid_cometbft_version(raw_version))?;
 
         match (version.major, version.minor) {
+            (1, _) => Ok(CompatMode::V0_37),
             (0, 34) => Ok(CompatMode::V0_34),
             (0, 37) => Ok(CompatMode::V0_37),
             (0, 38) => Ok(CompatMode::V0_37),
@@ -96,6 +97,18 @@ mod tests {
         );
         let res = CompatMode::from_version(parse_version("v0.39.0"));
         assert!(res.is_err());
+        assert_eq!(
+            CompatMode::from_version(parse_version("v1.0.0-alpha.1")).unwrap(),
+            CompatMode::V0_37
+        );
+        assert_eq!(
+            CompatMode::from_version(parse_version("v1.0.0")).unwrap(),
+            CompatMode::V0_37
+        );
+        assert_eq!(
+            CompatMode::from_version(parse_version("v1.1.0")).unwrap(),
+            CompatMode::V0_37
+        );
         let res = CompatMode::from_version(parse_version("poobah"));
         assert!(res.is_err());
     }
