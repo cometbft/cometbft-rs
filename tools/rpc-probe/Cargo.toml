@@ -1,8 +1,8 @@
 [package]
 name       = "cometbft-rpc-probe"
-version    = "0.1.0"
 authors    = ["Informal Systems <hello@informal.systems>"]
 edition    = "2021"
+publish    = false
 license    = "Apache-2.0"
 homepage   = "https://cometbft.com/"
 repository = "https://github.com/cometbft/cometbft-rs"
