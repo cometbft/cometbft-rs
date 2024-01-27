@@ -1,6 +1,6 @@
 [package]
 name        = "cometbft-testgen"
-version     = "0.1.0-alpha.1"
+version     = "0.1.0-alpha.2"
 authors     = ["Informal Systems <hello@informal.systems>"]
 edition     = "2021"
 readme      = "README.md"
@@ -16,7 +16,7 @@ description = """
     """
 
 [dependencies]
-cometbft = { version = "0.1.0-alpha.1", path = "../cometbft", features = ["clock"] }
+cometbft = { version = "0.1.0-alpha.2", path = "../cometbft", features = ["clock"] }
 serde = { version = "1", default-features = false, features = ["derive"] }
 serde_json = { version = "1", default-features = false, features = ["std"] }
 ed25519-consensus = { version = "2", default-features = false }

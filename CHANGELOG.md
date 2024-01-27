@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## v0.1.0-alpha.2
+
+This release has changes only in crate metadata to satisfy
+restrictions at [crates.io](https://crates.io/).
+
 ## v0.1.0-alpha.1
 
 First pre-release of the crates under cometbft-rs naming.

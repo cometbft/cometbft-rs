@@ -3,6 +3,7 @@ name = "cometbft-proto-compiler"
 version = "0.3.0"
 authors = ["Informal Systems <hello@informal.systems>"]
 edition = "2021"
+license = "Apache-2.0"
 publish = false
 
 [dependencies]

@@ -1,8 +1,9 @@
 [package]
 name = "kvstore-test"
-version = "0.1.0"
 authors = ["Informal Systems <hello@informal.systems>"]
 edition = "2021"
+license = "Apache-2.0"
+publish = false
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -11,9 +12,9 @@ edition = "2021"
 [dev-dependencies]
 futures = "0.3"
 sha2 = "0.10"
-cometbft = { version = "0.1.0-alpha.1", path = "../../cometbft" }
-cometbft-light-client = { version = "0.1.0-alpha.1", path = "../../light-client", features = ["unstable"] }
-cometbft-rpc = { version = "0.1.0-alpha.1", path = "../../rpc", features = [ "http-client", "websocket-client" ] }
+cometbft = { version = "0.1.0-alpha.2", path = "../../cometbft" }
+cometbft-light-client = { version = "0.1.0-alpha.2", path = "../../light-client", features = ["unstable"] }
+cometbft-rpc = { version = "0.1.0-alpha.2", path = "../../rpc", features = [ "http-client", "websocket-client" ] }
 tokio = { version = "1.0", features = [ "rt-multi-thread", "macros" ] }
 tracing = "0.1"
 tracing-subscriber = "0.3"

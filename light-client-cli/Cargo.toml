@@ -1,10 +1,10 @@
 [package]
 name       = "cometbft-light-client-cli"
-version    = "0.1.0-alpha.1"
+version    = "0.1.0-alpha.2"
 edition    = "2021"
 license    = "Apache-2.0"
 readme     = "README.md"
-keywords   = ["blockchain", "bft", "consensus", "cosmos", "cometbft", "tendermint"]
+keywords   = ["blockchain", "bft", "consensus", "cometbft", "tendermint"]
 categories = ["cryptography::cryptocurrencies", "network-programming"]
 repository = "https://github.com/cometbft/cometbft-rs"
 authors    = [
@@ -23,10 +23,10 @@ all-features = true
 rustdoc-args = ["--cfg", "docsrs"]
 
 [dependencies]
-cometbft = { version = "0.1.0-alpha.1", path = "../cometbft" }
-cometbft-rpc = { version = "0.1.0-alpha.1", path = "../rpc", features = ["http-client"] }
-cometbft-light-client = { version = "0.1.0-alpha.1", path = "../light-client" }
-cometbft-light-client-detector = { version = "0.1.0-alpha.1", path = "../light-client-detector" }
+cometbft = { version = "0.1.0-alpha.2", path = "../cometbft" }
+cometbft-rpc = { version = "0.1.0-alpha.2", path = "../rpc", features = ["http-client"] }
+cometbft-light-client = { version = "0.1.0-alpha.2", path = "../light-client" }
+cometbft-light-client-detector = { version = "0.1.0-alpha.2", path = "../light-client-detector" }
 
 clap = { version = "4.1.8", features = ["derive"] }
 color-eyre = "0.6.2"
