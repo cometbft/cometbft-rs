@@ -2,6 +2,7 @@
 name = "abci-test"
 authors = ["Informal Systems <hello@informal.systems>"]
 edition = "2021"
+license = "Apache-2.0"
 publish = false
 description = """
     abci-test provides some end-to-end integration testing between
