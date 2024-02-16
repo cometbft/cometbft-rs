@@ -7,7 +7,7 @@
 ## Context
 
 Currently, Rust binding code for CometBFT proto files, which makes up most of
-the `cometbft-proto` crate, is generated with a custom tool found in `tools/proto-compiler`, working on a Git checkout of the [cometbft][cometbft-git] repository where the proto files are maitained.
+the `cometbft-proto` crate, is generated with a custom tool found in `tools/proto-compiler`, working on a Git checkout of the [cometbft][cometbft-git] repository where the proto files are maintained.
 Instances of [protobuf well-known types][wkt] are represented with custom types
 defined in the crate, due to historical problems with `prost-types`.
 
