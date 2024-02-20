@@ -19,7 +19,11 @@ While separating the unrelated concerns by e.g. implementing the traits directly
 the domain types in the `cometbft` crate would be cleaner architecturally, doing so
 on the protoc-generated types is convenient because the protobuf and RPC
 implementations in the CometBFT Go codebase reuse the same data structures and therefore,
-the serialization schema.
+the serialization schema. The different versions of protobuf specifications
+across past CometBFT releases are only fully exposed in `cometbft-proto`
+and some library users might prefer to work at this level and eschew our domain types,
+so it seems prudent to maintain version-accurate serialization as a secondary
+feature of the protobuf bindings.
 
 Rust projects which reuse protocol types from CometBFT and generate code from
 proto files that include `tendermint.*` or `cometbft.*` proto packages as a
