@@ -45,8 +45,8 @@ under the [`cometbft/cometbft`](https://buf.build/cometbft/cometbft) module.
 Attempt to make use of the following plugins:
 
 * [protoc-gen-prost] to generate the core data structures.
-* [protoc-gen-prost-serde] to generate the bulk of the serde implementations
-  for the same data structures.
+* [protoc-gen-prost-serde] (or our fork targeting `informalsystems-pbjson`)
+  to generate the bulk of the serde implementations for the same data structures.
 * [protoc-gen-tonic] for gRPC services.
 
 [protoc-gen-prost]: https://github.com/neoeinstein/protoc-gen-prost/blob/main/protoc-gen-prost/README.md
@@ -85,6 +85,17 @@ current approach. A current limitation is that the `exclude` option of
 by the buf plugin.
 
 [protoc-gen-prost#84]: https://github.com/neoeinstein/protoc-gen-prost/issues/84
+
+Another obstacle is that the `pbjson` crate does not currently support `no_std`.
+This is needed for `ibc-proto` bindings if they are to reuse types from `cometbft-proto`.
+The developers of ibc-rs have already [forked][informalsystems-pbjson] `pbjson`, so
+a short-term fix would be to fork the buf plugin as well to make the generated code
+use the forked `informalsystem-pbjson` crate (plus, we get to support the `exclude`
+option at our own pace this way).
+In the long term, we should try to upstream the `no_std` changes to `pbjson`
+and eliminate the forks.
+
+[informalsystems-pbjson]: https://github.com/informalsystems/pbjson
 
 ### Well-known types
 
