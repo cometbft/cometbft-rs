@@ -120,9 +120,13 @@ Three alternative WKT mapping approaches have been used across the protocol stac
 3. Roll-our-own types defined in `cometbft-proto` (the current approach).
    These types provide serialization impls interoperable with CometBFT RPC out of the box.
    The custom type mapping creates obstacles for reuse with other crates, which is the entire
-   purpose of the protobuf WKTs.
+   purpose of the protobuf WKTs. This can be bridged by providing `From` conversions
+   from and to the workalikes in the other WKT mapping crates.
 
-**FIXME:** Decide on which approach to take.
+As long as RPC-compatible serialization is seen as an important feature, the approach 3 appears
+to be the least problematic option. Protobuf generation scripts for crates up the Cosmos stack can
+choose to map `google.protobuf.Timestamp` and `google.protobuf.Duration` to these public types
+as well.
 
 [prost-types]: https://crates.io/crates/prost-types
 [pbjson-types]: https://crates.io/crates/pbjson-types
