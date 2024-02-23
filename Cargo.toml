@@ -12,12 +12,12 @@ members = [
     "pbt-gen",
     "proto",
     "rpc",
-    "testgen"
+    "testgen",
+    "tools/no-std-check"
 ]
 
 exclude = [
     "proto-compiler",
-    "tools/no-std-check"
 ]
 
 [profile.release.package.cometbft-light-client-js]
