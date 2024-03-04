@@ -422,6 +422,7 @@ pub struct CheckTxResponse {
     pub gas_wanted: i64,
     #[prost(int64, tag = "6")]
     pub gas_used: i64,
+    /// nondeterministic
     #[prost(message, repeated, tag = "7")]
     pub events: ::prost::alloc::vec::Vec<Event>,
     #[prost(string, tag = "8")]
@@ -504,7 +505,9 @@ pub struct VerifyVoteExtensionResponse {
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct FinalizeBlockResponse {
-    /// set of block events emmitted as part of executing the block
+    /// set of block events emitted as part of executing the block
+    ///
+    /// nondeterministic
     #[prost(message, repeated, tag = "1")]
     pub events: ::prost::alloc::vec::Vec<Event>,
     /// the result of executing each transaction including the events
@@ -646,7 +649,7 @@ pub struct VoteInfo {
     #[prost(enumeration = "super::super::types::v1::BlockIdFlag", tag = "3")]
     pub block_id_flag: i32,
 }
-/// ExtendedVoteInfo extends VoteInfo with the vote extentions (non-deterministic).
+/// ExtendedVoteInfo extends VoteInfo with the vote extensions (non-deterministic).
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ExtendedVoteInfo {
@@ -1031,7 +1034,7 @@ pub mod abci_service_server {
             tonic::Response<super::ProcessProposalResponse>,
             tonic::Status,
         >;
-        /// ExtendVote extends a vote with application-injected data (vote extentions).
+        /// ExtendVote extends a vote with application-injected data (vote extensions).
         async fn extend_vote(
             &self,
             request: tonic::Request<super::ExtendVoteRequest>,
