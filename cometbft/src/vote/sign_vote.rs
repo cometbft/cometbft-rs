@@ -10,6 +10,7 @@ pub struct SignVoteRequest {
     pub vote: Vote,
     /// Chain ID
     pub chain_id: chain::Id,
+    pub sign_extension: bool,
 }
 
 impl SignVoteRequest {
@@ -59,7 +60,12 @@ mod v1 {
 
             let chain_id = value.chain_id.try_into()?;
 
-            Ok(SignVoteRequest { vote, chain_id })
+            let sign_extension = value.sign_extension;
+            Ok(SignVoteRequest {
+                vote,
+                chain_id,
+                sign_extension,
+            })
         }
     }
 
@@ -68,6 +74,7 @@ mod v1 {
             RawSignVoteRequest {
                 vote: Some(value.vote.into()),
                 chain_id: value.chain_id.as_str().to_owned(),
+                sign_extension: value.sign_extension,
             }
         }
     }
@@ -113,7 +120,11 @@ mod v1beta1 {
 
             let chain_id = value.chain_id.try_into()?;
 
-            Ok(SignVoteRequest { vote, chain_id })
+            Ok(SignVoteRequest {
+                vote,
+                chain_id,
+                sign_extension: true,
+            })
         }
     }
 
@@ -209,6 +220,7 @@ mod tests {
         let request = SignVoteRequest {
             vote,
             chain_id: ChainId::from_str("test_chain_id").unwrap(),
+            sign_extension: false,
         };
 
         // Option 1 using bytes:
@@ -294,6 +306,7 @@ mod tests {
         let request = SignVoteRequest {
             vote,
             chain_id: ChainId::from_str("test_chain_id").unwrap(),
+            sign_extension: false,
         };
 
         let got = request.into_signable_vec();
@@ -479,6 +492,7 @@ mod tests {
             let want = SignVoteRequest {
                 vote,
                 chain_id: ChainId::from_str("test_chain_id").unwrap(),
+                sign_extension: false,
             };
             let got =
                 <SignVoteRequest as Protobuf<RawSignVoteRequest>>::decode_vec(&encoded).unwrap();
@@ -534,6 +548,7 @@ mod tests {
                 let svr = SignVoteRequest {
                     vote,
                     chain_id: ChainId::from_str("test_chain_id").unwrap(),
+                    sign_extension: false,
                 };
                 let mut got = vec![];
                 let _have = Protobuf::<RawSignVoteRequest>::encode(svr.clone(), &mut got);

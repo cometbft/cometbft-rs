@@ -6,7 +6,7 @@ pub const COMETBFT_REPO: &str = "https://github.com/cometbft/cometbft";
 /// - Tag: `v1.0.0`
 /// - Branch: `main`
 /// - Commit ID (full length): `d7d0ffea13c60c98b812d243ba5a2c375f341c15`
-pub const COMETBFT_COMMITISH: &str = "b80055e35bebe4db605c9eb5249d852e82b9f02c";
+pub const COMETBFT_COMMITISH: &str = "cb177fed831f74090ecbce9a90c3cdb280900fd4";
 
 /// Predefined custom attributes for message annotations
 const PRIMITIVE_ENUM: &str = r#"#[derive(::num_derive::FromPrimitive, ::num_derive::ToPrimitive)]"#;

@@ -31,6 +31,8 @@ pub struct SignVoteRequest {
     pub vote: ::core::option::Option<super::super::types::v1::Vote>,
     #[prost(string, tag = "2")]
     pub chain_id: ::prost::alloc::string::String,
+    #[prost(bool, tag = "3")]
+    pub sign_extension: bool,
 }
 /// SignedVoteResponse is a response containing a signed vote or an error
 #[allow(clippy::derive_partial_eq_without_eq)]
