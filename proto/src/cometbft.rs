@@ -152,5 +152,5 @@ pub mod version {
 
 pub mod meta {
     pub const REPOSITORY: &str = "https://github.com/cometbft/cometbft";
-    pub const COMMITISH: &str = "cb177fed831f74090ecbce9a90c3cdb280900fd4";
+    pub const COMMITISH: &str = "ec21d4d2b867476d6e65f824f2207cdb59843286";
 }
