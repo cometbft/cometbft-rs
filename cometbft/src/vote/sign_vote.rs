@@ -550,7 +550,7 @@ mod tests {
                 let svr = SignVoteRequest {
                     vote,
                     chain_id: ChainId::from_str("test_chain_id").unwrap(),
-                    skip_extension_signing: false,
+                    skip_extension_signing: true,
                 };
                 let mut got = vec![];
                 let _have = Protobuf::<RawSignVoteRequest>::encode(svr.clone(), &mut got);
