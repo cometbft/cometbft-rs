@@ -10,7 +10,8 @@ pub struct SignVoteRequest {
     pub vote: Vote,
     /// Chain ID
     pub chain_id: chain::Id,
-    pub sign_extension: bool,
+    /// Whether to skip signing the extension bytes.
+    pub skip_extension_signing: bool,
 }
 
 impl SignVoteRequest {
@@ -60,11 +61,12 @@ mod v1 {
 
             let chain_id = value.chain_id.try_into()?;
 
-            let sign_extension = value.sign_extension;
+            let skip_extension_signing = value.skip_extension_signing;
+
             Ok(SignVoteRequest {
                 vote,
                 chain_id,
-                sign_extension,
+                skip_extension_signing,
             })
         }
     }
@@ -74,7 +76,7 @@ mod v1 {
             RawSignVoteRequest {
                 vote: Some(value.vote.into()),
                 chain_id: value.chain_id.as_str().to_owned(),
-                sign_extension: value.sign_extension,
+                skip_extension_signing: value.skip_extension_signing,
             }
         }
     }
@@ -123,7 +125,7 @@ mod v1beta1 {
             Ok(SignVoteRequest {
                 vote,
                 chain_id,
-                sign_extension: true,
+                skip_extension_signing: false,
             })
         }
     }
@@ -220,7 +222,7 @@ mod tests {
         let request = SignVoteRequest {
             vote,
             chain_id: ChainId::from_str("test_chain_id").unwrap(),
-            sign_extension: false,
+            skip_extension_signing: false,
         };
 
         // Option 1 using bytes:
@@ -306,7 +308,7 @@ mod tests {
         let request = SignVoteRequest {
             vote,
             chain_id: ChainId::from_str("test_chain_id").unwrap(),
-            sign_extension: false,
+            skip_extension_signing: false,
         };
 
         let got = request.into_signable_vec();
@@ -492,7 +494,7 @@ mod tests {
             let want = SignVoteRequest {
                 vote,
                 chain_id: ChainId::from_str("test_chain_id").unwrap(),
-                sign_extension: false,
+                skip_extension_signing: false,
             };
             let got =
                 <SignVoteRequest as Protobuf<RawSignVoteRequest>>::decode_vec(&encoded).unwrap();
@@ -548,7 +550,7 @@ mod tests {
                 let svr = SignVoteRequest {
                     vote,
                     chain_id: ChainId::from_str("test_chain_id").unwrap(),
-                    sign_extension: false,
+                    skip_extension_signing: false,
                 };
                 let mut got = vec![];
                 let _have = Protobuf::<RawSignVoteRequest>::encode(svr.clone(), &mut got);
