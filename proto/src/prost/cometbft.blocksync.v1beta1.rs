@@ -32,7 +32,7 @@ pub struct StatusResponse {
     #[prost(int64, tag = "2")]
     pub base: i64,
 }
-/// Message is an abtract blocksync message.
+/// Message is an abstract blocksync message.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Message {
