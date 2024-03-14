@@ -1,4 +1,5 @@
 /// Request represents a request to the ABCI application.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Request {
@@ -12,6 +13,7 @@ pub struct Request {
 /// Nested message and enum types in `Request`.
 pub mod request {
     /// Sum of all possible messages.
+    #[derive(::serde::Deserialize, ::serde::Serialize)]
     #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, ::prost::Oneof)]
     pub enum Value {
@@ -50,6 +52,7 @@ pub mod request {
     }
 }
 /// RequestInfo is a request for the ABCI application version.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct RequestInfo {
@@ -63,6 +66,7 @@ pub struct RequestInfo {
     pub abci_version: ::prost::alloc::string::String,
 }
 /// RequestInitChain is a request to initialize the blockchain.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct RequestInitChain {
@@ -82,6 +86,7 @@ pub struct RequestInitChain {
     pub initial_height: i64,
 }
 /// RequestBeginBlock indicates the beginning of commiting the block.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct RequestBeginBlock {
@@ -96,6 +101,7 @@ pub struct RequestBeginBlock {
 }
 /// RequestPrepareProposal is a request for the ABCI application to prepare a new
 /// block proposal.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct RequestPrepareProposal {
@@ -121,6 +127,7 @@ pub struct RequestPrepareProposal {
     pub proposer_address: ::prost::bytes::Bytes,
 }
 /// RequestProcessProposal is a request for the ABCI application to process proposal.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct RequestProcessProposal {
@@ -144,6 +151,7 @@ pub struct RequestProcessProposal {
     pub proposer_address: ::prost::bytes::Bytes,
 }
 /// Response represents a response from the ABCI application.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Response {
@@ -157,6 +165,7 @@ pub struct Response {
 /// Nested message and enum types in `Response`.
 pub mod response {
     /// Sum of all possible messages.
+    #[derive(::serde::Deserialize, ::serde::Serialize)]
     #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, ::prost::Oneof)]
     pub enum Value {
@@ -198,6 +207,7 @@ pub mod response {
 }
 /// ResponseInitChain contains the ABCI application's hash and updates to the
 /// validator set and/or the consensus params, if any.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ResponseInitChain {
@@ -211,6 +221,7 @@ pub struct ResponseInitChain {
     pub app_hash: ::prost::bytes::Bytes,
 }
 /// ResponseBeginBlock contains a list of block-level events.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ResponseBeginBlock {
@@ -219,6 +230,7 @@ pub struct ResponseBeginBlock {
 }
 /// ResponseCheckTx shows if the transaction was deemed valid by the ABCI
 /// application.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ResponseCheckTx {
@@ -251,6 +263,7 @@ pub struct ResponseCheckTx {
 }
 /// ResponseDeliverTx contains a result of committing the given transaction and a
 /// list of events.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ResponseDeliverTx {
@@ -275,6 +288,7 @@ pub struct ResponseDeliverTx {
     pub codespace: ::prost::alloc::string::String,
 }
 /// ResponseEndBlock contains updates to consensus params and/or validator set changes, if any.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ResponseEndBlock {
@@ -288,6 +302,7 @@ pub struct ResponseEndBlock {
     pub events: ::prost::alloc::vec::Vec<Event>,
 }
 /// ResponsePrepareProposal contains the list of transactions that will be included in the proposal.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ResponsePrepareProposal {
@@ -295,6 +310,7 @@ pub struct ResponsePrepareProposal {
     pub txs: ::prost::alloc::vec::Vec<::prost::bytes::Bytes>,
 }
 /// ResponseProcessProposal contains the result of processing a proposal.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ResponseProcessProposal {
@@ -304,6 +320,7 @@ pub struct ResponseProcessProposal {
 /// Nested message and enum types in `ResponseProcessProposal`.
 pub mod response_process_proposal {
     /// The status.
+    #[derive(::serde::Deserialize, ::serde::Serialize)]
     #[derive(
         Clone,
         Copy,
@@ -348,6 +365,7 @@ pub mod response_process_proposal {
     }
 }
 /// CommitInfo contains votes for the particular round.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CommitInfo {
@@ -359,6 +377,7 @@ pub struct CommitInfo {
 /// ExtendedCommitInfo is similar to CommitInfo except that it is only used in
 /// the PrepareProposal request such that Tendermint can provide vote extensions
 /// to the application.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ExtendedCommitInfo {
@@ -375,6 +394,7 @@ pub struct ExtendedCommitInfo {
 /// Up to 0.37, this could also be used in ResponseBeginBlock, ResponseEndBlock,
 /// and ResponseDeliverTx.
 /// Later, transactions may be queried using these events.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Event {
@@ -384,6 +404,7 @@ pub struct Event {
     pub attributes: ::prost::alloc::vec::Vec<EventAttribute>,
 }
 /// EventAttribute is a single key-value pair, associated with an event.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct EventAttribute {
@@ -396,6 +417,7 @@ pub struct EventAttribute {
     pub index: bool,
 }
 /// ExtendedVoteInfo extends VoteInfo with the vote extentions (non-deterministic).
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ExtendedVoteInfo {
@@ -410,6 +432,7 @@ pub struct ExtendedVoteInfo {
     pub vote_extension: ::prost::bytes::Bytes,
 }
 /// Misbehavior is a type of misbehavior committed by a validator.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Misbehavior {
@@ -431,6 +454,7 @@ pub struct Misbehavior {
     pub total_voting_power: i64,
 }
 /// The type of misbehavior committed by a validator.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
 pub enum MisbehaviorType {
