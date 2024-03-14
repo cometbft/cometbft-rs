@@ -1,0 +1,1 @@
+- `[cometbft-light-client-verifer]` Optimizing voting power calculation by breaking the loop when we have enough voting power ([#19](https://github.com/cometbft/cometbft-rs/issues/19)).
