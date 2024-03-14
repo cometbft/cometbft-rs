@@ -216,6 +216,16 @@ define_error! {
             | e | {
                 format_args!("unsupported CometBFT version reported by the node: {}", e.version)
             },
+
+        InvalidCompatMode
+            {
+                mode: String,
+                supported: &'static str,
+            }
+            | e | {
+                format_args!("invalid compatibility mode: '{}' (supported: {})",
+                    e.mode, e.supported)
+            },
     }
 }
 
