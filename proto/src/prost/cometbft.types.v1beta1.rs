@@ -115,10 +115,17 @@ pub struct Validator {
     #[serde(with = "crate::serializers::from_str_allow_null")]
     #[serde(default)]
     pub proposer_priority: i64,
+    #[prost(bytes = "vec", tag = "5")]
+    #[serde(with = "crate::serializers::bytes::hexstring")]
+    pub bls_key: ::prost::alloc::vec::Vec<u8>,
+    #[prost(bytes = "vec", tag = "6")]
+    #[serde(with = "crate::serializers::bytes::hexstring")]
+    pub relayer_address: ::prost::alloc::vec::Vec<u8>,
 }
 /// SimpleValidator is a Validator, which is serialized and hashed in consensus.
 /// Address is removed because it's redundant with the pubkey.
 /// Proposer priority is removed because it changes every round.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SimpleValidator {
@@ -126,6 +133,12 @@ pub struct SimpleValidator {
     pub pub_key: ::core::option::Option<super::super::crypto::v1::PublicKey>,
     #[prost(int64, tag = "2")]
     pub voting_power: i64,
+    #[serde(with = "crate::serializers::bytes::hexstring")]
+    #[prost(bytes = "vec", tag = "3")]
+    pub bls_key: ::prost::alloc::vec::Vec<u8>,
+    #[prost(bytes = "vec", tag = "4")]
+    #[serde(with = "crate::serializers::bytes::hexstring")]
+    pub relayer_address: ::prost::alloc::vec::Vec<u8>,
 }
 /// BlockIdFlag indicates which BlockID the signature is for
 #[derive(::num_derive::FromPrimitive, ::num_derive::ToPrimitive)]

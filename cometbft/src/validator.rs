@@ -163,6 +163,10 @@ pub struct Info {
     /// Validator proposer priority
     #[serde(skip)]
     pub proposer_priority: ProposerPriority,
+
+    pub bls_key: account::BLSKey,
+
+    pub relayer_address: account::Id,
 }
 
 impl Info {
@@ -190,6 +194,22 @@ impl Info {
             power: vp,
             name: None,
             proposer_priority: ProposerPriority::default(),
+            bls_key: account::BLSKey::default(),
+            relayer_address: account::Id::from(PublicKey::from_raw_ed25519(&[0u8; 32]).unwrap()),
+        }
+    }
+
+    #[cfg(feature = "rust-crypto")]
+    /// Create a new validator.
+    pub fn new_with_bls_and_relayer(pk: PublicKey, vp: vote::Power, bls_key: Vec<u8>, relayer_address: Vec<u8>) -> Info {
+        Info {
+            address: account::Id::from(pk),
+            pub_key: pk,
+            power: vp,
+            name: None,
+            proposer_priority: ProposerPriority::default(),
+            bls_key: account::BLSKey::try_from(bls_key).unwrap(),
+            relayer_address: account::Id::try_from(relayer_address).unwrap(),
         }
     }
 }
@@ -205,6 +225,10 @@ pub struct SimpleValidator {
     pub pub_key: PublicKey,
     /// Voting power
     pub voting_power: vote::Power,
+    // Bls key
+    pub bls_key: account::BLSKey,
+    // Relayer address
+    pub relayer_address: account::Id,
 }
 
 /// Info -> SimpleValidator
@@ -213,6 +237,8 @@ impl From<&Info> for SimpleValidator {
         SimpleValidator {
             pub_key: info.pub_key,
             voting_power: info.power,
+            bls_key: info.bls_key,
+            relayer_address: info.relayer_address,
         }
     }
 }
@@ -320,6 +346,8 @@ mod v1 {
                 power: value.voting_power.try_into()?,
                 name: None,
                 proposer_priority: value.proposer_priority.into(),
+                bls_key: value.bls_key.try_into()?,
+                relayer_address: value.relayer_address.try_into()?,
             })
         }
     }
@@ -331,6 +359,8 @@ mod v1 {
                 pub_key: Some(value.pub_key.into()),
                 voting_power: value.power.into(),
                 proposer_priority: value.proposer_priority.into(),
+                bls_key: value.bls_key.into(),
+                relayer_address: value.relayer_address.into(),
             }
         }
     }
@@ -347,6 +377,8 @@ mod v1 {
                     .ok_or_else(Error::missing_public_key)?
                     .try_into()?,
                 voting_power: value.voting_power.try_into()?,
+                bls_key: value.bls_key.try_into()?,
+                relayer_address: value.relayer_address.try_into()?,
             })
         }
     }
@@ -356,6 +388,8 @@ mod v1 {
             RawSimpleValidator {
                 pub_key: Some(value.pub_key.into()),
                 voting_power: value.voting_power.into(),
+                bls_key: value.bls_key.into(),
+                relayer_address: value.relayer_address.into(),
             }
         }
     }
@@ -437,6 +471,8 @@ mod v1beta1 {
                 power: value.voting_power.try_into()?,
                 name: None,
                 proposer_priority: value.proposer_priority.into(),
+                bls_key: value.bls_key.try_into()?,
+                relayer_address: value.relayer_address.try_into()?,
             })
         }
     }
@@ -448,6 +484,8 @@ mod v1beta1 {
                 pub_key: Some(value.pub_key.into()),
                 voting_power: value.power.into(),
                 proposer_priority: value.proposer_priority.into(),
+                bls_key: value.bls_key.into(),
+                relayer_address: value.relayer_address.into(),
             }
         }
     }
@@ -464,6 +502,8 @@ mod v1beta1 {
                     .ok_or_else(Error::missing_public_key)?
                     .try_into()?,
                 voting_power: value.voting_power.try_into()?,
+                bls_key: value.bls_key.try_into()?,
+                relayer_address: value.relayer_address.try_into()?,
             })
         }
     }
@@ -473,6 +513,8 @@ mod v1beta1 {
             RawSimpleValidator {
                 pub_key: Some(value.pub_key.into()),
                 voting_power: value.voting_power.into(),
+                bls_key: value.bls_key.into(),
+                relayer_address: value.relayer_address.into(),
             }
         }
     }

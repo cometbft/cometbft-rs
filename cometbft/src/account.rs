@@ -18,6 +18,9 @@ use crate::{error::Error, prelude::*};
 /// Size of an  account ID in bytes
 pub const LENGTH: usize = 20;
 
+/// Size of a BLS account ID in bytes
+pub const BLS_LENGTH: usize = 48;
+
 /// Account IDs
 #[derive(Copy, Clone, Eq, Hash, PartialEq, PartialOrd, Ord)]
 pub struct Id([u8; LENGTH]); // JSON custom serialization for priv_validator_key.json
@@ -225,5 +228,135 @@ mod tests {
         let id = Id::from(pubkey);
 
         assert_eq!(id_bytes.ct_eq(&id).unwrap_u8(), 1);
+    }
+}
+
+/// Account IDs
+#[derive(Copy, Clone, Eq, Hash, PartialEq, PartialOrd, Ord)]
+pub struct BLSKey([u8; BLS_LENGTH]); // JSON custom serialization for bls key
+
+impl Protobuf<Vec<u8>> for BLSKey {}
+
+impl TryFrom<Vec<u8>> for BLSKey {
+    type Error = Error;
+
+    fn try_from(value: Vec<u8>) -> Result<Self, Self::Error> {
+        if value.len() != BLS_LENGTH {
+            return Err(Error::invalid_account_id_length());
+        }
+        let mut slice: [u8; BLS_LENGTH] = [0; BLS_LENGTH];
+        slice.copy_from_slice(&value[..]);
+        Ok(BLSKey(slice))
+    }
+}
+
+impl From<BLSKey> for Vec<u8> {
+    fn from(value: BLSKey) -> Self {
+        value.as_bytes().to_vec()
+    }
+}
+
+impl Default for BLSKey {
+    fn default() -> Self {
+        BLSKey([0; BLS_LENGTH])
+    }
+}
+
+impl TryFrom<Bytes> for BLSKey {
+    type Error = Error;
+
+    fn try_from(value: Bytes) -> Result<Self, Self::Error> {
+        if value.len() != BLS_LENGTH {
+            return Err(Error::invalid_account_id_length());
+        }
+        let mut slice: [u8; BLS_LENGTH] = [0; BLS_LENGTH];
+        slice.copy_from_slice(&value[..]);
+        Ok(BLSKey(slice))
+    }
+}
+
+impl From<BLSKey> for Bytes {
+    fn from(value: BLSKey) -> Self {
+        Bytes::copy_from_slice(value.as_bytes())
+    }
+}
+
+impl BLSKey {
+    /// Create a new account ID from raw bytes
+    pub fn new(bytes: [u8; BLS_LENGTH]) -> BLSKey {
+        BLSKey(bytes)
+    }
+
+    /// Borrow the account ID as a byte slice
+    pub fn as_bytes(&self) -> &[u8] {
+        &self.0[..]
+    }
+}
+
+impl AsRef<[u8]> for BLSKey {
+    fn as_ref(&self) -> &[u8] {
+        self.as_bytes()
+    }
+}
+
+impl ConstantTimeEq for BLSKey {
+    #[inline]
+    fn ct_eq(&self, other: &BLSKey) -> subtle::Choice {
+        self.as_bytes().ct_eq(other.as_bytes())
+    }
+}
+
+impl Display for BLSKey {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        for byte in &self.0 {
+            write!(f, "{byte:02X}")?;
+        }
+        Ok(())
+    }
+}
+
+impl Debug for BLSKey {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "account::BLSKey({self})")
+    }
+}
+
+/// Decode account ID from hex
+impl FromStr for BLSKey {
+    type Err = Error;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        // Accept either upper or lower case hex
+        let bytes = hex::decode_upper(s)
+            .or_else(|_| hex::decode(s))
+            .map_err(Error::subtle_encoding)?;
+
+        bytes.try_into()
+    }
+}
+
+// Todo: Can I remove custom serialization?
+impl<'de> Deserialize<'de> for BLSKey {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        let s = String::deserialize(deserializer)?;
+        Self::from_str(&s).map_err(|_| {
+            de::Error::custom(format!(
+                "expected {}-character hex string, got {:?}",
+                BLS_LENGTH * 2,
+                s
+            ))
+        })
+    }
+}
+
+impl Serialize for BLSKey {
+    fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
+        serializer.serialize_str(
+            &String::from_utf8(hex::encode_upper(Vec::<u8>::from(*self)))
+                .map_err(serde::ser::Error::custom)?,
+        )
     }
 }
