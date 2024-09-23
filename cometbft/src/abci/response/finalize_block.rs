@@ -1,3 +1,4 @@
+use crate::serializers::null_to_empty_vec;
 use serde::{Deserialize, Serialize};
 
 use crate::abci::{types::ExecTxResult, Event};
@@ -16,6 +17,7 @@ pub struct FinalizeBlock {
     pub tx_results: Vec<ExecTxResult>,
     /// A list of updates to the validator set.
     /// These will reflect the validator set at current height + 2.
+    #[serde(default, deserialize_with = "null_to_empty_vec")]
     pub validator_updates: Vec<validator::Update>,
     /// Updates to the consensus params, if any.
     #[serde(default)]
