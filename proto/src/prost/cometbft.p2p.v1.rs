@@ -1,13 +1,16 @@
 /// PacketPing is a request to confirm that the connection is alive.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PacketPing {}
 /// PacketPong is a response to confirm that the connection is alive.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PacketPong {}
 /// PacketMsg contains data for the specified channel ID. EOF means the message
 /// is fully received.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PacketMsg {
@@ -19,6 +22,7 @@ pub struct PacketMsg {
     pub data: ::prost::alloc::vec::Vec<u8>,
 }
 /// Packet is an abstract p2p message.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Packet {
@@ -29,6 +33,7 @@ pub struct Packet {
 /// Nested message and enum types in `Packet`.
 pub mod packet {
     /// Sum of all possible messages.
+    #[derive(::serde::Deserialize, ::serde::Serialize)]
     #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, ::prost::Oneof)]
     pub enum Sum {
@@ -42,6 +47,7 @@ pub mod packet {
 }
 /// AuthSigMessage is sent during the authentication and contains our/remote's
 /// signature along with the public key.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AuthSigMessage {
@@ -51,6 +57,7 @@ pub struct AuthSigMessage {
     pub sig: ::prost::alloc::vec::Vec<u8>,
 }
 /// NetAddress represents a peer's network address.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct NetAddress {
@@ -62,6 +69,7 @@ pub struct NetAddress {
     pub port: u32,
 }
 /// ProtocolVersion represents the current p2p protocol version.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ProtocolVersion {
@@ -74,6 +82,7 @@ pub struct ProtocolVersion {
 }
 /// DefaultNodeInfo is a basic node's information sent to other peers during the
 /// p2p handshake.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct DefaultNodeInfo {
@@ -95,6 +104,7 @@ pub struct DefaultNodeInfo {
     pub other: ::core::option::Option<DefaultNodeInfoOther>,
 }
 /// DefaultNodeInfoOther is the misc. application specific data.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct DefaultNodeInfoOther {
@@ -104,10 +114,12 @@ pub struct DefaultNodeInfoOther {
     pub rpc_address: ::prost::alloc::string::String,
 }
 /// PexRequest is a request for peer addresses.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PexRequest {}
 /// PexAddrs is a response with peer addresses.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PexAddrs {
@@ -115,6 +127,7 @@ pub struct PexAddrs {
     pub addrs: ::prost::alloc::vec::Vec<NetAddress>,
 }
 /// Message is an abstract PEX message.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Message {
@@ -125,6 +138,7 @@ pub struct Message {
 /// Nested message and enum types in `Message`.
 pub mod message {
     /// Sum of all possible messages.
+    #[derive(::serde::Deserialize, ::serde::Serialize)]
     #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, ::prost::Oneof)]
     pub enum Sum {

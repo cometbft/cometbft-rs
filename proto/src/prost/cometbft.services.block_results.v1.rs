@@ -1,4 +1,5 @@
 /// GetBlockResults is a request for the BlockResults of a given height.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetBlockResultsRequest {
@@ -6,10 +7,12 @@ pub struct GetBlockResultsRequest {
     pub height: i64,
 }
 /// GetLatestBlockResultsRequest is a request for the BlockResults of the latest block.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetLatestBlockResultsRequest {}
 /// GetBlockResultsResponse contains the block results for the given height.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetBlockResultsResponse {
@@ -35,6 +38,7 @@ pub struct GetBlockResultsResponse {
     pub app_hash: ::prost::alloc::vec::Vec<u8>,
 }
 /// GetLatestBlockResultsResponse contains the block results for the latest block.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetLatestBlockResultsResponse {

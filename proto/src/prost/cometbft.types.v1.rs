@@ -1,5 +1,6 @@
 /// ConsensusParams contains consensus critical parameters that determine the
 /// validity of blocks.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ConsensusParams {
@@ -15,6 +16,7 @@ pub struct ConsensusParams {
     pub abci: ::core::option::Option<AbciParams>,
 }
 /// BlockParams contains limits on the block size.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct BlockParams {
@@ -55,6 +57,7 @@ pub struct EvidenceParams {
 }
 /// ValidatorParams restrict the public key types validators can use.
 /// NOTE: uses ABCI pubkey naming, not Amino names.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ValidatorParams {
@@ -62,6 +65,7 @@ pub struct ValidatorParams {
     pub pub_key_types: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// VersionParams contains the ABCI application version.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct VersionParams {
@@ -72,6 +76,7 @@ pub struct VersionParams {
 /// HashedParams is a subset of ConsensusParams.
 ///
 /// It is hashed into the Header.ConsensusHash.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct HashedParams {
@@ -81,6 +86,7 @@ pub struct HashedParams {
     pub block_max_gas: i64,
 }
 /// ABCIParams configure functionality specific to the Application Blockchain Interface.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AbciParams {
@@ -140,8 +146,19 @@ pub struct SimpleValidator {
     pub voting_power: i64,
 }
 /// BlockIdFlag indicates which BlockID the signature is for
-#[derive(::num_derive::FromPrimitive, ::num_derive::ToPrimitive)]
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[derive(
+    ::serde::Deserialize,
+    ::serde::Serialize,
+    Clone,
+    Copy,
+    Debug,
+    PartialEq,
+    Eq,
+    Hash,
+    PartialOrd,
+    Ord,
+    ::prost::Enumeration,
+)]
 #[repr(i32)]
 pub enum BlockIdFlag {
     /// Indicates an error condition
@@ -190,6 +207,7 @@ pub struct PartSetHeader {
     pub hash: ::prost::alloc::vec::Vec<u8>,
 }
 /// Part of the block.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Part {
@@ -361,6 +379,7 @@ pub struct CommitSig {
     pub signature: ::prost::alloc::vec::Vec<u8>,
 }
 /// ExtendedCommit is a Commit with ExtendedCommitSig.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ExtendedCommit {
@@ -376,6 +395,7 @@ pub struct ExtendedCommit {
 /// ExtendedCommitSig retains all the same fields as CommitSig but adds vote
 /// extension-related fields. We use two signatures to ensure backwards compatibility.
 /// That is the digest of the original signature is still the same in prior versions
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ExtendedCommitSig {
@@ -395,6 +415,7 @@ pub struct ExtendedCommitSig {
     pub extension_signature: ::prost::alloc::vec::Vec<u8>,
 }
 /// Block proposal.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Proposal {
@@ -464,7 +485,19 @@ pub struct TxProof {
     pub proof: ::core::option::Option<super::super::crypto::v1::Proof>,
 }
 /// SignedMsgType is a type of signed message in the consensus.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[derive(
+    ::serde::Deserialize,
+    ::serde::Serialize,
+    Clone,
+    Copy,
+    Debug,
+    PartialEq,
+    Eq,
+    Hash,
+    PartialOrd,
+    Ord,
+    ::prost::Enumeration,
+)]
 #[repr(i32)]
 pub enum SignedMsgType {
     /// Unknown
@@ -586,6 +619,7 @@ pub struct Block {
     pub last_commit: ::core::option::Option<Commit>,
 }
 /// EventDataRoundState is emmitted with each new round step.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct EventDataRoundState {
@@ -665,6 +699,7 @@ pub struct CanonicalVote {
 }
 /// CanonicalVoteExtension provides us a way to serialize a vote extension from
 /// a particular validator such that we can sign over those serialized bytes.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CanonicalVoteExtension {
