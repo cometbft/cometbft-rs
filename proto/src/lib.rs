@@ -1,6 +1,6 @@
 //! cometbft-proto library gives the developer access to the CometBFT proto-defined structs.
 
-#![cfg_attr(not(any(feature = "grpc-server", feature = "grpc-client")), no_std)]
+#![cfg_attr(not(any(feature = "grpc-server")), no_std)]
 #![deny(warnings, trivial_casts, trivial_numeric_casts, unused_import_braces)]
 #![allow(clippy::large_enum_variant)]
 #![forbid(unsafe_code)]
