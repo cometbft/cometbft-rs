@@ -112,7 +112,7 @@ where
     } else {
         serde_json::from_value::<PublicKey>(v)
     }
-    .map_err(serde::de::Error::custom)
+    .map_err(de::Error::custom)
 }
 
 // =============================================================================
