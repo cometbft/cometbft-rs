@@ -1,14 +1,14 @@
 [package]
-name       = "cometbft-rpc"
-version    = "0.1.0-alpha.2"
-edition    = "2021"
-license    = "Apache-2.0"
-homepage   = "https://cometbft.com/"
+name = "cometbft-rpc"
+version = "0.1.0-alpha.2"
+edition = "2021"
+license = "Apache-2.0"
+homepage = "https://cometbft.com/"
 repository = "https://github.com/cometbft/cometbft-rs"
-readme     = "README.md"
-keywords   = ["blockchain", "cosmos", "cometbft", "tendermint"]
+readme = "README.md"
+keywords = ["blockchain", "cosmos", "cometbft", "tendermint"]
 categories = ["cryptography::cryptocurrencies", "network-programming"]
-authors    = [
+authors = [
   "Informal Systems <hello@informal.systems>",
   "Ismail Khoffi <Ismail.Khoffi@gmail.com>",
   "Alexander Simmerl <a.simmerl@gmail.com>",
@@ -26,23 +26,13 @@ all-features = true
 [[bin]]
 name = "cometbft-rpc"
 path = "src/client/bin/main.rs"
-required-features = [ "cli" ]
+required-features = ["cli"]
 
 [features]
 default = ["flex-error/std", "flex-error/eyre_tracer"]
-cli = [
-  "http-client",
-  "structopt",
-  "tracing-subscriber",
-  "websocket-client"
-]
-http-client = [
-  "futures",
-  "reqwest",
-  "tokio/macros",
-  "tracing"
-]
-secp256k1 = [ "cometbft/secp256k1" ]
+cli = ["http-client", "structopt", "tracing-subscriber", "websocket-client"]
+http-client = ["futures", "reqwest", "tokio/macros", "tracing"]
+secp256k1 = ["cometbft/secp256k1"]
 websocket-client = [
   "async-tungstenite",
   "futures",
@@ -51,7 +41,7 @@ websocket-client = [
   "tokio/macros",
   "tokio/sync",
   "tokio/time",
-  "tracing"
+  "tracing",
 ]
 
 [dependencies]
@@ -64,28 +54,43 @@ bytes = { version = "1.0", default-features = false }
 getrandom = { version = "0.2", default-features = false, features = ["js"] }
 peg = { version = "0.8", default-features = false }
 pin-project = { version = "1.0.1", default-features = false }
-serde = { version = "1", default-features = false, features = [ "derive" ] }
+serde = { version = "1", default-features = false, features = ["derive"] }
 serde_bytes = { version = "0.11", default-features = false }
 serde_json = { version = "1", default-features = false, features = ["std"] }
 thiserror = { version = "1", default-features = false }
-time = { version = "0.3", default-features = false, features = ["macros", "parsing"] }
+time = { version = "0.3", default-features = false, features = [
+  "macros",
+  "parsing",
+] }
 uuid = { version = "1.7", default-features = false }
 rand = { version = "0.8" }
-subtle-encoding = { version = "0.5", default-features = false, features = ["bech32-preview"] }
+subtle-encoding = { version = "0.5", default-features = false, features = [
+  "bech32-preview",
+] }
 url = { version = "2.4.1", default-features = false }
 walkdir = { version = "2.3", default-features = false }
 flex-error = { version = "0.4.4", default-features = false }
 subtle = { version = "2", default-features = false }
 semver = { version = "1.0", default-features = false }
+ordered-float = { version = "4.0", default-features = false }
 
 # Optional dependencies
-async-tungstenite = { version = "0.24", default-features = false, features = ["tokio-runtime", "tokio-rustls-native-certs"], optional = true }
+async-tungstenite = { version = "0.24", default-features = false, features = [
+  "tokio-runtime",
+  "tokio-rustls-native-certs",
+], optional = true }
 futures = { version = "0.3", optional = true, default-features = false }
-reqwest = { version = "0.11.20", optional = true, default-features = false, features = ["rustls-tls-native-roots"] }
+reqwest = { version = "0.11.20", optional = true, default-features = false, features = [
+  "rustls-tls-native-roots",
+] }
 structopt = { version = "0.3", optional = true, default-features = false }
-tokio = { version = "1.0", optional = true, default-features = false, features = ["rt-multi-thread"] }
+tokio = { version = "1.0", optional = true, default-features = false, features = [
+  "rt-multi-thread",
+] }
 tracing = { version = "0.1", optional = true, default-features = false }
-tracing-subscriber = { version = "0.3", optional = true, default-features = false, features = ["fmt"] }
+tracing-subscriber = { version = "0.3", optional = true, default-features = false, features = [
+  "fmt",
+] }
 
 [dev-dependencies]
 http = { version = "1", default-features = false, features = ["std"] }

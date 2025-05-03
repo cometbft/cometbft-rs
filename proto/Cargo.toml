@@ -1,13 +1,17 @@
 [package]
-name       = "cometbft-proto"
-version    = "0.1.0-alpha.2"
-authors    = ["Informal Systems <hello@informal.systems>"]
-edition    = "2021"
-license    = "Apache-2.0"
+name = "cometbft-proto"
+version = "0.1.0-alpha.2"
+authors = ["Informal Systems <hello@informal.systems>"]
+edition = "2021"
+license = "Apache-2.0"
 repository = "https://github.com/cometbft/cometbft-rs"
-readme     = "README.md"
-categories = ["cryptography", "cryptography::cryptocurrencies", "network-programming"]
-keywords   = ["blockchain", "cometbft", "tendermint", "protobuf"]
+readme = "README.md"
+categories = [
+    "cryptography",
+    "cryptography::cryptocurrencies",
+    "network-programming",
+]
+keywords = ["blockchain", "cometbft", "tendermint", "protobuf"]
 
 description = """
     A Rust implementation of the CometBFT proto structs.
@@ -17,6 +21,7 @@ description = """
 default = []
 grpc = ["grpc-server"]
 grpc-server = ["tonic"]
+grpc-client = []
 
 [package.metadata.docs.rs]
 all-features = true
@@ -24,13 +29,22 @@ all-features = true
 [dependencies]
 prost = { version = "0.12", default-features = false }
 prost-types = { version = "0.12", default-features = false }
-bytes = { version = "1.0", default-features = false, features = ["serde"]}
+bytes = { version = "1.0", default-features = false, features = ["serde"] }
 serde = { version = "1.0", default-features = false, features = ["derive"] }
-serde_bytes = { version = "0.11", default-features = false, features = ["alloc"] }
-subtle-encoding = { version = "0.5", default-features = false, features = ["hex", "base64", "alloc"] }
+serde_bytes = { version = "0.11", default-features = false, features = [
+    "alloc",
+] }
+subtle-encoding = { version = "0.5", default-features = false, features = [
+    "hex",
+    "base64",
+    "alloc",
+] }
 num-traits = { version = "0.2", default-features = false }
 num-derive = { version = "0.4", default-features = false }
-time = { version = "0.3", default-features = false, features = ["macros", "parsing"] }
+time = { version = "0.3", default-features = false, features = [
+    "macros",
+    "parsing",
+] }
 flex-error = { version = "0.4.4", default-features = false }
 tonic = { version = "0.10", optional = true }
 
