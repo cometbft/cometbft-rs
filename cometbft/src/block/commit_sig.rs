@@ -211,13 +211,11 @@ mod v1beta1 {
     use crate::{error::Error, prelude::*, Signature};
     use cometbft_proto::types::v1beta1::{self as pb, BlockIdFlag};
 
-    use num_traits::ToPrimitive;
-
     impl TryFrom<pb::CommitSig> for CommitSig {
         type Error = Error;
 
         fn try_from(value: pb::CommitSig) -> Result<Self, Self::Error> {
-            if value.block_id_flag == BlockIdFlag::Absent.to_i32().unwrap() {
+            if value.block_id_flag == BlockIdFlag::Absent as i32 {
                 if value.timestamp.is_some() {
                     let timestamp = value.timestamp.unwrap();
                     // 0001-01-01T00:00:00.000Z translates to EPOCH-62135596800 seconds
@@ -237,7 +235,7 @@ mod v1beta1 {
                 return Ok(CommitSig::BlockIdFlagAbsent);
             }
 
-            if value.block_id_flag == BlockIdFlag::Commit.to_i32().unwrap() {
+            if value.block_id_flag == BlockIdFlag::Commit as i32 {
                 if value.signature.is_empty() {
                     return Err(Error::invalid_signature(
                         "expected non-empty signature for regular commitsig".to_string(),
@@ -259,7 +257,7 @@ mod v1beta1 {
                     signature: Signature::new(value.signature)?,
                 });
             }
-            if value.block_id_flag == BlockIdFlag::Nil.to_i32().unwrap() {
+            if value.block_id_flag == BlockIdFlag::Nil as i32 {
                 if value.signature.is_empty() {
                     return Err(Error::invalid_signature(
                         "nil commitsig has no signature".to_string(),
@@ -285,7 +283,7 @@ mod v1beta1 {
         fn from(commit: CommitSig) -> pb::CommitSig {
             match commit {
                 CommitSig::BlockIdFlagAbsent => pb::CommitSig {
-                    block_id_flag: BlockIdFlag::Absent.to_i32().unwrap(),
+                    block_id_flag: BlockIdFlag::Absent as i32,
                     validator_address: Vec::new(),
                     timestamp: Some(ZERO_TIMESTAMP),
                     signature: Vec::new(),
@@ -295,7 +293,7 @@ mod v1beta1 {
                     timestamp,
                     signature,
                 } => pb::CommitSig {
-                    block_id_flag: BlockIdFlag::Nil.to_i32().unwrap(),
+                    block_id_flag: BlockIdFlag::Nil as i32,
                     validator_address: validator_address.into(),
                     timestamp: Some(timestamp.into()),
                     signature: signature.map(|s| s.into_bytes()).unwrap_or_default(),
@@ -305,7 +303,7 @@ mod v1beta1 {
                     timestamp,
                     signature,
                 } => pb::CommitSig {
-                    block_id_flag: BlockIdFlag::Commit.to_i32().unwrap(),
+                    block_id_flag: BlockIdFlag::Commit as i32,
                     validator_address: validator_address.into(),
                     timestamp: Some(timestamp.into()),
                     signature: signature.map(|s| s.into_bytes()).unwrap_or_default(),
