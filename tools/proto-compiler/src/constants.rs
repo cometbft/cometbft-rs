@@ -50,8 +50,6 @@ const RENAME_PARTS: &str = r#"#[serde(rename = "parts", alias = "part_set_header
 /// https://docs.rs/prost-build/0.6.1/prost_build/struct.Config.html#method.btree_map
 pub static CUSTOM_TYPE_ATTRIBUTES: &[(&str, &str)] = &[
     (".cometbft.abci", SERIALIZED),
-    (".cometbft.abci.v1.InfoResponse", SERIALIZED),
-    (".cometbft.abci.v1beta1.ResponseInfo", SERIALIZED),
     (".cometbft.crypto.v1.Proof", SERIALIZED),
     (".cometbft.crypto.v1.ProofOp", SERIALIZED),
     (".cometbft.crypto.v1.ProofOps", SERIALIZED),
@@ -91,6 +89,7 @@ pub static CUSTOM_TYPE_ATTRIBUTES: &[(&str, &str)] = &[
     (".cometbft.types.v1.ValidatorParams", SERIALIZED),
     (".cometbft.types.v1.BlockParams", SERIALIZED),
     (".cometbft.types.v1.Vote", SERIALIZED),
+    (".cometbft.version.v1.Consensus", SERIALIZED),
     (".cometbft.types.v1beta1.Block", SERIALIZED),
     (".cometbft.types.v1beta1.BlockID", SERIALIZED),
     (".cometbft.types.v1beta1.BlockMeta", SERIALIZED),
@@ -125,7 +124,8 @@ pub static CUSTOM_TYPE_ATTRIBUTES: &[(&str, &str)] = &[
     (".cometbft.types.v1beta1.ValidatorParams", SERIALIZED),
     (".cometbft.types.v1beta1.BlockParams", SERIALIZED),
     (".cometbft.types.v1beta1.Vote", SERIALIZED),
-    (".cometbft.version.v1.Consensus", SERIALIZED),
+    (".cometbft.types.v1beta2.ConsensusParams", SERIALIZED),
+    (".cometbft.types.v1beta2.BlockParams", SERIALIZED),
 ];
 
 /// Custom field attributes applied on top of protobuf fields in (a) struct(s)
