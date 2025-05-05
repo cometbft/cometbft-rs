@@ -266,7 +266,7 @@ fn non_absent_vote(
     commit: &Commit,
 ) -> Option<Vote> {
     let (validator_address, timestamp, signature, block_id) = match commit_sig {
-        CommitSig::BlockIdFlagAbsent { .. } => return None,
+        CommitSig::BlockIdFlagAbsent => return None,
         CommitSig::BlockIdFlagCommit {
             validator_address,
             timestamp,

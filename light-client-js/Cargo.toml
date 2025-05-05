@@ -25,7 +25,8 @@ serde_json = { version = "1.0", default-features = false }
 cometbft = { version = "0.1.0-alpha.2", default-features = false, path = "../cometbft" }
 cometbft-light-client-verifier = { version = "0.1.0-alpha.2", features = ["rust-crypto"], default-features = false, path = "../light-client-verifier" }
 wasm-bindgen = { version = "0.2.63", default-features = false, features = [ "serde-serialize" ] }
-serde-wasm-bindgen = { version = "0.4.5", default-features = false }
+serde-wasm-bindgen = { version = "0.6.5", default-features = false }
+js-sys = { version = "=0.3.70", default-features = false }
 
 # The `console_error_panic_hook` crate provides better debugging of panics by
 # logging them with `console.error`. This is great for development, but requires
