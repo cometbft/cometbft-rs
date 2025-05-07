@@ -1,37 +1,35 @@
 //! cometbft-proto library gives the developer access to the CometBFT proto-defined structs.
 
-#![cfg_attr(not(any(feature = "grpc-server", feature = "grpc-client")), no_std)]
+#![cfg_attr(not(any(feature = "grpc-server")), no_std)]
 #![deny(warnings, trivial_casts, trivial_numeric_casts, unused_import_braces)]
 #![allow(clippy::large_enum_variant)]
 #![forbid(unsafe_code)]
 
 extern crate alloc;
 
+#[allow(warnings)]
+mod cometbft;
+mod error;
 mod prelude;
 
+use bytes::{Buf, BufMut};
+use core::{convert::TryFrom, fmt::Display};
+use prost::Message;
+
+pub use cometbft::*;
+pub use error::Error;
+
+pub mod serializers;
+
+use prelude::*;
+
 /// Built-in prost_types with slight customization to enable JSON-encoding
-#[allow(warnings)]
 pub mod google {
     pub mod protobuf {
         // custom Timeout and Duration types that have valid doctest documentation texts
         include!("protobuf.rs");
     }
 }
-
-#[allow(warnings)]
-mod cometbft;
-mod error;
-
-use core::{convert::TryFrom, fmt::Display};
-
-use bytes::{Buf, BufMut};
-pub use cometbft::*;
-pub use error::Error;
-use prost::Message;
-
-pub mod serializers;
-
-use prelude::*;
 
 /// Allows for easy Google Protocol Buffers encoding and decoding of domain
 /// types with validation.

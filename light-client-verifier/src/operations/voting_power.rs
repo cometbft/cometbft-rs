@@ -1,13 +1,15 @@
 //! Provides an interface and default implementation for the `VotingPower` operation
 
-use alloc::collections::BTreeSet as HashSet;
+use alloc::vec::Vec;
 use core::{convert::TryFrom, fmt, marker::PhantomData};
 
 use cometbft::{
+    account,
     block::CommitSig,
     chain,
     crypto::signature,
     trust_threshold::TrustThreshold as _,
+    validator,
     vote::{SignedVote, ValidatorIndex, Vote},
 };
 use serde::{Deserialize, Serialize};
@@ -212,7 +214,7 @@ impl NonAbsentCommitVote {
         };
 
         let vote = Vote {
-            vote_type: tendermint::vote::Type::Precommit,
+            vote_type: cometbft::vote::Type::Precommit,
             height: commit.height,
             round: commit.round,
             block_id: Some(commit.block_id),
@@ -328,6 +330,58 @@ impl<V> Default for ProvidedVotingPowerCalculator<V> {
     fn default() -> Self {
         Self {
             _verifier: PhantomData,
+        }
+    }
+}
+
+/// Dictionary of validators sorted by address.
+///
+/// The map stores reference to [`validator::Info`] object (typically held by
+/// a `ValidatorSet`) and a boolean flag indicating whether the validator has
+/// already been seen.  The validators are sorted by their address such that
+/// lookup by address is a logarithmic operation.
+struct ValidatorMap<'a> {
+    validators: Vec<(&'a validator::Info, bool)>,
+}
+
+/// Error during validator lookup.
+enum LookupError {
+    NotFound,
+    AlreadySeen,
+}
+
+impl<'a> ValidatorMap<'a> {
+    /// Constructs a new map from given list of validators.
+    ///
+    /// Sorts the validators by address which makes the operation’s time
+    /// complexity `O(N lng N)`.
+    ///
+    /// Produces unspecified result if two objects with the same address are
+    /// found.  Unspecified in that it’s not guaranteed which entry will be
+    /// subsequently returned by [`Self::find_mut`] however it will always be
+    /// consistently the same entry.
+    pub fn new(validators: &'a [validator::Info]) -> Self {
+        let mut validators = validators.iter().map(|v| (v, false)).collect::<Vec<_>>();
+        validators.sort_unstable_by_key(|item| &item.0.address);
+        Self { validators }
+    }
+
+    /// Finds entry for validator with given address; returns error if validator
+    /// has been returned already by previous call to `find`.
+    ///
+    /// Uses binary search resulting in logarithmic lookup time.
+    pub fn find(&mut self, address: &account::Id) -> Result<&'a validator::Info, LookupError> {
+        let index = self
+            .validators
+            .binary_search_by_key(&address, |item| &item.0.address)
+            .map_err(|_| LookupError::NotFound)?;
+
+        let (validator, seen) = &mut self.validators[index];
+        if *seen {
+            Err(LookupError::AlreadySeen)
+        } else {
+            *seen = true;
+            Ok(validator)
         }
     }
 }
