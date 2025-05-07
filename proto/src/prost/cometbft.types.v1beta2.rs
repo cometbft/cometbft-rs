@@ -1,5 +1,6 @@
 /// ConsensusParams contains consensus critical parameters that determine the
 /// validity of blocks.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ConsensusParams {
@@ -13,6 +14,7 @@ pub struct ConsensusParams {
     pub version: ::core::option::Option<super::v1beta1::VersionParams>,
 }
 /// BlockParams contains limits on the block size.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct BlockParams {

@@ -2,6 +2,7 @@
 /// of the legacy ABCI calls during block processing.
 /// Note ReponseDeliverTx is renamed to ExecTxResult but they are semantically the same
 /// Kept for backwards compatibility for versions prior to v0.38
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct LegacyAbciResponses {
@@ -14,6 +15,7 @@ pub struct LegacyAbciResponses {
 }
 /// ResponseBeginBlock is kept for backward compatibility for versions prior to v0.38,
 /// as it was then defined in the cometbft.abci packages.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ResponseBeginBlock {
@@ -24,6 +26,7 @@ pub struct ResponseBeginBlock {
 /// its earlier revisions were defined in the cometbft.abci packages.
 /// It uses an updated definition for the consensus_param_updates field to keep the
 /// generated data types interoperable with the latest protocol.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ResponseEndBlock {
@@ -39,6 +42,7 @@ pub struct ResponseEndBlock {
     pub events: ::prost::alloc::vec::Vec<super::super::abci::v1beta2::Event>,
 }
 /// ConsensusParamsInfo represents the latest consensus params, or the last height it changed
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ConsensusParamsInfo {
@@ -50,6 +54,7 @@ pub struct ConsensusParamsInfo {
     pub last_height_changed: i64,
 }
 /// ABCIResponsesInfo retains the responses of the ABCI calls during block processing.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AbciResponsesInfo {
