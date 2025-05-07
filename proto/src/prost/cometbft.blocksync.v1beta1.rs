@@ -1,4 +1,5 @@
 /// BlockRequest requests a block for a specific height
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct BlockRequest {
@@ -6,6 +7,7 @@ pub struct BlockRequest {
     pub height: i64,
 }
 /// NoBlockResponse informs the node that the peer does not have block at the requested height
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct NoBlockResponse {
@@ -13,6 +15,7 @@ pub struct NoBlockResponse {
     pub height: i64,
 }
 /// BlockResponse returns block to the requested
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct BlockResponse {
@@ -20,10 +23,12 @@ pub struct BlockResponse {
     pub block: ::core::option::Option<super::super::types::v1beta1::Block>,
 }
 /// StatusRequest requests the status of a peer.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct StatusRequest {}
 /// StatusResponse is a peer response to inform their status.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct StatusResponse {
@@ -33,6 +38,7 @@ pub struct StatusResponse {
     pub base: i64,
 }
 /// Message is an abtract blocksync message.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Message {
@@ -43,6 +49,7 @@ pub struct Message {
 /// Nested message and enum types in `Message`.
 pub mod message {
     /// Sum of all possible messages.
+    #[derive(::serde::Deserialize, ::serde::Serialize)]
     #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, ::prost::Oneof)]
     pub enum Sum {

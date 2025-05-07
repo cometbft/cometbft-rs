@@ -1,4 +1,5 @@
 /// GetByHeightRequest is a request for a block at the specified height.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetByHeightRequest {
@@ -7,6 +8,7 @@ pub struct GetByHeightRequest {
     pub height: i64,
 }
 /// GetByHeightResponse contains the block ID and the block at the specified height.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetByHeightResponse {
@@ -16,10 +18,12 @@ pub struct GetByHeightResponse {
     pub block: ::core::option::Option<super::super::super::types::v1::Block>,
 }
 /// GetLatestRequest is a request for the latest block.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetLatestRequest {}
 /// GetLatestResponse contains the latest block ID and the latest block.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetLatestResponse {
@@ -29,10 +33,12 @@ pub struct GetLatestResponse {
     pub block: ::core::option::Option<super::super::super::types::v1::Block>,
 }
 /// GetLatestHeightRequest - empty message since no parameter is required
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetLatestHeightRequest {}
 /// GetLatestHeightResponse provides the height of the latest committed block.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetLatestHeightResponse {

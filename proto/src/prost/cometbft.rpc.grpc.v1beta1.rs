@@ -1,8 +1,10 @@
 /// PingRequest is a request to confirm that the connection is alive.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct RequestPing {}
 /// RequestBroadcastTx is a request to broadcast the transaction.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct RequestBroadcastTx {
@@ -10,10 +12,12 @@ pub struct RequestBroadcastTx {
     pub tx: ::prost::alloc::vec::Vec<u8>,
 }
 /// PingResponse is a response to confirm that the connection is alive.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ResponsePing {}
 /// ResponseBroadcastTx is a response of broadcasting the transaction.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ResponseBroadcastTx {

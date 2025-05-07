@@ -1,4 +1,5 @@
 /// ResponseBroadcastTx is a response of broadcasting the transaction.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ResponseBroadcastTx {

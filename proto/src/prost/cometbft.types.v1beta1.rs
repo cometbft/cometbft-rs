@@ -1,89 +1,3 @@
-/// ConsensusParams contains consensus critical parameters that determine the
-/// validity of blocks.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ConsensusParams {
-    #[prost(message, optional, tag = "1")]
-    pub block: ::core::option::Option<BlockParams>,
-    #[prost(message, optional, tag = "2")]
-    pub evidence: ::core::option::Option<EvidenceParams>,
-    #[prost(message, optional, tag = "3")]
-    pub validator: ::core::option::Option<ValidatorParams>,
-    #[prost(message, optional, tag = "4")]
-    pub version: ::core::option::Option<VersionParams>,
-}
-/// BlockParams contains limits on the block size.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct BlockParams {
-    /// Max block size, in bytes.
-    /// Note: must be greater than 0
-    #[prost(int64, tag = "1")]
-    pub max_bytes: i64,
-    /// Max gas per block.
-    /// Note: must be greater or equal to -1
-    #[prost(int64, tag = "2")]
-    pub max_gas: i64,
-    /// Minimum time increment between consecutive blocks (in milliseconds) If the
-    /// block header timestamp is ahead of the system clock, decrease this value.
-    ///
-    /// Not exposed to the application.
-    #[prost(int64, tag = "3")]
-    pub time_iota_ms: i64,
-}
-/// EvidenceParams determine how we handle evidence of malfeasance.
-#[derive(::serde::Deserialize, ::serde::Serialize)]
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct EvidenceParams {
-    /// Max age of evidence, in blocks.
-    ///
-    /// The basic formula for calculating this is: MaxAgeDuration / {average block
-    /// time}.
-    #[prost(int64, tag = "1")]
-    #[serde(with = "crate::serializers::from_str", default)]
-    pub max_age_num_blocks: i64,
-    /// Max age of evidence, in time.
-    ///
-    /// It should correspond with an app's "unbonding period" or other similar
-    /// mechanism for handling [Nothing-At-Stake
-    /// attacks](<https://github.com/ethereum/wiki/wiki/Proof-of-Stake-FAQ#what-is-the-nothing-at-stake-problem-and-how-can-it-be-fixed>).
-    #[prost(message, optional, tag = "2")]
-    pub max_age_duration: ::core::option::Option<crate::google::protobuf::Duration>,
-    /// This sets the maximum size of total evidence in bytes that can be committed in a single block.
-    /// and should fall comfortably under the max block bytes.
-    /// Default is 1048576 or 1MB
-    #[prost(int64, tag = "3")]
-    #[serde(with = "crate::serializers::from_str", default)]
-    pub max_bytes: i64,
-}
-/// ValidatorParams restrict the public key types validators can use.
-/// NOTE: uses ABCI pubkey naming, not Amino names.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ValidatorParams {
-    #[prost(string, repeated, tag = "1")]
-    pub pub_key_types: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// VersionParams contains the ABCI application version.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct VersionParams {
-    /// Was named app_version in Tendermint 0.34
-    #[prost(uint64, tag = "1")]
-    pub app: u64,
-}
-/// HashedParams is a subset of ConsensusParams.
-///
-/// It is hashed into the Header.ConsensusHash.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct HashedParams {
-    #[prost(int64, tag = "1")]
-    pub block_max_bytes: i64,
-    #[prost(int64, tag = "2")]
-    pub block_max_gas: i64,
-}
 /// ValidatorSet defines a set of validators.
 #[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -119,6 +33,7 @@ pub struct Validator {
 /// SimpleValidator is a Validator, which is serialized and hashed in consensus.
 /// Address is removed because it's redundant with the pubkey.
 /// Proposer priority is removed because it changes every round.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SimpleValidator {
@@ -128,8 +43,19 @@ pub struct SimpleValidator {
     pub voting_power: i64,
 }
 /// BlockIdFlag indicates which BlockID the signature is for
-#[derive(::num_derive::FromPrimitive, ::num_derive::ToPrimitive)]
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[derive(
+    ::serde::Deserialize,
+    ::serde::Serialize,
+    Clone,
+    Copy,
+    Debug,
+    PartialEq,
+    Eq,
+    Hash,
+    PartialOrd,
+    Ord,
+    ::prost::Enumeration,
+)]
 #[repr(i32)]
 pub enum BlockIdFlag {
     /// Indicates an error condition
@@ -178,6 +104,7 @@ pub struct PartSetHeader {
     pub hash: ::prost::alloc::vec::Vec<u8>,
 }
 /// Part of the block.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Part {
@@ -336,6 +263,7 @@ pub struct CommitSig {
     pub signature: ::prost::alloc::vec::Vec<u8>,
 }
 /// Block proposal.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Proposal {
@@ -405,7 +333,19 @@ pub struct TxProof {
     pub proof: ::core::option::Option<super::super::crypto::v1::Proof>,
 }
 /// SignedMsgType is a type of signed message in the consensus.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[derive(
+    ::serde::Deserialize,
+    ::serde::Serialize,
+    Clone,
+    Copy,
+    Debug,
+    PartialEq,
+    Eq,
+    Hash,
+    PartialOrd,
+    Ord,
+    ::prost::Enumeration,
+)]
 #[repr(i32)]
 pub enum SignedMsgType {
     /// Unknown
@@ -527,6 +467,7 @@ pub struct Block {
     pub last_commit: ::core::option::Option<Commit>,
 }
 /// EventDataRoundState is emmitted with each new round step.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct EventDataRoundState {
@@ -536,6 +477,97 @@ pub struct EventDataRoundState {
     pub round: i32,
     #[prost(string, tag = "3")]
     pub step: ::prost::alloc::string::String,
+}
+/// ConsensusParams contains consensus critical parameters that determine the
+/// validity of blocks.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ConsensusParams {
+    #[prost(message, optional, tag = "1")]
+    pub block: ::core::option::Option<BlockParams>,
+    #[prost(message, optional, tag = "2")]
+    pub evidence: ::core::option::Option<EvidenceParams>,
+    #[prost(message, optional, tag = "3")]
+    pub validator: ::core::option::Option<ValidatorParams>,
+    #[prost(message, optional, tag = "4")]
+    pub version: ::core::option::Option<VersionParams>,
+}
+/// BlockParams contains limits on the block size.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BlockParams {
+    /// Max block size, in bytes.
+    /// Note: must be greater than 0
+    #[prost(int64, tag = "1")]
+    pub max_bytes: i64,
+    /// Max gas per block.
+    /// Note: must be greater or equal to -1
+    #[prost(int64, tag = "2")]
+    pub max_gas: i64,
+    /// Minimum time increment between consecutive blocks (in milliseconds) If the
+    /// block header timestamp is ahead of the system clock, decrease this value.
+    ///
+    /// Not exposed to the application.
+    #[prost(int64, tag = "3")]
+    pub time_iota_ms: i64,
+}
+/// EvidenceParams determine how we handle evidence of malfeasance.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EvidenceParams {
+    /// Max age of evidence, in blocks.
+    ///
+    /// The basic formula for calculating this is: MaxAgeDuration / {average block
+    /// time}.
+    #[prost(int64, tag = "1")]
+    #[serde(with = "crate::serializers::from_str", default)]
+    pub max_age_num_blocks: i64,
+    /// Max age of evidence, in time.
+    ///
+    /// It should correspond with an app's "unbonding period" or other similar
+    /// mechanism for handling [Nothing-At-Stake
+    /// attacks](<https://github.com/ethereum/wiki/wiki/Proof-of-Stake-FAQ#what-is-the-nothing-at-stake-problem-and-how-can-it-be-fixed>).
+    #[prost(message, optional, tag = "2")]
+    pub max_age_duration: ::core::option::Option<crate::google::protobuf::Duration>,
+    /// This sets the maximum size of total evidence in bytes that can be committed in a single block.
+    /// and should fall comfortably under the max block bytes.
+    /// Default is 1048576 or 1MB
+    #[prost(int64, tag = "3")]
+    #[serde(with = "crate::serializers::from_str", default)]
+    pub max_bytes: i64,
+}
+/// ValidatorParams restrict the public key types validators can use.
+/// NOTE: uses ABCI pubkey naming, not Amino names.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ValidatorParams {
+    #[prost(string, repeated, tag = "1")]
+    pub pub_key_types: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// VersionParams contains the ABCI application version.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct VersionParams {
+    /// Was named app_version in Tendermint 0.34
+    #[prost(uint64, tag = "1")]
+    pub app: u64,
+}
+/// HashedParams is a subset of ConsensusParams.
+///
+/// It is hashed into the Header.ConsensusHash.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct HashedParams {
+    #[prost(int64, tag = "1")]
+    pub block_max_bytes: i64,
+    #[prost(int64, tag = "2")]
+    pub block_max_gas: i64,
 }
 /// CanonicalBlockID is a canonical representation of a BlockID, which gets
 /// serialized and signed.
