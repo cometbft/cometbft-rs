@@ -1,4 +1,5 @@
 /// SetBlockRetainHeightRequest sets the retain height for blocks.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SetBlockRetainHeightRequest {
@@ -6,14 +7,17 @@ pub struct SetBlockRetainHeightRequest {
     pub height: u64,
 }
 /// SetBlockRetainHeightResponse is empty.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SetBlockRetainHeightResponse {}
 /// GetBlockRetainHeightRequest is a request for the retain height.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetBlockRetainHeightRequest {}
 /// GetBlockRetainHeightResponse returns the retain height for blocks.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetBlockRetainHeightResponse {
@@ -26,6 +30,7 @@ pub struct GetBlockRetainHeightResponse {
     pub pruning_service_retain_height: u64,
 }
 /// SetBlockResultsRetainHeightRequest sets the retain height for block results.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SetBlockResultsRetainHeightRequest {
@@ -33,14 +38,17 @@ pub struct SetBlockResultsRetainHeightRequest {
     pub height: u64,
 }
 /// SetBlockResultsRetainHeightResponse is empty.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SetBlockResultsRetainHeightResponse {}
 /// GetBlockResultsRetainHeightRequest is a request for the retain height.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetBlockResultsRetainHeightRequest {}
 /// GetBlockResultsRetainHeightResponse returns the retain height for block results.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetBlockResultsRetainHeightResponse {
@@ -50,6 +58,7 @@ pub struct GetBlockResultsRetainHeightResponse {
     pub pruning_service_retain_height: u64,
 }
 /// SetTxIndexerRetainHeightRequest sets the retain height for the tx indexer.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SetTxIndexerRetainHeightRequest {
@@ -57,14 +66,17 @@ pub struct SetTxIndexerRetainHeightRequest {
     pub height: u64,
 }
 /// SetTxIndexerRetainHeightResponse is empty.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SetTxIndexerRetainHeightResponse {}
 /// GetTxIndexerRetainHeightRequest is a request for the retain height.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetTxIndexerRetainHeightRequest {}
 /// GetTxIndexerRetainHeightResponse returns the retain height for the tx indexer.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetTxIndexerRetainHeightResponse {
@@ -79,14 +91,17 @@ pub struct SetBlockIndexerRetainHeightRequest {
     pub height: u64,
 }
 /// SetBlockIndexerRetainHeightResponse is empty.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SetBlockIndexerRetainHeightResponse {}
 /// GetBlockIndexerRetainHeightRequest is a request for the retain height.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetBlockIndexerRetainHeightRequest {}
 /// GetBlockIndexerRetainHeightResponse returns the retain height for the block indexer.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetBlockIndexerRetainHeightResponse {

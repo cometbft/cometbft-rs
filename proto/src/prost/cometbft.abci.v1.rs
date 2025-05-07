@@ -1,4 +1,5 @@
 /// Request represents a request to the ABCI application.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Request {
@@ -12,6 +13,7 @@ pub struct Request {
 /// Nested message and enum types in `Request`.
 pub mod request {
     /// Sum of all possible messages.
+    #[derive(::serde::Deserialize, ::serde::Serialize)]
     #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, ::prost::Oneof)]
     pub enum Value {
@@ -50,6 +52,7 @@ pub mod request {
     }
 }
 /// EchoRequest is a request to "echo" the given string.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct EchoRequest {
@@ -57,10 +60,12 @@ pub struct EchoRequest {
     pub message: ::prost::alloc::string::String,
 }
 /// FlushRequest is a request to flush the write buffer.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct FlushRequest {}
 /// InfoRequest is a request for the ABCI application version.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct InfoRequest {
@@ -74,6 +79,7 @@ pub struct InfoRequest {
     pub abci_version: ::prost::alloc::string::String,
 }
 /// InitChainRequest is a request to initialize the blockchain.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct InitChainRequest {
@@ -93,6 +99,7 @@ pub struct InitChainRequest {
     pub initial_height: i64,
 }
 /// QueryRequest is a request to query the application state.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct QueryRequest {
@@ -106,6 +113,7 @@ pub struct QueryRequest {
     pub prove: bool,
 }
 /// CheckTxRequest is a request to check that the transaction is valid.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CheckTxRequest {
@@ -115,14 +123,17 @@ pub struct CheckTxRequest {
     pub r#type: i32,
 }
 /// CommitRequest is a request to commit the pending application state.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CommitRequest {}
 /// Request to list available snapshots.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListSnapshotsRequest {}
 /// Request offering a snapshot to the application.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct OfferSnapshotRequest {
@@ -134,6 +145,7 @@ pub struct OfferSnapshotRequest {
     pub app_hash: ::prost::bytes::Bytes,
 }
 /// Request to load a snapshot chunk.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct LoadSnapshotChunkRequest {
@@ -145,6 +157,7 @@ pub struct LoadSnapshotChunkRequest {
     pub chunk: u32,
 }
 /// Request to apply a snapshot chunk.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ApplySnapshotChunkRequest {
@@ -157,6 +170,7 @@ pub struct ApplySnapshotChunkRequest {
 }
 /// PrepareProposalRequest is a request for the ABCI application to prepare a new
 /// block proposal.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PrepareProposalRequest {
@@ -183,6 +197,7 @@ pub struct PrepareProposalRequest {
 }
 /// ProcessProposalRequest is a request for the ABCI application to process a proposal
 /// received from another validator.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ProcessProposalRequest {
@@ -206,6 +221,7 @@ pub struct ProcessProposalRequest {
     pub proposer_address: ::prost::bytes::Bytes,
 }
 /// ExtendVoteRequest extends a precommit vote with application-injected data.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ExtendVoteRequest {
@@ -232,6 +248,7 @@ pub struct ExtendVoteRequest {
 }
 /// VerifyVoteExtensionRequest is a request for the application to verify a vote extension
 /// produced by a different validator.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct VerifyVoteExtensionRequest {
@@ -247,6 +264,7 @@ pub struct VerifyVoteExtensionRequest {
     pub vote_extension: ::prost::bytes::Bytes,
 }
 /// FinalizeBlockRequest is a request to finalize the block.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct FinalizeBlockRequest {
@@ -270,6 +288,7 @@ pub struct FinalizeBlockRequest {
     pub proposer_address: ::prost::bytes::Bytes,
 }
 /// Response represents a response from the ABCI application.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Response {
@@ -283,6 +302,7 @@ pub struct Response {
 /// Nested message and enum types in `Response`.
 pub mod response {
     /// Sum of all possible messages.
+    #[derive(::serde::Deserialize, ::serde::Serialize)]
     #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, ::prost::Oneof)]
     pub enum Value {
@@ -323,6 +343,7 @@ pub mod response {
     }
 }
 /// nondeterministic
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ExceptionResponse {
@@ -330,6 +351,7 @@ pub struct ExceptionResponse {
     pub error: ::prost::alloc::string::String,
 }
 /// EchoResponse indicates that the connection is still alive.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct EchoResponse {
@@ -337,6 +359,7 @@ pub struct EchoResponse {
     pub message: ::prost::alloc::string::String,
 }
 /// FlushResponse indicates that the write buffer was flushed.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct FlushResponse {}
@@ -364,6 +387,7 @@ pub struct InfoResponse {
 }
 /// InitChainResponse contains the ABCI application's hash and updates to the
 /// validator set and/or the consensus params, if any.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct InitChainResponse {
@@ -377,6 +401,7 @@ pub struct InitChainResponse {
     pub app_hash: ::prost::bytes::Bytes,
 }
 /// QueryResponse contains the ABCI application data along with a proof.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct QueryResponse {
@@ -405,6 +430,7 @@ pub struct QueryResponse {
 }
 /// CheckTxResponse shows if the transaction was deemed valid by the ABCI
 /// application.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CheckTxResponse {
@@ -428,6 +454,7 @@ pub struct CheckTxResponse {
     pub codespace: ::prost::alloc::string::String,
 }
 /// CommitResponse indicates how much blocks should CometBFT retain.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CommitResponse {
@@ -435,6 +462,7 @@ pub struct CommitResponse {
     pub retain_height: i64,
 }
 /// ListSnapshotsResponse contains the list of snapshots.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListSnapshotsResponse {
@@ -443,6 +471,7 @@ pub struct ListSnapshotsResponse {
 }
 /// OfferSnapshotResponse indicates the ABCI application decision whenever to
 /// provide a snapshot to the requester or not.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct OfferSnapshotResponse {
@@ -450,6 +479,7 @@ pub struct OfferSnapshotResponse {
     pub result: i32,
 }
 /// LoadSnapshotChunkResponse returns a snapshot's chunk.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct LoadSnapshotChunkResponse {
@@ -457,6 +487,7 @@ pub struct LoadSnapshotChunkResponse {
     pub chunk: ::prost::bytes::Bytes,
 }
 /// ApplySnapshotChunkResponse returns a result of applying the specified chunk.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ApplySnapshotChunkResponse {
@@ -470,6 +501,7 @@ pub struct ApplySnapshotChunkResponse {
     pub reject_senders: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// PrepareProposalResponse contains a list of transactions, which will form a block.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PrepareProposalResponse {
@@ -478,6 +510,7 @@ pub struct PrepareProposalResponse {
 }
 /// ProcessProposalResponse indicates the ABCI application's decision whenever
 /// the given proposal should be accepted or not.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ProcessProposalResponse {
@@ -486,6 +519,7 @@ pub struct ProcessProposalResponse {
 }
 /// ExtendVoteResponse contains the vote extension that the application would like to
 /// attach to its next precommit vote.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ExtendVoteResponse {
@@ -494,6 +528,7 @@ pub struct ExtendVoteResponse {
 }
 /// VerifyVoteExtensionResponse indicates the ABCI application's decision
 /// whenever the vote extension should be accepted or not.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct VerifyVoteExtensionResponse {
@@ -501,6 +536,7 @@ pub struct VerifyVoteExtensionResponse {
     pub status: i32,
 }
 /// FinalizeBlockResponse contains the result of executing the block.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct FinalizeBlockResponse {
@@ -527,6 +563,7 @@ pub struct FinalizeBlockResponse {
     pub app_hash: ::prost::bytes::Bytes,
 }
 /// CommitInfo contains votes for the particular round.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CommitInfo {
@@ -538,6 +575,7 @@ pub struct CommitInfo {
 /// ExtendedCommitInfo is similar to CommitInfo except that it is only used in
 /// the PrepareProposal request such that Tendermint can provide vote extensions
 /// to the application.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ExtendedCommitInfo {
@@ -554,6 +592,7 @@ pub struct ExtendedCommitInfo {
 /// Up to 0.37, this could also be used in ResponseBeginBlock, ResponseEndBlock,
 /// and ResponseDeliverTx.
 /// Later, transactions may be queried using these events.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Event {
@@ -563,6 +602,7 @@ pub struct Event {
     pub attributes: ::prost::alloc::vec::Vec<EventAttribute>,
 }
 /// EventAttribute is a single key-value pair, associated with an event.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct EventAttribute {
@@ -577,6 +617,7 @@ pub struct EventAttribute {
 /// ExecTxResult contains results of executing one individual transaction.
 ///
 /// * Its structure is equivalent to #ResponseDeliverTx which will be deprecated/deleted
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ExecTxResult {
@@ -603,6 +644,7 @@ pub struct ExecTxResult {
 /// TxResult contains results of executing the transaction.
 ///
 /// One usage is indexing transaction results.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct TxResult {
@@ -616,6 +658,7 @@ pub struct TxResult {
     pub result: ::core::option::Option<ExecTxResult>,
 }
 /// Validator in the validator set.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Validator {
@@ -629,6 +672,7 @@ pub struct Validator {
     pub power: i64,
 }
 /// ValidatorUpdate is a singular update to a validator set.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ValidatorUpdate {
@@ -638,6 +682,7 @@ pub struct ValidatorUpdate {
     pub power: i64,
 }
 /// VoteInfo contains the information about the vote.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct VoteInfo {
@@ -647,6 +692,7 @@ pub struct VoteInfo {
     pub block_id_flag: i32,
 }
 /// ExtendedVoteInfo extends VoteInfo with the vote extentions (non-deterministic).
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ExtendedVoteInfo {
@@ -664,6 +710,7 @@ pub struct ExtendedVoteInfo {
     pub block_id_flag: i32,
 }
 /// Misbehavior is a type of misbehavior committed by a validator.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Misbehavior {
@@ -685,6 +732,7 @@ pub struct Misbehavior {
     pub total_voting_power: i64,
 }
 /// Snapshot of the ABCI application state.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Snapshot {
@@ -709,6 +757,7 @@ pub struct Snapshot {
 /// This enumeration is incompatible with the CheckTxType definition in
 /// cometbft.abci.v1beta1 and therefore shall not be used in encoding with the same
 /// field number.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
 pub enum CheckTxType {
@@ -742,6 +791,7 @@ impl CheckTxType {
     }
 }
 /// The result of offering a snapshot.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
 pub enum OfferSnapshotResult {
@@ -787,6 +837,7 @@ impl OfferSnapshotResult {
     }
 }
 /// The result of applying a snapshot chunk.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
 pub enum ApplySnapshotChunkResult {
@@ -836,6 +887,7 @@ impl ApplySnapshotChunkResult {
     }
 }
 /// ProcessProposalStatus is the status of the proposal processing.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
 pub enum ProcessProposalStatus {
@@ -869,6 +921,7 @@ impl ProcessProposalStatus {
     }
 }
 /// VerifyVoteExtensionStatus is the status of the vote extension verification.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
 pub enum VerifyVoteExtensionStatus {
@@ -905,6 +958,7 @@ impl VerifyVoteExtensionStatus {
     }
 }
 /// The type of misbehavior committed by a validator.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
 pub enum MisbehaviorType {

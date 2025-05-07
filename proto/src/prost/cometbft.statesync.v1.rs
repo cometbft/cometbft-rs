@@ -1,4 +1,5 @@
 /// Message is the top-level message type for the statesync service.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Message {
@@ -9,6 +10,7 @@ pub struct Message {
 /// Nested message and enum types in `Message`.
 pub mod message {
     /// The message type.
+    #[derive(::serde::Deserialize, ::serde::Serialize)]
     #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, ::prost::Oneof)]
     pub enum Sum {
@@ -23,10 +25,12 @@ pub mod message {
     }
 }
 /// SnapshotsRequest is sent to request a snapshot.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SnapshotsRequest {}
 /// SnapshotsResponse contains the snapshot metadata.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SnapshotsResponse {
@@ -42,6 +46,7 @@ pub struct SnapshotsResponse {
     pub metadata: ::prost::alloc::vec::Vec<u8>,
 }
 /// ChunkRequest is sent to request a chunk.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ChunkRequest {
@@ -53,6 +58,7 @@ pub struct ChunkRequest {
     pub index: u32,
 }
 /// ChunkResponse contains a chunk of the snapshot.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ChunkResponse {
