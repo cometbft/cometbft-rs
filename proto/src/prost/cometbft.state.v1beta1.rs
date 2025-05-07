@@ -1,6 +1,7 @@
 /// ABCIResponses retains the responses
 /// of the various ABCI calls during block processing.
 /// It is persisted to disk for each height before calling Commit.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AbciResponses {
@@ -16,6 +17,7 @@ pub struct AbciResponses {
     >,
 }
 /// ValidatorsInfo represents the latest validator set, or the last height it changed
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ValidatorsInfo {
@@ -27,6 +29,7 @@ pub struct ValidatorsInfo {
     pub last_height_changed: i64,
 }
 /// ConsensusParamsInfo represents the latest consensus params, or the last height it changed
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ConsensusParamsInfo {
@@ -38,6 +41,7 @@ pub struct ConsensusParamsInfo {
     pub last_height_changed: i64,
 }
 /// ABCIResponsesInfo retains the responses of the ABCI calls during block processing.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AbciResponsesInfo {
@@ -47,6 +51,7 @@ pub struct AbciResponsesInfo {
     pub height: i64,
 }
 /// Version is a message for storing versioning information.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Version {
@@ -56,6 +61,7 @@ pub struct Version {
     pub software: ::prost::alloc::string::String,
 }
 /// State represents the state of the blockchain.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct State {
