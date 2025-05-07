@@ -188,7 +188,6 @@ impl<V: signature::Verifier> VotingPowerCalculator for ProvidedVotingPowerCalcul
         let total_voting_power = self.total_power_of(validator_set);
 
         let mut tallied_voting_power = 0_u64;
-        let mut seen_validators = HashSet::new();
 
         // Get non-absent votes from the signatures
         let non_absent_votes = signatures.iter().enumerate().flat_map(|(idx, signature)| {
