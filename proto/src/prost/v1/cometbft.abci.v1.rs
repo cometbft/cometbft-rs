@@ -934,6 +934,7 @@ impl MisbehaviorType {
     }
 }
 /// Generated server implementations.
+#[cfg(feature = "grpc-server")]
 pub mod abci_service_server {
     #![allow(
         unused_variables,

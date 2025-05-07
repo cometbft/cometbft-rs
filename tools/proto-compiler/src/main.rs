@@ -128,8 +128,38 @@ fn main() {
             .build_client(false)
             .server_mod_attribute("tendermint.abci", "#[cfg(feature = \"grpc-server\")]")
             .server_mod_attribute("tendermint.rpc.grpc", "#[cfg(feature = \"grpc-server\")]")
-            .server_mod_attribute("cometbft.abci", "#[cfg(feature = \"grpc-server\")]")
-            .server_mod_attribute("cometbft.rpc.grpc", "#[cfg(feature = \"grpc-server\")]");
+            .server_mod_attribute("cometbft.abci.v1beta1", "#[cfg(feature = \"grpc-server\")]")
+            .server_mod_attribute("cometbft.abci.v1beta2", "#[cfg(feature = \"grpc-server\")]")
+            .server_mod_attribute("cometbft.abci.v1beta3", "#[cfg(feature = \"grpc-server\")]")
+            .server_mod_attribute("cometbft.abci.v1", "#[cfg(feature = \"grpc-server\")]")
+            .server_mod_attribute(
+                "cometbft.rpc.grpc.v1beta1",
+                "#[cfg(feature = \"grpc-server\")]",
+            )
+            .server_mod_attribute(
+                "cometbft.rpc.grpc.v1beta2",
+                "#[cfg(feature = \"grpc-server\")]",
+            )
+            .server_mod_attribute(
+                "cometbft.rpc.grpc.v1beta3",
+                "#[cfg(feature = \"grpc-server\")]",
+            )
+            .server_mod_attribute(
+                "cometbft.services.block.v1",
+                "#[cfg(feature = \"grpc-server\")]",
+            )
+            .server_mod_attribute(
+                "cometbft.services.block_results.v1",
+                "#[cfg(feature = \"grpc-server\")]",
+            )
+            .server_mod_attribute(
+                "cometbft.services.pruning.v1",
+                "#[cfg(feature = \"grpc-server\")]",
+            )
+            .server_mod_attribute(
+                "cometbft.services.version.v1",
+                "#[cfg(feature = \"grpc-server\")]",
+            );
         // TODO: this is tracked in https://github.com/informalsystems/tendermint-rs/issues/1134
         //.server_mod_attribute("cometbft.privval.v1", "#[cfg(feature = \"grpc-server\")]")
 

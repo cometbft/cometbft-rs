@@ -24,6 +24,7 @@ pub struct ResponseBroadcastTx {
     >,
 }
 /// Generated server implementations.
+#[cfg(feature = "grpc-server")]
 pub mod broadcast_api_server {
     #![allow(
         unused_variables,

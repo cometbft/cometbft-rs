@@ -19,6 +19,7 @@ pub struct GetVersionResponse {
     pub block: u64,
 }
 /// Generated server implementations.
+#[cfg(feature = "grpc-server")]
 pub mod version_service_server {
     #![allow(
         unused_variables,
