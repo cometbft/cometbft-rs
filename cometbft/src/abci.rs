@@ -45,6 +45,8 @@ pub mod response;
 pub mod types;
 
 pub mod v0_34;
+pub mod v0_37;
+pub mod v0_38;
 pub mod v1;
 pub mod v1beta1;
 pub mod v1beta2;

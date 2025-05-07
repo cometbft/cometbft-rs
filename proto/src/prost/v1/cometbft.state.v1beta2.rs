@@ -2,7 +2,6 @@
 /// ABCIResponses retains the responses
 /// of the various ABCI calls during block processing.
 /// It is persisted to disk for each height before calling Commit.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AbciResponses {
     #[prost(message, repeated, tag = "1")]
@@ -17,7 +16,6 @@ pub struct AbciResponses {
     >,
 }
 /// ConsensusParamsInfo represents the latest consensus params, or the last height it changed
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ConsensusParamsInfo {
     #[prost(message, optional, tag = "1")]
@@ -28,7 +26,6 @@ pub struct ConsensusParamsInfo {
     pub last_height_changed: i64,
 }
 /// ABCIResponsesInfo retains the responses of the ABCI calls during block processing.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AbciResponsesInfo {
     #[prost(message, optional, tag = "1")]
@@ -37,7 +34,6 @@ pub struct AbciResponsesInfo {
     pub height: i64,
 }
 /// State represents the state of the blockchain.
-#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct State {
     #[prost(message, optional, tag = "1")]
