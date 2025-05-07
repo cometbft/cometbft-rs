@@ -219,7 +219,7 @@ where
         options: &Options,
     ) -> Verdict {
         // If the trusted validator set has changed we need to check if there’s
-        // overlap between the old trusted set and the new untrested header in
+        // overlap between the old trusted set and the new untrusted header in
         // addition to checking if the new set correctly signed the header.
         let trusted_next_height = trusted.height.increment();
 
