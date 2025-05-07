@@ -11,6 +11,30 @@ pub struct Echo {
 // Protobuf conversions
 // =============================================================================
 
+cometbft_old_pb_modules!(abci, {
+    use super::Echo;
+
+    impl From<Echo> for pb::RequestEcho {
+        fn from(echo: Echo) -> Self {
+            Self {
+                message: echo.message,
+            }
+        }
+    }
+
+    impl TryFrom<pb::RequestEcho> for Echo {
+        type Error = crate::Error;
+
+        fn try_from(echo: pb::RequestEcho) -> Result<Self, Self::Error> {
+            Ok(Self {
+                message: echo.message,
+            })
+        }
+    }
+
+    impl Protobuf<pb::RequestEcho> for Echo {}
+});
+
 mod v1 {
     use super::Echo;
     use cometbft_proto::abci::v1 as pb;
