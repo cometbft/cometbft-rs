@@ -192,8 +192,8 @@ impl TryFrom<Response> for SnapshotResponse {
 // Protobuf conversions
 // =============================================================================
 
-use tendermint_proto::v0_38::abci as pb;
-use tendermint_proto::Protobuf;
+use cometbft_proto::v0_38::abci as pb;
+use cometbft_proto::Protobuf;
 
 impl From<Response> for pb::Response {
     fn from(response: Response) -> pb::Response {

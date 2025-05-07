@@ -185,7 +185,7 @@ impl TryFrom<Response> for SnapshotResponse {
 // Protobuf conversions
 // =============================================================================
 
-use cometbft_proto::abci::v0_34 as pb;
+use cometbft_proto::v0_34::abci as pb;
 use cometbft_proto::Protobuf;
 
 impl From<Response> for pb::Response {
