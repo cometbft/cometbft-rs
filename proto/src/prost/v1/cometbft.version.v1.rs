@@ -16,7 +16,9 @@ pub struct App {
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct Consensus {
     #[prost(uint64, tag = "1")]
+    #[serde(with = "crate::serializers::from_str")]
     pub block: u64,
     #[prost(uint64, tag = "2")]
+    #[serde(with = "crate::serializers::from_str", default)]
     pub app: u64,
 }

@@ -374,17 +374,244 @@ pub static CUSTOM_FIELD_ATTRIBUTES_V_038: &[(&str, &str)] = &[
 
 pub static CUSTOM_FIELD_ATTRIBUTES_V_1: &[(&str, &str)] = &[
     (
+        ".cometbft.types.v1beta1.EvidenceParams.max_bytes",
+        QUOTED_WITH_DEFAULT,
+    ),
+    (
+        ".cometbft.types.v1beta1.EvidenceParams.max_age_num_blocks",
+        QUOTED_WITH_DEFAULT,
+    ),
+    (
+        ".cometbft.types.v1.EvidenceParams.max_bytes",
+        QUOTED_WITH_DEFAULT,
+    ),
+    (
+        ".cometbft.types.v1.EvidenceParams.max_age_num_blocks",
+        QUOTED_WITH_DEFAULT,
+    ),
+    (".cometbft.version.v1.Consensus.block", QUOTED),
+    (".cometbft.version.v1.Consensus.app", QUOTED_WITH_DEFAULT),
+    (".cometbft.abci.v1.InfoResponse.data", DEFAULT),
+    (".cometbft.abci.v1.InfoResponse.version", DEFAULT),
+    (
+        ".cometbft.abci.v1.InfoResponse.app_version",
+        QUOTED_WITH_DEFAULT,
+    ),
+    (
+        ".cometbft.abci.v1.InfoResponse.last_block_height",
+        QUOTED_WITH_DEFAULT,
+    ),
+    (
+        ".cometbft.abci.v1.InfoResponse.last_block_app_hash",
+        DEFAULT,
+    ),
+    (
+        ".cometbft.abci.v1.InfoResponse.last_block_app_hash",
+        BYTES_SKIP_IF_EMPTY,
+    ),
+    (".cometbft.abci.v1beta1.ResponseInfo.data", DEFAULT),
+    (".cometbft.abci.v1beta1.ResponseInfo.version", DEFAULT),
+    (
+        ".cometbft.abci.v1beta1.ResponseInfo.app_version",
+        QUOTED_WITH_DEFAULT,
+    ),
+    (
+        ".cometbft.abci.v1beta1.ResponseInfo.last_block_height",
+        QUOTED_WITH_DEFAULT,
+    ),
+    (
+        ".cometbft.abci.v1beta1.ResponseInfo.last_block_app_hash",
+        DEFAULT,
+    ),
+    (
+        ".cometbft.abci.v1beta1.ResponseInfo.last_block_app_hash",
+        BYTES_SKIP_IF_EMPTY,
+    ),
+    (".cometbft.types.v1beta1.BlockID.hash", HEXSTRING),
+    (".cometbft.types.v1.BlockID.hash", HEXSTRING),
+    (
+        ".cometbft.types.v1beta1.BlockID.part_set_header",
+        RENAME_PARTS,
+    ),
+    (".cometbft.types.v1.BlockID.part_set_header", RENAME_PARTS),
+    (
+        ".cometbft.types.v1beta1.PartSetHeader.total",
+        PART_SET_HEADER_TOTAL,
+    ),
+    (
+        ".cometbft.types.v1.PartSetHeader.total",
+        PART_SET_HEADER_TOTAL,
+    ),
+    (".cometbft.types.v1beta1.PartSetHeader.hash", HEXSTRING),
+    (".cometbft.types.v1.PartSetHeader.hash", HEXSTRING),
+    (".cometbft.types.v1beta1.Header.height", QUOTED),
+    (".cometbft.types.v1.Header.height", QUOTED),
+    (".cometbft.types.v1beta1.Header.time", OPTIONAL),
+    (".cometbft.types.v1.Header.time", OPTIONAL),
+    (".cometbft.types.v1beta1.Header.last_commit_hash", HEXSTRING),
+    (".cometbft.types.v1.Header.last_commit_hash", HEXSTRING),
+    (".cometbft.types.v1beta1.Header.data_hash", HEXSTRING),
+    (".cometbft.types.v1.Header.data_hash", HEXSTRING),
+    (".cometbft.types.v1beta1.Header.validators_hash", HEXSTRING),
+    (".cometbft.types.v1.Header.validators_hash", HEXSTRING),
+    (
+        ".cometbft.types.v1beta1.Header.next_validators_hash",
+        HEXSTRING,
+    ),
+    (".cometbft.types.v1.Header.next_validators_hash", HEXSTRING),
+    (".cometbft.types.v1beta1.Header.consensus_hash", HEXSTRING),
+    (".cometbft.types.v1.Header.consensus_hash", HEXSTRING),
+    (".cometbft.types.v1beta1.Header.app_hash", HEXSTRING),
+    (".cometbft.types.v1.Header.app_hash", HEXSTRING),
+    (
+        ".cometbft.types.v1beta1.Header.last_results_hash",
+        HEXSTRING,
+    ),
+    (".cometbft.types.v1.Header.last_results_hash", HEXSTRING),
+    (".cometbft.types.v1beta1.Header.evidence_hash", HEXSTRING),
+    (".cometbft.types.v1.Header.evidence_hash", HEXSTRING),
+    (".cometbft.types.v1beta1.Header.proposer_address", HEXSTRING),
+    (".cometbft.types.v1.Header.proposer_address", HEXSTRING),
+    (".cometbft.types.v1beta1.Data.txs", NULLABLEVECARRAY),
+    (".cometbft.types.v1.Data.txs", NULLABLEVECARRAY),
+    (".cometbft.types.v1beta1.EvidenceList.evidence", NULLABLE),
+    (".cometbft.types.v1.EvidenceList.evidence", NULLABLE),
+    (".cometbft.types.v1beta1.Commit.height", QUOTED),
+    (".cometbft.types.v1.Commit.height", QUOTED),
+    (".cometbft.types.v1beta1.Commit.signatures", NULLABLE),
+    (".cometbft.types.v1.Commit.signatures", NULLABLE),
+    (
+        ".cometbft.types.v1beta1.CommitSig.validator_address",
+        HEXSTRING,
+    ),
+    (".cometbft.types.v1.CommitSig.validator_address", HEXSTRING),
+    (".cometbft.types.v1beta1.CommitSig.timestamp", OPTIONAL),
+    (".cometbft.types.v1.CommitSig.timestamp", OPTIONAL),
+    (".cometbft.types.v1beta1.CommitSig.signature", BASE64STRING),
+    (".cometbft.types.v1.CommitSig.signature", BASE64STRING),
+    (
+        ".cometbft.types.v1beta1.DuplicateVoteEvidence.total_voting_power",
+        ALIAS_TOTAL_VOTING_POWER_QUOTED,
+    ),
+    (
         ".cometbft.types.v1.DuplicateVoteEvidence.total_voting_power",
         ALIAS_TOTAL_VOTING_POWER_QUOTED,
+    ),
+    (
+        ".cometbft.types.v1beta1.DuplicateVoteEvidence.validator_power",
+        ALIAS_VALIDATOR_POWER_QUOTED,
     ),
     (
         ".cometbft.types.v1.DuplicateVoteEvidence.validator_power",
         ALIAS_VALIDATOR_POWER_QUOTED,
     ),
     (
+        ".cometbft.types.v1beta1.DuplicateVoteEvidence.timestamp",
+        ALIAS_TIMESTAMP,
+    ),
+    (
         ".cometbft.types.v1.DuplicateVoteEvidence.timestamp",
         ALIAS_TIMESTAMP,
     ),
+    (
+        ".cometbft.types.v1beta1.LightClientAttackEvidence.common_height",
+        QUOTED,
+    ),
+    (
+        ".cometbft.types.v1.LightClientAttackEvidence.common_height",
+        QUOTED,
+    ),
+    (
+        ".cometbft.types.v1beta1.LightClientAttackEvidence.total_voting_power",
+        QUOTED,
+    ),
+    (
+        ".cometbft.types.v1.LightClientAttackEvidence.total_voting_power",
+        QUOTED,
+    ),
+    (".cometbft.types.v1beta1.Vote.height", QUOTED),
+    (".cometbft.types.v1.Vote.height", QUOTED),
+    (".cometbft.types.v1beta1.Vote.validator_address", HEXSTRING),
+    (".cometbft.types.v1.Vote.validator_address", HEXSTRING),
+    (".cometbft.types.v1beta1.Vote.signature", BASE64STRING),
+    (".cometbft.types.v1.Vote.signature", BASE64STRING),
+    (".cometbft.types.v1beta1.Vote.timestamp", OPTIONAL),
+    (".cometbft.types.v1.Vote.timestamp", OPTIONAL),
+    (".cometbft.types.v1.Vote.extension", DEFAULT),
+    (".cometbft.types.v1.Vote.extension_signature", DEFAULT),
+    (".cometbft.types.v1beta1.Validator.address", HEXSTRING),
+    (".cometbft.types.v1.Validator.address", HEXSTRING),
+    (
+        ".cometbft.types.v1beta1.Validator.voting_power",
+        ALIAS_POWER_QUOTED,
+    ), // https://github.com/tendermint/tendermint/issues/5549
+    (
+        ".cometbft.types.v1.Validator.voting_power",
+        ALIAS_POWER_QUOTED,
+    ), // https://github.com/tendermint/tendermint/issues/5549
+    (
+        ".cometbft.types.v1beta1.Validator.proposer_priority",
+        QUOTED_ALLOW_NULL,
+    ), // null occurs in some LightBlock data
+    (
+        ".cometbft.types.v1.Validator.proposer_priority",
+        QUOTED_ALLOW_NULL,
+    ), // null occurs in some LightBlock data
+    (
+        ".cometbft.types.v1beta1.Validator.proposer_priority",
+        DEFAULT,
+    ), // Default is for /genesis deserialization
+    (".cometbft.types.v1.Validator.proposer_priority", DEFAULT), // Default is for /genesis deserialization
+    (
+        ".cometbft.types.v1beta1.ValidatorSet.total_voting_power",
+        QUOTED_WITH_DEFAULT,
+    ),
+    (
+        ".cometbft.types.v1.ValidatorSet.total_voting_power",
+        QUOTED_WITH_DEFAULT,
+    ),
+    (
+        ".cometbft.types.v1beta1.ValidatorSet.total_voting_power",
+        SKIP_SERIALIZING,
+    ),
+    (
+        ".cometbft.types.v1.ValidatorSet.total_voting_power",
+        SKIP_SERIALIZING,
+    ),
+    (".cometbft.types.v1beta1.BlockMeta.block_size", QUOTED),
+    (".cometbft.types.v1.BlockMeta.block_size", QUOTED),
+    (".cometbft.types.v1beta1.BlockMeta.num_txs", QUOTED),
+    (".cometbft.types.v1.BlockMeta.num_txs", QUOTED),
+    (".cometbft.crypto.v1.PublicKey.sum.ed25519", RENAME_EDPUBKEY),
+    (
+        ".cometbft.crypto.v1.PublicKey.sum.secp256k1",
+        RENAME_SECPPUBKEY,
+    ),
+    (".cometbft.crypto.v1.PublicKey.sum.sr25519", RENAME_SRPUBKEY),
+    (
+        ".cometbft.types.v1beta1.Evidence.sum.duplicate_vote_evidence",
+        RENAME_DUPLICATEVOTE,
+    ),
+    (
+        ".cometbft.types.v1.Evidence.sum.duplicate_vote_evidence",
+        RENAME_DUPLICATEVOTE,
+    ),
+    (
+        ".cometbft.types.v1beta1.Evidence.sum.light_client_attack_evidence",
+        RENAME_LIGHTCLIENTATTACK,
+    ),
+    (
+        ".cometbft.types.v1.Evidence.sum.light_client_attack_evidence",
+        RENAME_LIGHTCLIENTATTACK,
+    ),
+    (".cometbft.types.v1beta1.TxProof.data", BASE64STRING),
+    (".cometbft.types.v1.TxProof.data", BASE64STRING),
+    (".cometbft.types.v1beta1.TxProof.root_hash", HEXSTRING),
+    (".cometbft.types.v1.TxProof.root_hash", HEXSTRING),
+    (".cometbft.crypto.v1.Proof.index", QUOTED),
+    (".cometbft.crypto.v1.Proof.total", QUOTED),
+    (".cometbft.crypto.v1.Proof.aunts", VEC_BASE64STRING),
+    (".cometbft.crypto.v1.Proof.leaf_hash", BASE64STRING),
 ];
 
 pub fn get_custom_field_attributes(version: &CometBFTVersion) -> &[(&str, &str)] {

@@ -8,6 +8,8 @@ pub struct ValidatorSet {
     #[prost(message, optional, tag = "2")]
     pub proposer: ::core::option::Option<Validator>,
     #[prost(int64, tag = "3")]
+    #[serde(with = "crate::serializers::from_str", default)]
+    #[serde(skip_serializing)]
     pub total_voting_power: i64,
 }
 /// Validator represents a node participating in the consensus protocol.
@@ -15,12 +17,16 @@ pub struct ValidatorSet {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Validator {
     #[prost(bytes = "vec", tag = "1")]
+    #[serde(with = "crate::serializers::bytes::hexstring")]
     pub address: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "2")]
     pub pub_key: ::core::option::Option<super::super::crypto::v1::PublicKey>,
     #[prost(int64, tag = "3")]
+    #[serde(alias = "power", with = "crate::serializers::from_str")]
     pub voting_power: i64,
     #[prost(int64, tag = "4")]
+    #[serde(with = "crate::serializers::from_str_allow_null")]
+    #[serde(default)]
     pub proposer_priority: i64,
 }
 /// SimpleValidator is a Validator, which is serialized and hashed in consensus.
@@ -75,8 +81,10 @@ impl BlockIdFlag {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PartSetHeader {
     #[prost(uint32, tag = "1")]
+    #[serde(with = "crate::serializers::part_set_header_total")]
     pub total: u32,
     #[prost(bytes = "vec", tag = "2")]
+    #[serde(with = "crate::serializers::bytes::hexstring")]
     pub hash: ::prost::alloc::vec::Vec<u8>,
 }
 /// Part of the block.
@@ -94,8 +102,10 @@ pub struct Part {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct BlockId {
     #[prost(bytes = "vec", tag = "1")]
+    #[serde(with = "crate::serializers::bytes::hexstring")]
     pub hash: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "2")]
+    #[serde(rename = "parts", alias = "part_set_header")]
     pub part_set_header: ::core::option::Option<PartSetHeader>,
 }
 /// Header defines the structure of a block header.
@@ -108,8 +118,10 @@ pub struct Header {
     #[prost(string, tag = "2")]
     pub chain_id: ::prost::alloc::string::String,
     #[prost(int64, tag = "3")]
+    #[serde(with = "crate::serializers::from_str")]
     pub height: i64,
     #[prost(message, optional, tag = "4")]
+    #[serde(with = "crate::serializers::optional")]
     pub time: ::core::option::Option<crate::google::protobuf::Timestamp>,
     /// prev block info
     #[prost(message, optional, tag = "5")]
@@ -118,34 +130,43 @@ pub struct Header {
     ///
     /// commit from validators from the last block
     #[prost(bytes = "vec", tag = "6")]
+    #[serde(with = "crate::serializers::bytes::hexstring")]
     pub last_commit_hash: ::prost::alloc::vec::Vec<u8>,
     /// transactions
     #[prost(bytes = "vec", tag = "7")]
+    #[serde(with = "crate::serializers::bytes::hexstring")]
     pub data_hash: ::prost::alloc::vec::Vec<u8>,
     /// hashes from the app output from the prev block
     ///
     /// validators for the current block
     #[prost(bytes = "vec", tag = "8")]
+    #[serde(with = "crate::serializers::bytes::hexstring")]
     pub validators_hash: ::prost::alloc::vec::Vec<u8>,
     /// validators for the next block
     #[prost(bytes = "vec", tag = "9")]
+    #[serde(with = "crate::serializers::bytes::hexstring")]
     pub next_validators_hash: ::prost::alloc::vec::Vec<u8>,
     /// consensus params for current block
     #[prost(bytes = "vec", tag = "10")]
+    #[serde(with = "crate::serializers::bytes::hexstring")]
     pub consensus_hash: ::prost::alloc::vec::Vec<u8>,
     /// state after txs from the previous block
     #[prost(bytes = "vec", tag = "11")]
+    #[serde(with = "crate::serializers::bytes::hexstring")]
     pub app_hash: ::prost::alloc::vec::Vec<u8>,
     /// root hash of all results from the txs from the previous block
     #[prost(bytes = "vec", tag = "12")]
+    #[serde(with = "crate::serializers::bytes::hexstring")]
     pub last_results_hash: ::prost::alloc::vec::Vec<u8>,
     /// consensus info
     ///
     /// evidence included in the block
     #[prost(bytes = "vec", tag = "13")]
+    #[serde(with = "crate::serializers::bytes::hexstring")]
     pub evidence_hash: ::prost::alloc::vec::Vec<u8>,
     /// original proposer of the block
     #[prost(bytes = "vec", tag = "14")]
+    #[serde(with = "crate::serializers::bytes::hexstring")]
     pub proposer_address: ::prost::alloc::vec::Vec<u8>,
 }
 /// Data contains the set of transactions included in the block
@@ -156,6 +177,7 @@ pub struct Data {
     /// NOTE: not all txs here are valid.  We're just agreeing on the order first.
     /// This means that block.AppHash does not include these txs.
     #[prost(bytes = "vec", repeated, tag = "1")]
+    #[serde(with = "crate::serializers::txs")]
     pub txs: ::prost::alloc::vec::Vec<::prost::alloc::vec::Vec<u8>>,
 }
 /// Vote represents a prevote or precommit vote from validators for
@@ -166,6 +188,7 @@ pub struct Vote {
     #[prost(enumeration = "SignedMsgType", tag = "1")]
     pub r#type: i32,
     #[prost(int64, tag = "2")]
+    #[serde(with = "crate::serializers::from_str")]
     pub height: i64,
     #[prost(int32, tag = "3")]
     pub round: i32,
@@ -173,23 +196,28 @@ pub struct Vote {
     #[prost(message, optional, tag = "4")]
     pub block_id: ::core::option::Option<BlockId>,
     #[prost(message, optional, tag = "5")]
+    #[serde(with = "crate::serializers::optional")]
     pub timestamp: ::core::option::Option<crate::google::protobuf::Timestamp>,
     #[prost(bytes = "vec", tag = "6")]
+    #[serde(with = "crate::serializers::bytes::hexstring")]
     pub validator_address: ::prost::alloc::vec::Vec<u8>,
     #[prost(int32, tag = "7")]
     pub validator_index: i32,
     /// Vote signature by the validator if they participated in consensus for the
     /// associated block.
     #[prost(bytes = "vec", tag = "8")]
+    #[serde(with = "crate::serializers::bytes::base64string")]
     pub signature: ::prost::alloc::vec::Vec<u8>,
     /// Vote extension provided by the application. Only valid for precommit
     /// messages.
     #[prost(bytes = "vec", tag = "9")]
+    #[serde(default)]
     pub extension: ::prost::alloc::vec::Vec<u8>,
     /// Vote extension signature by the validator if they participated in
     /// consensus for the associated block.
     /// Only valid for precommit messages.
     #[prost(bytes = "vec", tag = "10")]
+    #[serde(default)]
     pub extension_signature: ::prost::alloc::vec::Vec<u8>,
 }
 /// Commit contains the evidence that a block was committed by a set of validators.
@@ -197,12 +225,14 @@ pub struct Vote {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Commit {
     #[prost(int64, tag = "1")]
+    #[serde(with = "crate::serializers::from_str")]
     pub height: i64,
     #[prost(int32, tag = "2")]
     pub round: i32,
     #[prost(message, optional, tag = "3")]
     pub block_id: ::core::option::Option<BlockId>,
     #[prost(message, repeated, tag = "4")]
+    #[serde(with = "crate::serializers::nullable")]
     pub signatures: ::prost::alloc::vec::Vec<CommitSig>,
 }
 /// CommitSig is a part of the Vote included in a Commit.
@@ -212,10 +242,13 @@ pub struct CommitSig {
     #[prost(enumeration = "BlockIdFlag", tag = "1")]
     pub block_id_flag: i32,
     #[prost(bytes = "vec", tag = "2")]
+    #[serde(with = "crate::serializers::bytes::hexstring")]
     pub validator_address: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "3")]
+    #[serde(with = "crate::serializers::optional")]
     pub timestamp: ::core::option::Option<crate::google::protobuf::Timestamp>,
     #[prost(bytes = "vec", tag = "4")]
+    #[serde(with = "crate::serializers::bytes::base64string")]
     pub signature: ::prost::alloc::vec::Vec<u8>,
 }
 /// ExtendedCommit is a Commit with ExtendedCommitSig.
@@ -293,10 +326,12 @@ pub struct BlockMeta {
     #[prost(message, optional, tag = "1")]
     pub block_id: ::core::option::Option<BlockId>,
     #[prost(int64, tag = "2")]
+    #[serde(with = "crate::serializers::from_str")]
     pub block_size: i64,
     #[prost(message, optional, tag = "3")]
     pub header: ::core::option::Option<Header>,
     #[prost(int64, tag = "4")]
+    #[serde(with = "crate::serializers::from_str")]
     pub num_txs: i64,
 }
 /// TxProof represents a Merkle proof of the presence of a transaction in the Merkle tree.
@@ -304,8 +339,10 @@ pub struct BlockMeta {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct TxProof {
     #[prost(bytes = "vec", tag = "1")]
+    #[serde(with = "crate::serializers::bytes::hexstring")]
     pub root_hash: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "2")]
+    #[serde(with = "crate::serializers::bytes::base64string")]
     pub data: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "3")]
     pub proof: ::core::option::Option<super::super::crypto::v1::Proof>,
@@ -362,8 +399,10 @@ pub mod evidence {
     #[derive(Clone, PartialEq, ::prost::Oneof)]
     pub enum Sum {
         #[prost(message, tag = "1")]
+        #[serde(rename = "tendermint/DuplicateVoteEvidence")]
         DuplicateVoteEvidence(super::DuplicateVoteEvidence),
         #[prost(message, tag = "2")]
+        #[serde(rename = "tendermint/LightClientAttackEvidence")]
         LightClientAttackEvidence(super::LightClientAttackEvidence),
     }
 }
@@ -393,10 +432,12 @@ pub struct LightClientAttackEvidence {
     #[prost(message, optional, tag = "1")]
     pub conflicting_block: ::core::option::Option<LightBlock>,
     #[prost(int64, tag = "2")]
+    #[serde(with = "crate::serializers::from_str")]
     pub common_height: i64,
     #[prost(message, repeated, tag = "3")]
     pub byzantine_validators: ::prost::alloc::vec::Vec<Validator>,
     #[prost(int64, tag = "4")]
+    #[serde(with = "crate::serializers::from_str")]
     pub total_voting_power: i64,
     #[prost(message, optional, tag = "5")]
     pub timestamp: ::core::option::Option<crate::google::protobuf::Timestamp>,
@@ -406,6 +447,7 @@ pub struct LightClientAttackEvidence {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct EvidenceList {
     #[prost(message, repeated, tag = "1")]
+    #[serde(with = "crate::serializers::nullable")]
     pub evidence: ::prost::alloc::vec::Vec<Evidence>,
 }
 /// Block defines the structure of a block in the CometBFT blockchain.
@@ -469,6 +511,7 @@ pub struct EvidenceParams {
     /// The basic formula for calculating this is: MaxAgeDuration / {average block
     /// time}.
     #[prost(int64, tag = "1")]
+    #[serde(with = "crate::serializers::from_str", default)]
     pub max_age_num_blocks: i64,
     /// Max age of evidence, in time.
     ///
@@ -481,6 +524,7 @@ pub struct EvidenceParams {
     /// and should fall comfortably under the max block bytes.
     /// Default is 1048576 or 1MB
     #[prost(int64, tag = "3")]
+    #[serde(with = "crate::serializers::from_str", default)]
     pub max_bytes: i64,
 }
 /// ValidatorParams restrict the public key types validators can use.
