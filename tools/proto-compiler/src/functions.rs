@@ -12,7 +12,7 @@ use git2::{
 use subtle_encoding::hex;
 use walkdir::WalkDir;
 
-use crate::constants::{COMETBFT_COMMITISH, COMETBFT_REPO};
+use crate::constants::CometBFTVersion;
 
 /// Clone or open+fetch a repository and check out a specific commitish
 /// In case of an existing repository, the origin remote will be set to `url`.
@@ -159,7 +159,7 @@ fn find_reference_or_commit<'a>(
 }
 
 /// Copy generated files to target folder
-pub fn copy_files(src_dir: &Path, target_dir: &Path) {
+pub fn copy_files(src_dir: &Path, version: &CometBFTVersion, target_dir: &Path) {
     // Remove old compiled files
     remove_dir_all(target_dir).unwrap_or_default();
     create_dir_all(target_dir).unwrap();
@@ -172,7 +172,7 @@ pub fn copy_files(src_dir: &Path, target_dir: &Path) {
             e.file_type().is_file()
                 && e.file_name()
                     .to_str()
-                    .map(|name| name.starts_with("cometbft."))
+                    .map(|name| name.starts_with(version.prefix))
                     .unwrap_or(false)
         })
         .map(|res| {
@@ -210,13 +210,15 @@ pub fn find_proto_files(proto_path: &Path) -> Vec<PathBuf> {
 
 struct ModNode {
     name: String,
+    version: String,
     children: Vec<ModNode>,
 }
 
 impl ModNode {
-    fn new(name: String) -> Self {
+    fn new(name: String, version: String) -> Self {
         ModNode {
             name: name,
+            version: version,
             children: vec![],
         }
     }
@@ -226,7 +228,7 @@ impl ModNode {
             .iter()
             .position(|c| c.name == child_name)
             .unwrap_or_else(|| {
-                let new_child = ModNode::new(child_name);
+                let new_child = ModNode::new(child_name, self.version.clone());
                 self.children.push(new_child);
                 self.children.len() - 1
             });
@@ -256,8 +258,9 @@ impl ModNode {
         if self.children.is_empty() {
             writeln!(
                 file,
-                "    {}include!(\"prost/{}.rs\");",
+                "    {}include!(\"../prost/{}/{}.rs\");",
                 tabs,
+                self.version,
                 updated_mod_names.join(".")
             )?;
         }
@@ -268,30 +271,36 @@ impl ModNode {
 
 /// Create a module including generated content for the specified
 /// Tendermint source version.
-pub fn generate_cometbft_mod(prost_dir: &Path, target_mod: &Path) -> Result<(), Error> {
+pub fn generate_cometbft_mod(
+    prost_dir: &Path,
+    version: &CometBFTVersion,
+    target_dir: &Path,
+) -> Result<(), Error> {
+    create_dir_all(target_dir)?;
+
     let file_names = WalkDir::new(prost_dir)
         .into_iter()
         .filter_map(|e| e.ok())
         .filter(|e| {
             e.file_type().is_file()
-                && e.file_name().to_str().unwrap().starts_with("cometbft.")
+                && e.file_name().to_str().unwrap().starts_with(version.prefix)
                 && e.file_name().to_str().unwrap().ends_with(".rs")
         })
         .map(|d| d.file_name().to_str().unwrap().to_owned())
         .collect::<BTreeSet<_>>();
     let file_names = Vec::from_iter(file_names);
 
-    let mut file = File::create(target_mod)?;
+    let mut file = File::create(target_dir.join(format!("{}.rs", version.ident)))?;
 
     writeln!(
         &mut file,
-        "//! cometbft-proto auto-generated sub-modules for Tendermint. DO NOT EDIT\n"
+        "//! cometbft-proto auto-generated sub-modules for CometBFT. DO NOT EDIT\n"
     )?;
 
-    let mut root_mod = ModNode::new("cometbft".into());
+    let mut root_mod = ModNode::new(version.prefix.to_string(), version.ident.to_string());
     for file_name in file_names {
         let parts: Vec<_> = file_name
-            .strip_prefix("cometbft.")
+            .strip_prefix(&format!("{}.", version.prefix))
             .unwrap()
             .strip_suffix(".rs")
             .unwrap()
@@ -309,8 +318,18 @@ pub fn generate_cometbft_mod(prost_dir: &Path, target_mod: &Path) -> Result<(), 
     writeln!(&mut file,
         "pub mod meta {{\n{}pub const REPOSITORY: &str = \"{}\";\n{}pub const COMMITISH: &str = \"{}\";\n}}",
         tab,
-        COMETBFT_REPO,
+        version.repo,
         tab,
-        COMETBFT_COMMITISH,
+        version.commitish,
     )
+}
+
+pub fn generate_cometbft_lib(versions: &[CometBFTVersion], cometbft_lib_target: &Path) {
+    let mut file =
+        File::create(cometbft_lib_target).expect("tendermint library file create failed");
+    for version in versions {
+        writeln!(&mut file, "pub mod {};", version.ident).unwrap();
+    }
+    let last_version = versions.last().unwrap();
+    writeln!(&mut file, "pub use {}::*;", last_version.ident).unwrap();
 }

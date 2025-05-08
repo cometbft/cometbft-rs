@@ -16,6 +16,34 @@ pub struct Proof {
 // Protobuf conversions
 // =============================================================================
 
+cometbft_old_pb_modules! {
+    use super::Proof;
+    use crate::Error;
+    use pb::types::TxProof as RawTxProof;
+
+    impl TryFrom<RawTxProof> for Proof {
+        type Error = Error;
+
+        fn try_from(message: RawTxProof) -> Result<Self, Self::Error> {
+            Ok(Self {
+                root_hash: message.root_hash.try_into()?,
+                data: message.data,
+                proof: message.proof.ok_or_else(Error::missing_data)?.try_into()?,
+            })
+        }
+    }
+
+    impl From<Proof> for RawTxProof {
+        fn from(value: Proof) -> Self {
+            Self {
+                root_hash: value.root_hash.into(),
+                data: value.data,
+                proof: Some(value.proof.into()),
+            }
+        }
+    }
+}
+
 mod v1 {
     use super::Proof;
     use crate::Error;

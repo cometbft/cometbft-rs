@@ -40,9 +40,39 @@ pub struct ApplySnapshotChunk {
 // Protobuf conversions
 // =============================================================================
 
+cometbft_old_pb_modules! {
+    use super::ApplySnapshotChunk;
+
+    impl From<ApplySnapshotChunk> for pb::abci::RequestApplySnapshotChunk {
+        fn from(apply_snapshot_chunk: ApplySnapshotChunk) -> Self {
+            Self {
+                index: apply_snapshot_chunk.index,
+                chunk: apply_snapshot_chunk.chunk,
+                sender: apply_snapshot_chunk.sender,
+            }
+        }
+    }
+
+    impl TryFrom<pb::abci::RequestApplySnapshotChunk> for ApplySnapshotChunk {
+        type Error = crate::Error;
+
+        fn try_from(
+            apply_snapshot_chunk: pb::abci::RequestApplySnapshotChunk,
+        ) -> Result<Self, Self::Error> {
+            Ok(Self {
+                index: apply_snapshot_chunk.index,
+                chunk: apply_snapshot_chunk.chunk.into(),
+                sender: apply_snapshot_chunk.sender,
+            })
+        }
+    }
+
+    impl Protobuf<pb::abci::RequestApplySnapshotChunk> for ApplySnapshotChunk {}
+}
+
 mod v1 {
     use super::ApplySnapshotChunk;
-    use cometbft_proto::abci::v1 as pb;
+    use cometbft_proto::v1::abci::v1 as pb;
     use cometbft_proto::Protobuf;
 
     impl From<ApplySnapshotChunk> for pb::ApplySnapshotChunkRequest {

@@ -1,5 +1,5 @@
-use cometbft_proto::abci::v1beta1 as pb1;
-use cometbft_proto::abci::v1beta2 as pb;
+use cometbft_proto::v1::abci::v1beta1 as pb1;
+use cometbft_proto::v1::abci::v1beta2 as pb;
 use cometbft_proto::Protobuf;
 
 use crate::abci::MethodKind;

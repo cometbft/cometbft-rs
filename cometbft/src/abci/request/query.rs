@@ -32,6 +32,36 @@ pub struct Query {
 // Protobuf conversions
 // =============================================================================
 
+cometbft_old_pb_modules! {
+    use super::Query;
+
+    impl From<Query> for pb::abci::RequestQuery {
+        fn from(query: Query) -> Self {
+            Self {
+                data: query.data,
+                path: query.path,
+                height: query.height.into(),
+                prove: query.prove,
+            }
+        }
+    }
+
+    impl TryFrom<pb::abci::RequestQuery> for Query {
+        type Error = crate::Error;
+
+        fn try_from(query: pb::abci::RequestQuery) -> Result<Self, Self::Error> {
+            Ok(Self {
+                data: query.data,
+                path: query.path,
+                height: query.height.try_into()?,
+                prove: query.prove,
+            })
+        }
+    }
+
+    impl Protobuf<pb::abci::RequestQuery> for Query {}
+}
+
 mod v1 {
     use super::Query;
     use cometbft_proto::abci::v1 as pb;

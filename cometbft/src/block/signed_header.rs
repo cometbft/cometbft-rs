@@ -18,6 +18,39 @@ pub struct SignedHeader {
     pub commit: block::Commit,
 }
 
+cometbft_old_pb_modules! {
+    use super::SignedHeader;
+    use crate::Error;
+    use pb::types::SignedHeader as RawSignedHeader;
+
+    impl TryFrom<RawSignedHeader> for SignedHeader {
+        type Error = Error;
+
+        fn try_from(value: RawSignedHeader) -> Result<Self, Self::Error> {
+            let header = value
+                .header
+                .ok_or_else(Error::invalid_signed_header)?
+                .try_into()?;
+            let commit = value
+                .commit
+                .ok_or_else(Error::invalid_signed_header)?
+                .try_into()?;
+            Self::new(header, commit) // Additional checks
+        }
+    }
+
+    impl From<SignedHeader> for RawSignedHeader {
+        fn from(value: SignedHeader) -> Self {
+            RawSignedHeader {
+                header: Some(value.header.into()),
+                commit: Some(value.commit.into()),
+            }
+        }
+    }
+
+    impl Protobuf<RawSignedHeader> for SignedHeader {}
+}
+
 mod v1 {
     use super::SignedHeader;
     use crate::Error;

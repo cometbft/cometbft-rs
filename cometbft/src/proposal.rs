@@ -42,6 +42,51 @@ pub struct Proposal {
 // Protobuf conversions
 // =============================================================================
 
+cometbft_old_pb_modules! {
+    use super::Proposal;
+    use crate::{Signature, Error, block::Round};
+    use pb::types::Proposal as RawProposal;
+
+    impl Protobuf<RawProposal> for Proposal {}
+
+    impl TryFrom<RawProposal> for Proposal {
+        type Error = Error;
+
+        fn try_from(value: RawProposal) -> Result<Self, Self::Error> {
+            if value.pol_round < -1 {
+                return Err(Error::negative_pol_round());
+            }
+            let pol_round = match value.pol_round {
+                -1 => None,
+                n => Some(Round::try_from(n)?),
+            };
+            Ok(Proposal {
+                msg_type: value.r#type.try_into()?,
+                height: value.height.try_into()?,
+                round: value.round.try_into()?,
+                pol_round,
+                block_id: value.block_id.map(TryInto::try_into).transpose()?,
+                timestamp: value.timestamp.map(|t| t.try_into()).transpose()?,
+                signature: Signature::new(value.signature)?,
+            })
+        }
+    }
+
+    impl From<Proposal> for RawProposal {
+        fn from(value: Proposal) -> Self {
+            RawProposal {
+                r#type: value.msg_type.into(),
+                height: value.height.into(),
+                round: value.round.into(),
+                pol_round: value.pol_round.map_or(-1, Into::into),
+                block_id: value.block_id.map(Into::into),
+                timestamp: value.timestamp.map(Into::into),
+                signature: value.signature.map(|s| s.into_bytes()).unwrap_or_default(),
+            }
+        }
+    }
+}
+
 mod v1 {
     use super::Proposal;
     use crate::{block::Round, Error, Signature};
@@ -342,6 +387,60 @@ mod tests {
         ];
 
         assert_eq!(got, want)
+    }
+
+    cometbft_old_pb_modules! {
+        use super::*;
+
+        #[test]
+        fn test_deserialization() {
+            let dt = datetime!(2018-02-11 07:09:22.765 UTC);
+            let proposal = Proposal {
+                msg_type: Type::Proposal,
+                height: Height::from(12345_u32),
+                round: Round::from(23456_u16),
+                timestamp: Some(dt.try_into().unwrap()),
+
+                pol_round: None,
+                block_id: Some(BlockId {
+                    hash: Hash::from_hex_upper(
+                        Algorithm::Sha256,
+                        "DEADBEEFDEADBEEFBAFBAFBAFBAFBAFADEADBEEFDEADBEEFBAFBAFBAFBAFBAFA",
+                    )
+                    .unwrap(),
+                    part_set_header: Header::new(
+                        65535,
+                        Hash::from_hex_upper(
+                            Algorithm::Sha256,
+                            "0022446688AACCEE1133557799BBDDFF0022446688AACCEE1133557799BBDDFF",
+                        )
+                        .unwrap(),
+                    )
+                    .unwrap(),
+                }),
+                signature: Some(dummy_signature()),
+            };
+            let want = SignProposalRequest {
+                proposal,
+                chain_id: ChainId::from_str("test_chain_id").unwrap(),
+            };
+
+            let data = vec![
+                10, 176, 1, 8, 32, 16, 185, 96, 24, 160, 183, 1, 32, 255, 255, 255, 255, 255, 255, 255,
+                255, 255, 1, 42, 74, 10, 32, 222, 173, 190, 239, 222, 173, 190, 239, 186, 251, 175,
+                186, 251, 175, 186, 250, 222, 173, 190, 239, 222, 173, 190, 239, 186, 251, 175, 186,
+                251, 175, 186, 250, 18, 38, 8, 255, 255, 3, 18, 32, 0, 34, 68, 102, 136, 170, 204, 238,
+                17, 51, 85, 119, 153, 187, 221, 255, 0, 34, 68, 102, 136, 170, 204, 238, 17, 51, 85,
+                119, 153, 187, 221, 255, 50, 12, 8, 162, 216, 255, 211, 5, 16, 192, 242, 227, 236, 2,
+                58, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 18, 13, 116, 101, 115, 116, 95, 99, 104, 97, 105, 110, 95,
+                105, 100,
+            ];
+
+            let have = <SignProposalRequest as Protobuf<pb::privval::SignProposalRequest>>::decode_vec(&data).unwrap();
+            assert_eq!(have, want);
+        }
     }
 
     mod v1 {
