@@ -73,15 +73,15 @@ pub struct RequestInitChain {
     pub consensus_params: ::core::option::Option<super::types::ConsensusParams>,
     #[prost(message, repeated, tag = "4")]
     pub validators: ::prost::alloc::vec::Vec<ValidatorUpdate>,
-    #[prost(bytes = "vec", tag = "5")]
-    pub app_state_bytes: ::prost::alloc::vec::Vec<u8>,
+    #[prost(bytes = "bytes", tag = "5")]
+    pub app_state_bytes: ::prost::bytes::Bytes,
     #[prost(int64, tag = "6")]
     pub initial_height: i64,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct RequestQuery {
-    #[prost(bytes = "vec", tag = "1")]
-    pub data: ::prost::alloc::vec::Vec<u8>,
+    #[prost(bytes = "bytes", tag = "1")]
+    pub data: ::prost::bytes::Bytes,
     #[prost(string, tag = "2")]
     pub path: ::prost::alloc::string::String,
     #[prost(int64, tag = "3")]
@@ -91,8 +91,8 @@ pub struct RequestQuery {
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct RequestCheckTx {
-    #[prost(bytes = "vec", tag = "1")]
-    pub tx: ::prost::alloc::vec::Vec<u8>,
+    #[prost(bytes = "bytes", tag = "1")]
+    pub tx: ::prost::bytes::Bytes,
     #[prost(enumeration = "CheckTxType", tag = "2")]
     pub r#type: i32,
 }
@@ -108,8 +108,8 @@ pub struct RequestOfferSnapshot {
     #[prost(message, optional, tag = "1")]
     pub snapshot: ::core::option::Option<Snapshot>,
     /// light client-verified app hash for snapshot height
-    #[prost(bytes = "vec", tag = "2")]
-    pub app_hash: ::prost::alloc::vec::Vec<u8>,
+    #[prost(bytes = "bytes", tag = "2")]
+    pub app_hash: ::prost::bytes::Bytes,
 }
 /// loads a snapshot chunk
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
@@ -126,8 +126,8 @@ pub struct RequestLoadSnapshotChunk {
 pub struct RequestApplySnapshotChunk {
     #[prost(uint32, tag = "1")]
     pub index: u32,
-    #[prost(bytes = "vec", tag = "2")]
-    pub chunk: ::prost::alloc::vec::Vec<u8>,
+    #[prost(bytes = "bytes", tag = "2")]
+    pub chunk: ::prost::bytes::Bytes,
     #[prost(string, tag = "3")]
     pub sender: ::prost::alloc::string::String,
 }
@@ -138,8 +138,8 @@ pub struct RequestPrepareProposal {
     pub max_tx_bytes: i64,
     /// txs is an array of transactions that will be included in a block,
     /// sent to the app for possible modifications.
-    #[prost(bytes = "vec", repeated, tag = "2")]
-    pub txs: ::prost::alloc::vec::Vec<::prost::alloc::vec::Vec<u8>>,
+    #[prost(bytes = "bytes", repeated, tag = "2")]
+    pub txs: ::prost::alloc::vec::Vec<::prost::bytes::Bytes>,
     #[prost(message, optional, tag = "3")]
     pub local_last_commit: ::core::option::Option<ExtendedCommitInfo>,
     #[prost(message, repeated, tag = "4")]
@@ -148,91 +148,91 @@ pub struct RequestPrepareProposal {
     pub height: i64,
     #[prost(message, optional, tag = "6")]
     pub time: ::core::option::Option<crate::google::protobuf::Timestamp>,
-    #[prost(bytes = "vec", tag = "7")]
-    pub next_validators_hash: ::prost::alloc::vec::Vec<u8>,
+    #[prost(bytes = "bytes", tag = "7")]
+    pub next_validators_hash: ::prost::bytes::Bytes,
     /// address of the public key of the validator proposing the block.
-    #[prost(bytes = "vec", tag = "8")]
-    pub proposer_address: ::prost::alloc::vec::Vec<u8>,
+    #[prost(bytes = "bytes", tag = "8")]
+    pub proposer_address: ::prost::bytes::Bytes,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct RequestProcessProposal {
-    #[prost(bytes = "vec", repeated, tag = "1")]
-    pub txs: ::prost::alloc::vec::Vec<::prost::alloc::vec::Vec<u8>>,
+    #[prost(bytes = "bytes", repeated, tag = "1")]
+    pub txs: ::prost::alloc::vec::Vec<::prost::bytes::Bytes>,
     #[prost(message, optional, tag = "2")]
     pub proposed_last_commit: ::core::option::Option<CommitInfo>,
     #[prost(message, repeated, tag = "3")]
     pub misbehavior: ::prost::alloc::vec::Vec<Misbehavior>,
     /// hash is the merkle root hash of the fields of the proposed block.
-    #[prost(bytes = "vec", tag = "4")]
-    pub hash: ::prost::alloc::vec::Vec<u8>,
+    #[prost(bytes = "bytes", tag = "4")]
+    pub hash: ::prost::bytes::Bytes,
     #[prost(int64, tag = "5")]
     pub height: i64,
     #[prost(message, optional, tag = "6")]
     pub time: ::core::option::Option<crate::google::protobuf::Timestamp>,
-    #[prost(bytes = "vec", tag = "7")]
-    pub next_validators_hash: ::prost::alloc::vec::Vec<u8>,
+    #[prost(bytes = "bytes", tag = "7")]
+    pub next_validators_hash: ::prost::bytes::Bytes,
     /// address of the public key of the original proposer of the block.
-    #[prost(bytes = "vec", tag = "8")]
-    pub proposer_address: ::prost::alloc::vec::Vec<u8>,
+    #[prost(bytes = "bytes", tag = "8")]
+    pub proposer_address: ::prost::bytes::Bytes,
 }
 /// Extends a vote with application-injected data
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct RequestExtendVote {
     /// the hash of the block that this vote may be referring to
-    #[prost(bytes = "vec", tag = "1")]
-    pub hash: ::prost::alloc::vec::Vec<u8>,
+    #[prost(bytes = "bytes", tag = "1")]
+    pub hash: ::prost::bytes::Bytes,
     /// the height of the extended vote
     #[prost(int64, tag = "2")]
     pub height: i64,
     /// info of the block that this vote may be referring to
     #[prost(message, optional, tag = "3")]
     pub time: ::core::option::Option<crate::google::protobuf::Timestamp>,
-    #[prost(bytes = "vec", repeated, tag = "4")]
-    pub txs: ::prost::alloc::vec::Vec<::prost::alloc::vec::Vec<u8>>,
+    #[prost(bytes = "bytes", repeated, tag = "4")]
+    pub txs: ::prost::alloc::vec::Vec<::prost::bytes::Bytes>,
     #[prost(message, optional, tag = "5")]
     pub proposed_last_commit: ::core::option::Option<CommitInfo>,
     #[prost(message, repeated, tag = "6")]
     pub misbehavior: ::prost::alloc::vec::Vec<Misbehavior>,
-    #[prost(bytes = "vec", tag = "7")]
-    pub next_validators_hash: ::prost::alloc::vec::Vec<u8>,
+    #[prost(bytes = "bytes", tag = "7")]
+    pub next_validators_hash: ::prost::bytes::Bytes,
     /// address of the public key of the original proposer of the block.
-    #[prost(bytes = "vec", tag = "8")]
-    pub proposer_address: ::prost::alloc::vec::Vec<u8>,
+    #[prost(bytes = "bytes", tag = "8")]
+    pub proposer_address: ::prost::bytes::Bytes,
 }
 /// Verify the vote extension
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct RequestVerifyVoteExtension {
     /// the hash of the block that this received vote corresponds to
-    #[prost(bytes = "vec", tag = "1")]
-    pub hash: ::prost::alloc::vec::Vec<u8>,
+    #[prost(bytes = "bytes", tag = "1")]
+    pub hash: ::prost::bytes::Bytes,
     /// the validator that signed the vote extension
-    #[prost(bytes = "vec", tag = "2")]
-    pub validator_address: ::prost::alloc::vec::Vec<u8>,
+    #[prost(bytes = "bytes", tag = "2")]
+    pub validator_address: ::prost::bytes::Bytes,
     #[prost(int64, tag = "3")]
     pub height: i64,
-    #[prost(bytes = "vec", tag = "4")]
-    pub vote_extension: ::prost::alloc::vec::Vec<u8>,
+    #[prost(bytes = "bytes", tag = "4")]
+    pub vote_extension: ::prost::bytes::Bytes,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct RequestFinalizeBlock {
-    #[prost(bytes = "vec", repeated, tag = "1")]
-    pub txs: ::prost::alloc::vec::Vec<::prost::alloc::vec::Vec<u8>>,
+    #[prost(bytes = "bytes", repeated, tag = "1")]
+    pub txs: ::prost::alloc::vec::Vec<::prost::bytes::Bytes>,
     #[prost(message, optional, tag = "2")]
     pub decided_last_commit: ::core::option::Option<CommitInfo>,
     #[prost(message, repeated, tag = "3")]
     pub misbehavior: ::prost::alloc::vec::Vec<Misbehavior>,
     /// hash is the merkle root hash of the fields of the decided block.
-    #[prost(bytes = "vec", tag = "4")]
-    pub hash: ::prost::alloc::vec::Vec<u8>,
+    #[prost(bytes = "bytes", tag = "4")]
+    pub hash: ::prost::bytes::Bytes,
     #[prost(int64, tag = "5")]
     pub height: i64,
     #[prost(message, optional, tag = "6")]
     pub time: ::core::option::Option<crate::google::protobuf::Timestamp>,
-    #[prost(bytes = "vec", tag = "7")]
-    pub next_validators_hash: ::prost::alloc::vec::Vec<u8>,
+    #[prost(bytes = "bytes", tag = "7")]
+    pub next_validators_hash: ::prost::bytes::Bytes,
     /// proposer_address is the address of the public key of the original proposer of the block.
-    #[prost(bytes = "vec", tag = "8")]
-    pub proposer_address: ::prost::alloc::vec::Vec<u8>,
+    #[prost(bytes = "bytes", tag = "8")]
+    pub proposer_address: ::prost::bytes::Bytes,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Response {
@@ -305,8 +305,8 @@ pub struct ResponseInfo {
     pub app_version: u64,
     #[prost(int64, tag = "4")]
     pub last_block_height: i64,
-    #[prost(bytes = "vec", tag = "5")]
-    pub last_block_app_hash: ::prost::alloc::vec::Vec<u8>,
+    #[prost(bytes = "bytes", tag = "5")]
+    pub last_block_app_hash: ::prost::bytes::Bytes,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ResponseInitChain {
@@ -314,8 +314,8 @@ pub struct ResponseInitChain {
     pub consensus_params: ::core::option::Option<super::types::ConsensusParams>,
     #[prost(message, repeated, tag = "2")]
     pub validators: ::prost::alloc::vec::Vec<ValidatorUpdate>,
-    #[prost(bytes = "vec", tag = "3")]
-    pub app_hash: ::prost::alloc::vec::Vec<u8>,
+    #[prost(bytes = "bytes", tag = "3")]
+    pub app_hash: ::prost::bytes::Bytes,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ResponseQuery {
@@ -331,10 +331,10 @@ pub struct ResponseQuery {
     pub info: ::prost::alloc::string::String,
     #[prost(int64, tag = "5")]
     pub index: i64,
-    #[prost(bytes = "vec", tag = "6")]
-    pub key: ::prost::alloc::vec::Vec<u8>,
-    #[prost(bytes = "vec", tag = "7")]
-    pub value: ::prost::alloc::vec::Vec<u8>,
+    #[prost(bytes = "bytes", tag = "6")]
+    pub key: ::prost::bytes::Bytes,
+    #[prost(bytes = "bytes", tag = "7")]
+    pub value: ::prost::bytes::Bytes,
     #[prost(message, optional, tag = "8")]
     pub proof_ops: ::core::option::Option<super::crypto::ProofOps>,
     #[prost(int64, tag = "9")]
@@ -346,8 +346,8 @@ pub struct ResponseQuery {
 pub struct ResponseCheckTx {
     #[prost(uint32, tag = "1")]
     pub code: u32,
-    #[prost(bytes = "vec", tag = "2")]
-    pub data: ::prost::alloc::vec::Vec<u8>,
+    #[prost(bytes = "bytes", tag = "2")]
+    pub data: ::prost::bytes::Bytes,
     /// nondeterministic
     #[prost(string, tag = "3")]
     pub log: ::prost::alloc::string::String,
@@ -437,8 +437,8 @@ pub mod response_offer_snapshot {
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ResponseLoadSnapshotChunk {
-    #[prost(bytes = "vec", tag = "1")]
-    pub chunk: ::prost::alloc::vec::Vec<u8>,
+    #[prost(bytes = "bytes", tag = "1")]
+    pub chunk: ::prost::bytes::Bytes,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ResponseApplySnapshotChunk {
@@ -510,8 +510,8 @@ pub mod response_apply_snapshot_chunk {
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ResponsePrepareProposal {
-    #[prost(bytes = "vec", repeated, tag = "1")]
-    pub txs: ::prost::alloc::vec::Vec<::prost::alloc::vec::Vec<u8>>,
+    #[prost(bytes = "bytes", repeated, tag = "1")]
+    pub txs: ::prost::alloc::vec::Vec<::prost::bytes::Bytes>,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct ResponseProcessProposal {
@@ -562,8 +562,8 @@ pub mod response_process_proposal {
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ResponseExtendVote {
-    #[prost(bytes = "vec", tag = "1")]
-    pub vote_extension: ::prost::alloc::vec::Vec<u8>,
+    #[prost(bytes = "bytes", tag = "1")]
+    pub vote_extension: ::prost::bytes::Bytes,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct ResponseVerifyVoteExtension {
@@ -633,8 +633,8 @@ pub struct ResponseFinalizeBlock {
     #[prost(message, optional, tag = "4")]
     pub consensus_param_updates: ::core::option::Option<super::types::ConsensusParams>,
     /// app_hash is the hash of the applications' state which is used to confirm that execution of the transactions was deterministic. It is up to the application to decide which algorithm to use.
-    #[prost(bytes = "vec", tag = "5")]
-    pub app_hash: ::prost::alloc::vec::Vec<u8>,
+    #[prost(bytes = "bytes", tag = "5")]
+    pub app_hash: ::prost::bytes::Bytes,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CommitInfo {
@@ -684,8 +684,8 @@ pub struct EventAttribute {
 pub struct ExecTxResult {
     #[prost(uint32, tag = "1")]
     pub code: u32,
-    #[prost(bytes = "vec", tag = "2")]
-    pub data: ::prost::alloc::vec::Vec<u8>,
+    #[prost(bytes = "bytes", tag = "2")]
+    pub data: ::prost::bytes::Bytes,
     /// nondeterministic
     #[prost(string, tag = "3")]
     pub log: ::prost::alloc::string::String,
@@ -711,16 +711,16 @@ pub struct TxResult {
     pub height: i64,
     #[prost(uint32, tag = "2")]
     pub index: u32,
-    #[prost(bytes = "vec", tag = "3")]
-    pub tx: ::prost::alloc::vec::Vec<u8>,
+    #[prost(bytes = "bytes", tag = "3")]
+    pub tx: ::prost::bytes::Bytes,
     #[prost(message, optional, tag = "4")]
     pub result: ::core::option::Option<ExecTxResult>,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Validator {
     /// The first 20 bytes of SHA256(public key)
-    #[prost(bytes = "vec", tag = "1")]
-    pub address: ::prost::alloc::vec::Vec<u8>,
+    #[prost(bytes = "bytes", tag = "1")]
+    pub address: ::prost::bytes::Bytes,
     /// PubKey pub_key = 2 \[(gogoproto.nullable)=false\];
     ///
     /// The voting power
@@ -747,11 +747,11 @@ pub struct ExtendedVoteInfo {
     #[prost(message, optional, tag = "1")]
     pub validator: ::core::option::Option<Validator>,
     /// Non-deterministic extension provided by the sending validator's application.
-    #[prost(bytes = "vec", tag = "3")]
-    pub vote_extension: ::prost::alloc::vec::Vec<u8>,
+    #[prost(bytes = "bytes", tag = "3")]
+    pub vote_extension: ::prost::bytes::Bytes,
     /// Vote extension signature created by CometBFT
-    #[prost(bytes = "vec", tag = "4")]
-    pub extension_signature: ::prost::alloc::vec::Vec<u8>,
+    #[prost(bytes = "bytes", tag = "4")]
+    pub extension_signature: ::prost::bytes::Bytes,
     /// block_id_flag indicates whether the validator voted for a block, nil, or did not vote at all
     #[prost(enumeration = "super::types::BlockIdFlag", tag = "5")]
     pub block_id_flag: i32,
@@ -787,11 +787,11 @@ pub struct Snapshot {
     #[prost(uint32, tag = "3")]
     pub chunks: u32,
     /// Arbitrary snapshot hash, equal only if identical
-    #[prost(bytes = "vec", tag = "4")]
-    pub hash: ::prost::alloc::vec::Vec<u8>,
+    #[prost(bytes = "bytes", tag = "4")]
+    pub hash: ::prost::bytes::Bytes,
     /// Arbitrary application metadata
-    #[prost(bytes = "vec", tag = "5")]
-    pub metadata: ::prost::alloc::vec::Vec<u8>,
+    #[prost(bytes = "bytes", tag = "5")]
+    pub metadata: ::prost::bytes::Bytes,
 }
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
