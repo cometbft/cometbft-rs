@@ -312,15 +312,12 @@ cometbft_old_pb_modules! {
         type Error = Error;
 
         fn try_from(value: RawValidator) -> Result<Self, Self::Error> {
-            let raw_pub_key = value.pub_key.ok_or_else(Error::missing_public_key)?;
-            let address = value.address.try_into()?;
-            if account::Id::try_from(raw_pub_key.clone())? != address {
-                return Err(Error::invalid_validator_address());
-            }
-            let pub_key = raw_pub_key.try_into()?;
             Ok(Info {
-                address,
-                pub_key,
+                address: value.address.try_into()?,
+                pub_key: value
+                    .pub_key
+                    .ok_or_else(Error::missing_public_key)?
+                    .try_into()?,
                 power: value.voting_power.try_into()?,
                 name: None,
                 proposer_priority: value.proposer_priority.into(),
