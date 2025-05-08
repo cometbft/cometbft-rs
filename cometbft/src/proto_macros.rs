@@ -25,15 +25,3 @@ macro_rules! cometbft_old_pb_modules {
         }
     };
 }
-
-macro_rules! cometbft_pb_modules {
-    ($name:ident, { $($contents:item)* }) => {
-        mod v1 {
-            use cometbft_proto::v1::$name::v1 as pb;
-            #[allow(unused_imports)]
-            use cometbft_proto::Protobuf;
-
-            $($contents)*
-        }
-    };
-}

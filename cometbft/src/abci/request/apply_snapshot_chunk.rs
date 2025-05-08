@@ -70,8 +70,10 @@ cometbft_old_pb_modules!(abci, {
     impl Protobuf<pb::RequestApplySnapshotChunk> for ApplySnapshotChunk {}
 });
 
-cometbft_pb_modules!(abci, {
+mod v1 {
     use super::ApplySnapshotChunk;
+    use cometbft_proto::v1::abci::v1 as pb;
+    use cometbft_proto::Protobuf;
 
     impl From<ApplySnapshotChunk> for pb::ApplySnapshotChunkRequest {
         fn from(apply_snapshot_chunk: ApplySnapshotChunk) -> Self {
@@ -98,7 +100,7 @@ cometbft_pb_modules!(abci, {
     }
 
     impl Protobuf<pb::ApplySnapshotChunkRequest> for ApplySnapshotChunk {}
-});
+}
 
 mod v1beta1 {
     use super::ApplySnapshotChunk;
