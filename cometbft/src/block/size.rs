@@ -30,9 +30,7 @@ impl Size {
 mod v0_34 {
     use super::Size;
     use crate::error::Error;
-    use cometbft_proto::v0_34::{
-        abci::BlockParams as RawAbciSize, types::BlockParams as RawSize,
-    };
+    use cometbft_proto::v0_34::{abci::BlockParams as RawAbciSize, types::BlockParams as RawSize};
     use cometbft_proto::Protobuf;
 
     impl Protobuf<RawSize> for Size {}
