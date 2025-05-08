@@ -278,7 +278,7 @@ cometbft_old_pb_modules! {
         },
     };
     use super::{Info, Set, SimpleValidator, Update};
-    use crate::{prelude::*, Error, account};
+    use crate::{prelude::*, Error};
 
     impl Protobuf<RawValidatorSet> for Set {}
 

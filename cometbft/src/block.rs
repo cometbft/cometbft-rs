@@ -66,7 +66,6 @@ cometbft_old_pb_modules! {
 
         fn try_from(value: RawBlock) -> Result<Self, Self::Error> {
             let header: Header = value.header.ok_or_else(Error::missing_header)?.try_into()?;
-
             // If last_commit is the default Commit, it is considered nil by Go.
             let last_commit = value
                 .last_commit
@@ -74,10 +73,14 @@ cometbft_old_pb_modules! {
                 .transpose()?
                 .filter(|c| c != &Commit::default());
 
-            Ok(Block::new(
+            Ok(Block::new_unchecked(
                 header,
                 value.data.ok_or_else(Error::missing_data)?.txs,
-                value.evidence.map(TryInto::try_into).transpose()?.unwrap_or_default(),
+                value
+                    .evidence
+                    .map(TryInto::try_into)
+                    .transpose()?
+                    .unwrap_or_default(),
                 last_commit,
             ))
         }
