@@ -16,10 +16,10 @@ pub struct LoadSnapshotChunk {
 // Protobuf conversions
 // =============================================================================
 
-cometbft_old_pb_modules!(abci, {
+cometbft_old_pb_modules! {
     use super::LoadSnapshotChunk;
 
-    impl From<LoadSnapshotChunk> for pb::ResponseLoadSnapshotChunk {
+    impl From<LoadSnapshotChunk> for pb::abci::ResponseLoadSnapshotChunk {
         fn from(load_snapshot_chunk: LoadSnapshotChunk) -> Self {
             Self {
                 chunk: load_snapshot_chunk.chunk,
@@ -27,18 +27,18 @@ cometbft_old_pb_modules!(abci, {
         }
     }
 
-    impl TryFrom<pb::ResponseLoadSnapshotChunk> for LoadSnapshotChunk {
+    impl TryFrom<pb::abci::ResponseLoadSnapshotChunk> for LoadSnapshotChunk {
         type Error = crate::Error;
 
-        fn try_from(load_snapshot_chunk: pb::ResponseLoadSnapshotChunk) -> Result<Self, Self::Error> {
+        fn try_from(load_snapshot_chunk: pb::abci::ResponseLoadSnapshotChunk) -> Result<Self, Self::Error> {
             Ok(Self {
                 chunk: load_snapshot_chunk.chunk,
             })
         }
     }
 
-    impl Protobuf<pb::ResponseLoadSnapshotChunk> for LoadSnapshotChunk {}
-});
+    impl Protobuf<pb::abci::ResponseLoadSnapshotChunk> for LoadSnapshotChunk {}
+}
 
 mod v1 {
     use super::LoadSnapshotChunk;

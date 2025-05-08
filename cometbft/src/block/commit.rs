@@ -29,6 +29,44 @@ pub struct Commit {
     pub signatures: Vec<CommitSig>,
 }
 
+cometbft_old_pb_modules! {
+    use super::Commit;
+    use crate::{block::commit_sig::CommitSig, error::Error, prelude::*};
+    use pb::types::Commit as RawCommit;
+
+    impl TryFrom<RawCommit> for Commit {
+        type Error = Error;
+
+        fn try_from(value: RawCommit) -> Result<Self, Self::Error> {
+            let signatures: Result<Vec<CommitSig>, Error> = value
+                .signatures
+                .into_iter()
+                .map(TryFrom::try_from)
+                .collect();
+            Ok(Self {
+                height: value.height.try_into()?,
+                round: value.round.try_into()?,
+                block_id: value
+                    .block_id
+                    .ok_or_else(|| Error::invalid_block("missing block id".to_string()))?
+                    .try_into()?, // gogoproto.nullable = false
+                signatures: signatures?,
+            })
+        }
+    }
+
+    impl From<Commit> for RawCommit {
+        fn from(value: Commit) -> Self {
+            RawCommit {
+                height: value.height.into(),
+                round: value.round.into(),
+                block_id: Some(value.block_id.into()),
+                signatures: value.signatures.into_iter().map(Into::into).collect(),
+            }
+        }
+    }
+}
+
 mod v1 {
     use super::Commit;
     use crate::{block::commit_sig::CommitSig, error::Error, prelude::*};

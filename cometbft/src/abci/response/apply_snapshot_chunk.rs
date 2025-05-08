@@ -50,10 +50,10 @@ impl Default for ApplySnapshotChunkResult {
 // Protobuf conversions
 // =============================================================================
 
-cometbft_old_pb_modules!(abci, {
+cometbft_old_pb_modules! {
     use super::{ApplySnapshotChunk, ApplySnapshotChunkResult};
 
-    impl From<ApplySnapshotChunk> for pb::ResponseApplySnapshotChunk {
+    impl From<ApplySnapshotChunk> for pb::abci::ResponseApplySnapshotChunk {
         fn from(apply_snapshot_chunk: ApplySnapshotChunk) -> Self {
             Self {
                 result: apply_snapshot_chunk.result as i32,
@@ -63,11 +63,11 @@ cometbft_old_pb_modules!(abci, {
         }
     }
 
-    impl TryFrom<pb::ResponseApplySnapshotChunk> for ApplySnapshotChunk {
+    impl TryFrom<pb::abci::ResponseApplySnapshotChunk> for ApplySnapshotChunk {
         type Error = crate::Error;
 
         fn try_from(
-            apply_snapshot_chunk: pb::ResponseApplySnapshotChunk,
+            apply_snapshot_chunk: pb::abci::ResponseApplySnapshotChunk,
         ) -> Result<Self, Self::Error> {
             let result = match apply_snapshot_chunk.result {
                 0 => ApplySnapshotChunkResult::Unknown,
@@ -86,8 +86,8 @@ cometbft_old_pb_modules!(abci, {
         }
     }
 
-    impl Protobuf<pb::ResponseApplySnapshotChunk> for ApplySnapshotChunk {}
-});
+    impl Protobuf<pb::abci::ResponseApplySnapshotChunk> for ApplySnapshotChunk {}
+}
 
 mod v1 {
     use super::{ApplySnapshotChunk, ApplySnapshotChunkResult};

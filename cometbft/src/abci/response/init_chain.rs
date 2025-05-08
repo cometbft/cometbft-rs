@@ -24,10 +24,10 @@ pub struct InitChain {
 // Protobuf conversions
 // =============================================================================
 
-cometbft_old_pb_modules!(abci, {
+cometbft_old_pb_modules! {
     use super::InitChain;
 
-    impl From<InitChain> for pb::ResponseInitChain {
+    impl From<InitChain> for pb::abci::ResponseInitChain {
         fn from(init_chain: InitChain) -> Self {
             Self {
                 consensus_params: init_chain.consensus_params.map(Into::into),
@@ -37,10 +37,10 @@ cometbft_old_pb_modules!(abci, {
         }
     }
 
-    impl TryFrom<pb::ResponseInitChain> for InitChain {
+    impl TryFrom<pb::abci::ResponseInitChain> for InitChain {
         type Error = crate::Error;
 
-        fn try_from(init_chain: pb::ResponseInitChain) -> Result<Self, Self::Error> {
+        fn try_from(init_chain: pb::abci::ResponseInitChain) -> Result<Self, Self::Error> {
             Ok(Self {
                 consensus_params: init_chain
                     .consensus_params
@@ -56,8 +56,8 @@ cometbft_old_pb_modules!(abci, {
         }
     }
 
-    impl Protobuf<pb::ResponseInitChain> for InitChain {}
-});
+    impl Protobuf<pb::abci::ResponseInitChain> for InitChain {}
+}
 
 mod v1 {
     use super::InitChain;

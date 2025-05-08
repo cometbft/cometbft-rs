@@ -40,10 +40,10 @@ pub struct Query {
 // Protobuf conversions
 // =============================================================================
 
-cometbft_old_pb_modules!(abci, {
+cometbft_old_pb_modules! {
     use super::Query;
 
-    impl From<Query> for pb::ResponseQuery {
+    impl From<Query> for pb::abci::ResponseQuery {
         fn from(query: Query) -> Self {
             Self {
                 code: query.code.into(),
@@ -59,10 +59,10 @@ cometbft_old_pb_modules!(abci, {
         }
     }
 
-    impl TryFrom<pb::ResponseQuery> for Query {
+    impl TryFrom<pb::abci::ResponseQuery> for Query {
         type Error = crate::Error;
 
-        fn try_from(query: pb::ResponseQuery) -> Result<Self, Self::Error> {
+        fn try_from(query: pb::abci::ResponseQuery) -> Result<Self, Self::Error> {
             Ok(Self {
                 code: query.code.into(),
                 log: query.log,
@@ -77,8 +77,8 @@ cometbft_old_pb_modules!(abci, {
         }
     }
 
-    impl Protobuf<pb::ResponseQuery> for Query {}
-});
+    impl Protobuf<pb::abci::ResponseQuery> for Query {}
+}
 
 mod v1 {
     use super::Query;

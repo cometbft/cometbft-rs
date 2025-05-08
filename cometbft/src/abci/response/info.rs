@@ -23,10 +23,10 @@ pub struct Info {
 // Protobuf conversions
 // =============================================================================
 
-cometbft_old_pb_modules!(abci, {
+cometbft_old_pb_modules! {
     use super::Info;
 
-    impl From<Info> for pb::ResponseInfo {
+    impl From<Info> for pb::abci::ResponseInfo {
         fn from(info: Info) -> Self {
             Self {
                 data: info.data,
@@ -38,10 +38,10 @@ cometbft_old_pb_modules!(abci, {
         }
     }
 
-    impl TryFrom<pb::ResponseInfo> for Info {
+    impl TryFrom<pb::abci::ResponseInfo> for Info {
         type Error = crate::Error;
 
-        fn try_from(info: pb::ResponseInfo) -> Result<Self, Self::Error> {
+        fn try_from(info: pb::abci::ResponseInfo) -> Result<Self, Self::Error> {
             Ok(Self {
                 data: info.data,
                 version: info.version,
@@ -52,8 +52,8 @@ cometbft_old_pb_modules!(abci, {
         }
     }
 
-    impl Protobuf<pb::ResponseInfo> for Info {}
-});
+    impl Protobuf<pb::abci::ResponseInfo> for Info {}
+}
 
 mod v1 {
     use super::Info;

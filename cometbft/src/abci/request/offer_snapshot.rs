@@ -17,10 +17,10 @@ pub struct OfferSnapshot {
 // Protobuf conversions
 // =============================================================================
 
-cometbft_old_pb_modules!(abci, {
+cometbft_old_pb_modules! {
     use super::OfferSnapshot;
 
-    impl From<OfferSnapshot> for pb::RequestOfferSnapshot {
+    impl From<OfferSnapshot> for pb::abci::RequestOfferSnapshot {
         fn from(offer_snapshot: OfferSnapshot) -> Self {
             Self {
                 snapshot: Some(offer_snapshot.snapshot.into()),
@@ -29,10 +29,10 @@ cometbft_old_pb_modules!(abci, {
         }
     }
 
-    impl TryFrom<pb::RequestOfferSnapshot> for OfferSnapshot {
+    impl TryFrom<pb::abci::RequestOfferSnapshot> for OfferSnapshot {
         type Error = crate::Error;
 
-        fn try_from(offer_snapshot: pb::RequestOfferSnapshot) -> Result<Self, Self::Error> {
+        fn try_from(offer_snapshot: pb::abci::RequestOfferSnapshot) -> Result<Self, Self::Error> {
             Ok(Self {
                 snapshot: offer_snapshot
                     .snapshot
@@ -43,8 +43,8 @@ cometbft_old_pb_modules!(abci, {
         }
     }
 
-    impl Protobuf<pb::RequestOfferSnapshot> for OfferSnapshot {}
-});
+    impl Protobuf<pb::abci::RequestOfferSnapshot> for OfferSnapshot {}
+}
 
 mod v1 {
     use super::OfferSnapshot;

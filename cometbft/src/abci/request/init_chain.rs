@@ -25,11 +25,11 @@ pub struct InitChain {
 // Protobuf conversions
 // =============================================================================
 
-cometbft_old_pb_modules!(abci, {
+cometbft_old_pb_modules! {
     use super::InitChain;
     use crate::Error;
 
-    impl From<InitChain> for pb::RequestInitChain {
+    impl From<InitChain> for pb::abci::RequestInitChain {
         fn from(init_chain: InitChain) -> Self {
             Self {
                 time: Some(init_chain.time.into()),
@@ -42,10 +42,10 @@ cometbft_old_pb_modules!(abci, {
         }
     }
 
-    impl TryFrom<pb::RequestInitChain> for InitChain {
+    impl TryFrom<pb::abci::RequestInitChain> for InitChain {
         type Error = Error;
 
-        fn try_from(init_chain: pb::RequestInitChain) -> Result<Self, Self::Error> {
+        fn try_from(init_chain: pb::abci::RequestInitChain) -> Result<Self, Self::Error> {
             Ok(Self {
                 time: init_chain
                     .time
@@ -67,8 +67,8 @@ cometbft_old_pb_modules!(abci, {
         }
     }
 
-    impl Protobuf<pb::RequestInitChain> for InitChain {}
-});
+    impl Protobuf<pb::abci::RequestInitChain> for InitChain {}
+}
 
 mod v1 {
     use super::InitChain;

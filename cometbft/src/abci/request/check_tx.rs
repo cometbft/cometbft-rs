@@ -35,10 +35,10 @@ pub enum CheckTxKind {
 // Protobuf conversions
 // =============================================================================
 
-cometbft_old_pb_modules!(abci, {
+cometbft_old_pb_modules! {
     use super::{CheckTx, CheckTxKind};
 
-    impl From<CheckTx> for pb::RequestCheckTx {
+    impl From<CheckTx> for pb::abci::RequestCheckTx {
         fn from(check_tx: CheckTx) -> Self {
             Self {
                 tx: check_tx.tx,
@@ -47,10 +47,10 @@ cometbft_old_pb_modules!(abci, {
         }
     }
 
-    impl TryFrom<pb::RequestCheckTx> for CheckTx {
+    impl TryFrom<pb::abci::RequestCheckTx> for CheckTx {
         type Error = crate::Error;
 
-        fn try_from(check_tx: pb::RequestCheckTx) -> Result<Self, Self::Error> {
+        fn try_from(check_tx: pb::abci::RequestCheckTx) -> Result<Self, Self::Error> {
             let kind = match check_tx.r#type {
                 0 => CheckTxKind::New,
                 1 => CheckTxKind::Recheck,
@@ -63,8 +63,8 @@ cometbft_old_pb_modules!(abci, {
         }
     }
 
-    impl Protobuf<pb::RequestCheckTx> for CheckTx {}
-});
+    impl Protobuf<pb::abci::RequestCheckTx> for CheckTx {}
+}
 
 mod v1 {
     use super::{CheckTx, CheckTxKind};
