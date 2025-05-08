@@ -30,10 +30,10 @@ impl Size {
 mod v0_34 {
     use super::Size;
     use crate::error::Error;
-    use tendermint_proto::v0_34::{
+    use cometbft_proto::v0_34::{
         abci::BlockParams as RawAbciSize, types::BlockParams as RawSize,
     };
-    use tendermint_proto::Protobuf;
+    use cometbft_proto::Protobuf;
 
     impl Protobuf<RawSize> for Size {}
 
@@ -94,8 +94,8 @@ mod v0_34 {
 mod v0_37 {
     use super::Size;
     use crate::error::Error;
-    use tendermint_proto::v0_37::types::BlockParams as RawSize;
-    use tendermint_proto::Protobuf;
+    use cometbft_proto::v0_37::types::BlockParams as RawSize;
+    use cometbft_proto::Protobuf;
 
     impl Protobuf<RawSize> for Size {}
 
@@ -128,8 +128,8 @@ mod v0_37 {
 mod v0_38 {
     use super::Size;
     use crate::error::Error;
-    use tendermint_proto::v0_38::types::BlockParams as RawSize;
-    use tendermint_proto::Protobuf;
+    use cometbft_proto::v0_38::types::BlockParams as RawSize;
+    use cometbft_proto::Protobuf;
 
     impl Protobuf<RawSize> for Size {}
 
