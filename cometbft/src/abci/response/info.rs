@@ -23,6 +23,38 @@ pub struct Info {
 // Protobuf conversions
 // =============================================================================
 
+cometbft_old_pb_modules!(abci, {
+    use super::Info;
+
+    impl From<Info> for pb::ResponseInfo {
+        fn from(info: Info) -> Self {
+            Self {
+                data: info.data,
+                version: info.version,
+                app_version: info.app_version,
+                last_block_height: info.last_block_height.into(),
+                last_block_app_hash: info.last_block_app_hash.into(),
+            }
+        }
+    }
+
+    impl TryFrom<pb::ResponseInfo> for Info {
+        type Error = crate::Error;
+
+        fn try_from(info: pb::ResponseInfo) -> Result<Self, Self::Error> {
+            Ok(Self {
+                data: info.data,
+                version: info.version,
+                app_version: info.app_version,
+                last_block_height: info.last_block_height.try_into()?,
+                last_block_app_hash: info.last_block_app_hash.try_into()?,
+            })
+        }
+    }
+
+    impl Protobuf<pb::ResponseInfo> for Info {}
+});
+
 mod v1 {
     use super::Info;
     use cometbft_proto::abci::v1 as pb;

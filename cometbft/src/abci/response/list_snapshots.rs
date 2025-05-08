@@ -12,6 +12,38 @@ pub struct ListSnapshots {
 // Protobuf conversions
 // =============================================================================
 
+cometbft_old_pb_modules!(abci, {
+    use super::ListSnapshots;
+
+    impl From<ListSnapshots> for pb::ResponseListSnapshots {
+        fn from(list_snapshots: ListSnapshots) -> Self {
+            Self {
+                snapshots: list_snapshots
+                    .snapshots
+                    .into_iter()
+                    .map(Into::into)
+                    .collect(),
+            }
+        }
+    }
+
+    impl TryFrom<pb::ResponseListSnapshots> for ListSnapshots {
+        type Error = crate::Error;
+
+        fn try_from(list_snapshots: pb::ResponseListSnapshots) -> Result<Self, Self::Error> {
+            Ok(Self {
+                snapshots: list_snapshots
+                    .snapshots
+                    .into_iter()
+                    .map(TryInto::try_into)
+                    .collect::<Result<_, _>>()?,
+            })
+        }
+    }
+
+    impl Protobuf<pb::ResponseListSnapshots> for ListSnapshots {}
+});
+
 mod v1 {
     use super::ListSnapshots;
     use cometbft_proto::abci::v1 as pb;
