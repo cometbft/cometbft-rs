@@ -50,6 +50,52 @@ pub struct Block {
     pub last_commit: Option<Commit>,
 }
 
+// =============================================================================
+// Protobuf conversions
+// =============================================================================
+
+cometbft_old_pb_modules! {
+    use super::{Block, Header, Commit};
+    use crate::{Error, prelude::*};
+    use pb::types::Block as RawBlock;
+
+    impl Protobuf<RawBlock> for Block {}
+
+    impl TryFrom<RawBlock> for Block {
+        type Error = Error;
+
+        fn try_from(value: RawBlock) -> Result<Self, Self::Error> {
+            let header: Header = value.header.ok_or_else(Error::missing_header)?.try_into()?;
+
+            // If last_commit is the default Commit, it is considered nil by Go.
+            let last_commit = value
+                .last_commit
+                .map(TryInto::try_into)
+                .transpose()?
+                .filter(|c| c != &Commit::default());
+
+            Ok(Block::new(
+                header,
+                value.data.ok_or_else(Error::missing_data)?.txs,
+                value.evidence.map(TryInto::try_into).transpose()?.unwrap_or_default(),
+                last_commit,
+            ))
+        }
+    }
+
+    impl From<Block> for RawBlock {
+        fn from(value: Block) -> Self {
+            use pb::types::Data as RawData;
+            RawBlock {
+                header: Some(value.header.into()),
+                data: Some(RawData { txs: value.data }),
+                evidence: Some(value.evidence.into()),
+                last_commit: value.last_commit.map(Into::into),
+            }
+        }
+    }
+}
+
 mod v1 {
     use super::{Block, Commit, Header};
     use crate::{prelude::*, Error};
