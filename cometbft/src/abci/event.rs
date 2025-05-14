@@ -275,7 +275,7 @@ impl<K: Into<String>, V: Into<String>> From<(K, V)> for EventAttribute {
 // Protobuf conversions
 // =============================================================================
 
-mod v0_34 {
+pub mod v0_34 {
     use super::Event;
     use crate::prelude::*;
     use crate::serializers;
@@ -322,7 +322,7 @@ mod v0_34 {
         fn try_from(event: pb::EventAttribute) -> Result<Self, Self::Error> {
             // We insist that keys and values are strings, like tm 0.35 did.
             Ok(Self {
-                key: event.value.to_vec(),
+                key: event.key.to_vec(),
                 value: event.value.to_vec(),
                 index: event.index,
             })
@@ -376,65 +376,6 @@ mod v0_37 {
     use crate::serializers;
 
     use cometbft_proto::v0_37::abci as pb;
-    use cometbft_proto::Protobuf;
-
-    impl From<EventAttribute> for pb::EventAttribute {
-        fn from(event: EventAttribute) -> Self {
-            Self {
-                key: event.key,
-                value: event.value,
-                index: event.index,
-            }
-        }
-    }
-
-    impl TryFrom<pb::EventAttribute> for EventAttribute {
-        type Error = crate::Error;
-
-        fn try_from(event: pb::EventAttribute) -> Result<Self, Self::Error> {
-            Ok(Self {
-                key: event.key,
-                value: event.value,
-                index: event.index,
-            })
-        }
-    }
-
-    impl Protobuf<pb::EventAttribute> for EventAttribute {}
-
-    impl From<Event> for pb::Event {
-        fn from(event: Event) -> Self {
-            Self {
-                r#type: event.kind,
-                attributes: event.attributes.into_iter().map(Into::into).collect(),
-            }
-        }
-    }
-
-    impl TryFrom<pb::Event> for Event {
-        type Error = crate::Error;
-
-        fn try_from(event: pb::Event) -> Result<Self, Self::Error> {
-            Ok(Self {
-                kind: event.r#type,
-                attributes: event
-                    .attributes
-                    .into_iter()
-                    .map(TryInto::try_into)
-                    .collect::<Result<_, _>>()?,
-            })
-        }
-    }
-
-    impl Protobuf<pb::Event> for Event {}
-}
-
-mod v0_38 {
-    use super::{Event, EventAttribute};
-    use crate::prelude::*;
-    use core::convert::{TryFrom, TryInto};
-
-    use cometbft_proto::v0_38::abci as pb;
     use cometbft_proto::Protobuf;
     use serde::{Deserialize, Serialize};
 
@@ -523,85 +464,14 @@ mod v0_38 {
     impl Protobuf<pb::Event> for Event {}
 }
 
-// TODO: uncomment when protos for v0_38 are available
-// mod v0_38 {
-//     use super::Event;
-//     use crate::prelude::*;
-
-//     use cometbft_proto::abci::v1beta2 as pb;
-//     use cometbft_proto::Protobuf;
-
-//     pub use super::v0_37::EventAttribute;
-
-//     impl From<EventAttribute> for pb::EventAttribute {
-//         fn from(event: EventAttribute) -> Self {
-//             Self {
-//                 key: event.key,
-//                 value: event.value,
-//                 index: event.index,
-//             }
-//         }
-//     }
-
-//     impl TryFrom<pb::EventAttribute> for EventAttribute {
-//         type Error = crate::Error;
-
-//         fn try_from(event: pb::EventAttribute) -> Result<Self, Self::Error> {
-//             Ok(Self {
-//                 key: event.key,
-//                 value: event.value,
-//                 index: event.index,
-//             })
-//         }
-//     }
-
-//     impl Protobuf<pb::EventAttribute> for EventAttribute {}
-
-//     impl From<Event> for pb::Event {
-//         fn from(event: Event) -> Self {
-//             Self {
-//                 r#type: event.kind,
-//                 attributes: event
-//                     .attributes
-//                     .into_iter()
-//                     .filter_map(|t| {
-//                         let super::EventAttribute::V037(ea) = t else {
-//                             return None;
-//                         };
-//                         Some(ea.into())
-//                     })
-//                     .collect(),
-//             }
-//         }
-//     }
-
-//     impl TryFrom<pb::Event> for Event {
-//         type Error = crate::Error;
-
-//         fn try_from(event: pb::Event) -> Result<Self, Self::Error> {
-//             Ok(Self {
-//                 kind: event.r#type,
-//                 attributes: event
-//                     .attributes
-//                     .into_iter()
-//                     .map(TryInto::try_into)
-//                     .collect::<Result<Vec<EventAttribute>, _>>()?
-//                     .into_iter()
-//                     .map(super::EventAttribute::V037)
-//                     .collect(),
-//             })
-//         }
-//     }
-
-//     impl Protobuf<pb::Event> for Event {}
-// }
-
-mod v1 {
+mod v0_38 {
     use super::Event;
     use crate::prelude::*;
 
-    use cometbft_proto::v1::abci::v1 as pb;
+    use cometbft_proto::v0_38::abci as pb;
     use cometbft_proto::Protobuf;
+
+    pub use super::v0_37::EventAttribute;
 
     impl From<EventAttribute> for pb::EventAttribute {
         fn from(event: EventAttribute) -> Self {
@@ -631,7 +501,16 @@ mod v1 {
         fn from(event: Event) -> Self {
             Self {
                 r#type: event.kind,
-                attributes: event.attributes.into_iter().map(Into::into).collect(),
+                attributes: event
+                    .attributes
+                    .into_iter()
+                    .filter_map(|t| {
+                        let super::EventAttribute::V037(ea) = t else {
+                            return None;
+                        };
+                        Some(ea.into())
+                    })
+                    .collect(),
             }
         }
     }
@@ -646,7 +525,82 @@ mod v1 {
                     .attributes
                     .into_iter()
                     .map(TryInto::try_into)
-                    .collect::<Result<_, _>>()?,
+                    .collect::<Result<Vec<EventAttribute>, _>>()?
+                    .into_iter()
+                    .map(super::EventAttribute::V037)
+                    .collect(),
+            })
+        }
+    }
+
+    impl Protobuf<pb::Event> for Event {}
+}
+
+mod v1 {
+    use super::Event;
+    use crate::prelude::*;
+
+    use cometbft_proto::v1::abci::v1 as pb;
+    use cometbft_proto::Protobuf;
+
+    pub use super::v0_37::EventAttribute;
+
+    impl From<EventAttribute> for pb::EventAttribute {
+        fn from(event: EventAttribute) -> Self {
+            Self {
+                key: event.key,
+                value: event.value,
+                index: event.index,
+            }
+        }
+    }
+
+    impl TryFrom<pb::EventAttribute> for EventAttribute {
+        type Error = crate::Error;
+
+        fn try_from(event: pb::EventAttribute) -> Result<Self, Self::Error> {
+            Ok(Self {
+                key: event.key,
+                value: event.value,
+                index: event.index,
+            })
+        }
+    }
+
+    impl Protobuf<pb::EventAttribute> for EventAttribute {}
+
+    impl From<Event> for pb::Event {
+        fn from(event: Event) -> Self {
+            Self {
+                r#type: event.kind,
+                attributes: event
+                    .attributes
+                    .into_iter()
+                    .filter_map(|t| {
+                        let super::EventAttribute::V037(ea) = t else {
+                            return None;
+                        };
+                        Some(ea.into())
+                    })
+                    .collect(),
+            }
+        }
+    }
+
+    impl TryFrom<pb::Event> for Event {
+        type Error = crate::Error;
+
+        fn try_from(event: pb::Event) -> Result<Self, Self::Error> {
+            Ok(Self {
+                kind: event.r#type,
+                attributes: event
+                    .attributes
+                    .into_iter()
+                    .map(TryInto::try_into)
+                    .collect::<Result<Vec<EventAttribute>, _>>()?
+                    .into_iter()
+                    .map(super::EventAttribute::V037)
+                    .collect(),
             })
         }
     }
@@ -655,12 +609,13 @@ mod v1 {
 }
 
 mod v1beta1 {
-    use super::{Event, EventAttribute};
+    use super::Event;
     use crate::prelude::*;
-    use core::convert::{TryFrom, TryInto};
 
     use cometbft_proto::v1::abci::v1beta1 as pb;
     use cometbft_proto::Protobuf;
+
+    pub use super::v0_34::EventAttribute;
 
     impl From<EventAttribute> for pb::EventAttribute {
         fn from(event: EventAttribute) -> Self {
@@ -677,8 +632,8 @@ mod v1beta1 {
 
         fn try_from(event: pb::EventAttribute) -> Result<Self, Self::Error> {
             Ok(Self {
-                key: String::from_utf8_lossy(&event.key).to_string(),
-                value: String::from_utf8_lossy(&event.value).to_string(),
+                key: event.key.to_vec(),
+                value: event.value.to_vec(),
                 index: event.index,
             })
         }
@@ -690,7 +645,16 @@ mod v1beta1 {
         fn from(event: Event) -> Self {
             Self {
                 r#type: event.kind,
-                attributes: event.attributes.into_iter().map(Into::into).collect(),
+                attributes: event
+                    .attributes
+                    .into_iter()
+                    .filter_map(|t| {
+                        let super::EventAttribute::V034(ea) = t else {
+                            return None;
+                        };
+                        Some(ea.into())
+                    })
+                    .collect(),
             }
         }
     }
@@ -705,7 +669,10 @@ mod v1beta1 {
                     .attributes
                     .into_iter()
                     .map(TryInto::try_into)
-                    .collect::<Result<_, _>>()?,
+                    .collect::<Result<Vec<EventAttribute>, _>>()?
+                    .into_iter()
+                    .map(super::EventAttribute::V034)
+                    .collect(),
             })
         }
     }
@@ -714,9 +681,8 @@ mod v1beta1 {
 }
 
 mod v1beta2 {
-    use super::{Event, EventAttribute};
+    use super::Event;
     use crate::prelude::*;
-    use core::convert::{TryFrom, TryInto};
 
     use cometbft_proto::v1::abci::v1beta2 as pb;
     use cometbft_proto::Protobuf;

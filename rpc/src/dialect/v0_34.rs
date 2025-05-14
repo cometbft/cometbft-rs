@@ -61,7 +61,7 @@ pub struct EventAttribute {
 
 impl From<EventAttribute> for abci::EventAttribute {
     fn from(msg: EventAttribute) -> Self {
-        Self::V034(abci::v0_34::EventAttribute {
+        Self::V034(abci::EventAttributeV034 {
             key: msg.key,
             value: msg.value,
             index: msg.index,

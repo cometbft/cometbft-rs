@@ -509,7 +509,10 @@ fn incoming_fixtures() {
                 assert!(result.tx_result.data.is_empty());
                 assert_eq!(result.tx_result.events.len(), 1);
                 assert_eq!(result.tx_result.events[0].attributes.len(), 4);
-                assert_eq!(result.tx_result.events[0].attributes[0].key_bytes(),, b"creator");
+                assert_eq!(
+                    result.tx_result.events[0].attributes[0].key_bytes(),
+                    b"creator"
+                );
                 assert_eq!(
                     result.tx_result.events[0].attributes[0]
                         .value_str()
