@@ -47,6 +47,97 @@ pub struct ProofOp {
 // Protobuf conversions
 // =============================================================================
 
+cometbft_old_pb_modules! {
+    use super::{Proof, ProofOp, ProofOps};
+    use crate::{prelude::*, Error};
+    use pb::{
+        crypto::{Proof as RawProof, ProofOp as RawProofOp, ProofOps as RawProofOps},
+    };
+
+    impl Protobuf<RawProof> for Proof {}
+
+    impl TryFrom<RawProof> for Proof {
+        type Error = Error;
+
+        fn try_from(message: RawProof) -> Result<Self, Self::Error> {
+            Ok(Self {
+                total: message
+                    .total
+                    .try_into()
+                    .map_err(Error::negative_proof_total)?,
+                index: message
+                    .index
+                    .try_into()
+                    .map_err(Error::negative_proof_index)?,
+                leaf_hash: message.leaf_hash.try_into()?,
+                aunts: message
+                    .aunts
+                    .into_iter()
+                    .map(TryInto::try_into)
+                    .collect::<Result<_, _>>()?,
+            })
+        }
+    }
+
+    impl From<Proof> for RawProof {
+        fn from(value: Proof) -> Self {
+            Self {
+                total: value
+                    .total
+                    .try_into()
+                    .expect("number of items is too large"),
+                index: value.index.try_into().expect("index is too large"),
+                leaf_hash: value.leaf_hash.into(),
+                aunts: value.aunts.into_iter().map(Into::into).collect(),
+            }
+        }
+    }
+
+    impl Protobuf<RawProofOp> for ProofOp {}
+
+    impl TryFrom<RawProofOp> for ProofOp {
+        type Error = Error;
+
+        fn try_from(value: RawProofOp) -> Result<Self, Self::Error> {
+            Ok(Self {
+                field_type: value.r#type,
+                key: value.key,
+                data: value.data,
+            })
+        }
+    }
+
+    impl From<ProofOp> for RawProofOp {
+        fn from(value: ProofOp) -> Self {
+            RawProofOp {
+                r#type: value.field_type,
+                key: value.key,
+                data: value.data,
+            }
+        }
+    }
+
+    impl Protobuf<RawProofOps> for ProofOps {}
+
+    impl TryFrom<RawProofOps> for ProofOps {
+        type Error = Error;
+
+        fn try_from(value: RawProofOps) -> Result<Self, Self::Error> {
+            let ops: Result<Vec<ProofOp>, _> = value.ops.into_iter().map(ProofOp::try_from).collect();
+
+            Ok(Self { ops: ops? })
+        }
+    }
+
+    impl From<ProofOps> for RawProofOps {
+        fn from(value: ProofOps) -> Self {
+            let ops: Vec<RawProofOp> = value.ops.into_iter().map(RawProofOp::from).collect();
+
+            RawProofOps { ops }
+        }
+    }
+}
+
 mod v1 {
     use super::{Proof, ProofOp, ProofOps};
     use crate::{prelude::*, Error};
