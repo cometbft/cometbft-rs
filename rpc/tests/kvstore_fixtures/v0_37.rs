@@ -1258,7 +1258,7 @@ fn incoming_fixtures() {
                     assert_eq!(tx_result.result.events.len(), 2);
                     assert_eq!(tx_result.result.events[0].kind, "app");
                     for attr in &tx_result.result.events[0].attributes {
-                        match dbg!(attr).key_str().unwrap() {
+                        match attr.key_str().unwrap() {
                             "creator" => {
                                 assert_eq!(attr.value_str().unwrap(), "Cosmoshi Netowoko")
                             },
