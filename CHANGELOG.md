@@ -35,7 +35,7 @@ structures in cometbft-proto.
     single release (currently at 1.0.0-alpha.1) and generate all protobuf
     structures at once.
   * In the new versioned module structure corresponding to the CometBFT 1.0
-    protobuf packages, modules represending protocol domains come to the top
+    protobuf packages, modules representing protocol domains come to the top
     level, e.g. `crate::abci`, `crate::types`. Each of these has a `v1` module
     corresponding to the protobufs released in 1.0.0, and possibly a series of
     `v1beta1`, `v1beta2`, ... modules with earlier revisions of the protocol,
