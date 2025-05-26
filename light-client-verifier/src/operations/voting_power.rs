@@ -1,13 +1,15 @@
 //! Provides an interface and default implementation for the `VotingPower` operation
 
-use alloc::collections::BTreeSet as HashSet;
+use alloc::vec::Vec;
 use core::{convert::TryFrom, fmt, marker::PhantomData};
 
 use cometbft::{
+    account,
     block::CommitSig,
     chain,
     crypto::signature,
     trust_threshold::TrustThreshold as _,
+    validator,
     vote::{SignedVote, ValidatorIndex, Vote},
 };
 use serde::{Deserialize, Serialize};
@@ -212,7 +214,7 @@ impl NonAbsentCommitVote {
         };
 
         let vote = Vote {
-            vote_type: tendermint::vote::Type::Precommit,
+            vote_type: cometbft::vote::Type::Precommit,
             height: commit.height,
             round: commit.round,
             block_id: Some(commit.block_id),
@@ -243,26 +245,9 @@ impl NonAbsentCommitVote {
 struct NonAbsentCommitVotes {
     /// Votes sorted by validator address.
     votes: Vec<NonAbsentCommitVote>,
-    /// Internal buffer for storing sign_bytes.
-    ///
-    /// The buffer is reused for each canonical vote so that we allocate it
-    /// once.
-    sign_bytes: Vec<u8>,
 }
 
 impl NonAbsentCommitVotes {
-    /// Initial capacity of the `sign_bytes` buffer.
-    ///
-    /// The buffer will be resized if it happens to be too small so this value
-    /// isn’t critical for correctness.  It’s a matter of performance to avoid
-    /// reallocations.
-    ///
-    /// Note: As of protocol 0.38, maximum length of the sign bytes is `115 + (N
-    /// > 13) + N` where `N` is the length of the chain id.  Chain id can be at
-    /// most 50 bytes (see [`tendermint::chain::id::MAX_LEN`]) thus the largest
-    /// buffer we’ll ever need is 166 bytes long.
-    const SIGN_BYTES_INITIAL_CAPACITY: usize = 166;
-
     pub fn new(signed_header: &SignedHeader) -> Result<Self, VerificationError> {
         let mut votes = signed_header
             .commit
@@ -293,13 +278,12 @@ impl NonAbsentCommitVotes {
                 pair[0].validator_id(),
             ))
         } else {
-            Ok(Self {
-                votes,
-                sign_bytes: Vec::with_capacity(Self::SIGN_BYTES_INITIAL_CAPACITY),
-            })
+            Ok(Self { votes })
         }
     }
 
+    /// Looks up a vote cast by given validator.
+    ///
     /// If the validator didn’t cast a vote or voted for `nil`, returns
     /// `Ok(false)`.  Otherwise, if the vote had valid signature, returns
     /// `Ok(true)`.  If the vote had invalid signature, returns `Err`.
@@ -316,18 +300,14 @@ impl NonAbsentCommitVotes {
         };
 
         if !vote.verified {
-            self.sign_bytes.truncate(0);
-            vote.signed_vote
-                .sign_bytes_into(&mut self.sign_bytes)
-                .expect("buffer is resized if needed and encoding never fails");
-            let sign_bytes = self.sign_bytes.as_slice();
+            let sign_bytes = vote.signed_vote.sign_bytes();
             validator
-                .verify_signature::<V>(sign_bytes, vote.signed_vote.signature())
+                .verify_signature::<V>(&sign_bytes, vote.signed_vote.signature())
                 .map_err(|_| {
                     VerificationError::invalid_signature(
                         vote.signed_vote.signature().as_bytes().to_vec(),
                         Box::new(validator.clone()),
-                        sign_bytes.to_vec(),
+                        sign_bytes,
                     )
                 })?;
         }
@@ -352,6 +332,58 @@ impl<V> Default for ProvidedVotingPowerCalculator<V> {
     fn default() -> Self {
         Self {
             _verifier: PhantomData,
+        }
+    }
+}
+
+/// Dictionary of validators sorted by address.
+///
+/// The map stores reference to [`validator::Info`] object (typically held by
+/// a `ValidatorSet`) and a boolean flag indicating whether the validator has
+/// already been seen.  The validators are sorted by their address such that
+/// lookup by address is a logarithmic operation.
+struct ValidatorMap<'a> {
+    validators: Vec<(&'a validator::Info, bool)>,
+}
+
+/// Error during validator lookup.
+enum LookupError {
+    NotFound,
+    AlreadySeen,
+}
+
+impl<'a> ValidatorMap<'a> {
+    /// Constructs a new map from given list of validators.
+    ///
+    /// Sorts the validators by address which makes the operation’s time
+    /// complexity `O(N lng N)`.
+    ///
+    /// Produces unspecified result if two objects with the same address are
+    /// found.  Unspecified in that it’s not guaranteed which entry will be
+    /// subsequently returned by [`Self::find_mut`] however it will always be
+    /// consistently the same entry.
+    pub fn new(validators: &'a [validator::Info]) -> Self {
+        let mut validators = validators.iter().map(|v| (v, false)).collect::<Vec<_>>();
+        validators.sort_unstable_by_key(|item| &item.0.address);
+        Self { validators }
+    }
+
+    /// Finds entry for validator with given address; returns error if validator
+    /// has been returned already by previous call to `find`.
+    ///
+    /// Uses binary search resulting in logarithmic lookup time.
+    pub fn find(&mut self, address: &account::Id) -> Result<&'a validator::Info, LookupError> {
+        let index = self
+            .validators
+            .binary_search_by_key(&address, |item| &item.0.address)
+            .map_err(|_| LookupError::NotFound)?;
+
+        let (validator, seen) = &mut self.validators[index];
+        if *seen {
+            Err(LookupError::AlreadySeen)
+        } else {
+            *seen = true;
+            Ok(validator)
         }
     }
 }

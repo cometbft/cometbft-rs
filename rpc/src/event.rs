@@ -330,8 +330,8 @@ pub mod v1 {
                     result_finalize_block: _,
                 } => EventData::LegacyNewBlock {
                     block,
-                    result_begin_block: result_begin_block.map(Into::into),
-                    result_end_block: result_end_block.map(Into::into),
+                    result_begin_block,
+                    result_end_block,
                 },
                 DeEventData::Tx { tx_result } => EventData::Tx {
                     tx_result: tx_result.into(),
@@ -387,7 +387,7 @@ pub mod v1 {
                 log: msg.log,
                 gas_wanted: msg.gas_wanted,
                 gas_used: msg.gas_used,
-                events: msg.events.into_iter().map(Into::into).collect(),
+                events: msg.events.into_iter().collect(),
             }
         }
     }
@@ -398,7 +398,7 @@ pub mod v1 {
                 log: msg.log,
                 gas_wanted: msg.gas_wanted,
                 gas_used: msg.gas_used,
-                events: msg.events.into_iter().map(Into::into).collect(),
+                events: msg.events.into_iter().collect(),
             }
         }
     }
@@ -471,8 +471,8 @@ pub mod v0_37 {
                     result_end_block,
                 } => SerEventData::NewBlock {
                     block,
-                    result_begin_block: result_begin_block.map(Into::into),
-                    result_end_block: result_end_block.map(Into::into),
+                    result_begin_block,
+                    result_end_block,
                 },
                 EventData::Tx { tx_result } => SerEventData::Tx {
                     tx_result: tx_result.into(),
