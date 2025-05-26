@@ -282,6 +282,8 @@ impl NonAbsentCommitVotes {
         }
     }
 
+    /// Looks up a vote cast by given validator.
+    ///
     /// If the validator didn’t cast a vote or voted for `nil`, returns
     /// `Ok(false)`.  Otherwise, if the vote had valid signature, returns
     /// `Ok(true)`.  If the vote had invalid signature, returns `Err`.
