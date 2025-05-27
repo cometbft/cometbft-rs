@@ -7,31 +7,24 @@
 
 extern crate alloc;
 
-mod prelude;
-
-/// Built-in prost_types with slight customization to enable JSON-encoding
-#[allow(warnings)]
-pub mod google {
-    pub mod protobuf {
-        // custom Timeout and Duration types that have valid doctest documentation texts
-        include!("protobuf.rs");
-    }
-}
-
 #[allow(warnings)]
 mod cometbft;
 mod error;
-
-use core::{convert::TryFrom, fmt::Display};
+mod prelude;
 
 use bytes::{Buf, BufMut};
+use core::{convert::TryFrom, fmt::Display};
+use prost::Message;
+
 pub use cometbft::*;
 pub use error::Error;
-use prost::Message;
 
 pub mod serializers;
 
 use prelude::*;
+
+/// Built-in `prost_types` with slight customization to enable JSON-encoding.
+pub mod google;
 
 /// Allows for easy Google Protocol Buffers encoding and decoding of domain
 /// types with validation.

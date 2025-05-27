@@ -119,6 +119,52 @@ where
 // Protobuf conversions
 // =============================================================================
 
+cometbft_old_pb_modules! {
+    use super::{PublicKey, Ed25519};
+    use pb::crypto::{PublicKey as RawPublicKey, public_key::Sum};
+    use crate::{prelude::*, Error};
+
+    impl Protobuf<RawPublicKey> for PublicKey {}
+
+    impl TryFrom<RawPublicKey> for PublicKey {
+        type Error = Error;
+
+        fn try_from(value: RawPublicKey) -> Result<Self, Self::Error> {
+            let sum = &value
+                .sum
+                .ok_or_else(|| Error::invalid_key("empty sum".to_string()))?;
+            if let Sum::Ed25519(b) = sum {
+                let key = Ed25519::try_from(&b[..])?;
+                return Ok(PublicKey::Ed25519(key));
+            }
+            #[cfg(feature = "secp256k1")]
+            if let Sum::Secp256k1(b) = sum {
+                return Self::from_raw_secp256k1(b)
+                    .ok_or_else(|| Error::invalid_key("malformed key".to_string()));
+            }
+            Err(Error::invalid_key("not an ed25519 key".to_string()))
+        }
+    }
+
+    impl From<PublicKey> for RawPublicKey {
+        fn from(value: PublicKey) -> Self {
+            match value {
+                PublicKey::Ed25519(ref pk) => RawPublicKey {
+                    sum: Some(Sum::Ed25519(
+                        pk.as_bytes().to_vec(),
+                    )),
+                },
+                #[cfg(feature = "secp256k1")]
+                PublicKey::Secp256k1(ref pk) => RawPublicKey {
+                    sum: Some(Sum::Secp256k1(
+                        pk.to_sec1_bytes().into(),
+                    )),
+                },
+            }
+        }
+    }
+}
+
 mod v1 {
     use super::{Ed25519, PublicKey};
     use crate::{prelude::*, Error};
@@ -175,6 +221,12 @@ impl PublicKey {
     /// From raw Ed25519 public key bytes
     pub fn from_raw_ed25519(bytes: &[u8]) -> Option<PublicKey> {
         Ed25519::try_from(bytes).map(PublicKey::Ed25519).ok()
+    }
+
+    /// From an [`ed25519_consensus::VerificationKey`]
+    #[cfg(feature = "rust-crypto")]
+    pub fn from_ed25519_consensus(vk: ed25519_consensus::VerificationKey) -> Self {
+        Self::from(vk)
     }
 
     /// Get Ed25519 public key
@@ -239,6 +291,13 @@ impl From<Ed25519> for PublicKey {
 impl From<Secp256k1> for PublicKey {
     fn from(pk: Secp256k1) -> PublicKey {
         PublicKey::Secp256k1(pk)
+    }
+}
+
+#[cfg(feature = "rust-crypto")]
+impl From<ed25519_consensus::VerificationKey> for PublicKey {
+    fn from(vk: ed25519_consensus::VerificationKey) -> PublicKey {
+        PublicKey::Ed25519(vk.into())
     }
 }
 
@@ -470,6 +529,60 @@ mod tests {
 
         let reserialized_json = serde_json::to_string(&pubkey).unwrap();
         assert_eq!(reserialized_json.as_str(), json_string);
+    }
+
+    cometbft_old_pb_modules! {
+        use super::*;
+        use pb::privval::PubKeyResponse as RawPubKeyResponse;
+
+        #[test]
+        fn test_ed25519_pubkey_msg() {
+            // test-vector generated from Go
+            // import (
+            // "fmt"
+            // "github.com/tendermint/tendermint/proto/tendermint/crypto"
+            // "github.com/tendermint/tendermint/proto/tendermint/privval"
+            // )
+            //
+            // func ed25519_key() {
+            // pkr := &privval.PubKeyResponse{
+            // PubKey: &crypto.PublicKey{
+            // Sum: &crypto.PublicKey_Ed25519{Ed25519: []byte{
+            // 215, 90, 152, 1, 130, 177, 10, 183, 213, 75, 254, 211, 201, 100, 7, 58,
+            // 14, 225, 114, 243, 218, 166, 35, 37, 175, 2, 26, 104, 247, 7, 81, 26,
+            // },
+            // },
+            // },
+            // Error: nil,
+            // }
+            // pbpk, _ := pkr.Marshal()
+            // fmt.Printf("%#v\n", pbpk)
+            //
+            // }
+            let encoded = vec![
+                0xa, 0x22, 0xa, 0x20, 0xd7, 0x5a, 0x98, 0x1, 0x82, 0xb1, 0xa, 0xb7, 0xd5, 0x4b, 0xfe,
+                0xd3, 0xc9, 0x64, 0x7, 0x3a, 0xe, 0xe1, 0x72, 0xf3, 0xda, 0xa6, 0x23, 0x25, 0xaf, 0x2,
+                0x1a, 0x68, 0xf7, 0x7, 0x51, 0x1a,
+            ];
+
+            let msg = PubKeyResponse {
+                pub_key: Some(
+                    PublicKey::from_raw_ed25519(&[
+                        215, 90, 152, 1, 130, 177, 10, 183, 213, 75, 254, 211, 201, 100, 7, 58, 14,
+                        225, 114, 243, 218, 166, 35, 37, 175, 2, 26, 104, 247, 7, 81, 26,
+                    ])
+                    .unwrap(),
+                ),
+                error: None,
+            };
+            let got = Protobuf::<RawPubKeyResponse>::encode_vec(msg.clone());
+
+            assert_eq!(got, encoded);
+            let decoded = <PubKeyResponse as Protobuf<RawPubKeyResponse>>::decode_vec(
+                &encoded
+            ).unwrap();
+            assert_eq!(decoded, msg);
+        }
     }
 
     mod v1 {

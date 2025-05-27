@@ -19,6 +19,67 @@ pub struct Header {
     pub hash: Hash,
 }
 
+cometbft_old_pb_modules! {
+    use pb::types::{
+        CanonicalPartSetHeader as RawCanonicalPartSetHeader, PartSetHeader as RawPartSetHeader,
+    };
+    use crate::{
+        error::Error,
+        hash::{Algorithm, SHA256_HASH_SIZE},
+        prelude::*,
+        Hash,
+    };
+    use super::Header;
+
+    impl Protobuf<RawPartSetHeader> for Header {}
+
+    impl TryFrom<RawPartSetHeader> for Header {
+        type Error = Error;
+
+        fn try_from(value: RawPartSetHeader) -> Result<Self, Self::Error> {
+            if !value.hash.is_empty() && value.hash.len() != SHA256_HASH_SIZE {
+                return Err(Error::invalid_hash_size());
+            }
+            Ok(Self {
+                total: value.total,
+                hash: Hash::from_bytes(Algorithm::Sha256, &value.hash)?,
+            })
+        }
+    }
+
+    impl From<Header> for RawPartSetHeader {
+        fn from(value: Header) -> Self {
+            RawPartSetHeader {
+                total: value.total,
+                hash: value.hash.into(),
+            }
+        }
+    }
+
+    impl TryFrom<RawCanonicalPartSetHeader> for Header {
+        type Error = Error;
+
+        fn try_from(value: RawCanonicalPartSetHeader) -> Result<Self, Self::Error> {
+            if !value.hash.is_empty() && value.hash.len() != SHA256_HASH_SIZE {
+                return Err(Error::invalid_hash_size());
+            }
+            Ok(Self {
+                total: value.total,
+                hash: Hash::from_bytes(Algorithm::Sha256, &value.hash)?,
+            })
+        }
+    }
+
+    impl From<Header> for RawCanonicalPartSetHeader {
+        fn from(value: Header) -> Self {
+            RawCanonicalPartSetHeader {
+                total: value.total,
+                hash: value.hash.into(),
+            }
+        }
+    }
+}
+
 mod v1 {
     use super::Header;
     use crate::{
