@@ -54,7 +54,7 @@ Attempt to make use of the following plugins:
 [protoc-gen-tonic]: https://github.com/neoeinstein/protoc-gen-prost/blob/main/protoc-gen-tonic/README.md
 
 If the plugins are found lacking necessary features, try an [alternative approach][alt-gen]
-with `buf build --as-file-descriptor-set` and feeding the output to`tonic-build`. The serde
+with `buf build --as-file-descriptor-set` and feeding the output to `tonic-build`. The serde
 implementations would need to be custom-derived like with the current approach.
 
 [alt-gen]: https://github.com/cometbft/cometbft-rs/issues/3#issuecomment-1916766090
