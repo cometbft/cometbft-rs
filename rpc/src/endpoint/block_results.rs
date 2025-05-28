@@ -1,5 +1,6 @@
 //! `/block_results` endpoint JSON-RPC wrapper
 
+use cometbft::serializers::allow_empty_object::allow_empty_object;
 use cometbft::{abci, block, consensus, serializers, validator, AppHash};
 use serde::{Deserialize, Serialize};
 
@@ -78,6 +79,7 @@ pub struct Response {
     pub validator_updates: Vec<validator::Update>,
 
     /// New consensus params (might be explicit null)
+    #[serde(deserialize_with = "allow_empty_object")]
     pub consensus_param_updates: Option<consensus::Params>,
 
     /// Merkle hash of the application state
@@ -98,6 +100,7 @@ pub mod v0_34 {
     use crate::dialect::v0_34::Event;
     use crate::prelude::*;
     use crate::{dialect, serializers};
+    use cometbft::serializers::allow_empty_object::allow_empty_object;
     use cometbft::{block, consensus, validator};
     use serde::{Deserialize, Serialize};
 
@@ -121,6 +124,7 @@ pub mod v0_34 {
         pub validator_updates: Vec<validator::Update>,
 
         /// New consensus params (might be explicit null)
+        #[serde(deserialize_with = "allow_empty_object")]
         pub consensus_param_updates: Option<consensus::Params>,
     }
 
