@@ -57,6 +57,7 @@ pub use v1::request::{ConsensusRequest, InfoRequest, MempoolRequest, SnapshotReq
 pub use v1::response::Response;
 pub use v1::response::{ConsensusResponse, InfoResponse, MempoolResponse, SnapshotResponse};
 
+pub use event::v0_34::EventAttribute as EventAttributeV034;
 pub use event::{Event, EventAttribute, EventAttributeIndexExt, TypedEvent};
 
 #[doc(inline)]
