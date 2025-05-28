@@ -26,12 +26,12 @@ pub use self::{
     round::*,
     size::Size,
 };
-use crate::{error::Error, evidence, prelude::*};
+use crate::{evidence, prelude::*};
 
 /// Blocks consist of a header, transactions, votes (the commit), and a list of
 /// evidence of malfeasance (i.e. signing conflicting votes).
 ///
-/// <https://github.com/tendermint/spec/blob/d46cd7f573a2c6a2399fcab2cde981330aa63f37/spec/core/data_structures.md#block>
+/// <https://github.com/cometbft/cometbft/blob/v1.0.0-alpha.1/spec/core/data_structures.md#block>
 // Default serialization - all fields serialize; used by /block endpoint
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq)]
 #[non_exhaustive]
@@ -46,8 +46,57 @@ pub struct Block {
     /// Evidence of malfeasance
     pub evidence: evidence::List,
 
-    /// Last commit
+    /// Last commit, should be `None` for the initial block.
     pub last_commit: Option<Commit>,
+}
+
+// =============================================================================
+// Protobuf conversions
+// =============================================================================
+
+cometbft_old_pb_modules! {
+    use super::{Block, Header, Commit};
+    use crate::{Error, prelude::*};
+    use pb::types::Block as RawBlock;
+
+    impl Protobuf<RawBlock> for Block {}
+
+    impl TryFrom<RawBlock> for Block {
+        type Error = Error;
+
+        fn try_from(value: RawBlock) -> Result<Self, Self::Error> {
+            let header: Header = value.header.ok_or_else(Error::missing_header)?.try_into()?;
+            // If last_commit is the default Commit, it is considered nil by Go.
+            let last_commit = value
+                .last_commit
+                .map(TryInto::try_into)
+                .transpose()?
+                .filter(|c| c != &Commit::default());
+
+            Ok(Block::new(
+                header,
+                value.data.ok_or_else(Error::missing_data)?.txs,
+                value
+                    .evidence
+                    .map(TryInto::try_into)
+                    .transpose()?
+                    .unwrap_or_default(),
+                last_commit,
+            ))
+        }
+    }
+
+    impl From<Block> for RawBlock {
+        fn from(value: Block) -> Self {
+            use pb::types::Data as RawData;
+            RawBlock {
+                header: Some(value.header.into()),
+                data: Some(RawData { txs: value.data }),
+                evidence: Some(value.evidence.into()),
+                last_commit: value.last_commit.map(Into::into),
+            }
+        }
+    }
 }
 
 mod v1 {
@@ -63,34 +112,23 @@ mod v1 {
 
         fn try_from(value: pb::Block) -> Result<Self, Self::Error> {
             let header: Header = value.header.ok_or_else(Error::missing_header)?.try_into()?;
-            // if last_commit is Commit::Default, it is considered nil by Go.
+            // If last_commit is the default Commit, it is considered nil by Go.
             let last_commit = value
                 .last_commit
                 .map(TryInto::try_into)
                 .transpose()?
                 .filter(|c| c != &Commit::default());
-            if last_commit.is_none() && header.height.value() != 1 {
-                return Err(Error::invalid_block(
-                    "last_commit is empty on non-first block".to_string(),
-                ));
-            }
 
-            // Todo: Figure out requirements.
-            // if last_commit.is_some() && header.height.value() == 1 {
-            //    return Err(Kind::InvalidFirstBlock.context("last_commit is not null on first
-            // height").into());
-            //}
-
-            Ok(Block {
+            Ok(Block::new(
                 header,
-                data: value.data.ok_or_else(Error::missing_data)?.txs,
-                evidence: value
+                value.data.ok_or_else(Error::missing_data)?.txs,
+                value
                     .evidence
                     .map(TryInto::try_into)
                     .transpose()?
                     .unwrap_or_default(),
                 last_commit,
-            })
+            ))
         }
     }
 
@@ -119,34 +157,23 @@ mod v1beta1 {
 
         fn try_from(value: pb::Block) -> Result<Self, Self::Error> {
             let header: Header = value.header.ok_or_else(Error::missing_header)?.try_into()?;
-            // if last_commit is Commit::Default, it is considered nil by Go.
+            // If last_commit is the default Commit, it is considered nil by Go.
             let last_commit = value
                 .last_commit
                 .map(TryInto::try_into)
                 .transpose()?
                 .filter(|c| c != &Commit::default());
-            if last_commit.is_none() && header.height.value() != 1 {
-                return Err(Error::invalid_block(
-                    "last_commit is empty on non-first block".to_string(),
-                ));
-            }
 
-            // Todo: Figure out requirements.
-            // if last_commit.is_some() && header.height.value() == 1 {
-            //    return Err(Kind::InvalidFirstBlock.context("last_commit is not null on first
-            // height").into());
-            //}
-
-            Ok(Block {
+            Ok(Block::new(
                 header,
-                data: value.data.ok_or_else(Error::missing_data)?.txs,
-                evidence: value
+                value.data.ok_or_else(Error::missing_data)?.txs,
+                value
                     .evidence
                     .map(TryInto::try_into)
                     .transpose()?
                     .unwrap_or_default(),
                 last_commit,
-            })
+            ))
         }
     }
 
@@ -163,29 +190,19 @@ mod v1beta1 {
 }
 
 impl Block {
-    /// constructor
+    /// Builds a new [`Block`], based on the given [`Header`], data, evidence, and last commit.
     pub fn new(
         header: Header,
         data: Vec<Vec<u8>>,
         evidence: evidence::List,
         last_commit: Option<Commit>,
-    ) -> Result<Self, Error> {
-        if last_commit.is_none() && header.height.value() != 1 {
-            return Err(Error::invalid_block(
-                "last_commit is empty on non-first block".to_string(),
-            ));
-        }
-        if last_commit.is_some() && header.height.value() == 1 {
-            return Err(Error::invalid_block(
-                "last_commit is filled on first block".to_string(),
-            ));
-        }
-        Ok(Block {
+    ) -> Self {
+        Self {
             header,
             data,
             evidence,
             last_commit,
-        })
+        }
     }
 
     /// Get header

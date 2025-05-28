@@ -79,7 +79,7 @@ impl Display for Id {
     }
 }
 
-impl<'a> TryFrom<&'a str> for Id {
+impl TryFrom<&str> for Id {
     type Error = Error;
 
     fn try_from(s: &str) -> Result<Self, Self::Error> {

@@ -1,4 +1,4 @@
-use cometbft_proto::abci::v1beta1 as pb;
+use cometbft_proto::v1::abci::v1beta1 as pb;
 use cometbft_proto::Protobuf;
 
 use crate::abci::MethodKind;
@@ -259,7 +259,7 @@ impl TryFrom<pb::Request> for Request {
             Some(Value::OfferSnapshot(x)) => Ok(Request::OfferSnapshot(x.try_into()?)),
             Some(Value::LoadSnapshotChunk(x)) => Ok(Request::LoadSnapshotChunk(x.try_into()?)),
             Some(Value::ApplySnapshotChunk(x)) => Ok(Request::ApplySnapshotChunk(x.try_into()?)),
-            None => Err(crate::Error::missing_data()),
+            None => Err(Error::missing_data()),
         }
     }
 }

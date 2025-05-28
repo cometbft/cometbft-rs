@@ -1,0 +1,1 @@
+- `[cometbft-rpc]` Add `FromStr`, `Serialize` and `Deserialize` instances to `CompatMode` ([\#21](https://github.com/cometbft/cometbft-rs/issues/21))

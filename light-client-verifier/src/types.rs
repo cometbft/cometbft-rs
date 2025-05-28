@@ -93,7 +93,7 @@ pub struct UntrustedBlockState<'a> {
     pub next_validators: Option<&'a ValidatorSet>,
 }
 
-impl<'a> UntrustedBlockState<'a> {
+impl UntrustedBlockState<'_> {
     /// Convenience method to expose the height of the associated header.
     pub fn height(&self) -> Height {
         self.signed_header.header.height

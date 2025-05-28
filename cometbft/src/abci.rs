@@ -44,6 +44,9 @@ pub mod request;
 pub mod response;
 pub mod types;
 
+pub mod v0_34;
+pub mod v0_37;
+pub mod v0_38;
 pub mod v1;
 pub mod v1beta1;
 pub mod v1beta2;
@@ -54,6 +57,7 @@ pub use v1::request::{ConsensusRequest, InfoRequest, MempoolRequest, SnapshotReq
 pub use v1::response::Response;
 pub use v1::response::{ConsensusResponse, InfoResponse, MempoolResponse, SnapshotResponse};
 
+pub use event::v0_34::EventAttribute as EventAttributeV034;
 pub use event::{Event, EventAttribute, EventAttributeIndexExt, TypedEvent};
 
 #[doc(inline)]

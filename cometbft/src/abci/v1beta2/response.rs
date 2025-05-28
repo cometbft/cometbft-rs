@@ -192,7 +192,7 @@ impl TryFrom<Response> for SnapshotResponse {
 // Protobuf conversions
 // =============================================================================
 
-use cometbft_proto::abci::v1beta2 as pb;
+use cometbft_proto::v1::abci::v1beta2 as pb;
 use cometbft_proto::Protobuf;
 
 impl From<Response> for pb::Response {
@@ -244,7 +244,7 @@ impl TryFrom<pb::Response> for Response {
             Some(Value::ApplySnapshotChunk(x)) => Ok(Response::ApplySnapshotChunk(x.try_into()?)),
             Some(Value::PrepareProposal(x)) => Ok(Response::PrepareProposal(x.try_into()?)),
             Some(Value::ProcessProposal(x)) => Ok(Response::ProcessProposal(x.try_into()?)),
-            None => Err(crate::Error::missing_data()),
+            None => Err(Error::missing_data()),
         }
     }
 }

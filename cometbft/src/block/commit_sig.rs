@@ -80,18 +80,17 @@ impl CommitSig {
     }
 }
 
-mod v1 {
+cometbft_old_pb_modules! {
     use super::{CommitSig, ZERO_TIMESTAMP};
     use crate::{error::Error, prelude::*, Signature};
-    use cometbft_proto::types::v1::{self as pb, BlockIdFlag};
 
-    use num_traits::ToPrimitive;
+    use pb::types::{BlockIdFlag, CommitSig as RawCommitSig};
 
-    impl TryFrom<pb::CommitSig> for CommitSig {
+    impl TryFrom<RawCommitSig> for CommitSig {
         type Error = Error;
 
-        fn try_from(value: pb::CommitSig) -> Result<Self, Self::Error> {
-            if value.block_id_flag == BlockIdFlag::Absent.to_i32().unwrap() {
+        fn try_from(value: RawCommitSig) -> Result<Self, Self::Error> {
+            if value.block_id_flag == BlockIdFlag::Absent as i32 {
                 if value.timestamp.is_some() {
                     let timestamp = value.timestamp.unwrap();
                     // 0001-01-01T00:00:00.000Z translates to EPOCH-62135596800 seconds
@@ -111,7 +110,7 @@ mod v1 {
                 return Ok(CommitSig::BlockIdFlagAbsent);
             }
 
-            if value.block_id_flag == BlockIdFlag::Commit.to_i32().unwrap() {
+            if value.block_id_flag == BlockIdFlag::Commit as i32 {
                 if value.signature.is_empty() {
                     return Err(Error::invalid_signature(
                         "expected non-empty signature for regular commitsig".to_string(),
@@ -133,7 +132,133 @@ mod v1 {
                     signature: Signature::new(value.signature)?,
                 });
             }
-            if value.block_id_flag == BlockIdFlag::Nil.to_i32().unwrap() {
+            if value.block_id_flag == BlockIdFlag::Nil as i32 {
+                if value.signature.is_empty() {
+                    return Err(Error::invalid_signature(
+                        "nil commitsig has no signature".to_string(),
+                    ));
+                }
+                if value.validator_address.is_empty() {
+                    return Err(Error::invalid_validator_address());
+                }
+                return Ok(CommitSig::BlockIdFlagNil {
+                    validator_address: value.validator_address.try_into()?,
+                    timestamp: value
+                        .timestamp
+                        .ok_or_else(Error::missing_timestamp)?
+                        .try_into()?,
+                    signature: Signature::new(value.signature)?,
+                });
+            }
+            Err(Error::block_id_flag())
+        }
+    }
+
+    impl From<CommitSig> for RawCommitSig {
+        fn from(commit: CommitSig) -> RawCommitSig {
+            match commit {
+                CommitSig::BlockIdFlagAbsent => RawCommitSig {
+                    block_id_flag: BlockIdFlag::Absent as i32,
+                    validator_address: Vec::new(),
+                    timestamp: Some(ZERO_TIMESTAMP),
+                    signature: Vec::new(),
+                },
+                CommitSig::BlockIdFlagNil {
+                    validator_address,
+                    timestamp,
+                    signature,
+                } => RawCommitSig {
+                    block_id_flag: BlockIdFlag::Nil as i32,
+                    validator_address: validator_address.into(),
+                    timestamp: Some(timestamp.into()),
+                    signature: signature.map(|s| s.into_bytes()).unwrap_or_default(),
+                },
+                CommitSig::BlockIdFlagCommit {
+                    validator_address,
+                    timestamp,
+                    signature,
+                } => RawCommitSig {
+                    block_id_flag: BlockIdFlag::Commit as i32,
+                    validator_address: validator_address.into(),
+                    timestamp: Some(timestamp.into()),
+                    signature: signature.map(|s| s.into_bytes()).unwrap_or_default(),
+                },
+            }
+        }
+    }
+
+    #[test]
+    #[cfg(test)]
+    fn test_block_id_flag_absent_serialization() {
+        let absent = CommitSig::BlockIdFlagAbsent;
+        let raw_absent = RawCommitSig::from(absent);
+        let expected = r#"{"block_id_flag":1,"validator_address":"","timestamp":"0001-01-01T00:00:00Z","signature":""}"#;
+        let output = serde_json::to_string(&raw_absent).unwrap();
+        assert_eq!(expected, &output);
+    }
+
+    #[test]
+    #[cfg(test)]
+    fn test_block_id_flag_absent_deserialization() {
+        let json = r#"{"block_id_flag":1,"validator_address":"","timestamp":"0001-01-01T00:00:00Z","signature":""}"#;
+        let raw_commit_sg = serde_json::from_str::<RawCommitSig>(json).unwrap();
+        let commit_sig = CommitSig::try_from(raw_commit_sg).unwrap();
+        assert_eq!(commit_sig, CommitSig::BlockIdFlagAbsent);
+    }
+}
+
+mod v1 {
+    use super::{CommitSig, ZERO_TIMESTAMP};
+    use crate::{error::Error, prelude::*, Signature};
+    use cometbft_proto::types::v1::{self as pb, BlockIdFlag};
+
+    impl TryFrom<pb::CommitSig> for CommitSig {
+        type Error = Error;
+
+        fn try_from(value: pb::CommitSig) -> Result<Self, Self::Error> {
+            if value.block_id_flag == BlockIdFlag::Absent as i32 {
+                if value.timestamp.is_some() {
+                    let timestamp = value.timestamp.unwrap();
+                    // 0001-01-01T00:00:00.000Z translates to EPOCH-62135596800 seconds
+                    if timestamp.nanos != 0 || timestamp.seconds != -62135596800 {
+                        return Err(Error::invalid_timestamp(
+                            "absent commitsig has non-zero timestamp".to_string(),
+                        ));
+                    }
+                }
+
+                if !value.signature.is_empty() {
+                    return Err(Error::invalid_signature(
+                        "expected empty signature for absent commitsig".to_string(),
+                    ));
+                }
+
+                return Ok(CommitSig::BlockIdFlagAbsent);
+            }
+
+            if value.block_id_flag == BlockIdFlag::Commit as i32 {
+                if value.signature.is_empty() {
+                    return Err(Error::invalid_signature(
+                        "expected non-empty signature for regular commitsig".to_string(),
+                    ));
+                }
+
+                if value.validator_address.is_empty() {
+                    return Err(Error::invalid_validator_address());
+                }
+
+                let timestamp = value
+                    .timestamp
+                    .ok_or_else(Error::missing_timestamp)?
+                    .try_into()?;
+
+                return Ok(CommitSig::BlockIdFlagCommit {
+                    validator_address: value.validator_address.try_into()?,
+                    timestamp,
+                    signature: Signature::new(value.signature)?,
+                });
+            }
+            if value.block_id_flag == BlockIdFlag::Nil as i32 {
                 if value.signature.is_empty() {
                     return Err(Error::invalid_signature(
                         "nil commitsig has no signature".to_string(),
@@ -159,7 +284,7 @@ mod v1 {
         fn from(commit: CommitSig) -> pb::CommitSig {
             match commit {
                 CommitSig::BlockIdFlagAbsent => pb::CommitSig {
-                    block_id_flag: BlockIdFlag::Absent.to_i32().unwrap(),
+                    block_id_flag: BlockIdFlag::Absent as i32,
                     validator_address: Vec::new(),
                     timestamp: Some(ZERO_TIMESTAMP),
                     signature: Vec::new(),
@@ -169,7 +294,7 @@ mod v1 {
                     timestamp,
                     signature,
                 } => pb::CommitSig {
-                    block_id_flag: BlockIdFlag::Nil.to_i32().unwrap(),
+                    block_id_flag: BlockIdFlag::Nil as i32,
                     validator_address: validator_address.into(),
                     timestamp: Some(timestamp.into()),
                     signature: signature.map(|s| s.into_bytes()).unwrap_or_default(),
@@ -179,7 +304,7 @@ mod v1 {
                     timestamp,
                     signature,
                 } => pb::CommitSig {
-                    block_id_flag: BlockIdFlag::Commit.to_i32().unwrap(),
+                    block_id_flag: BlockIdFlag::Commit as i32,
                     validator_address: validator_address.into(),
                     timestamp: Some(timestamp.into()),
                     signature: signature.map(|s| s.into_bytes()).unwrap_or_default(),
@@ -213,13 +338,11 @@ mod v1beta1 {
     use crate::{error::Error, prelude::*, Signature};
     use cometbft_proto::types::v1beta1::{self as pb, BlockIdFlag};
 
-    use num_traits::ToPrimitive;
-
     impl TryFrom<pb::CommitSig> for CommitSig {
         type Error = Error;
 
         fn try_from(value: pb::CommitSig) -> Result<Self, Self::Error> {
-            if value.block_id_flag == BlockIdFlag::Absent.to_i32().unwrap() {
+            if value.block_id_flag == BlockIdFlag::Absent as i32 {
                 if value.timestamp.is_some() {
                     let timestamp = value.timestamp.unwrap();
                     // 0001-01-01T00:00:00.000Z translates to EPOCH-62135596800 seconds
@@ -239,7 +362,7 @@ mod v1beta1 {
                 return Ok(CommitSig::BlockIdFlagAbsent);
             }
 
-            if value.block_id_flag == BlockIdFlag::Commit.to_i32().unwrap() {
+            if value.block_id_flag == BlockIdFlag::Commit as i32 {
                 if value.signature.is_empty() {
                     return Err(Error::invalid_signature(
                         "expected non-empty signature for regular commitsig".to_string(),
@@ -261,7 +384,7 @@ mod v1beta1 {
                     signature: Signature::new(value.signature)?,
                 });
             }
-            if value.block_id_flag == BlockIdFlag::Nil.to_i32().unwrap() {
+            if value.block_id_flag == BlockIdFlag::Nil as i32 {
                 if value.signature.is_empty() {
                     return Err(Error::invalid_signature(
                         "nil commitsig has no signature".to_string(),
@@ -287,7 +410,7 @@ mod v1beta1 {
         fn from(commit: CommitSig) -> pb::CommitSig {
             match commit {
                 CommitSig::BlockIdFlagAbsent => pb::CommitSig {
-                    block_id_flag: BlockIdFlag::Absent.to_i32().unwrap(),
+                    block_id_flag: BlockIdFlag::Absent as i32,
                     validator_address: Vec::new(),
                     timestamp: Some(ZERO_TIMESTAMP),
                     signature: Vec::new(),
@@ -297,7 +420,7 @@ mod v1beta1 {
                     timestamp,
                     signature,
                 } => pb::CommitSig {
-                    block_id_flag: BlockIdFlag::Nil.to_i32().unwrap(),
+                    block_id_flag: BlockIdFlag::Nil as i32,
                     validator_address: validator_address.into(),
                     timestamp: Some(timestamp.into()),
                     signature: signature.map(|s| s.into_bytes()).unwrap_or_default(),
@@ -307,7 +430,7 @@ mod v1beta1 {
                     timestamp,
                     signature,
                 } => pb::CommitSig {
-                    block_id_flag: BlockIdFlag::Commit.to_i32().unwrap(),
+                    block_id_flag: BlockIdFlag::Commit as i32,
                     validator_address: validator_address.into(),
                     timestamp: Some(timestamp.into()),
                     signature: signature.map(|s| s.into_bytes()).unwrap_or_default(),
