@@ -3,7 +3,7 @@
  * A state-machine specification of the lite client, following the English spec:
  *
  * https://github.com/tendermint/spec/blob/master/rust-spec/lightclient/verification/verification.md
- *) 
+ *)
 
 EXTENDS Integers, FiniteSets
 
@@ -24,31 +24,31 @@ CONSTANTS
   (* @type: Int;
     the period within which the validators are trusted *)
   TRUSTING_PERIOD,
-  (* @type: Bool; *)  
+  (* @type: Bool; *)
   IS_PRIMARY_CORRECT
 
 VARIABLES       (* see TypeOK below for the variable types *)
   (* @type: Str;
      the current state of the light client *)
-  state,        
+  state,
  (* @type: Int;
     the next height to explore by the light client *)
   nextHeight,
  (* @type: Int;
     the lite client iteration, or the number of block tests *)
-  nprobes      
-  
+  nprobes
+
 (* the light store *)
-VARIABLES  
+VARIABLES
   (* @type: Int -> BLOCK; *)
   fetchedLightBlocks,
-  (* 
+  (*
      @type: BLOCKSTATUS;
      a function from heights to block statuses *)
-  lightBlockStatus,   
+  lightBlockStatus,
   (* @type: BLOCK;
      the latest verified block *)
-  latestVerified      
+  latestVerified
 
 (* the variables of the lite client *)
 lcvars == <<state, nextHeight, fetchedLightBlocks, lightBlockStatus, latestVerified>>
@@ -100,24 +100,24 @@ bcvars == <<now, blockchain, Faulty>>
 (* Create an instance of Blockchain.
    We could write EXTENDS Blockchain, but then all the constants and state variables
    would be hidden inside the Blockchain module.
- *) 
-ULTIMATE_HEIGHT == TARGET_HEIGHT + 1 
- 
+ *)
+ULTIMATE_HEIGHT == TARGET_HEIGHT + 1
+
 BC == INSTANCE Blockchain_003_draft WITH
   now <- now, blockchain <- blockchain, Faulty <- Faulty
 
 (************************** Lite client ************************************)
 
-(* the heights on which the light client is working *)  
+(* the heights on which the light client is working *)
 HEIGHTS == TRUSTED_HEIGHT..TARGET_HEIGHT
 
-(* the control states of the lite client *) 
+(* the control states of the lite client *)
 States == { "working", "finishedSuccess", "finishedFailure" }
 
 (**
  @type: (BLOCK, BLOCK) => Bool;
  Check the precondition of ValidAndVerified.
- 
+
  [LCV-FUNC-VALID.1::TLA-PRE.1]
  *)
 ValidAndVerifiedPre(trusted, untrusted) ==
@@ -134,10 +134,10 @@ ValidAndVerifiedPre(trusted, untrusted) ==
   /\ LET TP == Cardinality(uhdr.VS)
          SP == Cardinality(untrusted.Commits)
      IN
-     3 * SP > 2 * TP     
+     3 * SP > 2 * TP
   /\ thdr.height + 1 = uhdr.height => thdr.NextVS = uhdr.VS
   (* As we do not have explicit hashes we ignore these three checks of the English spec:
-   
+
      1. "trusted.Commit is a commit is for the header trusted.Header,
       i.e. it contains the correct hash of the header".
      2. untrusted.Validators = hash(untrusted.Header.Validators)
@@ -152,13 +152,13 @@ SignedByOneThirdOfTrusted(trusted, untrusted) ==
   LET TP == Cardinality(trusted.header.NextVS)
       SP == Cardinality(untrusted.Commits \intersect trusted.header.NextVS)
   IN
-  3 * SP > TP     
+  3 * SP > TP
 
 (**
  Check, whether an untrusted block is valid and verifiable w.r.t. a trusted header.
- 
+
  [LCV-FUNC-VALID.1::TLA.1]
- *)   
+ *)
 ValidAndVerified(trusted, untrusted) ==
     IF ~ValidAndVerifiedPre(trusted, untrusted)
     THEN "INVALID"
@@ -166,8 +166,8 @@ ValidAndVerified(trusted, untrusted) ==
     (* We leave the following test for the documentation purposes.
        The implementation should do this test, as signature verification may be slow.
        In the TLA+ specification, ValidAndVerified happens in no time.
-     *) 
-    THEN "FAILED_TRUSTING_PERIOD" 
+     *)
+    THEN "FAILED_TRUSTING_PERIOD"
     ELSE IF untrusted.header.height = trusted.header.height + 1
              \/ SignedByOneThirdOfTrusted(trusted, untrusted)
          THEN "SUCCESS"
@@ -188,7 +188,7 @@ LCInit ==
         /\ fetchedLightBlocks = [h \in {TRUSTED_HEIGHT} |-> trustedLightBlock]
         \* initially, lightBlockStatus is a function of one element, i.e., TRUSTED_HEIGHT
         /\ lightBlockStatus = [h \in {TRUSTED_HEIGHT} |-> "StateVerified"]
-        \* the latest verified block the the trusted block
+        \* the latest verified block the trusted block
         /\ latestVerified = trustedLightBlock
         /\ InitMonitor(trustedLightBlock, trustedLightBlock, now, "SUCCESS")
 
@@ -199,9 +199,9 @@ CopyLightBlockFromChain(block, height) ==
           IF height < ULTIMATE_HEIGHT
           THEN blockchain[height + 1].lastCommit
             \* for the ultimate block, which we never use, as ULTIMATE_HEIGHT = TARGET_HEIGHT + 1
-          ELSE blockchain[height].VS 
+          ELSE blockchain[height].VS
     IN
-    block = [header |-> ref, Commits |-> lastCommit]      
+    block = [header |-> ref, Commits |-> lastCommit]
 
 \* Either the primary is correct and the block comes from the reference chain,
 \* or the block is produced by a faulty primary.
@@ -213,21 +213,21 @@ FetchLightBlockInto(block, height) ==
     ELSE BC!IsLightBlockAllowedByDigitalSignatures(height, block)
 
 \* @type: (BLOCKS, BLOCK) => BLOCKS;
-\* add a block into the light store    
+\* add a block into the light store
 \*
 \* [LCV-FUNC-UPDATE.1::TLA.1]
 LightStoreUpdateBlocks(lightBlocks, block) ==
-    LET ht == block.header.height IN    
+    LET ht == block.header.height IN
     [h \in DOMAIN lightBlocks \union {ht} |->
         IF h = ht THEN block ELSE lightBlocks[h]]
 
 \* @type: (BLOCKSTATUS, Int, Str) => BLOCKSTATUS;
-\* update the state of a light block      
+\* update the state of a light block
 \*
 \* [LCV-FUNC-UPDATE.1::TLA.1]
 LightStoreUpdateStates(statuses, ht, blockState) ==
     [h \in DOMAIN statuses \union {ht} |->
-        IF h = ht THEN blockState ELSE statuses[h]]      
+        IF h = ht THEN blockState ELSE statuses[h]]
 
 \* @type: (Int, BLOCK, Int, Int) => Bool;
 \* Check, whether newHeight is a possible next height for the light client.
@@ -278,7 +278,7 @@ VerifyToTargetLoop ==
               /\ \E newHeight \in HEIGHTS:
                  /\ CanScheduleTo(newHeight, current, nextHeight, TARGET_HEIGHT)
                  /\ nextHeight' = newHeight
-                  
+
            [] verdict = "NOT_ENOUGH_TRUST" ->
               (*
                 do nothing: the light block current passed validation, but the validator
@@ -289,9 +289,9 @@ VerifyToTargetLoop ==
               /\ lightBlockStatus' = LightStoreUpdateStates(lightBlockStatus, nextHeight, "StateUnverified")
               /\ \E newHeight \in HEIGHTS:
                  /\ CanScheduleTo(newHeight, latestVerified, nextHeight, TARGET_HEIGHT)
-                 /\ nextHeight' = newHeight 
+                 /\ nextHeight' = newHeight
               /\ UNCHANGED <<latestVerified, state>>
-              
+
            [] OTHER ->
               \* verdict is some error code
               /\ lightBlockStatus' = LightStoreUpdateStates(lightBlockStatus, nextHeight, "StateFailed")
@@ -306,7 +306,7 @@ VerifyToTargetDone ==
     /\ state' = "finishedSuccess"
     /\ UNCHANGED <<nextHeight, nprobes, fetchedLightBlocks, lightBlockStatus, latestVerified>>
     /\ UNCHANGED <<prevVerified, prevCurrent, prevNow, prevVerdict>>
-            
+
 (********************* Lite client + Blockchain *******************)
 Init ==
     \* the blockchain is initialized immediately to the ULTIMATE_HEIGHT
@@ -322,7 +322,7 @@ Init ==
  *)
 Next ==
     /\ state = "working"
-    /\ VerifyToTargetLoop \/ VerifyToTargetDone 
+    /\ VerifyToTargetLoop \/ VerifyToTargetDone
     /\ BC!AdvanceTime \* the global clock is advanced by zero or more time units
 
 (************************* Types ******************************************)
@@ -338,33 +338,33 @@ TypeOK ==
 (************************* Properties ******************************************)
 
 (* The properties to check *)
-\* this invariant candidate is false    
+\* this invariant candidate is false
 NeverFinish ==
     state = "working"
 
-\* this invariant candidate is false    
+\* this invariant candidate is false
 NeverFinishNegative ==
     state /= "finishedFailure"
 
-\* This invariant holds true, when the primary is correct. 
-\* This invariant candidate is false when the primary is faulty.    
+\* This invariant holds true, when the primary is correct.
+\* This invariant candidate is false when the primary is faulty.
 NeverFinishNegativeWhenTrusted ==
     (*(minTrustedHeight <= TRUSTED_HEIGHT)*)
     BC!InTrustingPeriod(blockchain[TRUSTED_HEIGHT])
-      => state /= "finishedFailure"     
+      => state /= "finishedFailure"
 
-\* this invariant candidate is false    
+\* this invariant candidate is false
 NeverFinishPositive ==
     state /= "finishedSuccess"
 
 (**
   Correctness states that all the obtained headers are exactly like in the blockchain.
- 
+
   It is always the case that every verified header in LightStore was generated by
   an instance of Tendermint consensus.
-  
+
   [LCV-DIST-SAFE.1::CORRECTNESS-INV.1]
- *)  
+ *)
 CorrectnessInv ==
     \A h \in DOMAIN fetchedLightBlocks:
         lightBlockStatus[h] = "StateVerified" =>
@@ -399,7 +399,7 @@ StoredHeadersAreVerifiedOrNotTrustedInv ==
                \* or we can verify the right one using the left one
             \/ "SUCCESS" = ValidAndVerified(fetchedLightBlocks[lh], fetchedLightBlocks[rh])
                \* or the left header is outside the trusting period, so no guarantees
-            \/ ~BC!InTrustingPeriod(fetchedLightBlocks[lh].header) 
+            \/ ~BC!InTrustingPeriod(fetchedLightBlocks[lh].header)
 
 (**
  * An improved version of StoredHeadersAreSoundOrNotTrusted,
@@ -423,25 +423,25 @@ ProofOfChainOfTrustInv ==
             \/ "SUCCESS" = ValidAndVerified(fetchedLightBlocks[lh], fetchedLightBlocks[rh])
 
 (**
- * When the light client terminates, there are no failed blocks. (Otherwise, someone lied to us.) 
- *)            
+ * When the light client terminates, there are no failed blocks. (Otherwise, someone lied to us.)
+ *)
 NoFailedBlocksOnSuccessInv ==
     state = "finishedSuccess" =>
         \A h \in DOMAIN fetchedLightBlocks:
-            lightBlockStatus[h] /= "StateFailed"            
+            lightBlockStatus[h] /= "StateFailed"
 
 \* This property states that whenever the light client finishes with a positive outcome,
 \* the trusted header is still within the trusting period.
 \* We expect this property to be violated. And Apalache shows us a counterexample.
 PositiveBeforeTrustedHeaderExpires ==
     (state = "finishedSuccess") => BC!InTrustingPeriod(blockchain[TRUSTED_HEIGHT])
-    
+
 \* If the primary is correct and the initial trusted block has not expired,
-\* then whenever the algorithm terminates, it reports "success"    
+\* then whenever the algorithm terminates, it reports "success"
 CorrectPrimaryAndTimeliness ==
   (BC!InTrustingPeriod(blockchain[TRUSTED_HEIGHT])
     /\ state /= "working" /\ IS_PRIMARY_CORRECT) =>
-      state = "finishedSuccess"     
+      state = "finishedSuccess"
 
 (**
   If the primary is correct and there is a trusted block that has not expired,
@@ -453,7 +453,7 @@ SuccessOnCorrectPrimaryAndChainOfTrust ==
   (\E h \in DOMAIN fetchedLightBlocks:
         lightBlockStatus[h] = "StateVerified" /\ BC!InTrustingPeriod(blockchain[h])
     /\ state /= "working" /\ IS_PRIMARY_CORRECT) =>
-      state = "finishedSuccess"     
+      state = "finishedSuccess"
 
 \* Lite Client Completeness: If header h was correctly generated by an instance
 \* of Tendermint consensus (and its age is less than the trusting period),
@@ -463,7 +463,7 @@ SuccessOnCorrectPrimaryAndChainOfTrust ==
 \*
 \* We decompose completeness into Termination (liveness) and Precision (safety).
 \* Once again, Precision is an inverse version of the safety property in Completeness,
-\* as A => B is logically equivalent to ~B => ~A. 
+\* as A => B is logically equivalent to ~B => ~A.
 PrecisionInv ==
     (state = "finishedFailure")
       => \/ ~BC!InTrustingPeriod(blockchain[TRUSTED_HEIGHT]) \* outside of the trusting period
@@ -487,7 +487,7 @@ PrecisionBuggyInv ==
 Complexity ==
     LET N == TARGET_HEIGHT - TRUSTED_HEIGHT + 1 IN
     state /= "working" =>
-        (2 * nprobes <= N * (N - 1)) 
+        (2 * nprobes <= N * (N - 1))
 
 (*
  We omit termination, as the algorithm deadlocks in the end.
