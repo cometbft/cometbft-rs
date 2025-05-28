@@ -424,7 +424,7 @@ where
                 data.append(&mut chunk);
             }
 
-            let genesis: tendermint::genesis::Genesis<serde_json::Value> =
+            let genesis: cometbft::genesis::Genesis<serde_json::Value> =
                 serde_json::from_slice(&data).map_err(Error::serde)?;
 
             serde_json::to_string_pretty(&genesis).map_err(Error::serde)?
