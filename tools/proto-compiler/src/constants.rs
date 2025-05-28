@@ -41,7 +41,7 @@ pub const COMETBFT_VERSIONS: &[CometBFTVersion] = &[
         repo: COMETBFT_REPO,
         ident: "v1",
         prefix: "cometbft",
-        commitish: "v1.0.0-alpha.1",
+        commitish: "v1.0.0",
     },
 ];
 

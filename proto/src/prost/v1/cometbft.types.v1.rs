@@ -19,6 +19,7 @@ pub struct Validator {
     #[prost(bytes = "vec", tag = "1")]
     #[serde(with = "crate::serializers::bytes::hexstring")]
     pub address: ::prost::alloc::vec::Vec<u8>,
+    #[deprecated]
     #[prost(message, optional, tag = "2")]
     pub pub_key: ::core::option::Option<super::super::crypto::v1::PublicKey>,
     #[prost(int64, tag = "3")]
@@ -28,6 +29,10 @@ pub struct Validator {
     #[serde(with = "crate::serializers::from_str_allow_null")]
     #[serde(default)]
     pub proposer_priority: i64,
+    #[prost(bytes = "vec", tag = "5")]
+    pub pub_key_bytes: ::prost::alloc::vec::Vec<u8>,
+    #[prost(string, tag = "6")]
+    pub pub_key_type: ::prost::alloc::string::String,
 }
 /// SimpleValidator is a Validator, which is serialized and hashed in consensus.
 /// Address is removed because it's redundant with the pubkey.
@@ -463,7 +468,7 @@ pub struct Block {
     #[prost(message, optional, tag = "4")]
     pub last_commit: ::core::option::Option<Commit>,
 }
-/// EventDataRoundState is emmitted with each new round step.
+/// EventDataRoundState is emitted with each new round step.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct EventDataRoundState {
     #[prost(int64, tag = "1")]
@@ -486,60 +491,75 @@ pub struct ConsensusParams {
     pub validator: ::core::option::Option<ValidatorParams>,
     #[prost(message, optional, tag = "4")]
     pub version: ::core::option::Option<VersionParams>,
+    /// Use FeatureParams.vote_extensions_enable_height instead
+    #[deprecated]
     #[prost(message, optional, tag = "5")]
     pub abci: ::core::option::Option<AbciParams>,
+    #[prost(message, optional, tag = "6")]
+    pub synchrony: ::core::option::Option<SynchronyParams>,
+    #[prost(message, optional, tag = "7")]
+    pub feature: ::core::option::Option<FeatureParams>,
 }
-/// BlockParams contains limits on the block size.
+/// BlockParams define limits on the block size and gas.
 #[derive(::serde::Deserialize, ::serde::Serialize)]
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct BlockParams {
-    /// Max block size, in bytes.
-    /// Note: must be greater than 0
+    /// Maximum size of a block, in bytes.
+    ///
+    /// Must be greater or equal to -1 and cannot be greater than the hard-coded
+    /// maximum block size, which is 100MB.
+    ///
+    /// If set to -1, the limit is the hard-coded maximum block size.
     #[prost(int64, tag = "1")]
     pub max_bytes: i64,
-    /// Max gas per block.
-    /// Note: must be greater or equal to -1
+    /// Maximum gas wanted by transactions included in a block.
+    ///
+    /// Must be greater or equal to -1. If set to -1, no limit is enforced.
     #[prost(int64, tag = "2")]
     pub max_gas: i64,
 }
-/// EvidenceParams determine how we handle evidence of malfeasance.
+/// EvidenceParams determine the validity of evidences of Byzantine behavior.
 #[derive(::serde::Deserialize, ::serde::Serialize)]
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct EvidenceParams {
-    /// Max age of evidence, in blocks.
+    /// Maximum age of evidence, in blocks.
     ///
-    /// The basic formula for calculating this is: MaxAgeDuration / {average block
-    /// time}.
+    /// The recommended formula for calculating it is max_age_duration / {average
+    /// block time}.
     #[prost(int64, tag = "1")]
     #[serde(with = "crate::serializers::from_str", default)]
     pub max_age_num_blocks: i64,
-    /// Max age of evidence, in time.
+    /// Maximum age of evidence, in time.
     ///
-    /// It should correspond with an app's "unbonding period" or other similar
-    /// mechanism for handling [Nothing-At-Stake
-    /// attacks](<https://github.com/ethereum/wiki/wiki/Proof-of-Stake-FAQ#what-is-the-nothing-at-stake-problem-and-how-can-it-be-fixed>).
+    /// The recommended value of is should correspond to the application's
+    /// "unbonding period" or other similar mechanism for handling
+    /// Nothing-At-Stake attacks.
+    /// See: <https://github.com/ethereum/wiki/wiki/Proof-of-Stake-FAQ#what-is-the-nothing-at-stake-problem-and-how-can-it-be-fixed.>
     #[prost(message, optional, tag = "2")]
     pub max_age_duration: ::core::option::Option<crate::google::protobuf::Duration>,
-    /// This sets the maximum size of total evidence in bytes that can be committed in a single block.
-    /// and should fall comfortably under the max block bytes.
-    /// Default is 1048576 or 1MB
+    /// Maximum size in bytes of evidence allowed to be included in a block.
+    ///
+    /// It should fall comfortably under the maximum size of a block.
     #[prost(int64, tag = "3")]
     #[serde(with = "crate::serializers::from_str", default)]
     pub max_bytes: i64,
 }
 /// ValidatorParams restrict the public key types validators can use.
-/// NOTE: uses ABCI pubkey naming, not Amino names.
+///
+/// NOTE: uses ABCI public keys naming, not Amino names.
 #[derive(::serde::Deserialize, ::serde::Serialize)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ValidatorParams {
     #[prost(string, repeated, tag = "1")]
     pub pub_key_types: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
-/// VersionParams contains the ABCI application version.
+/// VersionParams contain the version of specific components of CometBFT.
 #[derive(::serde::Deserialize, ::serde::Serialize)]
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct VersionParams {
-    /// Was named app_version in Tendermint 0.34
+    /// The ABCI application version.
+    ///
+    /// It was named app_version in CometBFT 0.34.
     #[prost(uint64, tag = "1")]
     pub app: u64,
 }
@@ -553,19 +573,63 @@ pub struct HashedParams {
     #[prost(int64, tag = "2")]
     pub block_max_gas: i64,
 }
-/// ABCIParams configure functionality specific to the Application Blockchain Interface.
+/// SynchronyParams determine the validity of block timestamps.
+///
+/// These parameters are part of the Proposer-Based Timestamps (PBTS) algorithm.
+/// For more information on the relationship of the synchrony parameters to
+/// block timestamps validity, refer to the PBTS specification:
+/// <https://github.com/tendermint/spec/blob/master/spec/consensus/proposer-based-timestamp/README.md>
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct SynchronyParams {
+    /// Bound for how skewed a proposer's clock may be from any validator on the
+    /// network while still producing valid proposals.
+    #[prost(message, optional, tag = "1")]
+    pub precision: ::core::option::Option<crate::google::protobuf::Duration>,
+    /// Bound for how long a proposal message may take to reach all validators on
+    /// a network and still be considered valid.
+    #[prost(message, optional, tag = "2")]
+    pub message_delay: ::core::option::Option<crate::google::protobuf::Duration>,
+}
+/// FeatureParams configure the height from which features of CometBFT are enabled.
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct FeatureParams {
+    /// Height during which vote extensions will be enabled.
+    ///
+    /// A value of 0 means vote extensions are disabled. A value > 0 denotes
+    /// the height at which vote extensions will be (or have been) enabled.
+    ///
+    /// During the specified height, and for all subsequent heights, precommit
+    /// messages that do not contain valid extension data will be considered
+    /// invalid. Prior to this height, or when this height is set to 0, vote
+    /// extensions will not be used or accepted by validators on the network.
+    ///
+    /// Once enabled, vote extensions will be created by the application in
+    /// ExtendVote, validated by the application in VerifyVoteExtension, and
+    /// used by the application in PrepareProposal, when proposing the next block.
+    ///
+    /// Cannot be set to heights lower or equal to the current blockchain height.
+    #[prost(message, optional, tag = "1")]
+    pub vote_extensions_enable_height: ::core::option::Option<i64>,
+    /// Height at which Proposer-Based Timestamps (PBTS) will be enabled.
+    ///
+    /// A value of 0 means PBTS is disabled. A value > 0 denotes the height at
+    /// which PBTS will be (or has been) enabled.
+    ///
+    /// From the specified height, and for all subsequent heights, the PBTS
+    /// algorithm will be used to produce and validate block timestamps. Prior to
+    /// this height, or when this height is set to 0, the legacy BFT Time
+    /// algorithm is used to produce and validate timestamps.
+    ///
+    /// Cannot be set to heights lower or equal to the current blockchain height.
+    #[prost(message, optional, tag = "2")]
+    pub pbts_enable_height: ::core::option::Option<i64>,
+}
+/// ABCIParams is deprecated and its contents moved to FeatureParams
 #[derive(::serde::Deserialize, ::serde::Serialize)]
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct AbciParams {
-    /// vote_extensions_enable_height configures the first height during which
-    /// vote extensions will be enabled. During this specified height, and for all
-    /// subsequent heights, precommit messages that do not contain valid extension data
-    /// will be considered invalid. Prior to this height, vote extensions will not
-    /// be used or accepted by validators on the network.
-    ///
-    /// Once enabled, vote extensions will be created by the application in ExtendVote,
-    /// passed to the application for validation in VerifyVoteExtension and given
-    /// to the application to use when proposing a block during PrepareProposal.
+    /// vote_extensions_enable_height has been deprecated.
+    /// Instead, use FeatureParams.vote_extensions_enable_height.
     #[prost(int64, tag = "1")]
     pub vote_extensions_enable_height: i64,
 }
