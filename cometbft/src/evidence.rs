@@ -127,21 +127,25 @@ impl AsRef<[Evidence]> for List {
 /// [CometBFT documentation](https://docs.cometbft.com/v1/spec/core/data_structures.html#evidenceparams)
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct Params {
-    /// Max age of evidence, in blocks.
+    /// Maximum age of evidence, in blocks.
+    ///
+    /// The recommended formula for calculating it is max_age_duration / {average
+    /// block time}.
     #[serde(with = "serializers::from_str")]
     pub max_age_num_blocks: u64,
 
     /// Max age of evidence, in time.
     ///
-    /// It should correspond with an app's "unbonding period" or other similar
-    /// mechanism for handling [Nothing-At-Stake attacks][nas].
+    /// The recommended value of is should correspond to the application's
+    /// "unbonding period" or other similar mechanism for handling
+    /// [Nothing-At-Stake][nas] attacks.
     ///
     /// [nas]: https://github.com/ethereum/wiki/wiki/Proof-of-Stake-FAQ#what-is-the-nothing-at-stake-problem-and-how-can-it-be-fixed
     pub max_age_duration: Duration,
 
-    /// This sets the maximum size of total evidence in bytes that can be
-    /// committed in a single block, and should fall comfortably under the max
-    /// block bytes. The default is 1048576 or 1MB.
+    /// Maximum size in bytes of evidence allowed to be included in a block.
+    ///
+    /// It should fall comfortably under the maximum size of a block.
     #[serde(with = "serializers::from_str", default)]
     pub max_bytes: i64,
 }

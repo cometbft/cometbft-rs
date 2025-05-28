@@ -256,13 +256,17 @@ impl ProposerPriority {
 /// [ABCI documentation](https://docs.cometbft.com/v1/spec/abci/abci.html#validatorupdate)
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq, Eq)]
 pub struct Update {
-    /// Validator public key
-    #[serde(deserialize_with = "deserialize_public_key")]
-    pub pub_key: PublicKey,
-
     /// New voting power
     #[serde(default)]
     pub power: vote::Power,
+    
+    /// Public key bytes
+    #[serde(deserialize_with = "deserialize_public_key")]
+    pub pub_key_bytes: Vec<u8>,
+    
+    /// Public key type 
+    #[serde(default)]
+    pub pub_key_type: String,
 }
 
 // =============================================================================

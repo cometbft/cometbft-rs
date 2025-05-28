@@ -31,6 +31,7 @@ pub mod error;
 pub mod abci;
 pub mod account;
 pub mod block;
+pub mod bytes;
 pub mod chain;
 pub mod channel;
 pub mod consensus;

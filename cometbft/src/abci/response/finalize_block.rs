@@ -7,6 +7,8 @@ use crate::{consensus, serializers, validator, AppHash};
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct FinalizeBlock {
     /// Set of block events emitted as part of executing the block
+    ///
+    /// nondeterministic
     #[serde(default)]
     pub events: Vec<Event>,
     /// The result of executing each transaction including the events
