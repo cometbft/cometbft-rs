@@ -1,4 +1,4 @@
-//! Tendermint consensus parameters
+//! CometBFT consensus parameters
 
 use serde::{Deserialize, Serialize};
 
@@ -26,13 +26,19 @@ pub struct Params {
     /// This field has been added in CometBFT 0.38 and will be ignored when
     /// encoding into earlier protocol versions.
     ///
-    /// Use `FeatureParams.vote_extensions_enable_height` instead.
+    /// From CometBFT v1.0.0 onwards, use `FeatureParams.vote_extensions_enable_height` instead.
     #[deprecated]
     #[serde(default)]
     pub abci: AbciParams,
-
+    /// Parameters for Proposer-Based Timestamps (PBTS).
+    ///
+    /// This field has been added in CometBFT 1.0.0 and will be ignored when
+    /// encoding into earlier protocol versions.
     pub synchrony: Option<SynchronyParams>,
-
+    /// Parameters for enabling specific features.
+    ///
+    /// This field has been added in CometBFT 1.0.0 and will be ignored when
+    /// encoding into earlier protocol versions.
     pub feature: Option<FeatureParams>,
 }
 
@@ -66,15 +72,18 @@ pub struct AbciParams {
 ///
 /// These parameters are part of the Proposer-Based Timestamps (PBTS) algorithm.
 /// For more information on the relationship of the synchrony parameters to
-/// block timestamps validity, refer to the PBTS specification:
-/// <https://github.com/tendermint/spec/blob/master/spec/consensus/proposer-based-timestamp/README.md>
+/// block timestamps validity, refer to the [PBTS specification][pbts].
+///
+/// [pbts]: https://github.com/cometbft/cometbft/blob/main/spec/consensus/proposer-based-timestamp/README.md
 #[derive(Clone, Serialize, Deserialize, Debug, Eq, PartialEq, Default)]
 pub struct SynchronyParams {
     /// Bound for how skewed a proposer's clock may be from any validator on the
     /// network while still producing valid proposals.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub precision: Option<time::Duration>,
     /// Bound for how long a proposal message may take to reach all validators on
     /// a network and still be considered valid.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub message_delay: Option<time::Duration>,
 }
 
@@ -96,6 +105,7 @@ pub struct FeatureParams {
     /// used by the application in PrepareProposal, when proposing the next block.
     ///
     /// Cannot be set to heights lower or equal to the current blockchain height.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub vote_extensions_enable_height: Option<block::Height>,
     /// Height at which Proposer-Based Timestamps (PBTS) will be enabled.
     ///
@@ -108,6 +118,7 @@ pub struct FeatureParams {
     /// algorithm is used to produce and validate timestamps.
     ///
     /// Cannot be set to heights lower or equal to the current blockchain height.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub pbts_enable_height: Option<block::Height>,
 }
 
@@ -160,6 +171,8 @@ mod v0_34 {
                     .try_into()?,
                 version: value.version.map(TryFrom::try_from).transpose()?,
                 abci: Default::default(),
+                synchrony: None,
+                feature: None,
             })
         }
     }
@@ -196,6 +209,8 @@ mod v0_34 {
                     .try_into()?,
                 version: value.version.map(TryFrom::try_from).transpose()?,
                 abci: Default::default(),
+                synchrony: None,
+                feature: None,
             })
         }
     }
@@ -290,6 +305,8 @@ mod v0_37 {
                     .try_into()?,
                 version: value.version.map(TryFrom::try_from).transpose()?,
                 abci: Default::default(),
+                synchrony: None,
+                feature: None,
             })
         }
     }
@@ -384,6 +401,8 @@ mod v0_38 {
                     .map(TryFrom::try_from)
                     .transpose()?
                     .unwrap_or_default(),
+                synchrony: None,
+                feature: None,
             })
         }
     }
@@ -499,6 +518,8 @@ mod v1beta1 {
                     .try_into()?,
                 version: value.version.map(TryFrom::try_from).transpose()?,
                 abci: Default::default(),
+                synchrony: None,
+                feature: None,
             })
         }
     }
@@ -533,6 +554,8 @@ mod v1beta1 {
                     .try_into()?,
                 version: value.version.map(TryFrom::try_from).transpose()?,
                 abci: Default::default(),
+                synchrony: None,
+                feature: None,
             })
         }
     }
@@ -613,6 +636,8 @@ mod v1beta2 {
                     .try_into()?,
                 version: value.version.map(TryFrom::try_from).transpose()?,
                 abci: Default::default(),
+                synchrony: None,
+                feature: None,
             })
         }
     }
@@ -632,6 +657,7 @@ mod v1beta2 {
 mod v1 {
     use cometbft_proto::types::v1::{
         AbciParams as RawAbciParams, ConsensusParams as RawParams,
+        FeatureParams as RawFeatureParams, SynchronyParams as RawSynchronyParams,
         ValidatorParams as RawValidatorParams, VersionParams as RawVersionParams,
     };
 
@@ -661,6 +687,8 @@ mod v1 {
                     .map(TryFrom::try_from)
                     .transpose()?
                     .unwrap_or_default(),
+                synchrony: value.synchrony.map(TryFrom::try_from).transpose()?,
+                feature: value.feature.map(TryFrom::try_from).transpose()?,
             })
         }
     }
@@ -673,6 +701,8 @@ mod v1 {
                 validator: Some(value.validator.into()),
                 version: value.version.map(From::from),
                 abci: Some(value.abci.into()),
+                synchrony: value.synchrony.map(From::from),
+                feature: value.feature.map(From::from),
             }
         }
     }
@@ -736,6 +766,24 @@ mod v1 {
                 vote_extensions_enable_height: value
                     .vote_extensions_enable_height
                     .map_or(0, Into::into),
+            }
+        }
+    }
+
+    impl From<SynchronyParams> for RawSynchronyParams {
+        fn from(value: SynchronyParams) -> Self {
+            RawSynchronyParams {
+                precision: value.precision.map(Into::into),
+                message_delay: value.message_delay.map(Into::into),
+            }
+        }
+    }
+
+    impl From<FeatureParams> for RawFeatureParams {
+        fn from(value: FeatureParams) -> Self {
+            RawFeatureParams {
+                vote_extensions_enable_height: value.vote_extensions_enable_height.map(Into::into),
+                pbts_enable_height: value.pbts_enable_height.map(Into::into),
             }
         }
     }
