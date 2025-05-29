@@ -16,7 +16,7 @@ pub struct PubKeyResponse {
     ///
     /// This field has been added in CometBFT 1.0.0 and will be ignored when
     /// encoding into earlier protocol versions.
-    pub pub_key_bytes: bytes::Bytes,
+    pub pub_key_bytes: Vec<u8>,
     /// Public key type
     ///
     /// This field has been added in CometBFT 1.0.0 and will be ignored when
@@ -72,7 +72,7 @@ mod v1 {
             Ok(PubKeyResponse {
                 pub_key: Default::default(), // pub_key is not present in v1
                 error: value.error.map(TryInto::try_into).transpose()?,
-                pub_key_bytes: bytes::Bytes::try_from(value.pub_key_bytes)?,
+                pub_key_bytes: value.pub_key_bytes.try_into()?,
                 pub_key_type: value.pub_key_type.try_into()?,
             })
         }

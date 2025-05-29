@@ -110,16 +110,10 @@ mod v1 {
         type Error = Error;
 
         fn try_from(value: RawSignVoteRequest) -> Result<Self, Self::Error> {
-            let vote = value.vote.ok_or_else(Error::no_vote_found)?.try_into()?;
-
-            let chain_id = value.chain_id.try_into()?;
-
-            let skip_extension_signing = value.skip_extension_signing;
-
             Ok(SignVoteRequest {
-                vote,
-                chain_id,
-                skip_extension_signing,
+                vote: value.vote.ok_or_else(Error::no_vote_found)?.try_into()?,
+                chain_id: value.chain_id.try_into()?,
+                skip_extension_signing: value.skip_extension_signing,
             })
         }
     }
@@ -129,6 +123,7 @@ mod v1 {
             RawSignVoteRequest {
                 vote: Some(value.vote.into()),
                 chain_id: value.chain_id.as_str().to_owned(),
+                skip_extension_signing: value.skip_extension_signing,
             }
         }
     }

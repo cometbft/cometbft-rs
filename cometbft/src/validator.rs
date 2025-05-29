@@ -143,13 +143,14 @@ impl Set {
 }
 
 /// Validator information
-// Todo: Remove address and make it into a function that generates it on the fly from pub_key.
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct Info {
     /// Validator account address
     pub address: account::Id,
 
     /// Validator public key
+    ///
+    /// From CometBFT v1.0.0 onwards, use `pub_key_bytes` and `pub_key_type` instead.
     pub pub_key: PublicKey,
 
     /// Validator voting power
@@ -257,6 +258,9 @@ impl ProposerPriority {
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq, Eq)]
 pub struct Update {
     /// Validator public key
+    ///
+    /// From CometBFT 1.0.0 and onwards, this field is deprecated. Please use `pub_key_bytes` and
+    /// `pub_key_type` instead.
     #[serde(deserialize_with = "deserialize_public_key")]
     pub pub_key: PublicKey,
 
@@ -265,10 +269,16 @@ pub struct Update {
     pub power: vote::Power,
 
     /// Public key bytes
+    ///
+    /// This field has been added in CometBFT 1.0.0 and will be ignored when
+    /// encoding into earlier protocol versions.
     #[serde(default)]
     pub pub_key_bytes: Vec<u8>,
 
     /// Public key type
+    ///
+    /// This field has been added in CometBFT 1.0.0 and will be ignored when
+    /// encoding into earlier protocol versions.
     #[serde(default)]
     pub pub_key_type: String,
 }
@@ -399,7 +409,7 @@ cometbft_old_pb_modules! {
 
 mod v1 {
     use super::{Info, Set, SimpleValidator, Update};
-    use crate::{prelude::*, Error};
+    use crate::{prelude::*, Error, PublicKey};
     use cometbft_proto::abci::v1::ValidatorUpdate as RawValidatorUpdate;
     use cometbft_proto::types::v1::{
         SimpleValidator as RawSimpleValidator, Validator as RawValidator,
@@ -441,10 +451,10 @@ mod v1 {
         fn try_from(value: RawValidator) -> Result<Self, Self::Error> {
             Ok(Info {
                 address: value.address.try_into()?,
-                pub_key: value
-                    .pub_key
-                    .ok_or_else(Error::missing_public_key)?
-                    .try_into()?,
+                pub_key: PublicKey::try_from_type_and_bytes(
+                    &value.pub_key_type,
+                    &value.pub_key_bytes,
+                )?,
                 power: value.voting_power.try_into()?,
                 name: None,
                 proposer_priority: value.proposer_priority.into(),
@@ -454,13 +464,14 @@ mod v1 {
 
     impl From<Info> for RawValidator {
         fn from(value: Info) -> Self {
+            #[allow(deprecated)]
             RawValidator {
                 address: value.address.into(),
-                pub_key: Some(value.pub_key.into()),
+                pub_key: None, // pub_key is deprecated in v1
                 voting_power: value.power.into(),
                 proposer_priority: value.proposer_priority.into(),
                 pub_key_bytes: value.pub_key.to_bytes(),
-                pub_key_type: "".to_string(), // TODO: fix this
+                pub_key_type: value.pub_key.type_str().to_owned(),
             }
         }
     }
@@ -506,10 +517,13 @@ mod v1 {
         type Error = Error;
 
         fn try_from(vu: RawValidatorUpdate) -> Result<Self, Self::Error> {
+            let pub_key_type: String = vu.pub_key_type.try_into()?;
+            let pub_key_bytes: Vec<u8> = vu.pub_key_bytes.try_into()?;
             Ok(Self {
+                pub_key: PublicKey::try_from_type_and_bytes(&pub_key_type, &pub_key_bytes)?,
                 power: vu.power.try_into()?,
-                pub_key_bytes: vu.pub_key_bytes.try_into()?,
-                pub_key_type: vu.pub_key_type.try_into()?,
+                pub_key_type,
+                pub_key_bytes,
             })
         }
     }

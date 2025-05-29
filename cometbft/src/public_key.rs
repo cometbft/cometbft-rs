@@ -18,6 +18,12 @@ use subtle_encoding::{base64, bech32, hex};
 pub use crate::crypto::ed25519::VerificationKey as Ed25519;
 use crate::{error::Error, prelude::*};
 
+/// Ed25519 public key type string.
+pub const PUB_KEY_TYPE_ED25519: &'static str = "tendermint/PubKeyEd25519";
+/// Secp256k1 public key type string.
+#[cfg(feature = "secp256k1")]
+pub const PUB_KEY_TYPE_SECP256K1: &'static str = "tendermint/PubKeySecp256k1";
+
 // Note:On the golang side this is generic in the sense that it could everything that implements
 // github.com/cometbft/cometbft/crypto.PubKey
 // While this is meant to be used with different key-types, it currently only uses a PubKeyEd25519
@@ -50,6 +56,32 @@ pub enum PublicKey {
         deserialize_with = "deserialize_secp256k1_base64"
     )]
     Secp256k1(Secp256k1),
+}
+
+impl PublicKey {
+    /// Try to create a `PublicKey` from a type string and raw bytes.
+    ///
+    /// Copies the bytes into the appropriate public key.
+    pub fn try_from_type_and_bytes(t: &str, bytes: &[u8]) -> Result<Self, Error> {
+        match t {
+            PUB_KEY_TYPE_ED25519 => Ed25519::try_from(bytes)
+                .map(PublicKey::Ed25519)
+                .map_err(|_| Error::invalid_key("malformed Ed25519 public key".into())),
+            #[cfg(feature = "secp256k1")]
+            PUB_KEY_TYPE_SECP256K1 => Secp256k1::from_sec1_bytes(bytes)
+                .map(PublicKey::Secp256k1)
+                .ok_or_else(|| Error::invalid_key("malformed Secp256k1 public key".into())),
+            _ => Err(Error::invalid_key(format!("unknown public key type: {t}"))),
+        }
+    }
+    /// Get the public key type as a string.
+    pub fn type_str(&self) -> &'static str {
+        match self {
+            PublicKey::Ed25519(_) => PUB_KEY_TYPE_ED25519,
+            #[cfg(feature = "secp256k1")]
+            PublicKey::Secp256k1(_) => PUB_KEY_TYPE_SECP256K1,
+        }
+    }
 }
 
 // Internal thunk type to facilitate deserialization from the raw Protobuf data
@@ -574,6 +606,8 @@ mod tests {
                     .unwrap(),
                 ),
                 error: None,
+                pub_key_bytes: Vec::new(),
+                pub_key_type: "".to_string(),
             };
             let got = Protobuf::<RawPubKeyResponse>::encode_vec(msg.clone());
 
@@ -587,6 +621,7 @@ mod tests {
 
     mod v1 {
         use super::*;
+        use crate::public_key::PUB_KEY_TYPE_ED25519;
         use cometbft_proto::privval::v1::PubKeyResponse as RawPubKeyResponse;
         use cometbft_proto::Protobuf;
 
@@ -621,14 +656,13 @@ mod tests {
             ];
 
             let msg = PubKeyResponse {
-                pub_key: Some(
-                    PublicKey::from_raw_ed25519(&[
-                        215, 90, 152, 1, 130, 177, 10, 183, 213, 75, 254, 211, 201, 100, 7, 58, 14,
-                        225, 114, 243, 218, 166, 35, 37, 175, 2, 26, 104, 247, 7, 81, 26,
-                    ])
-                    .unwrap(),
-                ),
+                pub_key: None,
                 error: None,
+                pub_key_bytes: vec![
+                    215, 90, 152, 1, 130, 177, 10, 183, 213, 75, 254, 211, 201, 100, 7, 58, 14,
+                    225, 114, 243, 218, 166, 35, 37, 175, 2, 26, 104, 247, 7, 81, 26,
+                ],
+                pub_key_type: PUB_KEY_TYPE_ED25519.to_string(),
             };
             let got = Protobuf::<RawPubKeyResponse>::encode_vec(msg.clone());
 
