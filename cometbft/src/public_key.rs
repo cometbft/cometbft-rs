@@ -628,31 +628,33 @@ mod tests {
         #[test]
         fn test_ed25519_pubkey_msg() {
             // test-vector generated from Go
+            //
+            // package main
             // import (
-            // "fmt"
-            // crypto "github.com/cometbft/cometbft/api/cometbft/crypto/v1"
-            // privval "github.com/cometbft/cometbft/api/cometbft/privval/v1"
+            //   "fmt"
+            //   privval "github.com/cometbft/cometbft/api/cometbft/privval/v1"
+            //   "github.com/cometbft/cometbft/crypto/ed25519"
             // )
-            //
             // func ed25519_key() {
-            // pkr := &privval.PubKeyResponse{
-            // PubKey: &crypto.PublicKey{
-            // Sum: &crypto.PublicKey_Ed25519{Ed25519: []byte{
-            // 215, 90, 152, 1, 130, 177, 10, 183, 213, 75, 254, 211, 201, 100, 7, 58,
-            // 14, 225, 114, 243, 218, 166, 35, 37, 175, 2, 26, 104, 247, 7, 81, 26,
-            // },
-            // },
-            // },
-            // Error: nil,
+            //   pkr := &privval.PubKeyResponse{
+            //     PubKeyType: ed25519.KeyType,
+            //     PubKeyBytes: []byte{
+            //       215, 90, 152, 1, 130, 177, 10, 183, 213, 75, 254, 211, 201, 100, 7, 58,
+            //       14, 225, 114, 243, 218, 166, 35, 37, 175, 2, 26, 104, 247, 7, 81, 26,
+            //     },
+            //     Error: nil,
+            //   }
+            //   pbpk, _ := pkr.Marshal()
+            //   fmt.Printf("%#v\n", pbpk)
             // }
-            // pbpk, _ := pkr.Marshal()
-            // fmt.Printf("%#v\n", pbpk)
-            //
+            // func main() {
+            //   ed25519_key()
             // }
             let encoded = vec![
-                0xa, 0x22, 0xa, 0x20, 0xd7, 0x5a, 0x98, 0x1, 0x82, 0xb1, 0xa, 0xb7, 0xd5, 0x4b,
-                0xfe, 0xd3, 0xc9, 0x64, 0x7, 0x3a, 0xe, 0xe1, 0x72, 0xf3, 0xda, 0xa6, 0x23, 0x25,
-                0xaf, 0x2, 0x1a, 0x68, 0xf7, 0x7, 0x51, 0x1a,
+                0x1a, 0x20, 0xd7, 0x5a, 0x98, 0x1, 0x82, 0xb1, 0xa, 0xb7, 0xd5, 0x4b, 0xfe, 0xd3,
+                0xc9, 0x64, 0x7, 0x3a, 0xe, 0xe1, 0x72, 0xf3, 0xda, 0xa6, 0x23, 0x25, 0xaf, 0x2,
+                0x1a, 0x68, 0xf7, 0x7, 0x51, 0x1a, 0x22, 0x7, 0x65, 0x64, 0x32, 0x35, 0x35, 0x31,
+                0x39,
             ];
 
             let msg = PubKeyResponse {
