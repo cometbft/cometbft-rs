@@ -579,6 +579,7 @@ pub struct HashedParams {
 /// For more information on the relationship of the synchrony parameters to
 /// block timestamps validity, refer to the PBTS specification:
 /// <https://github.com/tendermint/spec/blob/master/spec/consensus/proposer-based-timestamp/README.md>
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct SynchronyParams {
     /// Bound for how skewed a proposer's clock may be from any validator on the
@@ -591,6 +592,7 @@ pub struct SynchronyParams {
     pub message_delay: ::core::option::Option<crate::google::protobuf::Duration>,
 }
 /// FeatureParams configure the height from which features of CometBFT are enabled.
+#[derive(::serde::Deserialize, ::serde::Serialize)]
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct FeatureParams {
     /// Height during which vote extensions will be enabled.
