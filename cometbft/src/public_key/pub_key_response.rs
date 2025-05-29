@@ -1,4 +1,5 @@
-use crate::{privval::RemoteSignerError, PublicKey};
+use crate::prelude::*;
+use crate::privval::RemoteSignerError;
 
 /// PubKeyResponse
 #[derive(Clone, PartialEq, Eq, Debug)]

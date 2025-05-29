@@ -82,7 +82,7 @@ mod v0_38 {
                     .try_into()?,
                 next_validators_hash: message.next_validators_hash.try_into()?,
                 proposer_address: message.proposer_address.try_into()?,
-                syncing_to_height: 0, // syncing_to_height is not present in v0.38
+                syncing_to_height: Default::default(), // syncing_to_height is not present in v0.38
             })
         }
     }
@@ -187,7 +187,7 @@ mod v1beta3 {
                     .try_into()?,
                 next_validators_hash: message.next_validators_hash.try_into()?,
                 proposer_address: message.proposer_address.try_into()?,
-                syncing_to_height: 0, // syncing_to_height is not present in v1beta3
+                syncing_to_height: Default::default(), // syncing_to_height is not present in v1beta3
             })
         }
     }

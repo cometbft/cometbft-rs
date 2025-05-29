@@ -3,7 +3,8 @@
 use serde::{Deserialize, Serialize};
 
 use crate::{
-    block, evidence, prelude::*, public_key, serializers::allow_empty_object::allow_empty_object,
+    block, duration::Duration, evidence, prelude::*, public_key,
+    serializers::allow_empty_object::allow_empty_object,
 };
 
 /// All consensus-relevant parameters that can be adjusted by the ABCI app.
@@ -27,7 +28,6 @@ pub struct Params {
     /// encoding into earlier protocol versions.
     ///
     /// From CometBFT v1.0.0 onwards, use `FeatureParams.vote_extensions_enable_height` instead.
-    #[deprecated]
     #[serde(default)]
     pub abci: AbciParams,
     /// Parameters for Proposer-Based Timestamps (PBTS).
@@ -80,11 +80,11 @@ pub struct SynchronyParams {
     /// Bound for how skewed a proposer's clock may be from any validator on the
     /// network while still producing valid proposals.
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub precision: Option<time::Duration>,
+    pub precision: Option<Duration>,
     /// Bound for how long a proposal message may take to reach all validators on
     /// a network and still be considered valid.
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub message_delay: Option<time::Duration>,
+    pub message_delay: Option<Duration>,
 }
 
 /// FeatureParams configure the height from which features of CometBFT are enabled.
@@ -661,7 +661,10 @@ mod v1 {
         ValidatorParams as RawValidatorParams, VersionParams as RawVersionParams,
     };
 
-    use super::{key_type, AbciParams, Params, ValidatorParams, VersionParams};
+    use super::{
+        key_type, AbciParams, FeatureParams, Params, SynchronyParams, ValidatorParams,
+        VersionParams,
+    };
     use crate::{error::Error, prelude::*, public_key};
 
     impl TryFrom<RawParams> for Params {
@@ -682,11 +685,7 @@ mod v1 {
                     .ok_or_else(Error::invalid_validator_params)?
                     .try_into()?,
                 version: value.version.map(TryFrom::try_from).transpose()?,
-                abci: value
-                    .abci
-                    .map(TryFrom::try_from)
-                    .transpose()?
-                    .unwrap_or_default(),
+                abci: Default::default(), // AbciParams is deprecated in v1
                 synchrony: value.synchrony.map(TryFrom::try_from).transpose()?,
                 feature: value.feature.map(TryFrom::try_from).transpose()?,
             })
@@ -700,7 +699,7 @@ mod v1 {
                 evidence: Some(value.evidence.into()),
                 validator: Some(value.validator.into()),
                 version: value.version.map(From::from),
-                abci: Some(value.abci.into()),
+                abci: None, // AbciParams is deprecated in v1
                 synchrony: value.synchrony.map(From::from),
                 feature: value.feature.map(From::from),
             }

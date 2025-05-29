@@ -1,7 +1,4 @@
 //! Signing arbitrary bytes.
-mod sign_bytes;
-
-use cometbft_proto::{Error as ProtobufError, Protobuf};
 
 use crate::{prelude::*, privval::RemoteSignerError};
 
@@ -16,7 +13,7 @@ pub struct SignBytesRequest {
 #[derive(Clone, PartialEq, Eq, Debug)]
 pub struct SignBytesResponse {
     /// Signature
-    pub signature: Option<bytes::Bytes>,
+    pub signature: bytes::Bytes,
     /// Response error
     pub error: Option<RemoteSignerError>,
 }
@@ -27,7 +24,7 @@ pub struct SignBytesResponse {
 
 mod v1 {
     use super::{SignBytesRequest, SignBytesResponse};
-    use crate::{prelude::*, Error, Proposal};
+    use crate::{prelude::*, Error};
     use cometbft_proto::privval::v1::{
         SignBytesRequest as RawSignBytesRequest, SignBytesResponse as RawSignBytesResponse,
     };
@@ -41,14 +38,16 @@ mod v1 {
 
         fn try_from(req: RawSignBytesRequest) -> Result<Self, Self::Error> {
             Ok(SignBytesRequest {
-                bytes: req.value.unwrap()?,
+                bytes: bytes::Bytes::try_from(req.value)?,
             })
         }
     }
 
     impl From<SignBytesRequest> for RawSignBytesRequest {
         fn from(req: SignBytesRequest) -> Self {
-            RawSignBytesRequest { value: req.bytes }
+            RawSignBytesRequest {
+                value: req.bytes.into(),
+            }
         }
     }
 
@@ -57,7 +56,7 @@ mod v1 {
 
         fn try_from(resp: RawSignBytesResponse) -> Result<Self, Self::Error> {
             Ok(SignBytesResponse {
-                signature: resp.signature.map(TryInto::try_into).transpose()?,
+                signature: bytes::Bytes::try_from(resp.signature)?,
                 error: resp.error.map(TryInto::try_into).transpose()?,
             })
         }
@@ -66,7 +65,7 @@ mod v1 {
     impl From<SignBytesResponse> for RawSignBytesResponse {
         fn from(resp: SignBytesResponse) -> Self {
             RawSignBytesResponse {
-                signature: resp.signature.map(Into::into),
+                signature: resp.signature.into(),
                 error: resp.error.map(Into::into),
             }
         }
@@ -75,6 +74,8 @@ mod v1 {
 
 #[cfg(test)]
 mod tests {
+    use super::{SignBytesRequest, SignBytesResponse};
+
     mod v1 {
         use super::*;
         use crate::privval::RemoteSignerError;
@@ -85,7 +86,7 @@ mod tests {
         #[test]
         fn test_protobuf_conversion_request_round_trip() {
             let original = SignBytesRequest {
-                bytes: vec![0xde, 0xad, 0xbe, 0xef],
+                bytes: bytes::Bytes::from_static(b"test bytes"),
             };
             let raw: RawSignBytesRequest = original.clone().into();
             let decoded = SignBytesRequest::try_from(raw).unwrap();
@@ -95,7 +96,7 @@ mod tests {
         #[test]
         fn test_protobuf_conversion_response_with_signature() {
             let original = SignBytesResponse {
-                signature: Some(vec![0x99, 0x88]),
+                signature: bytes::Bytes::from_static(b"test signature"),
                 error: None,
             };
             let raw: RawSignBytesResponse = original.clone().into();
@@ -106,7 +107,7 @@ mod tests {
         #[test]
         fn test_protobuf_conversion_response_with_error() {
             let original = SignBytesResponse {
-                signature: None,
+                signature: bytes::Bytes::from_static(b"test signature"),
                 error: Some(RemoteSignerError {
                     code: 0,
                     description: "test".into(),
