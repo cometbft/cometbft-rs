@@ -256,15 +256,19 @@ impl ProposerPriority {
 /// [ABCI documentation](https://docs.cometbft.com/v1/spec/abci/abci.html#validatorupdate)
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq, Eq)]
 pub struct Update {
+    /// Validator public key
+    #[serde(deserialize_with = "deserialize_public_key")]
+    pub pub_key: PublicKey,
+
     /// New voting power
     #[serde(default)]
     pub power: vote::Power,
-    
+
     /// Public key bytes
-    #[serde(deserialize_with = "deserialize_public_key")]
+    #[serde(default)]
     pub pub_key_bytes: Vec<u8>,
-    
-    /// Public key type 
+
+    /// Public key type
     #[serde(default)]
     pub pub_key_type: String,
 }
@@ -385,6 +389,9 @@ cometbft_old_pb_modules! {
                     .ok_or_else(Error::missing_public_key)?
                     .try_into()?,
                 power: vu.power.try_into()?,
+                pub_key_bytes: Default::default(), // pub_key_bytes is not present in older
+                                                    // versions
+                pub_key_type: Default::default(), // pub_key_type is not present in older versions
             })
         }
     }
@@ -452,6 +459,8 @@ mod v1 {
                 pub_key: Some(value.pub_key.into()),
                 voting_power: value.power.into(),
                 proposer_priority: value.proposer_priority.into(),
+                pub_key_bytes: value.pub_key.to_bytes(),
+                pub_key_type: "".to_string(), // TODO: fix this
             }
         }
     }
@@ -486,8 +495,9 @@ mod v1 {
     impl From<Update> for RawValidatorUpdate {
         fn from(vu: Update) -> Self {
             Self {
-                pub_key: Some(vu.pub_key.into()),
                 power: vu.power.into(),
+                pub_key_bytes: vu.pub_key_bytes.into(),
+                pub_key_type: vu.pub_key_type.into(),
             }
         }
     }
@@ -497,11 +507,9 @@ mod v1 {
 
         fn try_from(vu: RawValidatorUpdate) -> Result<Self, Self::Error> {
             Ok(Self {
-                pub_key: vu
-                    .pub_key
-                    .ok_or_else(Error::missing_public_key)?
-                    .try_into()?,
                 power: vu.power.try_into()?,
+                pub_key_bytes: vu.pub_key_bytes.try_into()?,
+                pub_key_type: vu.pub_key_type.try_into()?,
             })
         }
     }
@@ -619,6 +627,8 @@ mod v1beta1 {
                     .ok_or_else(Error::missing_public_key)?
                     .try_into()?,
                 power: vu.power.try_into()?,
+                pub_key_bytes: Default::default(), // pub_key_bytes is not present in v1beta1
+                pub_key_type: Default::default(),  // pub_key_type is not present in v1beta1
             })
         }
     }

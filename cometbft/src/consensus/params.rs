@@ -694,6 +694,7 @@ mod v1 {
 
     impl From<Params> for RawParams {
         fn from(value: Params) -> Self {
+            #[allow(deprecated)]
             RawParams {
                 block: Some(value.block.into()),
                 evidence: Some(value.evidence.into()),
@@ -769,12 +770,40 @@ mod v1 {
         }
     }
 
+    impl TryFrom<RawSynchronyParams> for SynchronyParams {
+        type Error = Error;
+
+        fn try_from(value: RawSynchronyParams) -> Result<Self, Self::Error> {
+            Ok(Self {
+                precision: value.precision.map(TryFrom::try_from).transpose()?,
+                message_delay: value.message_delay.map(TryFrom::try_from).transpose()?,
+            })
+        }
+    }
+
     impl From<SynchronyParams> for RawSynchronyParams {
         fn from(value: SynchronyParams) -> Self {
             RawSynchronyParams {
                 precision: value.precision.map(Into::into),
                 message_delay: value.message_delay.map(Into::into),
             }
+        }
+    }
+
+    impl TryFrom<RawFeatureParams> for FeatureParams {
+        type Error = Error;
+
+        fn try_from(value: RawFeatureParams) -> Result<Self, Self::Error> {
+            Ok(Self {
+                vote_extensions_enable_height: value
+                    .vote_extensions_enable_height
+                    .map(TryFrom::try_from)
+                    .transpose()?,
+                pbts_enable_height: value
+                    .pbts_enable_height
+                    .map(TryFrom::try_from)
+                    .transpose()?,
+            })
         }
     }
 
