@@ -6,12 +6,12 @@ use serde::{Deserialize, Serialize};
 
 use crate::{
     block::{signed_header::SignedHeader, Height},
+    duration::Duration,
     error::Error,
     prelude::*,
     serializers, validator,
     vote::Power,
     Time, Vote,
-    duration::Duration,
 };
 
 /// Evidence of malfeasance by validators (i.e. signing conflicting votes or light client attack).
