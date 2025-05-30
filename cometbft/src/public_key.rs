@@ -70,7 +70,7 @@ impl PublicKey {
             #[cfg(feature = "secp256k1")]
             PUB_KEY_TYPE_SECP256K1 => Secp256k1::from_sec1_bytes(bytes)
                 .map(PublicKey::Secp256k1)
-                .ok_or_else(|| Error::invalid_key("malformed Secp256k1 public key".into())),
+                .map_err(|_| Error::invalid_key("malformed Secp256k1 public key".into())),
             _ => Err(Error::invalid_key(format!("unknown public key type: {t}"))),
         }
     }
