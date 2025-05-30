@@ -10,7 +10,7 @@ pub struct SignVoteRequest {
     pub vote: Vote,
     /// Chain ID
     pub chain_id: chain::Id,
-    /// Whether to skip signing the extension bytes.
+    /// if true, the signer may skip signing the extension bytes.
     pub skip_extension_signing: bool,
 }
 
