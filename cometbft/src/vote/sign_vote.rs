@@ -541,7 +541,7 @@ mod tests {
             let want = SignVoteRequest {
                 vote,
                 chain_id: ChainId::from_str("test_chain_id").unwrap(),
-                skip_extension_signing: true,
+                skip_extension_signing: false,
             };
             let got =
                 <SignVoteRequest as Protobuf<RawSignVoteRequest>>::decode_vec(&encoded).unwrap();
