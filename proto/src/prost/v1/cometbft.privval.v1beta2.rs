@@ -16,12 +16,10 @@ pub struct PubKeyRequest {
 /// PubKeyResponse is a response message containing the public key.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PubKeyResponse {
+    #[prost(message, optional, tag = "1")]
+    pub pub_key: ::core::option::Option<super::super::crypto::v1::PublicKey>,
     #[prost(message, optional, tag = "2")]
     pub error: ::core::option::Option<RemoteSignerError>,
-    #[prost(bytes = "vec", tag = "3")]
-    pub pub_key_bytes: ::prost::alloc::vec::Vec<u8>,
-    #[prost(string, tag = "4")]
-    pub pub_key_type: ::prost::alloc::string::String,
 }
 /// SignVoteRequest is a request to sign a vote
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -30,9 +28,6 @@ pub struct SignVoteRequest {
     pub vote: ::core::option::Option<super::super::types::v1::Vote>,
     #[prost(string, tag = "2")]
     pub chain_id: ::prost::alloc::string::String,
-    /// if true, the signer may skip signing the extension bytes.
-    #[prost(bool, tag = "3")]
-    pub skip_extension_signing: bool,
 }
 /// SignedVoteResponse is a response containing a signed vote or an error
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -58,20 +53,6 @@ pub struct SignedProposalResponse {
     #[prost(message, optional, tag = "2")]
     pub error: ::core::option::Option<RemoteSignerError>,
 }
-/// SignBytesRequest is a request to sign arbitrary bytes
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SignBytesRequest {
-    #[prost(bytes = "vec", tag = "1")]
-    pub value: ::prost::alloc::vec::Vec<u8>,
-}
-/// SignBytesResponse is a response containing a signature or an error
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SignBytesResponse {
-    #[prost(bytes = "vec", tag = "1")]
-    pub signature: ::prost::alloc::vec::Vec<u8>,
-    #[prost(message, optional, tag = "2")]
-    pub error: ::core::option::Option<RemoteSignerError>,
-}
 /// PingRequest is a request to confirm that the connection is alive.
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct PingRequest {}
@@ -82,7 +63,7 @@ pub struct PingResponse {}
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Message {
     /// Sum of all possible messages.
-    #[prost(oneof = "message::Sum", tags = "1, 2, 3, 4, 5, 6, 7, 8, 9, 10")]
+    #[prost(oneof = "message::Sum", tags = "1, 2, 3, 4, 5, 6, 7, 8")]
     pub sum: ::core::option::Option<message::Sum>,
 }
 /// Nested message and enum types in `Message`.
@@ -106,9 +87,50 @@ pub mod message {
         PingRequest(super::PingRequest),
         #[prost(message, tag = "8")]
         PingResponse(super::PingResponse),
-        #[prost(message, tag = "9")]
-        SignBytesRequest(super::SignBytesRequest),
-        #[prost(message, tag = "10")]
-        SignBytesResponse(super::SignBytesResponse),
+    }
+}
+/// Errors is a list of error codes that can be returned by the remote signer.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum Errors {
+    /// Unknown error
+    Unknown = 0,
+    /// Unexpected response
+    UnexpectedResponse = 1,
+    /// Connection lost
+    NoConnection = 2,
+    /// Connection timeout
+    ConnectionTimeout = 3,
+    /// Read timeout
+    ReadTimeout = 4,
+    /// Write timeout
+    WriteTimeout = 5,
+}
+impl Errors {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            Self::Unknown => "ERRORS_UNKNOWN",
+            Self::UnexpectedResponse => "ERRORS_UNEXPECTED_RESPONSE",
+            Self::NoConnection => "ERRORS_NO_CONNECTION",
+            Self::ConnectionTimeout => "ERRORS_CONNECTION_TIMEOUT",
+            Self::ReadTimeout => "ERRORS_READ_TIMEOUT",
+            Self::WriteTimeout => "ERRORS_WRITE_TIMEOUT",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "ERRORS_UNKNOWN" => Some(Self::Unknown),
+            "ERRORS_UNEXPECTED_RESPONSE" => Some(Self::UnexpectedResponse),
+            "ERRORS_NO_CONNECTION" => Some(Self::NoConnection),
+            "ERRORS_CONNECTION_TIMEOUT" => Some(Self::ConnectionTimeout),
+            "ERRORS_READ_TIMEOUT" => Some(Self::ReadTimeout),
+            "ERRORS_WRITE_TIMEOUT" => Some(Self::WriteTimeout),
+            _ => None,
+        }
     }
 }

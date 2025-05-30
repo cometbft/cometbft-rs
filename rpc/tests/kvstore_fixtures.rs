@@ -4,12 +4,7 @@ use core::str::FromStr;
 use std::{collections::BTreeMap as HashMap, fs, path::PathBuf};
 
 use cometbft::{
-    abci,
-    evidence::{Duration, Evidence},
-    hash::Algorithm,
-    public_key,
-    vote::Vote,
-    Hash,
+    abci, duration::Duration, evidence::Evidence, hash::Algorithm, public_key, vote::Vote, Hash,
 };
 use cometbft_config::net::Address;
 use cometbft_rpc::{

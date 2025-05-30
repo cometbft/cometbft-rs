@@ -347,7 +347,7 @@ pub mod response_verify_vote_extension {
 #[derive(::serde::Deserialize, ::serde::Serialize)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ResponseFinalizeBlock {
-    /// set of block events emmitted as part of executing the block
+    /// set of block events emitted as part of executing the block
     #[prost(message, repeated, tag = "1")]
     pub events: ::prost::alloc::vec::Vec<super::v1beta2::Event>,
     /// the result of executing each transaction including the events
@@ -378,7 +378,7 @@ pub struct VoteInfo {
     #[prost(enumeration = "super::super::types::v1beta1::BlockIdFlag", tag = "3")]
     pub block_id_flag: i32,
 }
-/// ExtendedVoteInfo extends VoteInfo with the vote extentions (non-deterministic).
+/// ExtendedVoteInfo extends VoteInfo with the vote extensions (non-deterministic).
 #[derive(::serde::Deserialize, ::serde::Serialize)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ExtendedVoteInfo {
@@ -571,7 +571,7 @@ pub mod abci_server {
             tonic::Response<super::super::v1beta2::ResponseProcessProposal>,
             tonic::Status,
         >;
-        /// ExtendVote extends a vote with application-injected data (vote extentions).
+        /// ExtendVote extends a vote with application-injected data (vote extensions).
         async fn extend_vote(
             &self,
             request: tonic::Request<super::RequestExtendVote>,

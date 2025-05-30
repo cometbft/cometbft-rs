@@ -2,24 +2,13 @@
 /// GetByHeightRequest is a request for a block at the specified height.
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct GetByHeightRequest {
-    /// The height of the block requested. If set to 0, the latest height will be returned.
+    /// The height of the block requested.
     #[prost(int64, tag = "1")]
     pub height: i64,
 }
 /// GetByHeightResponse contains the block ID and the block at the specified height.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetByHeightResponse {
-    #[prost(message, optional, tag = "1")]
-    pub block_id: ::core::option::Option<super::super::super::types::v1::BlockId>,
-    #[prost(message, optional, tag = "2")]
-    pub block: ::core::option::Option<super::super::super::types::v1::Block>,
-}
-/// GetLatestRequest is a request for the latest block.
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct GetLatestRequest {}
-/// GetLatestResponse contains the latest block ID and the latest block.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetLatestResponse {
     #[prost(message, optional, tag = "1")]
     pub block_id: ::core::option::Option<super::super::super::types::v1::BlockId>,
     #[prost(message, optional, tag = "2")]
@@ -56,14 +45,6 @@ pub mod block_service_server {
             request: tonic::Request<super::GetByHeightRequest>,
         ) -> std::result::Result<
             tonic::Response<super::GetByHeightResponse>,
-            tonic::Status,
-        >;
-        /// GetLatest retrieves the latest block.
-        async fn get_latest(
-            &self,
-            request: tonic::Request<super::GetLatestRequest>,
-        ) -> std::result::Result<
-            tonic::Response<super::GetLatestResponse>,
             tonic::Status,
         >;
         /// Server streaming response type for the GetLatestHeight method.
@@ -191,51 +172,6 @@ pub mod block_service_server {
                     let inner = self.inner.clone();
                     let fut = async move {
                         let method = GetByHeightSvc(inner);
-                        let codec = tonic::codec::ProstCodec::default();
-                        let mut grpc = tonic::server::Grpc::new(codec)
-                            .apply_compression_config(
-                                accept_compression_encodings,
-                                send_compression_encodings,
-                            )
-                            .apply_max_message_size_config(
-                                max_decoding_message_size,
-                                max_encoding_message_size,
-                            );
-                        let res = grpc.unary(method, req).await;
-                        Ok(res)
-                    };
-                    Box::pin(fut)
-                }
-                "/cometbft.services.block.v1.BlockService/GetLatest" => {
-                    #[allow(non_camel_case_types)]
-                    struct GetLatestSvc<T: BlockService>(pub Arc<T>);
-                    impl<
-                        T: BlockService,
-                    > tonic::server::UnaryService<super::GetLatestRequest>
-                    for GetLatestSvc<T> {
-                        type Response = super::GetLatestResponse;
-                        type Future = BoxFuture<
-                            tonic::Response<Self::Response>,
-                            tonic::Status,
-                        >;
-                        fn call(
-                            &mut self,
-                            request: tonic::Request<super::GetLatestRequest>,
-                        ) -> Self::Future {
-                            let inner = Arc::clone(&self.0);
-                            let fut = async move {
-                                <T as BlockService>::get_latest(&inner, request).await
-                            };
-                            Box::pin(fut)
-                        }
-                    }
-                    let accept_compression_encodings = self.accept_compression_encodings;
-                    let send_compression_encodings = self.send_compression_encodings;
-                    let max_decoding_message_size = self.max_decoding_message_size;
-                    let max_encoding_message_size = self.max_encoding_message_size;
-                    let inner = self.inner.clone();
-                    let fut = async move {
-                        let method = GetLatestSvc(inner);
                         let codec = tonic::codec::ProstCodec::default();
                         let mut grpc = tonic::server::Grpc::new(codec)
                             .apply_compression_config(

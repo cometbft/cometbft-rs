@@ -41,7 +41,7 @@ pub const COMETBFT_VERSIONS: &[CometBFTVersion] = &[
         repo: COMETBFT_REPO,
         ident: "v1",
         prefix: "cometbft",
-        commitish: "v1.0.0-alpha.1",
+        commitish: "v1.0.0",
     },
 ];
 
@@ -182,6 +182,8 @@ pub static CUSTOM_TYPE_ATTRIBUTES_V_1: &[(&str, &str)] = &[
     (".cometbft.types.v1.VersionParams", SERIALIZED),
     (".cometbft.types.v1.ValidatorParams", SERIALIZED),
     (".cometbft.types.v1.BlockParams", SERIALIZED),
+    (".cometbft.types.v1.SynchronyParams", SERIALIZED),
+    (".cometbft.types.v1.FeatureParams", SERIALIZED),
     (".cometbft.types.v1.Vote", SERIALIZED),
     (".cometbft.version.v1.Consensus", SERIALIZED),
     (".cometbft.types.v1beta1.Block", SERIALIZED),

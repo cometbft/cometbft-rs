@@ -143,7 +143,6 @@ impl Set {
 }
 
 /// Validator information
-// Todo: Remove address and make it into a function that generates it on the fly from pub_key.
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct Info {
     /// Validator account address
@@ -257,12 +256,29 @@ impl ProposerPriority {
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq, Eq)]
 pub struct Update {
     /// Validator public key
+    ///
+    /// From CometBFT 1.0.0 and onwards, this field is deprecated. Please use `pub_key_bytes` and
+    /// `pub_key_type` instead.
     #[serde(deserialize_with = "deserialize_public_key")]
     pub pub_key: PublicKey,
 
     /// New voting power
     #[serde(default)]
     pub power: vote::Power,
+
+    /// Public key bytes
+    ///
+    /// This field has been added in CometBFT 1.0.0 and will be ignored when
+    /// encoding into earlier protocol versions.
+    #[serde(default)]
+    pub pub_key_bytes: Vec<u8>,
+
+    /// Public key type
+    ///
+    /// This field has been added in CometBFT 1.0.0 and will be ignored when
+    /// encoding into earlier protocol versions.
+    #[serde(default)]
+    pub pub_key_type: String,
 }
 
 // =============================================================================
@@ -381,6 +397,9 @@ cometbft_old_pb_modules! {
                     .ok_or_else(Error::missing_public_key)?
                     .try_into()?,
                 power: vu.power.try_into()?,
+                pub_key_bytes: Default::default(), // pub_key_bytes is not present in older
+                                                    // versions
+                pub_key_type: Default::default(), // pub_key_type is not present in older versions
             })
         }
     }
@@ -388,7 +407,7 @@ cometbft_old_pb_modules! {
 
 mod v1 {
     use super::{Info, Set, SimpleValidator, Update};
-    use crate::{prelude::*, Error};
+    use crate::{prelude::*, Error, PublicKey};
     use cometbft_proto::abci::v1::ValidatorUpdate as RawValidatorUpdate;
     use cometbft_proto::types::v1::{
         SimpleValidator as RawSimpleValidator, Validator as RawValidator,
@@ -430,10 +449,10 @@ mod v1 {
         fn try_from(value: RawValidator) -> Result<Self, Self::Error> {
             Ok(Info {
                 address: value.address.try_into()?,
-                pub_key: value
-                    .pub_key
-                    .ok_or_else(Error::missing_public_key)?
-                    .try_into()?,
+                pub_key: PublicKey::try_from_type_and_bytes(
+                    &value.pub_key_type,
+                    &value.pub_key_bytes,
+                )?,
                 power: value.voting_power.try_into()?,
                 name: None,
                 proposer_priority: value.proposer_priority.into(),
@@ -443,11 +462,14 @@ mod v1 {
 
     impl From<Info> for RawValidator {
         fn from(value: Info) -> Self {
+            #[allow(deprecated)]
             RawValidator {
                 address: value.address.into(),
-                pub_key: Some(value.pub_key.into()),
+                pub_key: None, // pub_key is deprecated in v1
                 voting_power: value.power.into(),
                 proposer_priority: value.proposer_priority.into(),
+                pub_key_bytes: value.pub_key.to_bytes(),
+                pub_key_type: value.pub_key.type_str().to_owned(),
             }
         }
     }
@@ -482,8 +504,9 @@ mod v1 {
     impl From<Update> for RawValidatorUpdate {
         fn from(vu: Update) -> Self {
             Self {
-                pub_key: Some(vu.pub_key.into()),
                 power: vu.power.into(),
+                pub_key_bytes: vu.pub_key_bytes.into(),
+                pub_key_type: vu.pub_key_type.into(),
             }
         }
     }
@@ -492,12 +515,13 @@ mod v1 {
         type Error = Error;
 
         fn try_from(vu: RawValidatorUpdate) -> Result<Self, Self::Error> {
+            let pub_key_type: String = vu.pub_key_type.try_into()?;
+            let pub_key_bytes: Vec<u8> = vu.pub_key_bytes.try_into()?;
             Ok(Self {
-                pub_key: vu
-                    .pub_key
-                    .ok_or_else(Error::missing_public_key)?
-                    .try_into()?,
+                pub_key: PublicKey::try_from_type_and_bytes(&pub_key_type, &pub_key_bytes)?,
                 power: vu.power.try_into()?,
+                pub_key_type,
+                pub_key_bytes,
             })
         }
     }
@@ -615,6 +639,8 @@ mod v1beta1 {
                     .ok_or_else(Error::missing_public_key)?
                     .try_into()?,
                 power: vu.power.try_into()?,
+                pub_key_bytes: Default::default(), // pub_key_bytes is not present in v1beta1
+                pub_key_type: Default::default(),  // pub_key_type is not present in v1beta1
             })
         }
     }
@@ -753,7 +779,9 @@ mod tests {
                         "value": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc="
                     },
                     "voting_power": "50",
-                    "proposer_priority": "-150"
+                    "proposer_priority": "-150",
+                    "pub_key_bytes": [56, 6, 141, 171, 112, 215, 255, 94, 95, 24, 147, 246, 48, 142, 155, 186, 59, 117, 25, 26, 111, 143, 10, 234, 33, 235, 194, 134, 42, 201, 177, 183],
+                    "pub_key_type": "tendermint/PubKeyEd25519"
                 },
                 {
                     "address": "026CC7B6F3E62F789DBECEC59766888B5464737D",
@@ -762,7 +790,9 @@ mod tests {
                         "value": "+vlsKpn6ojn+UoTZl+w+fxeqm6xvUfBokTcKfcG3au4="
                     },
                     "voting_power": "42",
-                    "proposer_priority": "50"
+                    "proposer_priority": "50",
+                    "pub_key_bytes": [250, 249, 108, 42, 153, 250, 162, 57, 254, 82, 132, 217, 151, 236, 62, 127, 23, 170, 155, 172, 111, 81, 240, 104, 145, 55, 10, 125, 193, 183, 106, 238],
+                    "pub_key_type": "tendermint/PubKeyEd25519"
                 }
             ],
             "proposer": {
@@ -772,7 +802,9 @@ mod tests {
                     "value": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc="
                 },
                 "voting_power": "50",
-                "proposer_priority": "-150"
+                "proposer_priority": "-150",
+                "pub_key_bytes": [56, 6, 141, 171, 112, 215, 255, 94, 95, 24, 147, 246, 48, 142, 155, 186, 59, 117, 25, 26, 111, 143, 10, 234, 33, 235, 194, 134, 42, 201, 177, 183],
+                "pub_key_type": "tendermint/PubKeyEd25519"
             },
             "total_voting_power": "92"
         }"#;
@@ -792,7 +824,9 @@ mod tests {
                         "value": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc="
                     },
                     "voting_power": "50",
-                    "proposer_priority": "-150"
+                    "proposer_priority": "-150",
+                    "pub_key_bytes": [56, 6, 141, 171, 112, 215, 255, 94, 95, 24, 147, 246, 48, 142, 155, 186, 59, 117, 25, 26, 111, 143, 10, 234, 33, 235, 194, 134, 42, 201, 177, 183],
+                    "pub_key_type": "tendermint/PubKeyEd25519"
                 },
                 {
                     "address": "026CC7B6F3E62F789DBECEC59766888B5464737D",
@@ -801,7 +835,9 @@ mod tests {
                         "value": "+vlsKpn6ojn+UoTZl+w+fxeqm6xvUfBokTcKfcG3au4="
                     },
                     "voting_power": "42",
-                    "proposer_priority": "50"
+                    "proposer_priority": "50",
+                    "pub_key_bytes": [250, 249, 108, 42, 153, 250, 162, 57, 254, 82, 132, 217, 151, 236, 62, 127, 23, 170, 155, 172, 111, 81, 240, 104, 145, 55, 10, 125, 193, 183, 106, 238],
+                    "pub_key_type": "tendermint/PubKeyEd25519"
                 }
             ],
             "proposer": {
@@ -811,7 +847,9 @@ mod tests {
                     "value": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc="
                 },
                 "voting_power": "50",
-                "proposer_priority": "-150"
+                "proposer_priority": "-150",
+                "pub_key_bytes": [56, 6, 141, 171, 112, 215, 255, 94, 95, 24, 147, 246, 48, 142, 155, 186, 59, 117, 25, 26, 111, 143, 10, 234, 33, 235, 194, 134, 42, 201, 177, 183],
+                "pub_key_type": "tendermint/PubKeyEd25519"
             }
         }"#;
 
@@ -830,7 +868,9 @@ mod tests {
                         "value": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc="
                     },
                     "voting_power": "50",
-                    "proposer_priority": "-150"
+                    "proposer_priority": "-150",
+                    "pub_key_bytes": [56, 6, 141, 171, 112, 215, 255, 94, 95, 24, 147, 246, 48, 142, 155, 186, 59, 117, 25, 26, 111, 143, 10, 234, 33, 235, 194, 134, 42, 201, 177, 183],
+                    "pub_key_type": "tendermint/PubKeyEd25519"
                 },
                 {
                     "address": "026CC7B6F3E62F789DBECEC59766888B5464737D",
@@ -839,7 +879,9 @@ mod tests {
                         "value": "+vlsKpn6ojn+UoTZl+w+fxeqm6xvUfBokTcKfcG3au4="
                     },
                     "voting_power": "42",
-                    "proposer_priority": "50"
+                    "proposer_priority": "50",
+                    "pub_key_bytes": [250, 249, 108, 42, 153, 250, 162, 57, 254, 82, 132, 217, 151, 236, 62, 127, 23, 170, 155, 172, 111, 81, 240, 104, 145, 55, 10, 125, 193, 183, 106, 238],
+                    "pub_key_type": "tendermint/PubKeyEd25519"
                 }
             ],
             "proposer": {
@@ -849,7 +891,9 @@ mod tests {
                     "value": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc="
                 },
                 "voting_power": "50",
-                "proposer_priority": "-150"
+                "proposer_priority": "-150",
+                "pub_key_bytes": [56, 6, 141, 171, 112, 215, 255, 94, 95, 24, 147, 246, 48, 142, 155, 186, 59, 117, 25, 26, 111, 143, 10, 234, 33, 235, 194, 134, 42, 201, 177, 183],
+                "pub_key_type": "tendermint/PubKeyEd25519"
             },
             "total_voting_power": "100"
         }"#;
@@ -873,7 +917,9 @@ mod tests {
                         "value": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc="
                     },
                     "voting_power": "576460752303423488",
-                    "proposer_priority": "-150"
+                    "proposer_priority": "-150",
+                    "pub_key_bytes": [56, 6, 141, 171, 112, 215, 255, 94, 95, 24, 147, 246, 48, 142, 155, 186, 59, 117, 25, 26, 111, 143, 10, 234, 33, 235, 194, 134, 42, 201, 177, 183],
+                    "pub_key_type": "tendermint/PubKeyEd25519"
                 },
                 {
                     "address": "026CC7B6F3E62F789DBECEC59766888B5464737D",
@@ -882,7 +928,9 @@ mod tests {
                         "value": "+vlsKpn6ojn+UoTZl+w+fxeqm6xvUfBokTcKfcG3au4="
                     },
                     "voting_power": "576460752303423488",
-                    "proposer_priority": "50"
+                    "proposer_priority": "50",
+                    "pub_key_bytes": [250, 249, 108, 42, 153, 250, 162, 57, 254, 82, 132, 217, 151, 236, 62, 127, 23, 170, 155, 172, 111, 81, 240, 104, 145, 55, 10, 125, 193, 183, 106, 238],
+                    "pub_key_type": "tendermint/PubKeyEd25519"
                 }
             ],
             "proposer": {
@@ -892,7 +940,9 @@ mod tests {
                     "value": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc="
                 },
                 "voting_power": "50",
-                "proposer_priority": "-150"
+                "proposer_priority": "-150",
+                "pub_key_bytes": [56, 6, 141, 171, 112, 215, 255, 94, 95, 24, 147, 246, 48, 142, 155, 186, 59, 117, 25, 26, 111, 143, 10, 234, 33, 235, 194, 134, 42, 201, 177, 183],
+                "pub_key_type": "tendermint/PubKeyEd25519"
             },
             "total_voting_power": "92"
         }"#;
@@ -916,7 +966,9 @@ mod tests {
                         "value": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc="
                     },
                     "voting_power": "6148914691236517205",
-                    "proposer_priority": "-150"
+                    "proposer_priority": "-150",
+                    "pub_key_bytes": [56, 6, 141, 171, 112, 215, 255, 94, 95, 24, 147, 246, 48, 142, 155, 186, 59, 117, 25, 26, 111, 143, 10, 234, 33, 235, 194, 134, 42, 201, 177, 183],
+                    "pub_key_type": "tendermint/PubKeyEd25519"
                 },
                 {
                     "address": "026CC7B6F3E62F789DBECEC59766888B5464737D",
@@ -925,7 +977,9 @@ mod tests {
                         "value": "+vlsKpn6ojn+UoTZl+w+fxeqm6xvUfBokTcKfcG3au4="
                     },
                     "voting_power": "6148914691236517205",
-                    "proposer_priority": "50"
+                    "proposer_priority": "50",
+                    "pub_key_bytes": [250, 249, 108, 42, 153, 250, 162, 57, 254, 82, 132, 217, 151, 236, 62, 127, 23, 170, 155, 172, 111, 81, 240, 104, 145, 55, 10, 125, 193, 183, 106, 238],
+                    "pub_key_type": "tendermint/PubKeyEd25519"
                 },
                 {
                     "address": "044EB1BB5D4C1CDB90029648439AEB10431FF295",
@@ -934,7 +988,9 @@ mod tests {
                         "value": "Wc790fkCDAi7LvZ4UIBAIJSNI+Rp2aU80/8l+idZ/wI="
                     },
                     "voting_power": "6148914691236517206",
-                    "proposer_priority": "50"
+                    "proposer_priority": "50",
+                    "pub_key_bytes": [89, 206, 253, 209, 249, 2, 12, 8, 187, 46, 246, 120, 80, 128, 64, 32, 148, 141, 35, 228, 105, 217, 165, 60, 211, 255, 37, 250, 39, 89, 255, 2],
+                    "pub_key_type": "tendermint/PubKeyEd25519"
                 }
             ],
             "proposer": {
@@ -944,7 +1000,9 @@ mod tests {
                     "value": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc="
                 },
                 "voting_power": "50",
-                "proposer_priority": "-150"
+                "proposer_priority": "-150",
+                "pub_key_bytes": [56, 6, 141, 171, 112, 215, 255, 94, 95, 24, 147, 246, 48, 142, 155, 186, 59, 117, 25, 26, 111, 143, 10, 234, 33, 235, 194, 134, 42, 201, 177, 183],
+                "pub_key_type": "tendermint/PubKeyEd25519"
             }
         }"#;
 

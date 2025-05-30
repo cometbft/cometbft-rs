@@ -153,6 +153,8 @@ pub struct MsgInfo {
     pub msg: ::core::option::Option<Message>,
     #[prost(string, tag = "2")]
     pub peer_id: ::prost::alloc::string::String,
+    #[prost(message, optional, tag = "3")]
+    pub receive_time: ::core::option::Option<crate::google::protobuf::Timestamp>,
 }
 /// TimeoutInfo internally generated messages which may update the state
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]

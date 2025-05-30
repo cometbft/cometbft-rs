@@ -27,6 +27,11 @@ pub struct FinalizeBlock {
     pub next_validators_hash: Hash,
     /// The address of the public key of the original proposer of the block.
     pub proposer_address: account::Id,
+    /// If the node is syncing/replaying blocks - target height. If not, syncing_to_height == height.
+    ///
+    /// This field has been added in CometBFT 1.0.0 and will be ignored when
+    /// encoding into earlier protocol versions.
+    pub syncing_to_height: block::Height,
 }
 
 // =============================================================================
@@ -77,6 +82,7 @@ mod v0_38 {
                     .try_into()?,
                 next_validators_hash: message.next_validators_hash.try_into()?,
                 proposer_address: message.proposer_address.try_into()?,
+                syncing_to_height: Default::default(), // syncing_to_height is not present in v0.38
             })
         }
     }
@@ -101,6 +107,7 @@ mod v1 {
                 time: Some(value.time.into()),
                 next_validators_hash: value.next_validators_hash.into(),
                 proposer_address: value.proposer_address.into(),
+                syncing_to_height: value.syncing_to_height.into(),
             }
         }
     }
@@ -128,6 +135,7 @@ mod v1 {
                     .try_into()?,
                 next_validators_hash: message.next_validators_hash.try_into()?,
                 proposer_address: message.proposer_address.try_into()?,
+                syncing_to_height: message.syncing_to_height.try_into()?,
             })
         }
     }
@@ -179,6 +187,7 @@ mod v1beta3 {
                     .try_into()?,
                 next_validators_hash: message.next_validators_hash.try_into()?,
                 proposer_address: message.proposer_address.try_into()?,
+                syncing_to_height: Default::default(), // syncing_to_height is not present in v1beta3
             })
         }
     }

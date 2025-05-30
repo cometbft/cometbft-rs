@@ -5,7 +5,7 @@ use std::collections::HashMap;
 #[cfg(feature = "rust-crypto")]
 use std::time::Duration;
 
-use cometbft::{block::Height as HeightStr, evidence::Duration as DurationStr};
+use cometbft::{block::Height as HeightStr, duration::Duration as DurationStr};
 use cometbft_rpc as rpc;
 use serde::{Deserialize, Serialize};
 
