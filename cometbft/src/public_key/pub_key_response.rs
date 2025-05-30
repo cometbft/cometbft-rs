@@ -72,18 +72,20 @@ mod v1 {
             Ok(PubKeyResponse {
                 pub_key: Default::default(), // pub_key is not present in v1
                 error: value.error.map(TryInto::try_into).transpose()?,
-                pub_key_bytes: value.pub_key_bytes.try_into()?,
-                pub_key_type: value.pub_key_type.try_into()?,
+                pub_key_bytes: value.pub_key_bytes,
+                pub_key_type: value.pub_key_type,
             })
         }
     }
 
     impl From<PubKeyResponse> for RawPubKeyResponse {
         fn from(value: PubKeyResponse) -> Self {
+            assert!(value.pub_key.is_none(), "pub_key should not be set in v1");
+
             RawPubKeyResponse {
                 error: value.error.map(Into::into),
-                pub_key_bytes: value.pub_key_bytes.into(),
-                pub_key_type: value.pub_key_type.into(),
+                pub_key_bytes: value.pub_key_bytes,
+                pub_key_type: value.pub_key_type,
             }
         }
     }

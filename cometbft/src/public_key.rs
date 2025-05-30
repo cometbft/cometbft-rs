@@ -637,15 +637,18 @@ mod tests {
             // )
             // func ed25519_key() {
             //   pkr := &privval.PubKeyResponse{
-            //     PubKeyType: ed25519.KeyType,
+            //     Error: nil,
             //     PubKeyBytes: []byte{
             //       215, 90, 152, 1, 130, 177, 10, 183, 213, 75, 254, 211, 201, 100, 7, 58,
             //       14, 225, 114, 243, 218, 166, 35, 37, 175, 2, 26, 104, 247, 7, 81, 26,
             //     },
-            //     Error: nil,
+            //     PubKeyType: ed25519.PubKeyName,
             //   }
-            //   pbpk, _ := pkr.Marshal()
-            //   fmt.Printf("%#v\n", pbpk)
+            //   pbpk, err := pkr.Marshal()
+            //   if err != nil {
+            //     panic(err)
+            //   }
+            //   fmt.Printf("%#+v\n", pbpk)
             // }
             // func main() {
             //   ed25519_key()
@@ -653,8 +656,9 @@ mod tests {
             let encoded = vec![
                 0x1a, 0x20, 0xd7, 0x5a, 0x98, 0x1, 0x82, 0xb1, 0xa, 0xb7, 0xd5, 0x4b, 0xfe, 0xd3,
                 0xc9, 0x64, 0x7, 0x3a, 0xe, 0xe1, 0x72, 0xf3, 0xda, 0xa6, 0x23, 0x25, 0xaf, 0x2,
-                0x1a, 0x68, 0xf7, 0x7, 0x51, 0x1a, 0x22, 0x7, 0x65, 0x64, 0x32, 0x35, 0x35, 0x31,
-                0x39,
+                0x1a, 0x68, 0xf7, 0x7, 0x51, 0x1a, 0x22, 0x18, 0x74, 0x65, 0x6e, 0x64, 0x65, 0x72,
+                0x6d, 0x69, 0x6e, 0x74, 0x2f, 0x50, 0x75, 0x62, 0x4b, 0x65, 0x79, 0x45, 0x64, 0x32,
+                0x35, 0x35, 0x31, 0x39,
             ];
 
             let msg = PubKeyResponse {

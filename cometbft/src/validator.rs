@@ -149,8 +149,6 @@ pub struct Info {
     pub address: account::Id,
 
     /// Validator public key
-    ///
-    /// From CometBFT v1.0.0 onwards, use `pub_key_bytes` and `pub_key_type` instead.
     pub pub_key: PublicKey,
 
     /// Validator voting power
