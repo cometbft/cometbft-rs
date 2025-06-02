@@ -623,6 +623,7 @@ pub static CUSTOM_FIELD_ATTRIBUTES_V_1: &[(&str, &str)] = &[
     (".cometbft.crypto.v1.Proof.total", QUOTED),
     (".cometbft.crypto.v1.Proof.aunts", VEC_BASE64STRING),
     (".cometbft.crypto.v1.Proof.leaf_hash", BASE64STRING),
+    (".cometbft.privval.v1.PubKeyResponse.pub_key_bytes", BASE64STRING),
 ];
 
 pub fn get_custom_field_attributes(version: &CometBFTVersion) -> &[(&str, &str)] {
