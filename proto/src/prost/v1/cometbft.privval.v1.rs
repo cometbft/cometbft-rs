@@ -19,7 +19,6 @@ pub struct PubKeyResponse {
     #[prost(message, optional, tag = "2")]
     pub error: ::core::option::Option<RemoteSignerError>,
     #[prost(bytes = "vec", tag = "3")]
-    #[serde(with = "crate::serializers::bytes::base64string")]
     pub pub_key_bytes: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, tag = "4")]
     pub pub_key_type: ::prost::alloc::string::String,

@@ -12,8 +12,8 @@ JSON. Ideally, we should first convert all structs to protobuf because Rust
 uses serde and protobuf, and expects the same from Go. So this is kinda a hack
 and something we should fix in the future. Specifically, we should:
 
-1. Update Go structs to match protobuf definitions.
-2. Use [protojson](https://pkg.go.dev/google.golang.org/protobuf/encoding/protojson) to marshal the structs to JSON.
+1. Use [protojson](https://pkg.go.dev/google.golang.org/protobuf/encoding/protojson) to marshal the structs to JSON.
+2. Double-check Go and Rust protos match.
 
 But for now, you must fork CometBFT and the following code to `types/validator.go`:
 
