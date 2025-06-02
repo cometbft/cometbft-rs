@@ -781,7 +781,7 @@ mod tests {
                     },
                     "voting_power": "50",
                     "proposer_priority": "-150",
-                    "pub_key_bytes": [56, 6, 141, 171, 112, 215, 255, 94, 95, 24, 147, 246, 48, 142, 155, 186, 59, 117, 25, 26, 111, 143, 10, 234, 33, 235, 194, 134, 42, 201, 177, 183],
+                    "pub_key_bytes": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc=",
                     "pub_key_type": "tendermint/PubKeyEd25519"
                 },
                 {
@@ -792,7 +792,7 @@ mod tests {
                     },
                     "voting_power": "42",
                     "proposer_priority": "50",
-                    "pub_key_bytes": [250, 249, 108, 42, 153, 250, 162, 57, 254, 82, 132, 217, 151, 236, 62, 127, 23, 170, 155, 172, 111, 81, 240, 104, 145, 55, 10, 125, 193, 183, 106, 238],
+                    "pub_key_bytes": "+vlsKpn6ojn+UoTZl+w+fxeqm6xvUfBokTcKfcG3au4=",
                     "pub_key_type": "tendermint/PubKeyEd25519"
                 }
             ],
@@ -804,7 +804,7 @@ mod tests {
                 },
                 "voting_power": "50",
                 "proposer_priority": "-150",
-                "pub_key_bytes": [56, 6, 141, 171, 112, 215, 255, 94, 95, 24, 147, 246, 48, 142, 155, 186, 59, 117, 25, 26, 111, 143, 10, 234, 33, 235, 194, 134, 42, 201, 177, 183],
+                "pub_key_bytes": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc=",
                 "pub_key_type": "tendermint/PubKeyEd25519"
             },
             "total_voting_power": "92"
@@ -826,7 +826,7 @@ mod tests {
                     },
                     "voting_power": "50",
                     "proposer_priority": "-150",
-                    "pub_key_bytes": [56, 6, 141, 171, 112, 215, 255, 94, 95, 24, 147, 246, 48, 142, 155, 186, 59, 117, 25, 26, 111, 143, 10, 234, 33, 235, 194, 134, 42, 201, 177, 183],
+                    "pub_key_bytes": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc=",
                     "pub_key_type": "tendermint/PubKeyEd25519"
                 },
                 {
@@ -837,7 +837,7 @@ mod tests {
                     },
                     "voting_power": "42",
                     "proposer_priority": "50",
-                    "pub_key_bytes": [250, 249, 108, 42, 153, 250, 162, 57, 254, 82, 132, 217, 151, 236, 62, 127, 23, 170, 155, 172, 111, 81, 240, 104, 145, 55, 10, 125, 193, 183, 106, 238],
+                    "pub_key_bytes": "+vlsKpn6ojn+UoTZl+w+fxeqm6xvUfBokTcKfcG3au4=",
                     "pub_key_type": "tendermint/PubKeyEd25519"
                 }
             ],
@@ -849,7 +849,7 @@ mod tests {
                 },
                 "voting_power": "50",
                 "proposer_priority": "-150",
-                "pub_key_bytes": [56, 6, 141, 171, 112, 215, 255, 94, 95, 24, 147, 246, 48, 142, 155, 186, 59, 117, 25, 26, 111, 143, 10, 234, 33, 235, 194, 134, 42, 201, 177, 183],
+                "pub_key_bytes": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc=",
                 "pub_key_type": "tendermint/PubKeyEd25519"
             }
         }"#;
@@ -870,7 +870,7 @@ mod tests {
                     },
                     "voting_power": "50",
                     "proposer_priority": "-150",
-                    "pub_key_bytes": [56, 6, 141, 171, 112, 215, 255, 94, 95, 24, 147, 246, 48, 142, 155, 186, 59, 117, 25, 26, 111, 143, 10, 234, 33, 235, 194, 134, 42, 201, 177, 183],
+                    "pub_key_bytes": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc=",
                     "pub_key_type": "tendermint/PubKeyEd25519"
                 },
                 {
@@ -881,7 +881,7 @@ mod tests {
                     },
                     "voting_power": "42",
                     "proposer_priority": "50",
-                    "pub_key_bytes": [250, 249, 108, 42, 153, 250, 162, 57, 254, 82, 132, 217, 151, 236, 62, 127, 23, 170, 155, 172, 111, 81, 240, 104, 145, 55, 10, 125, 193, 183, 106, 238],
+                    "pub_key_bytes": "+vlsKpn6ojn+UoTZl+w+fxeqm6xvUfBokTcKfcG3au4=",
                     "pub_key_type": "tendermint/PubKeyEd25519"
                 }
             ],
@@ -893,7 +893,7 @@ mod tests {
                 },
                 "voting_power": "50",
                 "proposer_priority": "-150",
-                "pub_key_bytes": [56, 6, 141, 171, 112, 215, 255, 94, 95, 24, 147, 246, 48, 142, 155, 186, 59, 117, 25, 26, 111, 143, 10, 234, 33, 235, 194, 134, 42, 201, 177, 183],
+                "pub_key_bytes": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc=",
                 "pub_key_type": "tendermint/PubKeyEd25519"
             },
             "total_voting_power": "100"
@@ -919,7 +919,7 @@ mod tests {
                     },
                     "voting_power": "576460752303423488",
                     "proposer_priority": "-150",
-                    "pub_key_bytes": [56, 6, 141, 171, 112, 215, 255, 94, 95, 24, 147, 246, 48, 142, 155, 186, 59, 117, 25, 26, 111, 143, 10, 234, 33, 235, 194, 134, 42, 201, 177, 183],
+                    "pub_key_bytes": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc=",
                     "pub_key_type": "tendermint/PubKeyEd25519"
                 },
                 {
@@ -930,7 +930,7 @@ mod tests {
                     },
                     "voting_power": "576460752303423488",
                     "proposer_priority": "50",
-                    "pub_key_bytes": [250, 249, 108, 42, 153, 250, 162, 57, 254, 82, 132, 217, 151, 236, 62, 127, 23, 170, 155, 172, 111, 81, 240, 104, 145, 55, 10, 125, 193, 183, 106, 238],
+                    "pub_key_bytes": "+vlsKpn6ojn+UoTZl+w+fxeqm6xvUfBokTcKfcG3au4=",
                     "pub_key_type": "tendermint/PubKeyEd25519"
                 }
             ],
@@ -942,7 +942,7 @@ mod tests {
                 },
                 "voting_power": "50",
                 "proposer_priority": "-150",
-                "pub_key_bytes": [56, 6, 141, 171, 112, 215, 255, 94, 95, 24, 147, 246, 48, 142, 155, 186, 59, 117, 25, 26, 111, 143, 10, 234, 33, 235, 194, 134, 42, 201, 177, 183],
+                "pub_key_bytes": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc=",
                 "pub_key_type": "tendermint/PubKeyEd25519"
             },
             "total_voting_power": "92"
@@ -968,7 +968,7 @@ mod tests {
                     },
                     "voting_power": "6148914691236517205",
                     "proposer_priority": "-150",
-                    "pub_key_bytes": [56, 6, 141, 171, 112, 215, 255, 94, 95, 24, 147, 246, 48, 142, 155, 186, 59, 117, 25, 26, 111, 143, 10, 234, 33, 235, 194, 134, 42, 201, 177, 183],
+                    "pub_key_bytes": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc=",
                     "pub_key_type": "tendermint/PubKeyEd25519"
                 },
                 {
@@ -979,7 +979,7 @@ mod tests {
                     },
                     "voting_power": "6148914691236517205",
                     "proposer_priority": "50",
-                    "pub_key_bytes": [250, 249, 108, 42, 153, 250, 162, 57, 254, 82, 132, 217, 151, 236, 62, 127, 23, 170, 155, 172, 111, 81, 240, 104, 145, 55, 10, 125, 193, 183, 106, 238],
+                    "pub_key_bytes": "+vlsKpn6ojn+UoTZl+w+fxeqm6xvUfBokTcKfcG3au4=",
                     "pub_key_type": "tendermint/PubKeyEd25519"
                 },
                 {
@@ -990,7 +990,7 @@ mod tests {
                     },
                     "voting_power": "6148914691236517206",
                     "proposer_priority": "50",
-                    "pub_key_bytes": [89, 206, 253, 209, 249, 2, 12, 8, 187, 46, 246, 120, 80, 128, 64, 32, 148, 141, 35, 228, 105, 217, 165, 60, 211, 255, 37, 250, 39, 89, 255, 2],
+                    "pub_key_bytes": "Wc790fkCDAi7LvZ4UIBAIJSNI+Rp2aU80/8l+idZ/wI=",
                     "pub_key_type": "tendermint/PubKeyEd25519"
                 }
             ],
@@ -1002,7 +1002,7 @@ mod tests {
                 },
                 "voting_power": "50",
                 "proposer_priority": "-150",
-                "pub_key_bytes": [56, 6, 141, 171, 112, 215, 255, 94, 95, 24, 147, 246, 48, 142, 155, 186, 59, 117, 25, 26, 111, 143, 10, 234, 33, 235, 194, 134, 42, 201, 177, 183],
+                "pub_key_bytes": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc=",
                 "pub_key_type": "tendermint/PubKeyEd25519"
             }
         }"#;
