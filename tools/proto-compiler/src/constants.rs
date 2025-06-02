@@ -572,6 +572,7 @@ pub static CUSTOM_FIELD_ATTRIBUTES_V_1: &[(&str, &str)] = &[
         DEFAULT,
     ), // Default is for /genesis deserialization
     (".cometbft.types.v1.Validator.proposer_priority", DEFAULT), // Default is for /genesis deserialization
+    (".cometbft.types.v1.Validator.pub_key_bytes", BASE64STRING),
     (
         ".cometbft.types.v1beta1.ValidatorSet.total_voting_power",
         QUOTED_WITH_DEFAULT,

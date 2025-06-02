@@ -1,5 +1,6 @@
 //! CometBFT validators
 
+use crate::serializers;
 use cometbft_proto::types::v1::{
     SimpleValidator as RawSimpleValidator, ValidatorSet as RawValidatorSet,
 };
@@ -270,7 +271,7 @@ pub struct Update {
     ///
     /// This field has been added in CometBFT 1.0.0 and will be ignored when
     /// encoding into earlier protocol versions.
-    #[serde(default)]
+    #[serde(default, with = "serializers::bytes::base64string")]
     pub pub_key_bytes: Vec<u8>,
 
     /// Public key type

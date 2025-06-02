@@ -382,7 +382,8 @@ impl Tester {
         let mut tests = Vec::new();
         if let Some(results) = self.results.get("") {
             for (path, res) in results {
-                if let ParseError(_) = res {
+                if let ParseError(e) = res {
+                    eprintln!("Parse error in test '{}': {}", path, e);
                     tests.push(path.clone())
                 }
             }

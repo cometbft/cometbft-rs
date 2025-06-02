@@ -30,6 +30,7 @@ pub struct Validator {
     #[serde(default)]
     pub proposer_priority: i64,
     #[prost(bytes = "vec", tag = "5")]
+    #[serde(with = "crate::serializers::bytes::base64string")]
     pub pub_key_bytes: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, tag = "6")]
     pub pub_key_type: ::prost::alloc::string::String,

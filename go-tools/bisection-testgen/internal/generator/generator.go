@@ -57,6 +57,7 @@ func makeLightBlocks(
 			SignedHeader:     signedHeader,
 			ValidatorSet:     state.LastValidators,
 			NextValidatorSet: state.Validators,
+			Provider:         "BADFADAD0BEFEEDC0C0ADEADBEEFC0FFEEFACADE",
 		},
 	}
 	lastCommit := signedHeader.Commit
@@ -266,6 +267,7 @@ func generateNextBlockWithNextValsUpdate(
 		},
 		ValidatorSet:     state.Validators.Copy(),     // dereferencing pointer
 		NextValidatorSet: state.NextValidators.Copy(), // dereferencing pointer
+		Provider:         "BADFADAD0BEFEEDC0C0ADEADBEEFC0FFEEFACADE",
 	}
 	state, newPrivVals = updateState(state, commit.BlockID, privVals, newPrivVals)
 

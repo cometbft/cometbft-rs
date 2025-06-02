@@ -81,6 +81,7 @@ type lightBlock struct {
 	SignedHeader     *types.SignedHeader `json:"signed_header"`
 	ValidatorSet     *types.ValidatorSet `json:"validator_set"`
 	NextValidatorSet *types.ValidatorSet `json:"next_validator_set"`
+	Provider         string              `json:"provider,omitempty"`
 }
 
 // Initial stores the data required by a test case to set the context
