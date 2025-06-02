@@ -17,3 +17,5 @@ Cargo.lock
 
 # Proptest regressions dumps
 **/*.proptest-regressions
+
+go-tools/
