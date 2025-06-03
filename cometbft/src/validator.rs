@@ -1,6 +1,6 @@
 //! CometBFT validators
 
-use crate::serializers;
+use cometbft_proto::abci::v1::ValidatorUpdate as RawValidatorUpdate;
 use cometbft_proto::types::v1::{
     SimpleValidator as RawSimpleValidator, Validator as RawValidator,
     ValidatorSet as RawValidatorSet,
@@ -257,31 +257,15 @@ impl ProposerPriority {
 ///
 /// [ABCI documentation](https://docs.cometbft.com/v1/spec/abci/abci.html#validatorupdate)
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq, Eq)]
+#[serde(into = "RawValidatorUpdate")]
 pub struct Update {
     /// Validator public key
-    ///
-    /// From CometBFT 1.0.0 and onwards, this field is deprecated. Please use `pub_key_bytes` and
-    /// `pub_key_type` instead.
     #[serde(deserialize_with = "deserialize_public_key")]
     pub pub_key: PublicKey,
 
     /// New voting power
     #[serde(default)]
     pub power: vote::Power,
-
-    /// Public key bytes
-    ///
-    /// This field has been added in CometBFT 1.0.0 and will be ignored when
-    /// encoding into earlier protocol versions.
-    #[serde(default, with = "serializers::bytes::base64string")]
-    pub pub_key_bytes: Vec<u8>,
-
-    /// Public key type
-    ///
-    /// This field has been added in CometBFT 1.0.0 and will be ignored when
-    /// encoding into earlier protocol versions.
-    #[serde(default)]
-    pub pub_key_type: String,
 }
 
 // =============================================================================
@@ -331,13 +315,12 @@ cometbft_old_pb_modules! {
         type Error = Error;
 
         fn try_from(value: RawValidator) -> Result<Self, Self::Error> {
-            let pk = value
-                    .pub_key
-                    .ok_or_else(Error::missing_public_key)?
-                    .try_into()?;
             Ok(Info {
                 address: value.address.try_into()?,
-                pub_key: pk,
+                pub_key: value
+                    .pub_key
+                    .ok_or_else(Error::missing_public_key)?
+                    .try_into()?,
                 power: value.voting_power.try_into()?,
                 name: None,
                 proposer_priority: value.proposer_priority.into(),
@@ -395,15 +378,12 @@ cometbft_old_pb_modules! {
         type Error = Error;
 
         fn try_from(vu: RawValidatorUpdate) -> Result<Self, Self::Error> {
-            let pk = vu
+            Ok(Self {
+                pub_key: vu
                     .pub_key
                     .ok_or_else(Error::missing_public_key)?
-                    .try_into()?;
-            Ok(Self {
-                pub_key: pk,
+                    .try_into()?,
                 power: vu.power.try_into()?,
-                pub_key_bytes: pk.to_bytes(),
-                pub_key_type: pk.type_str().to_owned(),
             })
         }
     }
@@ -509,8 +489,8 @@ mod v1 {
         fn from(vu: Update) -> Self {
             Self {
                 power: vu.power.into(),
-                pub_key_bytes: vu.pub_key_bytes.into(),
-                pub_key_type: vu.pub_key_type.into(),
+                pub_key_bytes: vu.pub_key.to_bytes().into(),
+                pub_key_type: vu.pub_key.type_str().to_owned(),
             }
         }
     }
@@ -524,8 +504,6 @@ mod v1 {
             Ok(Self {
                 pub_key: PublicKey::try_from_type_and_bytes(&pub_key_type, &pub_key_bytes)?,
                 power: vu.power.try_into()?,
-                pub_key_type,
-                pub_key_bytes,
             })
         }
     }
@@ -573,13 +551,12 @@ mod v1beta1 {
         type Error = Error;
 
         fn try_from(value: RawValidator) -> Result<Self, Self::Error> {
-            let pk = value
-                .pub_key
-                .ok_or_else(Error::missing_public_key)?
-                .try_into()?;
             Ok(Info {
                 address: value.address.try_into()?,
-                pub_key: pk,
+                pub_key: value
+                    .pub_key
+                    .ok_or_else(Error::missing_public_key)?
+                    .try_into()?,
                 power: value.voting_power.try_into()?,
                 name: None,
                 proposer_priority: value.proposer_priority.into(),
@@ -638,15 +615,12 @@ mod v1beta1 {
         type Error = Error;
 
         fn try_from(vu: RawValidatorUpdate) -> Result<Self, Self::Error> {
-            let pk = vu
-                .pub_key
-                .ok_or_else(Error::missing_public_key)?
-                .try_into()?;
             Ok(Self {
-                pub_key: pk,
+                pub_key: vu
+                    .pub_key
+                    .ok_or_else(Error::missing_public_key)?
+                    .try_into()?,
                 power: vu.power.try_into()?,
-                pub_key_bytes: pk.to_bytes(),
-                pub_key_type: pk.type_str().to_owned(),
             })
         }
     }
@@ -780,10 +754,6 @@ mod tests {
             "validators": [
                 {
                     "address": "01F527D77D3FFCC4FCFF2DDC2952EEA5414F2A33",
-                    "pub_key": {
-                        "type": "tendermint/PubKeyEd25519",
-                        "value": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc="
-                    },
                     "voting_power": "50",
                     "proposer_priority": "-150",
                     "pub_key_bytes": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc=",
@@ -791,10 +761,6 @@ mod tests {
                 },
                 {
                     "address": "026CC7B6F3E62F789DBECEC59766888B5464737D",
-                    "pub_key": {
-                        "type": "tendermint/PubKeyEd25519",
-                        "value": "+vlsKpn6ojn+UoTZl+w+fxeqm6xvUfBokTcKfcG3au4="
-                    },
                     "voting_power": "42",
                     "proposer_priority": "50",
                     "pub_key_bytes": "+vlsKpn6ojn+UoTZl+w+fxeqm6xvUfBokTcKfcG3au4=",
@@ -803,10 +769,6 @@ mod tests {
             ],
             "proposer": {
                 "address": "01F527D77D3FFCC4FCFF2DDC2952EEA5414F2A33",
-                "pub_key": {
-                    "type": "tendermint/PubKeyEd25519",
-                    "value": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc="
-                },
                 "voting_power": "50",
                 "proposer_priority": "-150",
                 "pub_key_bytes": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc=",
@@ -825,10 +787,6 @@ mod tests {
             "validators": [
                 {
                     "address": "01F527D77D3FFCC4FCFF2DDC2952EEA5414F2A33",
-                    "pub_key": {
-                        "type": "tendermint/PubKeyEd25519",
-                        "value": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc="
-                    },
                     "voting_power": "50",
                     "proposer_priority": "-150",
                     "pub_key_bytes": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc=",
@@ -836,10 +794,6 @@ mod tests {
                 },
                 {
                     "address": "026CC7B6F3E62F789DBECEC59766888B5464737D",
-                    "pub_key": {
-                        "type": "tendermint/PubKeyEd25519",
-                        "value": "+vlsKpn6ojn+UoTZl+w+fxeqm6xvUfBokTcKfcG3au4="
-                    },
                     "voting_power": "42",
                     "proposer_priority": "50",
                     "pub_key_bytes": "+vlsKpn6ojn+UoTZl+w+fxeqm6xvUfBokTcKfcG3au4=",
@@ -848,10 +802,6 @@ mod tests {
             ],
             "proposer": {
                 "address": "01F527D77D3FFCC4FCFF2DDC2952EEA5414F2A33",
-                "pub_key": {
-                    "type": "tendermint/PubKeyEd25519",
-                    "value": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc="
-                },
                 "voting_power": "50",
                 "proposer_priority": "-150",
                 "pub_key_bytes": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc=",
@@ -869,10 +819,6 @@ mod tests {
             "validators": [
                 {
                     "address": "01F527D77D3FFCC4FCFF2DDC2952EEA5414F2A33",
-                    "pub_key": {
-                        "type": "tendermint/PubKeyEd25519",
-                        "value": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc="
-                    },
                     "voting_power": "50",
                     "proposer_priority": "-150",
                     "pub_key_bytes": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc=",
@@ -880,10 +826,6 @@ mod tests {
                 },
                 {
                     "address": "026CC7B6F3E62F789DBECEC59766888B5464737D",
-                    "pub_key": {
-                        "type": "tendermint/PubKeyEd25519",
-                        "value": "+vlsKpn6ojn+UoTZl+w+fxeqm6xvUfBokTcKfcG3au4="
-                    },
                     "voting_power": "42",
                     "proposer_priority": "50",
                     "pub_key_bytes": "+vlsKpn6ojn+UoTZl+w+fxeqm6xvUfBokTcKfcG3au4=",
@@ -892,10 +834,6 @@ mod tests {
             ],
             "proposer": {
                 "address": "01F527D77D3FFCC4FCFF2DDC2952EEA5414F2A33",
-                "pub_key": {
-                    "type": "tendermint/PubKeyEd25519",
-                    "value": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc="
-                },
                 "voting_power": "50",
                 "proposer_priority": "-150",
                 "pub_key_bytes": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc=",
@@ -918,10 +856,6 @@ mod tests {
             "validators": [
                 {
                     "address": "01F527D77D3FFCC4FCFF2DDC2952EEA5414F2A33",
-                    "pub_key": {
-                        "type": "tendermint/PubKeyEd25519",
-                        "value": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc="
-                    },
                     "voting_power": "576460752303423488",
                     "proposer_priority": "-150",
                     "pub_key_bytes": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc=",
@@ -929,10 +863,6 @@ mod tests {
                 },
                 {
                     "address": "026CC7B6F3E62F789DBECEC59766888B5464737D",
-                    "pub_key": {
-                        "type": "tendermint/PubKeyEd25519",
-                        "value": "+vlsKpn6ojn+UoTZl+w+fxeqm6xvUfBokTcKfcG3au4="
-                    },
                     "voting_power": "576460752303423488",
                     "proposer_priority": "50",
                     "pub_key_bytes": "+vlsKpn6ojn+UoTZl+w+fxeqm6xvUfBokTcKfcG3au4=",
@@ -941,10 +871,6 @@ mod tests {
             ],
             "proposer": {
                 "address": "01F527D77D3FFCC4FCFF2DDC2952EEA5414F2A33",
-                "pub_key": {
-                    "type": "tendermint/PubKeyEd25519",
-                    "value": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc="
-                },
                 "voting_power": "50",
                 "proposer_priority": "-150",
                 "pub_key_bytes": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc=",
@@ -967,10 +893,6 @@ mod tests {
             "validators": [
                 {
                     "address": "01F527D77D3FFCC4FCFF2DDC2952EEA5414F2A33",
-                    "pub_key": {
-                        "type": "tendermint/PubKeyEd25519",
-                        "value": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc="
-                    },
                     "voting_power": "6148914691236517205",
                     "proposer_priority": "-150",
                     "pub_key_bytes": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc=",
@@ -978,10 +900,6 @@ mod tests {
                 },
                 {
                     "address": "026CC7B6F3E62F789DBECEC59766888B5464737D",
-                    "pub_key": {
-                        "type": "tendermint/PubKeyEd25519",
-                        "value": "+vlsKpn6ojn+UoTZl+w+fxeqm6xvUfBokTcKfcG3au4="
-                    },
                     "voting_power": "6148914691236517205",
                     "proposer_priority": "50",
                     "pub_key_bytes": "+vlsKpn6ojn+UoTZl+w+fxeqm6xvUfBokTcKfcG3au4=",
@@ -989,10 +907,6 @@ mod tests {
                 },
                 {
                     "address": "044EB1BB5D4C1CDB90029648439AEB10431FF295",
-                    "pub_key": {
-                        "type": "tendermint/PubKeyEd25519",
-                        "value": "Wc790fkCDAi7LvZ4UIBAIJSNI+Rp2aU80/8l+idZ/wI="
-                    },
                     "voting_power": "6148914691236517206",
                     "proposer_priority": "50",
                     "pub_key_bytes": "Wc790fkCDAi7LvZ4UIBAIJSNI+Rp2aU80/8l+idZ/wI=",
@@ -1001,10 +915,6 @@ mod tests {
             ],
             "proposer": {
                 "address": "01F527D77D3FFCC4FCFF2DDC2952EEA5414F2A33",
-                "pub_key": {
-                    "type": "tendermint/PubKeyEd25519",
-                    "value": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc="
-                },
                 "voting_power": "50",
                 "proposer_priority": "-150",
                 "pub_key_bytes": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc=",
