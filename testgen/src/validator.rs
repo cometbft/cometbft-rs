@@ -106,9 +106,10 @@ impl Generator<validator::Info> for Validator {
 
     fn generate(&self) -> Result<validator::Info, SimpleError> {
         let verification_key = self.get_private_key()?.verification_key();
+        let pk = PublicKey::from(verification_key);
         let info = validator::Info {
             address: account::Id::from(verification_key),
-            pub_key: PublicKey::from(verification_key),
+            pub_key: pk,
             power: vote::Power::try_from(self.voting_power.unwrap_or(0)).unwrap(),
             name: None,
             proposer_priority: validator::ProposerPriority::from(

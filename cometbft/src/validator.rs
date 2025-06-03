@@ -2,7 +2,8 @@
 
 use crate::serializers;
 use cometbft_proto::types::v1::{
-    SimpleValidator as RawSimpleValidator, ValidatorSet as RawValidatorSet,
+    SimpleValidator as RawSimpleValidator, Validator as RawValidator,
+    ValidatorSet as RawValidatorSet,
 };
 use cometbft_proto::Protobuf;
 use serde::{Deserialize, Serialize};
@@ -145,6 +146,7 @@ impl Set {
 
 /// Validator information
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(into = "RawValidator")]
 pub struct Info {
     /// Validator account address
     pub address: account::Id,
@@ -329,12 +331,13 @@ cometbft_old_pb_modules! {
         type Error = Error;
 
         fn try_from(value: RawValidator) -> Result<Self, Self::Error> {
-            Ok(Info {
-                address: value.address.try_into()?,
-                pub_key: value
+            let pk = value
                     .pub_key
                     .ok_or_else(Error::missing_public_key)?
-                    .try_into()?,
+                    .try_into()?;
+            Ok(Info {
+                address: value.address.try_into()?,
+                pub_key: pk,
                 power: value.voting_power.try_into()?,
                 name: None,
                 proposer_priority: value.proposer_priority.into(),
@@ -392,15 +395,15 @@ cometbft_old_pb_modules! {
         type Error = Error;
 
         fn try_from(vu: RawValidatorUpdate) -> Result<Self, Self::Error> {
-            Ok(Self {
-                pub_key: vu
+            let pk = vu
                     .pub_key
                     .ok_or_else(Error::missing_public_key)?
-                    .try_into()?,
+                    .try_into()?;
+            Ok(Self {
+                pub_key: pk,
                 power: vu.power.try_into()?,
-                pub_key_bytes: Default::default(), // pub_key_bytes is not present in older
-                                                    // versions
-                pub_key_type: Default::default(), // pub_key_type is not present in older versions
+                pub_key_bytes: pk.to_bytes(),
+                pub_key_type: pk.type_str().to_owned(),
             })
         }
     }
@@ -570,12 +573,13 @@ mod v1beta1 {
         type Error = Error;
 
         fn try_from(value: RawValidator) -> Result<Self, Self::Error> {
+            let pk = value
+                .pub_key
+                .ok_or_else(Error::missing_public_key)?
+                .try_into()?;
             Ok(Info {
                 address: value.address.try_into()?,
-                pub_key: value
-                    .pub_key
-                    .ok_or_else(Error::missing_public_key)?
-                    .try_into()?,
+                pub_key: pk,
                 power: value.voting_power.try_into()?,
                 name: None,
                 proposer_priority: value.proposer_priority.into(),
@@ -634,14 +638,15 @@ mod v1beta1 {
         type Error = Error;
 
         fn try_from(vu: RawValidatorUpdate) -> Result<Self, Self::Error> {
+            let pk = vu
+                .pub_key
+                .ok_or_else(Error::missing_public_key)?
+                .try_into()?;
             Ok(Self {
-                pub_key: vu
-                    .pub_key
-                    .ok_or_else(Error::missing_public_key)?
-                    .try_into()?,
+                pub_key: pk,
                 power: vu.power.try_into()?,
-                pub_key_bytes: Default::default(), // pub_key_bytes is not present in v1beta1
-                pub_key_type: Default::default(),  // pub_key_type is not present in v1beta1
+                pub_key_bytes: pk.to_bytes(),
+                pub_key_type: pk.type_str().to_owned(),
             })
         }
     }

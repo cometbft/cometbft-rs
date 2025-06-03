@@ -58,21 +58,23 @@ impl LightStore for SledStore {
 
         for other in Status::iter() {
             if status != *other {
-                self.db(*other).remove(height).ok();
+                self.db(*other).remove(height).expect("update to succeed");
             }
         }
 
-        self.db(status).insert(height, light_block).ok();
+        self.db(status)
+            .insert(height, light_block)
+            .expect("update to succeed");
     }
 
     fn insert(&mut self, light_block: LightBlock, status: Status) {
         self.db(status)
             .insert(light_block.height(), &light_block)
-            .ok();
+            .expect("insert to succeed");
     }
 
     fn remove(&mut self, height: Height, status: Status) {
-        self.db(status).remove(height).ok();
+        self.db(status).remove(height).expect("remove to succeed");
     }
 
     fn highest(&self, status: Status) -> Option<LightBlock> {
