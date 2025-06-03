@@ -6,14 +6,14 @@ use crate::{prelude::*, privval::RemoteSignerError};
 #[derive(Clone, PartialEq, Eq, Debug)]
 pub struct SignBytesRequest {
     /// Bytes to sign
-    pub bytes: bytes::Bytes,
+    pub bytes: Vec<u8>,
 }
 
 /// Response to a `SignBytesRequest`, containing a signature if successful or an error otherwise.
 #[derive(Clone, PartialEq, Eq, Debug)]
 pub struct SignBytesResponse {
     /// Signature
-    pub signature: bytes::Bytes,
+    pub signature: Vec<u8>,
     /// Response error
     pub error: Option<RemoteSignerError>,
 }
@@ -38,7 +38,7 @@ mod v1 {
 
         fn try_from(req: RawSignBytesRequest) -> Result<Self, Self::Error> {
             Ok(SignBytesRequest {
-                bytes: bytes::Bytes::try_from(req.value)?,
+                bytes: req.value.try_into()?,
             })
         }
     }
@@ -56,7 +56,7 @@ mod v1 {
 
         fn try_from(resp: RawSignBytesResponse) -> Result<Self, Self::Error> {
             Ok(SignBytesResponse {
-                signature: bytes::Bytes::try_from(resp.signature)?,
+                signature: resp.signature.try_into()?,
                 error: resp.error.map(TryInto::try_into).transpose()?,
             })
         }
@@ -86,7 +86,7 @@ mod tests {
         #[test]
         fn test_protobuf_conversion_request_round_trip() {
             let original = SignBytesRequest {
-                bytes: bytes::Bytes::from_static(b"test bytes"),
+                bytes: b"test bytes".to_vec(),
             };
             let raw: RawSignBytesRequest = original.clone().into();
             let decoded = SignBytesRequest::try_from(raw).unwrap();
@@ -96,7 +96,7 @@ mod tests {
         #[test]
         fn test_protobuf_conversion_response_with_signature() {
             let original = SignBytesResponse {
-                signature: bytes::Bytes::from_static(b"test signature"),
+                signature: b"test signature".to_vec(),
                 error: None,
             };
             let raw: RawSignBytesResponse = original.clone().into();
@@ -107,7 +107,7 @@ mod tests {
         #[test]
         fn test_protobuf_conversion_response_with_error() {
             let original = SignBytesResponse {
-                signature: bytes::Bytes::from_static(b"test signature"),
+                signature: b"test signature".to_vec(),
                 error: Some(RemoteSignerError {
                     code: 0,
                     description: "test".into(),
