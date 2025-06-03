@@ -395,7 +395,8 @@ impl Tester {
         let mut results = Vec::new();
         for Test { name, test } in &self.tests {
             match test(path, input) {
-                TestResult::ParseError(_) => {
+                TestResult::ParseError(e) => {
+                    eprintln!("Parse error in test '{}': {}", path, e);
                     continue;
                 },
                 res => results.push((name.to_string(), path, res)),
