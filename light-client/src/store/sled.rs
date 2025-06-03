@@ -100,7 +100,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn highest_returns_latest_block() {
+    fn lowest_returns_earliest_block() {
         with_blocks(10, |mut db, blocks| {
             let initial_block = blocks[0].clone();
             db.insert(initial_block.clone(), Status::Verified);
@@ -132,7 +132,7 @@ mod tests {
     }
 
     #[test]
-    fn lowest_returns_earliest_block() {
+    fn highest_returns_latest_block() {
         with_blocks(10, |mut db, blocks| {
             for block in blocks {
                 db.insert(block.clone(), Status::Verified);
