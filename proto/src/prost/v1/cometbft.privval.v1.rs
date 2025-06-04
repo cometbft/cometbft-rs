@@ -16,10 +16,12 @@ pub struct PubKeyRequest {
 /// PubKeyResponse is a response message containing the public key.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PubKeyResponse {
-    #[prost(message, optional, tag = "1")]
-    pub pub_key: ::core::option::Option<super::super::crypto::v1::PublicKey>,
     #[prost(message, optional, tag = "2")]
     pub error: ::core::option::Option<RemoteSignerError>,
+    #[prost(bytes = "vec", tag = "3")]
+    pub pub_key_bytes: ::prost::alloc::vec::Vec<u8>,
+    #[prost(string, tag = "4")]
+    pub pub_key_type: ::prost::alloc::string::String,
 }
 /// SignVoteRequest is a request to sign a vote
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -28,6 +30,9 @@ pub struct SignVoteRequest {
     pub vote: ::core::option::Option<super::super::types::v1::Vote>,
     #[prost(string, tag = "2")]
     pub chain_id: ::prost::alloc::string::String,
+    /// if true, the signer may skip signing the extension bytes.
+    #[prost(bool, tag = "3")]
+    pub skip_extension_signing: bool,
 }
 /// SignedVoteResponse is a response containing a signed vote or an error
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -53,6 +58,20 @@ pub struct SignedProposalResponse {
     #[prost(message, optional, tag = "2")]
     pub error: ::core::option::Option<RemoteSignerError>,
 }
+/// SignBytesRequest is a request to sign arbitrary bytes
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SignBytesRequest {
+    #[prost(bytes = "vec", tag = "1")]
+    pub value: ::prost::alloc::vec::Vec<u8>,
+}
+/// SignBytesResponse is a response containing a signature or an error
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SignBytesResponse {
+    #[prost(bytes = "vec", tag = "1")]
+    pub signature: ::prost::alloc::vec::Vec<u8>,
+    #[prost(message, optional, tag = "2")]
+    pub error: ::core::option::Option<RemoteSignerError>,
+}
 /// PingRequest is a request to confirm that the connection is alive.
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct PingRequest {}
@@ -63,7 +82,7 @@ pub struct PingResponse {}
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Message {
     /// Sum of all possible messages.
-    #[prost(oneof = "message::Sum", tags = "1, 2, 3, 4, 5, 6, 7, 8")]
+    #[prost(oneof = "message::Sum", tags = "1, 2, 3, 4, 5, 6, 7, 8, 9, 10")]
     pub sum: ::core::option::Option<message::Sum>,
 }
 /// Nested message and enum types in `Message`.
@@ -87,5 +106,9 @@ pub mod message {
         PingRequest(super::PingRequest),
         #[prost(message, tag = "8")]
         PingResponse(super::PingResponse),
+        #[prost(message, tag = "9")]
+        SignBytesRequest(super::SignBytesRequest),
+        #[prost(message, tag = "10")]
+        SignBytesResponse(super::SignBytesResponse),
     }
 }

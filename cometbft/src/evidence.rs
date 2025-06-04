@@ -1,16 +1,12 @@
 //! Evidence of malfeasance by validators (i.e. signing conflicting votes).
 
-use core::{
-    convert::{TryFrom, TryInto},
-    slice,
-};
+use core::slice;
 
-use cometbft_proto::google::protobuf::Duration as RawDuration;
-use cometbft_proto::Protobuf;
 use serde::{Deserialize, Serialize};
 
 use crate::{
     block::{signed_header::SignedHeader, Height},
+    duration::Duration,
     error::Error,
     prelude::*,
     serializers, validator,
@@ -127,21 +123,25 @@ impl AsRef<[Evidence]> for List {
 /// [CometBFT documentation](https://docs.cometbft.com/v1/spec/core/data_structures.html#evidenceparams)
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct Params {
-    /// Max age of evidence, in blocks.
+    /// Maximum age of evidence, in blocks.
+    ///
+    /// The recommended formula for calculating it is max_age_duration / {average
+    /// block time}.
     #[serde(with = "serializers::from_str")]
     pub max_age_num_blocks: u64,
 
     /// Max age of evidence, in time.
     ///
-    /// It should correspond with an app's "unbonding period" or other similar
-    /// mechanism for handling [Nothing-At-Stake attacks][nas].
+    /// The recommended value of is should correspond to the application's
+    /// "unbonding period" or other similar mechanism for handling
+    /// [Nothing-At-Stake][nas] attacks.
     ///
     /// [nas]: https://github.com/ethereum/wiki/wiki/Proof-of-Stake-FAQ#what-is-the-nothing-at-stake-problem-and-how-can-it-be-fixed
     pub max_age_duration: Duration,
 
-    /// This sets the maximum size of total evidence in bytes that can be
-    /// committed in a single block, and should fall comfortably under the max
-    /// block bytes. The default is 1048576 or 1MB.
+    /// Maximum size in bytes of evidence allowed to be included in a block.
+    ///
+    /// It should fall comfortably under the maximum size of a block.
     #[serde(with = "serializers::from_str", default)]
     pub max_bytes: i64,
 }
@@ -717,43 +717,6 @@ mod v1beta1 {
                 max_age_duration: Some(value.max_age_duration.into()),
                 max_bytes: value.max_bytes,
             }
-        }
-    }
-}
-
-/// Duration is a wrapper around core::time::Duration
-/// essentially, to keep the usages look cleaner
-/// i.e. you can avoid using serde annotations everywhere
-/// Todo: harmonize google::protobuf::Duration, core::time::Duration and this. Too many structs.
-/// <https://github.com/informalsystems/tendermint-rs/issues/741>
-#[derive(Copy, Clone, Debug, Eq, PartialEq, Deserialize, Serialize)]
-pub struct Duration(#[serde(with = "serializers::time_duration")] pub core::time::Duration);
-
-impl From<Duration> for core::time::Duration {
-    fn from(d: Duration) -> core::time::Duration {
-        d.0
-    }
-}
-
-impl Protobuf<RawDuration> for Duration {}
-
-impl TryFrom<RawDuration> for Duration {
-    type Error = Error;
-
-    fn try_from(value: RawDuration) -> Result<Self, Self::Error> {
-        Ok(Self(core::time::Duration::new(
-            value.seconds.try_into().map_err(Error::integer_overflow)?,
-            value.nanos.try_into().map_err(Error::integer_overflow)?,
-        )))
-    }
-}
-
-impl From<Duration> for RawDuration {
-    fn from(value: Duration) -> Self {
-        // Todo: make the struct into a proper domaintype so this becomes infallible.
-        Self {
-            seconds: value.0.as_secs() as i64,
-            nanos: value.0.subsec_nanos() as i32,
         }
     }
 }

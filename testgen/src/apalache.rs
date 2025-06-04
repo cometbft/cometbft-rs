@@ -91,6 +91,7 @@ pub fn run_apalache_test(dir: &str, test: ApalacheTestCase) -> io::Result<Apalac
     cmd.arg("check");
     cmd.arg_from_parts(vec!["--inv=", &inv]);
     cmd.arg("--init=InitTest");
+    cmd.arg("--features=no-rows");
     cmd.arg("--next=NextTest");
     if let Some(length) = test.length {
         cmd.arg_from_parts(vec!["--length=", &length.to_string()]);
@@ -101,6 +102,7 @@ pub fn run_apalache_test(dir: &str, test: ApalacheTestCase) -> io::Result<Apalac
     }
     match cmd.spawn() {
         Ok(run) => {
+            println!("Apalache run: {}", run.stdout);
             if run.status.success() {
                 if run.stdout.contains("The outcome is: NoError") {
                     Ok(ApalacheRun::NoCounterexample(run))
