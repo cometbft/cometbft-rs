@@ -606,8 +606,6 @@ mod tests {
                     .unwrap(),
                 ),
                 error: None,
-                pub_key_bytes: Vec::new(),
-                pub_key_type: "".to_string(),
             };
             let got = Protobuf::<RawPubKeyResponse>::encode_vec(msg.clone());
 
@@ -621,7 +619,6 @@ mod tests {
 
     mod v1 {
         use super::*;
-        use crate::public_key::PUB_KEY_TYPE_ED25519;
         use cometbft_proto::privval::v1::PubKeyResponse as RawPubKeyResponse;
         use cometbft_proto::Protobuf;
 
@@ -662,13 +659,14 @@ mod tests {
             ];
 
             let msg = PubKeyResponse {
-                pub_key: None,
+                pub_key: Some(
+                    PublicKey::from_raw_ed25519(&[
+                        215, 90, 152, 1, 130, 177, 10, 183, 213, 75, 254, 211, 201, 100, 7, 58, 14,
+                        225, 114, 243, 218, 166, 35, 37, 175, 2, 26, 104, 247, 7, 81, 26,
+                    ])
+                    .unwrap(),
+                ),
                 error: None,
-                pub_key_bytes: vec![
-                    215, 90, 152, 1, 130, 177, 10, 183, 213, 75, 254, 211, 201, 100, 7, 58, 14,
-                    225, 114, 243, 218, 166, 35, 37, 175, 2, 26, 104, 247, 7, 81, 26,
-                ],
-                pub_key_type: PUB_KEY_TYPE_ED25519.to_string(),
             };
             let got = Protobuf::<RawPubKeyResponse>::encode_vec(msg.clone());
 
