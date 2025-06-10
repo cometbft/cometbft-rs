@@ -259,7 +259,7 @@ impl Client for HttpClient {
     {
         self.perform_with_dialect(request, LatestDialect).await
     }
-    
+
     async fn block<H>(&self, height: H) -> Result<endpoint::block::Response, Error>
     where
         H: Into<Height> + Send,
@@ -288,7 +288,7 @@ impl Client for HttpClient {
     async fn latest_block_results(&self) -> Result<endpoint::block_results::Response, Error> {
         perform_with_compat!(self, endpoint::block_results::Request::default())
     }
-    
+
     async fn block_search(
         &self,
         query: Query,
@@ -337,14 +337,14 @@ impl Client for HttpClient {
                     endpoint::header_by_hash::Request::new(hash),
                     v0_38::Dialect,
                 )
-                    .await
+                .await
             },
             CompatMode::V0_37 => {
                 self.perform_with_dialect(
                     endpoint::header_by_hash::Request::new(hash),
                     v0_37::Dialect,
                 )
-                    .await
+                .await
             },
             CompatMode::V0_34 => {
                 // Back-fill with a request to /block_by_hash endpoint and

@@ -266,7 +266,7 @@ impl Client for WebSocketClient {
     async fn latest_block_results(&self) -> Result<endpoint::block_results::Response, Error> {
         perform_with_compat!(self, endpoint::block_results::Request::default())
     }
-    
+
     async fn block_search(
         &self,
         query: Query,
