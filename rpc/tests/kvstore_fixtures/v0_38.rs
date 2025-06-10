@@ -559,6 +559,8 @@ fn incoming_fixtures() {
             "broadcast_tx_sync" => {
                 let result = endpoint::broadcast::tx_sync::Response::from_string(content).unwrap();
                 assert_eq!(result.code, abci::Code::Ok);
+                // "broadcast_tx_sync result code" string
+                // "62726f6164636173745f74785f73796e6320726573756c7420636f6465" hex encoded
                 assert_eq!(
                     result.data,
                     hex::decode("62726f6164636173745f74785f73796e6320726573756c7420636f6465")
