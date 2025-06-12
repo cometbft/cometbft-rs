@@ -728,8 +728,6 @@ mod mbt {
 
     const TEST_DIR: &str = "./tests/support/model_based";
 
-    // COMMENTED OUT: This test is not working yet, because the model-based tests are using old
-    // apalache syntax presumably.
     #[test]
     fn run_model_based_single_step_tests() {
         let mut tester = Tester::new("test_run", TEST_DIR);
