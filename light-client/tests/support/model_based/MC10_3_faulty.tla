@@ -7,10 +7,34 @@ TRUSTING_PERIOD == 1400 \* two weeks, one day is 100 time units :-)
 IS_PRIMARY_CORRECT == FALSE
 
 VARIABLES
-  state, nextHeight, fetchedLightBlocks, lightBlockStatus, latestVerified,
-  nprobes, now, blockchain, Faulty,
-  prevVerified, prevCurrent, prevNow, prevVerdict,
-  history
+  \* @type: Str;
+  state,
+  \* @type: Int;
+  nextHeight,
+  \* @type: Int;
+  nprobes,
+  \* @type: Int -> [verified: BLOCK, current: BLOCK, now: Int, verdict: Str];
+  history,
+  \*@type: Int;
+  now,
+  \* @type: BLOCKCHAIN;
+  blockchain,
+  \* @type: Set(Str);
+  Faulty,
+  \* @type: Int -> BLOCK;
+  fetchedLightBlocks,
+  \* @type: BLOCKSTATUS;
+  lightBlockStatus,
+  \* @type: BLOCK;
+  latestVerified,
+  \* @type: BLOCKHEADER;
+  prevVerified,
+  \* @type: BLOCK;
+  prevCurrent,
+  \* @type: Int;
+  prevNow,
+  \* @type: Str;
+  prevVerdict
 
 INSTANCE LightTests
 
