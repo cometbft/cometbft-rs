@@ -7,11 +7,18 @@ use crate::serializers;
 /// Block size parameters
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq)]
 pub struct Size {
-    /// Maximum number of bytes in a block
+    /// Maximum size of a block, in bytes.
+    ///
+    /// Must be greater or equal to -1 and cannot be greater than the hard-coded
+    /// maximum block size, which is 100MB.
+    ///
+    /// If set to -1, the limit is the hard-coded maximum block size.
     #[serde(with = "serializers::from_str")]
     pub max_bytes: u64,
 
-    /// Maximum amount of gas which can be spent on a block
+    /// Maximum gas wanted by transactions included in a block.
+    ///
+    /// Must be greater or equal to -1. If set to -1, no limit is enforced.
     #[serde(with = "serializers::from_str")]
     pub max_gas: i64,
 

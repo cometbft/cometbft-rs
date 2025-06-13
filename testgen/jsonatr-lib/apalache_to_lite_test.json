@@ -13,7 +13,8 @@
         "signed_header": "$ | block_to_signed_header",
         "next_validator_set": "$ | block_next_validators | ids_to_validator_set",
         "trusting_period": "1400000000000",
-        "now": "$utc_timestamp"
+        "now": "$utc_timestamp",
+        "provider": "BADFADAD0BEFEEDC0C0ADEADBEEFC0FFEEFACADE"
       }
     },
     {
@@ -27,13 +28,15 @@
         "block": {
           "signed_header": "$block | block_to_signed_header",
           "validator_set": "$block | block_validators | ids_to_validator_set",
-          "next_validator_set": "$block | block_next_validators | ids_to_validator_set"
+          "next_validator_set": "$block | block_next_validators | ids_to_validator_set",
+          "provider": "BADFADAD0BEFEEDC0C0ADEADBEEFC0FFEEFACADE"
         },
         "testgen_block": {
           "header": "$block | block_to_header",
           "commit": "$block | block_to_commit",
           "validators": "$block | block_validators | ids_to_testgen_validators",
-          "next_validators": "$block | block_next_validators | ids_to_testgen_validators"
+          "next_validators": "$block | block_next_validators | ids_to_testgen_validators",
+          "provider": "BADFADAD0BEFEEDC0C0ADEADBEEFC0FFEEFACADE"
         },
         "now": "$..[?(@.key.str == 'now')].value | unwrap | tendermint_time",
         "verdict": "$..[?(@.key.str == 'verdict')].value.str | unwrap"

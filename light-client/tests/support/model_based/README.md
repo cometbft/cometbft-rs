@@ -29,6 +29,9 @@ If any of the programs is not found, execution of a model-based test will be ski
 
 #### Installing Apalache
 
+> [!IMPORTANT]
+> This setup currently relies on the interfaces of a very old Apalache version. Version 0.15.1 has been verified to work.
+
 First, download the latest Apalache's release from [here](https://github.com/informalsystems/apalache/releases).
 Then, unpack it, find the `apalache-pkg-X.Y.Z-full.jar` file, and create an executable bash script named `apalache-mc` with the following content:
 

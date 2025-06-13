@@ -18,6 +18,12 @@ use subtle_encoding::{base64, bech32, hex};
 pub use crate::crypto::ed25519::VerificationKey as Ed25519;
 use crate::{error::Error, prelude::*};
 
+/// Ed25519 public key type string.
+pub const PUB_KEY_TYPE_ED25519: &'static str = "tendermint/PubKeyEd25519";
+/// Secp256k1 public key type string.
+#[cfg(feature = "secp256k1")]
+pub const PUB_KEY_TYPE_SECP256K1: &'static str = "tendermint/PubKeySecp256k1";
+
 // Note:On the golang side this is generic in the sense that it could everything that implements
 // github.com/cometbft/cometbft/crypto.PubKey
 // While this is meant to be used with different key-types, it currently only uses a PubKeyEd25519
@@ -50,6 +56,32 @@ pub enum PublicKey {
         deserialize_with = "deserialize_secp256k1_base64"
     )]
     Secp256k1(Secp256k1),
+}
+
+impl PublicKey {
+    /// Try to create a `PublicKey` from a type string and raw bytes.
+    ///
+    /// Copies the bytes into the appropriate public key.
+    pub fn try_from_type_and_bytes(t: &str, bytes: &[u8]) -> Result<Self, Error> {
+        match t {
+            PUB_KEY_TYPE_ED25519 => Ed25519::try_from(bytes)
+                .map(PublicKey::Ed25519)
+                .map_err(|_| Error::invalid_key("malformed Ed25519 public key".into())),
+            #[cfg(feature = "secp256k1")]
+            PUB_KEY_TYPE_SECP256K1 => Secp256k1::from_sec1_bytes(bytes)
+                .map(PublicKey::Secp256k1)
+                .map_err(|_| Error::invalid_key("malformed Secp256k1 public key".into())),
+            _ => Err(Error::invalid_key(format!("unknown public key type: {t}"))),
+        }
+    }
+    /// Get the public key type as a string.
+    pub fn type_str(&self) -> &'static str {
+        match self {
+            PublicKey::Ed25519(_) => PUB_KEY_TYPE_ED25519,
+            #[cfg(feature = "secp256k1")]
+            PublicKey::Secp256k1(_) => PUB_KEY_TYPE_SECP256K1,
+        }
+    }
 }
 
 // Internal thunk type to facilitate deserialization from the raw Protobuf data
@@ -593,31 +625,37 @@ mod tests {
         #[test]
         fn test_ed25519_pubkey_msg() {
             // test-vector generated from Go
+            //
+            // package main
             // import (
-            // "fmt"
-            // crypto "github.com/cometbft/cometbft/api/cometbft/crypto/v1"
-            // privval "github.com/cometbft/cometbft/api/cometbft/privval/v1"
+            //   "fmt"
+            //   privval "github.com/cometbft/cometbft/api/cometbft/privval/v1"
+            //   "github.com/cometbft/cometbft/crypto/ed25519"
             // )
-            //
             // func ed25519_key() {
-            // pkr := &privval.PubKeyResponse{
-            // PubKey: &crypto.PublicKey{
-            // Sum: &crypto.PublicKey_Ed25519{Ed25519: []byte{
-            // 215, 90, 152, 1, 130, 177, 10, 183, 213, 75, 254, 211, 201, 100, 7, 58,
-            // 14, 225, 114, 243, 218, 166, 35, 37, 175, 2, 26, 104, 247, 7, 81, 26,
-            // },
-            // },
-            // },
-            // Error: nil,
+            //   pkr := &privval.PubKeyResponse{
+            //     Error: nil,
+            //     PubKeyBytes: []byte{
+            //       215, 90, 152, 1, 130, 177, 10, 183, 213, 75, 254, 211, 201, 100, 7, 58,
+            //       14, 225, 114, 243, 218, 166, 35, 37, 175, 2, 26, 104, 247, 7, 81, 26,
+            //     },
+            //     PubKeyType: ed25519.PubKeyName,
+            //   }
+            //   pbpk, err := pkr.Marshal()
+            //   if err != nil {
+            //     panic(err)
+            //   }
+            //   fmt.Printf("%#+v\n", pbpk)
             // }
-            // pbpk, _ := pkr.Marshal()
-            // fmt.Printf("%#v\n", pbpk)
-            //
+            // func main() {
+            //   ed25519_key()
             // }
             let encoded = vec![
-                0xa, 0x22, 0xa, 0x20, 0xd7, 0x5a, 0x98, 0x1, 0x82, 0xb1, 0xa, 0xb7, 0xd5, 0x4b,
-                0xfe, 0xd3, 0xc9, 0x64, 0x7, 0x3a, 0xe, 0xe1, 0x72, 0xf3, 0xda, 0xa6, 0x23, 0x25,
-                0xaf, 0x2, 0x1a, 0x68, 0xf7, 0x7, 0x51, 0x1a,
+                0x1a, 0x20, 0xd7, 0x5a, 0x98, 0x1, 0x82, 0xb1, 0xa, 0xb7, 0xd5, 0x4b, 0xfe, 0xd3,
+                0xc9, 0x64, 0x7, 0x3a, 0xe, 0xe1, 0x72, 0xf3, 0xda, 0xa6, 0x23, 0x25, 0xaf, 0x2,
+                0x1a, 0x68, 0xf7, 0x7, 0x51, 0x1a, 0x22, 0x18, 0x74, 0x65, 0x6e, 0x64, 0x65, 0x72,
+                0x6d, 0x69, 0x6e, 0x74, 0x2f, 0x50, 0x75, 0x62, 0x4b, 0x65, 0x79, 0x45, 0x64, 0x32,
+                0x35, 0x35, 0x31, 0x39,
             ];
 
             let msg = PubKeyResponse {

@@ -82,7 +82,7 @@ pub struct RequestInitChain {
     #[prost(int64, tag = "6")]
     pub initial_height: i64,
 }
-/// RequestBeginBlock indicates the beginning of commiting the block.
+/// RequestBeginBlock indicates the beginning of committing the block.
 #[derive(::serde::Deserialize, ::serde::Serialize)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct RequestBeginBlock {
@@ -246,7 +246,7 @@ pub struct ResponseCheckTx {
     #[prost(int64, tag = "10")]
     pub priority: i64,
     /// mempool_error is set by CometBFT.
-    /// ABCI applictions creating a ResponseCheckTX should not set mempool_error.
+    /// ABCI applications creating a ResponseCheckTX should not set mempool_error.
     #[prost(string, tag = "11")]
     pub mempool_error: ::prost::alloc::string::String,
 }
@@ -397,7 +397,7 @@ pub struct EventAttribute {
     #[prost(bool, tag = "3")]
     pub index: bool,
 }
-/// ExtendedVoteInfo extends VoteInfo with the vote extentions (non-deterministic).
+/// ExtendedVoteInfo extends VoteInfo with the vote extensions (non-deterministic).
 #[derive(::serde::Deserialize, ::serde::Serialize)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ExtendedVoteInfo {

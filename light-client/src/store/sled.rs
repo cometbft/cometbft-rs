@@ -58,21 +58,23 @@ impl LightStore for SledStore {
 
         for other in Status::iter() {
             if status != *other {
-                self.db(*other).remove(height).ok();
+                self.db(*other).remove(height).expect("update to succeed");
             }
         }
 
-        self.db(status).insert(height, light_block).ok();
+        self.db(status)
+            .insert(height, light_block)
+            .expect("update to succeed");
     }
 
     fn insert(&mut self, light_block: LightBlock, status: Status) {
         self.db(status)
             .insert(light_block.height(), &light_block)
-            .ok();
+            .expect("insert to succeed");
     }
 
     fn remove(&mut self, height: Height, status: Status) {
-        self.db(status).remove(height).ok();
+        self.db(status).remove(height).expect("remove to succeed");
     }
 
     fn highest(&self, status: Status) -> Option<LightBlock> {
@@ -100,7 +102,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn highest_returns_latest_block() {
+    fn lowest_returns_earliest_block() {
         with_blocks(10, |mut db, blocks| {
             let initial_block = blocks[0].clone();
             db.insert(initial_block.clone(), Status::Verified);
@@ -132,7 +134,7 @@ mod tests {
     }
 
     #[test]
-    fn lowest_returns_earliest_block() {
+    fn highest_returns_latest_block() {
         with_blocks(10, |mut db, blocks| {
             for block in blocks {
                 db.insert(block.clone(), Status::Verified);
