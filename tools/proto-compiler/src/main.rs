@@ -15,10 +15,7 @@ use functions::{
 };
 
 mod constants;
-use constants::{
-    get_custom_field_attributes, get_custom_type_attributes, COMETBFT_VERSIONS,
-    CUSTOM_FIELD_ATTRIBUTES, CUSTOM_TYPE_ATTRIBUTES_COMMON,
-};
+use constants::*;
 
 fn main() {
     let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
@@ -37,6 +34,7 @@ fn main() {
             "[info] => Fetching {} at {} into {comet_dir:?}",
             version.repo, version.commitish,
         );
+
         get_commitish(&comet_dir, version.repo, version.commitish); // This panics if it fails.
 
         let proto_path = comet_dir.join("proto");

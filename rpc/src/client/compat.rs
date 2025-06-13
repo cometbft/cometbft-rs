@@ -15,9 +15,10 @@ use crate::Error;
 pub enum CompatMode {
     /// Use a compatibility mode for the RPC protocol used in CometBFT 0.34.
     V0_34,
-    /// Use a compatibility mode for the RPC protocol used since CometBFT 0.37.
-    /// This is the default mode that has persisted into CometBFT 1.0.
+    /// Use a compatibility mode for the RPC protocol used in CometBFT 0.37.
     V0_37,
+    /// Use a compatibility mode for the RPC protocol used in CometBFT 0.38.
+    V0_38,
     // NOTE: When adding a newer version, do not forget to update:
     // - CompatMode::latest()
     // - CompatMode::from_version()
@@ -35,7 +36,7 @@ impl Default for CompatMode {
 impl CompatMode {
     /// The latest supported version, selected by default.
     pub const fn latest() -> Self {
-        Self::V0_37
+        Self::V0_38
     }
 
     /// Parse the CometBFT version string to determine
@@ -57,10 +58,10 @@ impl CompatMode {
             .map_err(|_| Error::invalid_cometbft_version(raw_version))?;
 
         match (version.major, version.minor) {
-            (1, _) => Ok(CompatMode::V0_37),
+            (1, _) => Ok(CompatMode::V0_38),
             (0, 34) => Ok(CompatMode::V0_34),
             (0, 37) => Ok(CompatMode::V0_37),
-            (0, 38) => Ok(CompatMode::V0_37),
+            (0, 38) => Ok(CompatMode::V0_38),
             _ => Err(Error::unsupported_cometbft_version(version.to_string())),
         }
     }
@@ -71,6 +72,7 @@ impl fmt::Display for CompatMode {
         match self {
             CompatMode::V0_34 => f.write_str("v0.34"),
             CompatMode::V0_37 => f.write_str("v0.37"),
+            CompatMode::V0_38 => f.write_str("v0.38"),
         }
     }
 }
@@ -79,12 +81,13 @@ impl FromStr for CompatMode {
     type Err = Error;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        const VALID_COMPAT_MODES: &str = "v0.34, v0.37";
+        const VALID_COMPAT_MODES: &str = "v0.34, v0.37, v0.38";
 
         // Trim leading 'v', if present
         match s.trim_start_matches('v') {
             "0.34" => Ok(CompatMode::V0_34),
             "0.37" => Ok(CompatMode::V0_37),
+            "0.38" => Ok(CompatMode::V0_38),
             _ => Err(Error::invalid_compat_mode(
                 s.to_string(),
                 VALID_COMPAT_MODES,
@@ -141,21 +144,21 @@ mod tests {
         );
         assert_eq!(
             CompatMode::from_version(parse_version("v0.38.0")).unwrap(),
-            CompatMode::V0_37
+            CompatMode::V0_38
         );
         let res = CompatMode::from_version(parse_version("v0.39.0"));
         assert!(res.is_err());
         assert_eq!(
             CompatMode::from_version(parse_version("v1.0.0-alpha.1")).unwrap(),
-            CompatMode::V0_37
+            CompatMode::V0_38
         );
         assert_eq!(
             CompatMode::from_version(parse_version("v1.0.0")).unwrap(),
-            CompatMode::V0_37
+            CompatMode::V0_38
         );
         assert_eq!(
             CompatMode::from_version(parse_version("v1.1.0")).unwrap(),
-            CompatMode::V0_37
+            CompatMode::V0_38
         );
         let res = CompatMode::from_version(parse_version("poobah"));
         assert!(res.is_err());
@@ -165,10 +168,11 @@ mod tests {
     fn test_from_str() {
         assert_eq!("0.34".parse::<CompatMode>().unwrap(), CompatMode::V0_34);
         assert_eq!("0.37".parse::<CompatMode>().unwrap(), CompatMode::V0_37);
+        assert_eq!("0.38".parse::<CompatMode>().unwrap(), CompatMode::V0_38);
 
         let res = "0.33".parse::<CompatMode>();
         assert!(res.is_err());
-        let res = "0.38".parse::<CompatMode>();
+        let res = "0.39".parse::<CompatMode>();
         assert!(res.is_err());
         let res = "foobar".parse::<CompatMode>();
         assert!(res.is_err());
