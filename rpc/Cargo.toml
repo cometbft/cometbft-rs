@@ -29,7 +29,13 @@ path = "src/client/bin/main.rs"
 required-features = [ "cli" ]
 
 [features]
-default = ["flex-error/std", "flex-error/eyre_tracer"]
+default = [
+  "flex-error/std",
+  "flex-error/eyre_tracer"
+]
+secp256k1 = [
+  "cometbft/secp256k1"
+]
 cli = [
   "http-client",
   "structopt",
@@ -42,16 +48,19 @@ http-client = [
   "tokio/macros",
   "tracing"
 ]
-secp256k1 = [ "cometbft/secp256k1" ]
 websocket-client = [
   "async-tungstenite",
   "futures",
   "tokio/rt-multi-thread",
-  "tokio/fs",
   "tokio/macros",
   "tokio/sync",
   "tokio/time",
   "tracing"
+]
+mock-client = [
+  "futures",
+  "tracing",
+  "tokio/macros"
 ]
 
 [dependencies]
@@ -91,3 +100,4 @@ tracing-subscriber = { version = "0.3", optional = true, default-features = fals
 http = { version = "1", default-features = false, features = ["std"] }
 lazy_static = { version = "1.4.0", default-features = false }
 tokio-test = { version = "0.4", default-features = false }
+tokio = { version = "1.0", default-features = false, features = ["rt-multi-thread", "fs"] }
