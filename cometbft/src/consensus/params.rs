@@ -1,9 +1,10 @@
-//! Tendermint consensus parameters
+//! CometBFT consensus parameters
 
 use serde::{Deserialize, Serialize};
 
 use crate::{
-    block, evidence, prelude::*, public_key, serializers::allow_empty_object::allow_empty_object,
+    block, duration::Duration, evidence, prelude::*, public_key,
+    serializers::allow_empty_object::allow_empty_object,
 };
 
 /// All consensus-relevant parameters that can be adjusted by the ABCI app.
@@ -25,22 +26,32 @@ pub struct Params {
     ///
     /// This field has been added in CometBFT 0.38 and will be ignored when
     /// encoding into earlier protocol versions.
+    ///
+    /// From CometBFT v1.0.0 onwards, use `FeatureParams.vote_extensions_enable_height` instead.
     #[serde(default)]
     pub abci: AbciParams,
+    /// Parameters for Proposer-Based Timestamps (PBTS).
+    ///
+    /// This field has been added in CometBFT 1.0.0 and will be ignored when
+    /// encoding into earlier protocol versions.
+    pub synchrony: Option<SynchronyParams>,
+    /// Parameters for enabling specific features.
+    ///
+    /// This field has been added in CometBFT 1.0.0 and will be ignored when
+    /// encoding into earlier protocol versions.
+    pub feature: Option<FeatureParams>,
 }
 
 /// ValidatorParams restrict the public key types validators can use.
 ///
-/// [CometBFT documentation](https://docs.cometbft.com/v1/spec/core/data_structures.html#validatorparams)
+/// NOTE: uses ABCI public keys naming, not Amino names.
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq)]
 pub struct ValidatorParams {
     /// List of accepted public key types.
     pub pub_key_types: Vec<public_key::Algorithm>,
 }
 
-/// Version Parameters
-///
-/// [CometBFT documentation](https://docs.cometbft.com/v1/spec/core/data_structures.html#versionparams)
+/// VersionParams contain the version of specific components of CometBFT.
 #[derive(Clone, Serialize, Deserialize, Debug, Eq, PartialEq, Default)]
 pub struct VersionParams {
     /// The ABCI application version.
@@ -48,16 +59,67 @@ pub struct VersionParams {
     pub app: u64,
 }
 
-/// Parameters specific to the Application Blockchain Interface.
+/// ABCIParams is deprecated and its contents moved to FeatureParams
 #[derive(Clone, Serialize, Deserialize, Debug, Eq, PartialEq, Default)]
 pub struct AbciParams {
-    /// Configures the first height during which
-    /// vote extensions will be enabled. During this specified height, and for all
-    /// subsequent heights, precommit messages that do not contain valid extension data
-    /// will be considered invalid. Prior to this height, vote extensions will not
-    /// be used or accepted by validators on the network.
+    /// vote_extensions_enable_height has been deprecated.
+    /// Instead, use FeatureParams.vote_extensions_enable_height.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub vote_extensions_enable_height: Option<block::Height>,
+}
+
+/// SynchronyParams determine the validity of block timestamps.
+///
+/// These parameters are part of the Proposer-Based Timestamps (PBTS) algorithm.
+/// For more information on the relationship of the synchrony parameters to
+/// block timestamps validity, refer to the [PBTS specification][pbts].
+///
+/// [pbts]: https://github.com/cometbft/cometbft/blob/main/spec/consensus/proposer-based-timestamp/README.md
+#[derive(Clone, Serialize, Deserialize, Debug, Eq, PartialEq, Default)]
+pub struct SynchronyParams {
+    /// Bound for how skewed a proposer's clock may be from any validator on the
+    /// network while still producing valid proposals.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub precision: Option<Duration>,
+    /// Bound for how long a proposal message may take to reach all validators on
+    /// a network and still be considered valid.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub message_delay: Option<Duration>,
+}
+
+/// FeatureParams configure the height from which features of CometBFT are enabled.
+#[derive(Clone, Serialize, Deserialize, Debug, Eq, PartialEq, Default)]
+pub struct FeatureParams {
+    /// Height during which vote extensions will be enabled.
+    ///
+    /// A value of 0 means vote extensions are disabled. A value > 0 denotes
+    /// the height at which vote extensions will be (or have been) enabled.
+    ///
+    /// During the specified height, and for all subsequent heights, precommit
+    /// messages that do not contain valid extension data will be considered
+    /// invalid. Prior to this height, or when this height is set to 0, vote
+    /// extensions will not be used or accepted by validators on the network.
+    ///
+    /// Once enabled, vote extensions will be created by the application in
+    /// ExtendVote, validated by the application in VerifyVoteExtension, and
+    /// used by the application in PrepareProposal, when proposing the next block.
+    ///
+    /// Cannot be set to heights lower or equal to the current blockchain height.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub vote_extensions_enable_height: Option<block::Height>,
+    /// Height at which Proposer-Based Timestamps (PBTS) will be enabled.
+    ///
+    /// A value of 0 means PBTS is disabled. A value > 0 denotes the height at
+    /// which PBTS will be (or has been) enabled.
+    ///
+    /// From the specified height, and for all subsequent heights, the PBTS
+    /// algorithm will be used to produce and validate block timestamps. Prior to
+    /// this height, or when this height is set to 0, the legacy BFT Time
+    /// algorithm is used to produce and validate timestamps.
+    ///
+    /// Cannot be set to heights lower or equal to the current blockchain height.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub pbts_enable_height: Option<block::Height>,
 }
 
 // =============================================================================
@@ -109,6 +171,8 @@ mod v0_34 {
                     .try_into()?,
                 version: value.version.map(TryFrom::try_from).transpose()?,
                 abci: Default::default(),
+                synchrony: None,
+                feature: None,
             })
         }
     }
@@ -145,6 +209,8 @@ mod v0_34 {
                     .try_into()?,
                 version: value.version.map(TryFrom::try_from).transpose()?,
                 abci: Default::default(),
+                synchrony: None,
+                feature: None,
             })
         }
     }
@@ -239,6 +305,8 @@ mod v0_37 {
                     .try_into()?,
                 version: value.version.map(TryFrom::try_from).transpose()?,
                 abci: Default::default(),
+                synchrony: None,
+                feature: None,
             })
         }
     }
@@ -333,6 +401,8 @@ mod v0_38 {
                     .map(TryFrom::try_from)
                     .transpose()?
                     .unwrap_or_default(),
+                synchrony: None,
+                feature: None,
             })
         }
     }
@@ -448,6 +518,8 @@ mod v1beta1 {
                     .try_into()?,
                 version: value.version.map(TryFrom::try_from).transpose()?,
                 abci: Default::default(),
+                synchrony: None,
+                feature: None,
             })
         }
     }
@@ -482,6 +554,8 @@ mod v1beta1 {
                     .try_into()?,
                 version: value.version.map(TryFrom::try_from).transpose()?,
                 abci: Default::default(),
+                synchrony: None,
+                feature: None,
             })
         }
     }
@@ -562,6 +636,8 @@ mod v1beta2 {
                     .try_into()?,
                 version: value.version.map(TryFrom::try_from).transpose()?,
                 abci: Default::default(),
+                synchrony: None,
+                feature: None,
             })
         }
     }
@@ -581,10 +657,14 @@ mod v1beta2 {
 mod v1 {
     use cometbft_proto::types::v1::{
         AbciParams as RawAbciParams, ConsensusParams as RawParams,
+        FeatureParams as RawFeatureParams, SynchronyParams as RawSynchronyParams,
         ValidatorParams as RawValidatorParams, VersionParams as RawVersionParams,
     };
 
-    use super::{key_type, AbciParams, Params, ValidatorParams, VersionParams};
+    use super::{
+        key_type, AbciParams, FeatureParams, Params, SynchronyParams, ValidatorParams,
+        VersionParams,
+    };
     use crate::{error::Error, prelude::*, public_key};
 
     impl TryFrom<RawParams> for Params {
@@ -605,23 +685,24 @@ mod v1 {
                     .ok_or_else(Error::invalid_validator_params)?
                     .try_into()?,
                 version: value.version.map(TryFrom::try_from).transpose()?,
-                abci: value
-                    .abci
-                    .map(TryFrom::try_from)
-                    .transpose()?
-                    .unwrap_or_default(),
+                abci: Default::default(), // AbciParams is deprecated in v1
+                synchrony: value.synchrony.map(TryFrom::try_from).transpose()?,
+                feature: value.feature.map(TryFrom::try_from).transpose()?,
             })
         }
     }
 
     impl From<Params> for RawParams {
         fn from(value: Params) -> Self {
+            #[allow(deprecated)]
             RawParams {
                 block: Some(value.block.into()),
                 evidence: Some(value.evidence.into()),
                 validator: Some(value.validator.into()),
                 version: value.version.map(From::from),
-                abci: Some(value.abci.into()),
+                abci: None, // AbciParams is deprecated in v1
+                synchrony: value.synchrony.map(From::from),
+                feature: value.feature.map(From::from),
             }
         }
     }
@@ -685,6 +766,52 @@ mod v1 {
                 vote_extensions_enable_height: value
                     .vote_extensions_enable_height
                     .map_or(0, Into::into),
+            }
+        }
+    }
+
+    impl TryFrom<RawSynchronyParams> for SynchronyParams {
+        type Error = Error;
+
+        fn try_from(value: RawSynchronyParams) -> Result<Self, Self::Error> {
+            Ok(Self {
+                precision: value.precision.map(TryFrom::try_from).transpose()?,
+                message_delay: value.message_delay.map(TryFrom::try_from).transpose()?,
+            })
+        }
+    }
+
+    impl From<SynchronyParams> for RawSynchronyParams {
+        fn from(value: SynchronyParams) -> Self {
+            RawSynchronyParams {
+                precision: value.precision.map(Into::into),
+                message_delay: value.message_delay.map(Into::into),
+            }
+        }
+    }
+
+    impl TryFrom<RawFeatureParams> for FeatureParams {
+        type Error = Error;
+
+        fn try_from(value: RawFeatureParams) -> Result<Self, Self::Error> {
+            Ok(Self {
+                vote_extensions_enable_height: value
+                    .vote_extensions_enable_height
+                    .map(TryFrom::try_from)
+                    .transpose()?,
+                pbts_enable_height: value
+                    .pbts_enable_height
+                    .map(TryFrom::try_from)
+                    .transpose()?,
+            })
+        }
+    }
+
+    impl From<FeatureParams> for RawFeatureParams {
+        fn from(value: FeatureParams) -> Self {
+            RawFeatureParams {
+                vote_extensions_enable_height: value.vote_extensions_enable_height.map(Into::into),
+                pbts_enable_height: value.pbts_enable_height.map(Into::into),
             }
         }
     }

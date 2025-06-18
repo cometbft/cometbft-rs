@@ -28,7 +28,7 @@ pub struct StatusResponse {
     #[prost(int64, tag = "2")]
     pub base: i64,
 }
-/// Message is an abtract blocksync message.
+/// Message is an abstract blocksync message.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Message {
     /// Sum of all possible messages.

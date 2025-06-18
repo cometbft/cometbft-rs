@@ -82,7 +82,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       tendermint:
-        image: informaldev/tendermint:0.34.21
+        image: cometbft/cometbft:v0.34.35
         ports:
           - 26656:26656
           - 26657:26657
