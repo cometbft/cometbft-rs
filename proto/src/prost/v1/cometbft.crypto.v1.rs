@@ -37,7 +37,7 @@ pub struct DominoOp {
     pub output: ::prost::alloc::string::String,
 }
 /// ProofOp defines an operation used for calculating Merkle root
-/// The data could be arbitrary format, providing nessecary data
+/// The data could be arbitrary format, providing necessary data
 /// for example neighbouring node hash
 #[derive(::serde::Deserialize, ::serde::Serialize)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -60,7 +60,7 @@ pub struct ProofOps {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PublicKey {
     /// The type of key.
-    #[prost(oneof = "public_key::Sum", tags = "1, 2")]
+    #[prost(oneof = "public_key::Sum", tags = "1, 2, 3")]
     pub sum: ::core::option::Option<public_key::Sum>,
 }
 /// Nested message and enum types in `PublicKey`.
@@ -82,5 +82,7 @@ pub mod public_key {
             with = "crate::serializers::bytes::base64string"
         )]
         Secp256k1(::prost::alloc::vec::Vec<u8>),
+        #[prost(bytes, tag = "3")]
+        Bls12381(::prost::alloc::vec::Vec<u8>),
     }
 }

@@ -418,7 +418,7 @@ pub struct Block {
     #[prost(message, optional, tag = "4")]
     pub last_commit: ::core::option::Option<Commit>,
 }
-/// EventDataRoundState is emmitted with each new round step.
+/// EventDataRoundState is emitted with each new round step.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct EventDataRoundState {
     #[prost(int64, tag = "1")]
