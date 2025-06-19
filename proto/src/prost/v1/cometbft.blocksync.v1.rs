@@ -30,7 +30,7 @@ pub struct BlockResponse {
     #[prost(message, optional, tag = "2")]
     pub ext_commit: ::core::option::Option<super::super::types::v1::ExtendedCommit>,
 }
-/// Message is an abtract blocksync message.
+/// Message is an abstract blocksync message.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Message {
     /// Sum of all possible messages.

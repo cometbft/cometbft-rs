@@ -7,9 +7,10 @@ use core::{
 };
 
 use bytes::Bytes;
+use cometbft_proto::serializers::cow_str::CowStr;
 use cometbft_proto::Protobuf;
 use serde::{de::Error as _, Deserialize, Deserializer, Serialize, Serializer};
-use subtle_encoding::{Encoding, Hex};
+use subtle_encoding::{base64, Encoding, Hex};
 
 use crate::{error::Error, prelude::*};
 
@@ -166,12 +167,12 @@ impl FromStr for Hash {
 
 impl<'de> Deserialize<'de> for Hash {
     fn deserialize<D: Deserializer<'de>>(deserializer: D) -> Result<Self, D::Error> {
-        let hex = <&str>::deserialize(deserializer)?;
+        let hex = CowStr::deserialize(deserializer)?;
 
         if hex.is_empty() {
             Err(D::Error::custom("empty hash"))
         } else {
-            Ok(Self::from_str(hex).map_err(|e| D::Error::custom(format!("{e}")))?)
+            Ok(Self::from_str(&hex).map_err(|e| D::Error::custom(format!("{e}")))?)
         }
     }
 }
@@ -200,8 +201,8 @@ pub mod allow_empty {
     where
         D: Deserializer<'de>,
     {
-        let hex = <&str>::deserialize(deserializer)?;
-        Hash::from_str(hex).map_err(serde::de::Error::custom)
+        let hex = CowStr::deserialize(deserializer)?;
+        Hash::from_str(&hex).map_err(serde::de::Error::custom)
     }
 }
 
@@ -254,6 +255,12 @@ impl AppHash {
             .map_err(Error::subtle_encoding)?;
         Ok(AppHash(h))
     }
+
+    /// Decode a `Hash` from base64-encoded string
+    pub fn from_base64(s: &str) -> Result<Self, Error> {
+        let h = base64::decode(s).map_err(Error::subtle_encoding)?;
+        Ok(AppHash(h))
+    }
 }
 
 impl AsRef<[u8]> for AppHash {
@@ -286,6 +293,83 @@ impl FromStr for AppHash {
     type Err = Error;
 
     fn from_str(s: &str) -> Result<Self, Error> {
-        Self::from_hex_upper(s)
+        Self::from_hex_upper(s).or_else(|_| Self::from_base64(s))
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[derive(Debug, serde::Deserialize)]
+    struct AppHashTest {
+        #[serde(default)]
+        #[serde(with = "crate::serializers::apphash")]
+        pub app_hash: AppHash,
+    }
+
+    #[derive(Debug, serde::Deserialize)]
+    struct HashTest {
+        hash: Hash,
+        #[serde(with = "super::allow_empty")]
+        empty_hash: Hash,
+    }
+
+    #[test]
+    fn apphash_decode_base64() {
+        let test = serde_json::from_str::<AppHashTest>(
+            r#"{"app_hash":"MfX9f+bYoI8IioRb4YT/8/VhPvtNjgWFgTi4mmMSkBc="}"#,
+        )
+        .unwrap();
+
+        assert_eq!(
+            test.app_hash.as_ref(),
+            &[
+                0x31, 0xF5, 0xFD, 0x7F, 0xE6, 0xD8, 0xA0, 0x8F, 0x08, 0x8A, 0x84, 0x5B, 0xE1, 0x84,
+                0xFF, 0xF3, 0xF5, 0x61, 0x3E, 0xFB, 0x4D, 0x8E, 0x05, 0x85, 0x81, 0x38, 0xB8, 0x9A,
+                0x63, 0x12, 0x90, 0x17
+            ]
+        );
+    }
+
+    #[test]
+    fn apphash_decode_hex() {
+        let test = serde_json::from_str::<AppHashTest>(
+            r#"{"app_hash":"31F5FD7FE6D8A08F088A845BE184FFF3F5613EFB4D8E05858138B89A63129017"}"#,
+        )
+        .unwrap();
+
+        assert_eq!(
+            test.app_hash.as_ref(),
+            &[
+                0x31, 0xF5, 0xFD, 0x7F, 0xE6, 0xD8, 0xA0, 0x8F, 0x08, 0x8A, 0x84, 0x5B, 0xE1, 0x84,
+                0xFF, 0xF3, 0xF5, 0x61, 0x3E, 0xFB, 0x4D, 0x8E, 0x05, 0x85, 0x81, 0x38, 0xB8, 0x9A,
+                0x63, 0x12, 0x90, 0x17
+            ]
+        );
+    }
+
+    #[test]
+    fn hash_decode_hex() {
+        let s = r#"{
+            "hash": "9F86D081884C7D659A2FEAA0C55AD015A3BF4F1B2B0B822CD15D6C15B0F00A08",
+            "empty_hash": ""
+        }"#;
+
+        let expected_hash = &[
+            0x9F, 0x86, 0xD0, 0x81, 0x88, 0x4C, 0x7D, 0x65, 0x9A, 0x2F, 0xEA, 0xA0, 0xC5, 0x5A,
+            0xD0, 0x15, 0xA3, 0xBF, 0x4F, 0x1B, 0x2B, 0x0B, 0x82, 0x2C, 0xD1, 0x5D, 0x6C, 0x15,
+            0xB0, 0xF0, 0x0A, 0x08,
+        ];
+
+        let test = serde_json::from_str::<HashTest>(s).unwrap();
+        assert_eq!(test.hash.as_ref(), expected_hash);
+        assert_eq!(test.empty_hash, Hash::None);
+
+        // Test issue 1474
+        let json_value = serde_json::from_str::<serde_json::Value>(s).unwrap();
+        let test = serde_json::from_value::<HashTest>(json_value).unwrap();
+        assert_eq!(test.hash.as_ref(), expected_hash);
+        assert_eq!(test.empty_hash, Hash::None);
     }
 }

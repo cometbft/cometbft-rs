@@ -9,7 +9,7 @@ use crate::{client::subscription::SubscriptionTx, error::Error, event::Event, pr
 pub type SubscriptionQuery = String;
 pub type SubscriptionId = String;
 
-#[cfg_attr(not(feature = "websocket"), allow(dead_code))]
+#[cfg_attr(not(feature = "websocket-client"), allow(dead_code))]
 pub type SubscriptionIdRef<'a> = &'a str;
 
 /// Provides a mechanism for tracking [`Subscription`]s and routing [`Event`]s
@@ -28,7 +28,7 @@ pub struct SubscriptionRouter {
 impl SubscriptionRouter {
     /// Publishes the given error to all of the subscriptions to which the
     /// error is relevant, based on the given subscription id query.
-    #[cfg_attr(not(feature = "websocket"), allow(dead_code))]
+    #[cfg_attr(not(feature = "websocket-client"), allow(dead_code))]
     pub fn publish_error(&mut self, id: SubscriptionIdRef<'_>, err: Error) -> PublishResult {
         if let Some(query) = self.subscription_query(id).cloned() {
             self.publish(query, Err(err))
@@ -38,7 +38,7 @@ impl SubscriptionRouter {
     }
 
     /// Get the query associated with the given subscription.
-    #[cfg_attr(not(feature = "websocket"), allow(dead_code))]
+    #[cfg_attr(not(feature = "websocket-client"), allow(dead_code))]
     fn subscription_query(&self, id: SubscriptionIdRef<'_>) -> Option<&SubscriptionQuery> {
         for (query, subs) in &self.subscriptions {
             if subs.contains_key(id) {
@@ -51,7 +51,7 @@ impl SubscriptionRouter {
 
     /// Publishes the given event to all of the subscriptions to which the
     /// event is relevant, based on the associated query.
-    #[cfg_attr(not(feature = "websocket"), allow(dead_code))]
+    #[cfg_attr(not(feature = "websocket-client"), allow(dead_code))]
     pub fn publish_event(&mut self, ev: Event) -> PublishResult {
         self.publish(ev.query.clone(), Ok(ev))
     }
@@ -91,6 +91,7 @@ impl SubscriptionRouter {
 
     /// Immediately add a new subscription to the router without waiting for
     /// confirmation.
+    #[allow(dead_code)]
     pub fn add(&mut self, id: impl ToString, query: impl ToString, tx: SubscriptionTx) {
         let query = query.to_string();
         let subs_for_query = match self.subscriptions.get_mut(&query) {
@@ -105,6 +106,7 @@ impl SubscriptionRouter {
     }
 
     /// Removes all the subscriptions relating to the given query.
+    #[allow(dead_code)]
     pub fn remove_by_query(&mut self, query: impl ToString) -> usize {
         self.subscriptions
             .remove(&query.to_string())
@@ -129,6 +131,7 @@ pub enum PublishResult {
     Success,
     NoSubscribers,
     // All subscriptions for the given query have disconnected.
+    #[cfg_attr(not(feature = "websocket-client"), allow(dead_code))]
     AllDisconnected(String),
 }
 
