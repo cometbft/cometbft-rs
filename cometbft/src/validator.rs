@@ -319,18 +319,18 @@ cometbft_old_pb_modules! {
 
         fn try_from(value: RawValidator) -> Result<Self, Self::Error> {
             let raw_pub_key = value
-                    .pub_key
-                    .ok_or_else(Error::missing_public_key)?;
-
+                .pub_key
+                .ok_or_else(Error::missing_public_key)?;
             let address = value.address.try_into()?;
             if account::Id::try_from(raw_pub_key.clone())? != address {
                 return Err(Error::invalid_validator_address());
             }
+
             let pub_key = raw_pub_key.try_into()?;
 
             Ok(Info {
-                address: address,
-                pub_key: pub_key,
+                address,
+                pub_key,
                 power: value.voting_power.try_into()?,
                 name: None,
                 proposer_priority: value.proposer_priority.into(),
@@ -441,17 +441,19 @@ mod v1 {
         type Error = Error;
 
         fn try_from(value: RawValidator) -> Result<Self, Self::Error> {
-            let pub_key =
-                PublicKey::try_from_type_and_bytes(&value.pub_key_type, &value.pub_key_bytes)?;
-
             let address = value.address.try_into()?;
-            if account::Id::try_from(pub_key.clone())? != address {
+            if account::v1::try_from_type_and_bytes(&value.pub_key_type, &value.pub_key_bytes)?
+                != address
+            {
                 return Err(Error::invalid_validator_address());
             }
 
+            let pub_key =
+                PublicKey::try_from_type_and_bytes(&value.pub_key_type, &value.pub_key_bytes)?;
+
             Ok(Info {
-                address: address,
-                pub_key: pub_key,
+                address,
+                pub_key,
                 power: value.voting_power.try_into()?,
                 name: None,
                 proposer_priority: value.proposer_priority.into(),
