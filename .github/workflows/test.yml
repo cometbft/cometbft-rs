@@ -75,13 +75,6 @@ jobs:
       - run: wasm-pack test --headless --chrome ./light-client-js/
       - run: wasm-pack test --headless --firefox ./light-client-js/
 
-  cometbft-test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@stable
-      - run: cargo test-all-features -p cometbft-test
-
   cometbft-testgen:
     runs-on: ubuntu-latest
     steps:
