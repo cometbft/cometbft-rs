@@ -302,52 +302,6 @@ mod tests {
     use super::*;
 
     #[derive(Debug, serde::Deserialize)]
-    struct Test {
-        #[serde(default)]
-        #[serde(with = "crate::serializers::apphash")]
-        pub app_hash: AppHash,
-    }
-
-    #[test]
-    fn apphash_decode_base64() {
-        let test = serde_json::from_str::<Test>(
-            r#"{"app_hash":"MfX9f+bYoI8IioRb4YT/8/VhPvtNjgWFgTi4mmMSkBc="}"#,
-        )
-        .unwrap();
-
-        assert_eq!(
-            test.app_hash.as_ref(),
-            &[
-                0x31, 0xF5, 0xFD, 0x7F, 0xE6, 0xD8, 0xA0, 0x8F, 0x08, 0x8A, 0x84, 0x5B, 0xE1, 0x84,
-                0xFF, 0xF3, 0xF5, 0x61, 0x3E, 0xFB, 0x4D, 0x8E, 0x05, 0x85, 0x81, 0x38, 0xB8, 0x9A,
-                0x63, 0x12, 0x90, 0x17
-            ]
-        );
-    }
-
-    #[test]
-    fn apphash_decode_hex() {
-        let test = serde_json::from_str::<Test>(
-            r#"{"app_hash":"31F5FD7FE6D8A08F088A845BE184FFF3F5613EFB4D8E05858138B89A63129017"}"#,
-        )
-        .unwrap();
-
-        assert_eq!(
-            test.app_hash.as_ref(),
-            &[
-                0x31, 0xF5, 0xFD, 0x7F, 0xE6, 0xD8, 0xA0, 0x8F, 0x08, 0x8A, 0x84, 0x5B, 0xE1, 0x84,
-                0xFF, 0xF3, 0xF5, 0x61, 0x3E, 0xFB, 0x4D, 0x8E, 0x05, 0x85, 0x81, 0x38, 0xB8, 0x9A,
-                0x63, 0x12, 0x90, 0x17
-            ]
-        );
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[derive(Debug, serde::Deserialize)]
     struct AppHashTest {
         #[serde(default)]
         #[serde(with = "crate::serializers::apphash")]
