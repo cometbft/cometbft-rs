@@ -19,7 +19,6 @@ use cometbft_light_client::{
 use cometbft_testgen::{light_block::default_peer_id, Tester};
 
 // Link to JSON test files repo:
-// https://github.com/informalsystems/conformance-tests
 const TEST_FILES_PATH: &str = "./tests/support/";
 
 struct BisectionTestResult {

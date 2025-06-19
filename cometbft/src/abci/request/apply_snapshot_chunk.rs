@@ -61,7 +61,7 @@ cometbft_old_pb_modules! {
         ) -> Result<Self, Self::Error> {
             Ok(Self {
                 index: apply_snapshot_chunk.index,
-                chunk: apply_snapshot_chunk.chunk.into(),
+                chunk: apply_snapshot_chunk.chunk,
                 sender: apply_snapshot_chunk.sender,
             })
         }

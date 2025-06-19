@@ -32,6 +32,8 @@ pub struct CheckTx {
     #[serde(with = "serializers::from_str")]
     pub gas_used: i64,
     /// Events that occurred while checking the transaction.
+    ///
+    /// nondeterministic
     pub events: Vec<Event>,
     /// The namespace for the `code`.
     pub codespace: String,
