@@ -66,6 +66,9 @@ pub mod privval {
     pub mod v1beta1 {
         include!("../prost/v1/cometbft.privval.v1beta1.rs");
     }
+    pub mod v1beta2 {
+        include!("../prost/v1/cometbft.privval.v1beta2.rs");
+    }
 }
 
 pub mod rpc {
@@ -152,5 +155,5 @@ pub mod version {
 
 pub mod meta {
     pub const REPOSITORY: &str = "https://github.com/cometbft/cometbft";
-    pub const COMMITISH: &str = "v1.0.0-alpha.1";
+    pub const COMMITISH: &str = "v1.0.0";
 }

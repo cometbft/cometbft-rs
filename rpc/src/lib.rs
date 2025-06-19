@@ -13,7 +13,7 @@
 //!   [`event::Event`] subscription functionality. See the [CometBFT RPC] for more details.
 //! * `websocket-client` - Provides [`WebSocketClient`], which provides full client functionality,
 //!   including general RPC functionality as well as [`event::Event`] subscription functionality.
-//!   Can be used over secure (`wss://`) and unsecure (`ws://`) connections.
+//!   Can be used over secure (`wss://`) and insecure (`ws://`) connections.
 //!
 //! ### Mock Clients
 //!
@@ -34,13 +34,16 @@ mod prelude;
 
 pub mod client;
 
-#[cfg(any(feature = "http-client", feature = "websocket-client"))]
-pub use client::{
-    Client, MockClient, MockRequestMatcher, MockRequestMethodMatcher, Subscription,
-    SubscriptionClient,
-};
+#[cfg(any(
+    feature = "http-client",
+    feature = "websocket-client",
+    feature = "mock-client"
+))]
+pub use client::{Client, Subscription, SubscriptionClient};
 #[cfg(feature = "http-client")]
 pub use client::{HttpClient, HttpClientUrl};
+#[cfg(feature = "mock-client")]
+pub use client::{MockClient, MockRequestMatcher, MockRequestMethodMatcher};
 #[cfg(feature = "websocket-client")]
 pub use client::{WebSocketClient, WebSocketClientDriver, WebSocketClientUrl, WebSocketConfig};
 

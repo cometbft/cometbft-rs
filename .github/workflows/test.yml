@@ -34,32 +34,36 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
-      - run: cargo test-all-features -p cometbft
+      - uses: taiki-e/install-action@cargo-hack
+      - run: cargo test -p cometbft
+      - run: cargo hack test --each-feature -p cometbft
 
   cometbft-rpc:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
-      - run: cargo test-all-features -p cometbft-rpc
+      - uses: taiki-e/install-action@cargo-hack
+      - run: cargo test -p cometbft-rpc
+      - run: cargo hack test --each-feature -p cometbft-rpc
 
   cometbft-proto:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
-      - run: cargo test-all-features -p cometbft-proto
+      - uses: taiki-e/install-action@cargo-hack
+      - run: cargo test -p cometbft-proto
+      - run: cargo hack test --each-feature -p cometbft-proto
 
   cometbft-light-client:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
-      # NOTE: We test with default features to make sure things work without "unstable".
-      - name: Test with default features
-        run: cargo test -p cometbft-light-client
-      - name: Test with all features
-        run: cargo test-all-features -p cometbft-light-client
+      - uses: taiki-e/install-action@cargo-hack
+      - run: cargo test -p cometbft-light-client
+      - run: cargo hack test --each-feature -p cometbft-light-client
 
   # From https://rustwasm.github.io/docs/wasm-bindgen/wasm-bindgen-test/continuous-integration.html#github-actions
   cometbft-light-client-js:
@@ -82,7 +86,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       tendermint:
-        image: informaldev/tendermint:0.34.21
+        image: cometbft/cometbft:v0.34.35
         ports:
           - 26656:26656
           - 26657:26657
@@ -94,11 +98,11 @@ jobs:
         env:
           RUST_LOG: debug
 
-  coverage:
+  nightly-coverage:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@stable
+      - uses: dtolnay/rust-toolchain@nightly
         with:
           components: llvm-tools-preview
       - run: cargo test-all-features

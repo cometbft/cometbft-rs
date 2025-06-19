@@ -5,7 +5,7 @@ use std::collections::HashMap;
 #[cfg(feature = "rust-crypto")]
 use std::time::Duration;
 
-use cometbft::{block::Height as HeightStr, evidence::Duration as DurationStr};
+use cometbft::{block::Height as HeightStr, duration::Duration as DurationStr};
 use cometbft_rpc as rpc;
 use serde::{Deserialize, Serialize};
 
@@ -50,16 +50,11 @@ pub struct LightClientTest<LB> {
     pub description: String,
     pub trust_options: TrustOptions,
     pub primary: Provider<LB>,
-    pub witnesses: Vec<WitnessProvider<LB>>,
+    pub witnesses: Vec<Provider<LB>>,
     pub height_to_verify: HeightStr,
     pub now: Time,
     pub expected_output: Option<String>,
     pub expected_num_of_bisections: usize,
-}
-
-#[derive(Deserialize, Clone, Debug)]
-pub struct WitnessProvider<LB> {
-    pub value: Provider<LB>,
 }
 
 #[derive(Deserialize, Clone, Debug)]

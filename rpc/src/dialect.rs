@@ -2,6 +2,8 @@
 //! CometBFT RPC protocol versions.
 
 pub mod v0_34;
+pub mod v0_37;
+pub mod v0_38;
 pub mod v1;
 pub use v1::Dialect as LatestDialect;
 
@@ -28,5 +30,7 @@ mod sealed {
     pub trait Sealed {}
 
     impl Sealed for super::v0_34::Dialect {}
+    impl Sealed for super::v0_37::Dialect {}
+    impl Sealed for super::v0_38::Dialect {}
     impl Sealed for super::v1::Dialect {}
 }

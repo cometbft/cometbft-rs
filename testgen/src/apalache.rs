@@ -109,9 +109,11 @@ pub fn run_apalache_test(dir: &str, test: ApalacheTestCase) -> io::Result<Apalac
                 } else if run.stdout.contains("The outcome is: Deadlock") {
                     Ok(ApalacheRun::Deadlock(run))
                 } else {
+                    println!("Apalache run: {} \n [UNKNOWN ERROR]", run.stdout);
                     Ok(ApalacheRun::Unknown(run))
                 }
             } else if let Some(code) = run.status.code() {
+                println!("Apalache run: {}", run.stdout);
                 match code {
                     99 => Ok(ApalacheRun::ModelError(run)),
                     124 => Ok(ApalacheRun::Timeout(run)),
