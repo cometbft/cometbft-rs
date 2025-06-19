@@ -13,7 +13,7 @@
 //!   [`event::Event`] subscription functionality. See the [CometBFT RPC] for more details.
 //! * `websocket-client` - Provides [`WebSocketClient`], which provides full client functionality,
 //!   including general RPC functionality as well as [`event::Event`] subscription functionality.
-//!   Can be used over secure (`wss://`) and unsecure (`ws://`) connections.
+//!   Can be used over secure (`wss://`) and insecure (`ws://`) connections.
 //!
 //! ### Mock Clients
 //!
