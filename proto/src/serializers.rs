@@ -55,8 +55,8 @@
 
 pub mod allow_null;
 pub mod bytes;
-pub mod evidence;
 pub mod cow_str;
+pub mod evidence;
 pub mod from_str;
 pub mod from_str_allow_null;
 pub mod nullable;
