@@ -109,7 +109,7 @@ struct Cli {
     max_block_lag: u64,
 
     /// Increase verbosity
-    #[command(flatten)]
+    #[arg(flatten)]
     verbose: Verbosity,
 }
 
