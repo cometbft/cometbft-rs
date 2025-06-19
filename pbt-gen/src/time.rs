@@ -62,9 +62,11 @@ pub const fn max_protobuf_time() -> OffsetDateTime {
     datetime!(9999-12-31 23:59:59.999999999 UTC)
 }
 
+use time::Month;
+
 fn num_days_in_month(year: i32, month: u8) -> u8 {
-    let month = month.try_into().unwrap();
-    time::util::days_in_year_month(year, month)
+    let month_enum = Month::try_from(month).expect("Invalid month");
+    time::util::days_in_month(month_enum, year)
 }
 
 prop_compose! {
@@ -166,10 +168,10 @@ prop_compose! {
 }
 
 // The following components of the timestamp follow
-// Section 5.6 of RFC3339: https://tools.ietf.org/html/rfc3339#ref-ABNF.
+// Section 5.6 of RFC3339: https://datatracker.ietf.org/doc/html/rfc3339#ref-ABNF.
 
 prop_compose! {
-    // See https://tools.ietf.org/html/rfc3339#appendix-A
+    // See https://datatracker.ietf.org/doc/html/rfc3339#appendix-A
     fn arb_rfc339_time_offset()(
         sign in "[+-]",
         hour in 0..23u8,
