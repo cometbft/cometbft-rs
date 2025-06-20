@@ -184,6 +184,68 @@ impl Serialize for Id {
     }
 }
 
+cometbft_old_pb_modules! {
+    use pb::{
+        crypto::{PublicKey, public_key::Sum},
+    };
+    use super::{Id, LENGTH};
+    use digest::Digest;
+    use crate::{prelude::*, Error};
+    use sha2::Sha256;
+
+    impl TryFrom<PublicKey> for Id {
+        type Error = Error;
+
+        fn try_from(value: PublicKey) -> Result<Self, Self::Error> {
+            let sum = &value
+                .sum
+                .ok_or_else(|| Error::invalid_key("empty sum".to_string()))?;
+            if let Sum::Ed25519(b) = sum {
+                let digest = Sha256::digest(b);
+                return Ok(Id(digest[..LENGTH].try_into().unwrap()))
+            }
+            #[cfg(feature = "secp256k1")]
+            if let Sum::Secp256k1(b) = sum {
+                use ripemd::Ripemd160;
+
+                let sha_digest = Sha256::digest(b);
+                let ripemd_digest = Ripemd160::digest(&sha_digest[..]);
+                let mut bytes = [0u8; LENGTH];
+                bytes.copy_from_slice(&ripemd_digest[..LENGTH]);
+                return Ok(Id(bytes))
+            }
+            Err(Error::invalid_key("unknown key".to_string()))
+        }
+    }
+}
+
+pub mod v1 {
+    use super::{Id, LENGTH};
+    #[cfg(feature = "secp256k1")]
+    use crate::public_key::PUB_KEY_TYPE_SECP256K1;
+    use crate::{prelude::*, public_key::PUB_KEY_TYPE_ED25519, Error};
+    use digest::Digest;
+    use sha2::Sha256;
+
+    pub fn try_from_type_and_bytes(pub_key_type: &str, pub_key_bytes: &[u8]) -> Result<Id, Error> {
+        if pub_key_type == PUB_KEY_TYPE_ED25519 {
+            let digest = Sha256::digest(pub_key_bytes);
+            return Ok(Id(digest[..LENGTH].try_into().unwrap()));
+        }
+        #[cfg(feature = "secp256k1")]
+        if pub_key_type == PUB_KEY_TYPE_SECP256K1 {
+            use ripemd::Ripemd160;
+
+            let sha_digest = Sha256::digest(pub_key_bytes);
+            let ripemd_digest = Ripemd160::digest(&sha_digest[..]);
+            let mut bytes = [0u8; LENGTH];
+            bytes.copy_from_slice(&ripemd_digest[..LENGTH]);
+            return Ok(Id(bytes));
+        }
+        Err(Error::invalid_key("unknown key".to_string()))
+    }
+}
+
 #[cfg(all(test, feature = "rust-crypto"))]
 mod tests {
     use super::*;

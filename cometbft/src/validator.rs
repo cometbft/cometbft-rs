@@ -23,9 +23,12 @@ use crate::{
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(try_from = "RawValidatorSet")]
 pub struct Set {
-    validators: Vec<Info>,
-    proposer: Option<Info>,
-    total_voting_power: vote::Power,
+    /// Validators
+    pub validators: Vec<Info>,
+    // Proposer
+    pub proposer: Option<Info>,
+    // Total voting power
+    pub total_voting_power: vote::Power,
 }
 
 impl Set {
@@ -281,7 +284,7 @@ cometbft_old_pb_modules! {
         },
     };
     use super::{Info, Set, SimpleValidator, Update};
-    use crate::{prelude::*, Error};
+    use crate::{prelude::*, Error, account};
 
     impl Protobuf<RawValidatorSet> for Set {}
 
@@ -315,12 +318,19 @@ cometbft_old_pb_modules! {
         type Error = Error;
 
         fn try_from(value: RawValidator) -> Result<Self, Self::Error> {
+            let raw_pub_key = value
+                .pub_key
+                .ok_or_else(Error::missing_public_key)?;
+            let address = value.address.try_into()?;
+            if account::Id::try_from(raw_pub_key.clone())? != address {
+                return Err(Error::invalid_validator_address());
+            }
+
+            let pub_key = raw_pub_key.try_into()?;
+
             Ok(Info {
-                address: value.address.try_into()?,
-                pub_key: value
-                    .pub_key
-                    .ok_or_else(Error::missing_public_key)?
-                    .try_into()?,
+                address,
+                pub_key,
                 power: value.voting_power.try_into()?,
                 name: None,
                 proposer_priority: value.proposer_priority.into(),
@@ -391,7 +401,7 @@ cometbft_old_pb_modules! {
 
 mod v1 {
     use super::{Info, Set, SimpleValidator, Update};
-    use crate::{prelude::*, Error, PublicKey};
+    use crate::{account, prelude::*, Error, PublicKey};
     use cometbft_proto::abci::v1::ValidatorUpdate as RawValidatorUpdate;
     use cometbft_proto::types::v1::{
         SimpleValidator as RawSimpleValidator, Validator as RawValidator,
@@ -431,12 +441,19 @@ mod v1 {
         type Error = Error;
 
         fn try_from(value: RawValidator) -> Result<Self, Self::Error> {
+            let address = value.address.try_into()?;
+            if account::v1::try_from_type_and_bytes(&value.pub_key_type, &value.pub_key_bytes)?
+                != address
+            {
+                return Err(Error::invalid_validator_address());
+            }
+
+            let pub_key =
+                PublicKey::try_from_type_and_bytes(&value.pub_key_type, &value.pub_key_bytes)?;
+
             Ok(Info {
-                address: value.address.try_into()?,
-                pub_key: PublicKey::try_from_type_and_bytes(
-                    &value.pub_key_type,
-                    &value.pub_key_bytes,
-                )?,
+                address,
+                pub_key,
                 power: value.voting_power.try_into()?,
                 name: None,
                 proposer_priority: value.proposer_priority.into(),
@@ -926,6 +943,35 @@ mod tests {
         assert!(
             err.to_string()
                 .contains("total voting power in validator set exceeds the allowed maximum"),
+            "{err}"
+        );
+    }
+
+    #[test]
+    fn validator_set_deserialize_invalid_validator_address() {
+        const VSET: &str = r#"{
+            "validators": [
+                {
+                    "address": "01F527D77D3FFCC4FCFF2DDC2952EEA5414F2A22",
+                    "pub_key_type": "tendermint/PubKeyEd25519",
+                    "pub_key_bytes": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc=",
+                    "voting_power": "50",
+                    "proposer_priority": "-150"
+                }
+            ],
+            "proposer": {
+                "address": "01F527D77D3FFCC4FCFF2DDC2952EEA5414F2A22",
+                "pub_key_type": "tendermint/PubKeyEd25519",
+                "pub_key_bytes": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc=",
+                "voting_power": "50",
+                "proposer_priority": "-150"
+            },
+            "total_voting_power": "50"
+        }"#;
+
+        let err = serde_json::from_str::<Set>(VSET).unwrap_err();
+        assert!(
+            err.to_string().contains("invalid validator address"),
             "{err}"
         );
     }
