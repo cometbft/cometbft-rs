@@ -1,0 +1,42 @@
+{
+  "id": "ed04c4b2-ac72-4602-9b48-d5dd41d549be",
+  "jsonrpc": "2.0",
+  "result": {
+    "node_info": {
+      "channels": "40202122233038606100",
+      "id": "ce5b63179d4b9b879f7389128984036ffbd9ee2e",
+      "listen_addr": "tcp://0.0.0.0:26656",
+      "moniker": "dockernode",
+      "network": "dockerchain",
+      "other": {
+        "rpc_address": "tcp://0.0.0.0:26657",
+        "tx_index": "on"
+      },
+      "protocol_version": {
+        "app": "1",
+        "block": "11",
+        "p2p": "9"
+      },
+      "version": "1.0.0"
+    },
+    "sync_info": {
+      "catching_up": false,
+      "earliest_app_hash": "0000000000000000",
+      "earliest_block_hash": "9968D641711D6A01FE9A889FB9924124F942ACDB255C80FA9C07B504BE70B778",
+      "earliest_block_height": "1",
+      "earliest_block_time": "2025-06-30T10:04:39.861132656Z",
+      "latest_app_hash": "0600000000000000",
+      "latest_block_hash": "DBF12EDAA2EEFD2F76D43061F4A5175F80397516F1A838E55906ED13D5762E95",
+      "latest_block_height": "57",
+      "latest_block_time": "2025-06-30T10:05:10.173766882Z"
+    },
+    "validator_info": {
+      "address": "5FFC79467B9BF5D94DBD146403048CE7D6FE07A6",
+      "pub_key": {
+        "type": "tendermint/PubKeyEd25519",
+        "value": "U9AhXvIrRjLVnR+dy7x4sn/qE6j80MgAfh5phB4FbTc="
+      },
+      "voting_power": "10"
+    }
+  }
+}

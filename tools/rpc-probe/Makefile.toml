@@ -1,6 +1,6 @@
 [env]
 CONTAINER_NAME = "kvstore-rpc-probe"
-DOCKER_IMAGE = "cometbft/cometbft:v0.37.x"
+DOCKER_IMAGE = "cometbft/cometbft:v1.0.0"
 HOST_RPC_PORT = 26657
 CARGO_MAKE_WAIT_MILLISECONDS = 3500
 OUTPUT_DIR = "fixtures"

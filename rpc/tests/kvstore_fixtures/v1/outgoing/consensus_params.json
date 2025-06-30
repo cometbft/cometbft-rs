@@ -1,0 +1,8 @@
+{
+  "id": "95931dc5-dbbf-46ff-9488-25178286f10c",
+  "jsonrpc": "2.0",
+  "method": "consensus_params",
+  "params": {
+    "height": "10"
+  }
+}

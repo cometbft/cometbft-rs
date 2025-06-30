@@ -1,0 +1,65 @@
+{
+  "id": "7c51db63-99f1-4d59-8d88-9558f871ceda",
+  "jsonrpc": "2.0",
+  "result": {
+    "block": {
+      "data": {
+        "txs": []
+      },
+      "evidence": {
+        "evidence": []
+      },
+      "header": {
+        "app_hash": "0000000000000000",
+        "chain_id": "dockerchain",
+        "consensus_hash": "68ECD6F333119CE43751ECE583B981F23508AEAF4221FF582B1BB33BE42BCEFA",
+        "data_hash": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+        "evidence_hash": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+        "height": "10",
+        "last_block_id": {
+          "hash": "8A9C3091453D71741DA7053AEEE15E675ED8998566CFE7CBD9E7CEB5C5F3DA5C",
+          "parts": {
+            "hash": "5DA4917FD8CB4758FA8915B580F3A84A83FA631A12A7BD291CF69905914DD388",
+            "total": 1
+          }
+        },
+        "last_commit_hash": "2C33C85C8D599EC432CA03B33CC6B06B3ADA2460D4635696A74DD33314310B12",
+        "last_results_hash": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+        "next_validators_hash": "4C89492B846141142201F13F88E6BBFD43341F0FF0138FDC8E61CD5464CA2FB6",
+        "proposer_address": "5FFC79467B9BF5D94DBD146403048CE7D6FE07A6",
+        "time": "2025-06-30T10:04:44.920428185Z",
+        "validators_hash": "4C89492B846141142201F13F88E6BBFD43341F0FF0138FDC8E61CD5464CA2FB6",
+        "version": {
+          "app": "1",
+          "block": "11"
+        }
+      },
+      "last_commit": {
+        "block_id": {
+          "hash": "8A9C3091453D71741DA7053AEEE15E675ED8998566CFE7CBD9E7CEB5C5F3DA5C",
+          "parts": {
+            "hash": "5DA4917FD8CB4758FA8915B580F3A84A83FA631A12A7BD291CF69905914DD388",
+            "total": 1
+          }
+        },
+        "height": "9",
+        "round": 0,
+        "signatures": [
+          {
+            "block_id_flag": 2,
+            "signature": "XmRIt73/YJIsmMg7zveVrp++d8UU16OFz2TBLHCKRRPuNGlwyLyAgoNkbyWitkVUHCjAdKnJzt5rcXaRP8eOAA==",
+            "timestamp": "2025-06-30T10:04:44.920428185Z",
+            "validator_address": "5FFC79467B9BF5D94DBD146403048CE7D6FE07A6"
+          }
+        ]
+      }
+    },
+    "block_id": {
+      "hash": "582DDEDEAC10340AE0EC8327BA20AB5C9EE98C295AA6721688923325B6C66B0B",
+      "parts": {
+        "hash": "54F1AD38474F2F1F6BC9E2E9079E62CBCD13B55343C7E1674A939CD9BA709DA3",
+        "total": 1
+      }
+    }
+  }
+}

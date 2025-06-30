@@ -17,10 +17,7 @@ To run this probe locally, you will need:
 
 ## Usage (with Docker)
 
-From the root of the tools folder:
-
 ```bash
-cd rpc-probe
 cargo make
 ```
 
@@ -37,7 +34,7 @@ This will:
 To run a specific version of CometBFT, simply:
 
 ```bash
-cargo make --env DOCKER_IMAGE="informaldev/cometbft:v0.34.0" 
+cargo make --env DOCKER_IMAGE="cometbft/cometbft:v0.37.x"
 ```
 
 ## Usage (without Docker)
@@ -92,5 +89,5 @@ For example, the `rpc/tests/incoming/abci_info.json` file (returned by the
 The full JSON-RPC wrapper is saved to disk.
 
 [CometBFT]: https://github.com/cometbft/cometbft
-[CometBFT RPC]: https://docs.cometbft.com/v1/rpc/
-[`abci_info`]: https://docs.cometbft.com/v1/rpc/#/ABCI/abci_info
+[CometBFT RPC]: https://docs.cometbft.com/v1.0/rpc/
+[`abci_info`]: https://docs.cometbft.com/v1.0/rpc/#/ABCI/abci_info
