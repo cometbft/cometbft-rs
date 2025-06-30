@@ -2,9 +2,7 @@ use bytes::Bytes;
 
 use crate::{block, consensus, prelude::*, validator, Time};
 
-/// Called on genesis to initialize chain state.
-///
-/// [ABCI documentation](https://docs.cometbft.com/v1/spec/abci/abci.html#initchain)
+#[doc = include_str!("../doc/request-initchain.md")]
 #[derive(Clone, PartialEq, Eq, Debug)]
 pub struct InitChain {
     /// The genesis time.

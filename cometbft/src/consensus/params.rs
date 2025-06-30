@@ -9,7 +9,7 @@ use crate::{
 
 /// All consensus-relevant parameters that can be adjusted by the ABCI app.
 ///
-/// [ABCI documentation](https://docs.cometbft.com/v1/spec/abci/abci.html#consensusparams)
+/// [ABCI documentation](https://docs.cometbft.com/v1.0/spec/core/data_structures#consensusparams)
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 pub struct Params {
     /// Parameters limiting the size of a block and time between consecutive blocks.

@@ -2,8 +2,6 @@
 //!
 //! These types have changes from the core data structures to better accommodate
 //! ABCI applications.
-//!
-//! [ABCI documentation](https://docs.cometbft.com/v1/spec/abci/abci.html#data-types)
 
 use bytes::Bytes;
 use serde::{Deserialize, Serialize};

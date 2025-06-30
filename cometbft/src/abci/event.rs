@@ -11,7 +11,7 @@ use crate::prelude::*;
 /// [`DeliverTx`](super::response::DeliverTx) responses. Later, transactions may
 /// be queried using these events.
 ///
-/// [ABCI documentation](https://docs.cometbft.com/v1/spec/abci/abci.html#events)
+/// [ABCI documentation](https://docs.cometbft.com/v1.0/spec/abci/abci++_basic_concepts#events)
 #[derive(Clone, PartialEq, Eq, Debug, Deserialize, Serialize, Hash)]
 pub struct Event {
     /// The kind of event.

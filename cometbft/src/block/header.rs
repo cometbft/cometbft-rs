@@ -19,7 +19,7 @@ use crate::{
 /// consensus, as well as commitments to the data in the current block, the
 /// previous block, and the results returned by the application.
 ///
-/// <https://github.com/tendermint/spec/blob/d46cd7f573a2c6a2399fcab2cde981330aa63f37/spec/core/data_structures.md#header>
+/// <https://docs.cometbft.com/v1.0/spec/core/data_structures#header>
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(try_from = "RawHeader", into = "RawHeader")]
 pub struct Header {

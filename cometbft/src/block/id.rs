@@ -19,7 +19,7 @@ pub const PREFIX_LENGTH: usize = 10;
 /// Block identifiers which contain two distinct Merkle roots of the block,
 /// as well as the number of parts in the block.
 ///
-/// <https://github.com/tendermint/spec/blob/d46cd7f573a2c6a2399fcab2cde981330aa63f37/spec/core/data_structures.md#blockid>
+/// <https://docs.cometbft.com/v1.0/spec/core/data_structures#blockid>
 ///
 /// Default implementation is an empty Id as defined by the Go implementation in
 /// <https://github.com/cometbft/cometbft/blob/1635d1339c73ae6a82e062cd2dc7191b029efa14/types/block.go#L1204>.

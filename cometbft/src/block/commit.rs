@@ -10,9 +10,8 @@ use crate::{
 
 /// Commit contains the justification (ie. a set of signatures) that a block was committed by a set
 /// of validators.
-/// TODO: Update links below!
-/// <https://github.com/cometbft/cometbft/blob/51dc810d041eaac78320adc6d53ad8b160b06601/types/block.go#L486-L502>
-/// <https://github.com/tendermint/spec/blob/d46cd7f573a2c6a2399fcab2cde981330aa63f37/spec/core/data_structures.md#lastcommit>
+///
+/// <https://docs.cometbft.com/v1.0/spec/core/data_structures#commit>
 #[derive(Clone, PartialEq, Eq, Debug, Serialize, Deserialize)]
 #[serde(try_from = "RawCommit", into = "RawCommit")] // Used by testgen Generator trait
 pub struct Commit {

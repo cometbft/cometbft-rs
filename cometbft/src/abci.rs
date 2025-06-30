@@ -33,7 +33,7 @@
 //! their choice of ABCI server implementation.
 //!
 //! [ABCI]: https://docs.cometbft.com/v1.0/spec/abci/
-//! [mat]: https://docs.cometbft.com/v1.0/spec/abci/abci.html
+//! [mat]: https://docs.cometbft.com/v1.0/spec/abci/abci++_methods
 //! [tmabci]: https://github.com/cometbft/cometbft-rs/tree/master/abci
 
 mod code;

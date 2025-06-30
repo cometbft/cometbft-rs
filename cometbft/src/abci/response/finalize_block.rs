@@ -4,6 +4,7 @@ use crate::abci::{types::ExecTxResult, Event};
 use crate::prelude::*;
 use crate::{consensus, serializers, validator, AppHash};
 
+#[doc = include_str!("../doc/response-finalizeblock.md")]
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct FinalizeBlock {
     /// Set of block events emitted as part of executing the block

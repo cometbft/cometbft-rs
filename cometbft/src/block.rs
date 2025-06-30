@@ -31,7 +31,7 @@ use crate::{evidence, prelude::*};
 /// Blocks consist of a header, transactions, votes (the commit), and a list of
 /// evidence of malfeasance (i.e. signing conflicting votes).
 ///
-/// <https://github.com/cometbft/cometbft/blob/v1.0.0-alpha.1/spec/core/data_structures.md#block>
+/// <https://docs.cometbft.com/v1.0/spec/core/data_structures#block>
 // Default serialization - all fields serialize; used by /block endpoint
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq)]
 #[non_exhaustive]
