@@ -1,1 +1,1 @@
-[ABCI documentation](https://github.com/cometbft/cometbft/blob/v0.38.x/spec/abci/abci++_methods.md#extendvote)
+[ABCI documentation](https://docs.cometbft.com/v1.0/spec/abci/abci++_methods#extendvote)

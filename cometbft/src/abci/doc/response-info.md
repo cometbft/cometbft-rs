@@ -1,3 +1,3 @@
 Returns information about the application state.
 
-[ABCI documentation](https://docs.cometbft.com/v1/spec/abci/abci.html#info)
+[ABCI documentation](https://docs.cometbft.com/v1.0/spec/abci/abci++_methods#info)
