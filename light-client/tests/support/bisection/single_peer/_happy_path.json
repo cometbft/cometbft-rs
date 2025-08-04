@@ -70,14 +70,14 @@
  							"address": "01F527D77D3FFCC4FCFF2DDC2952EEA5414F2A33",
  							"voting_power": "50",
  							"proposer_priority": "-50",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc="
  						},
  						{
  							"address": "026CC7B6F3E62F789DBECEC59766888B5464737D",
  							"voting_power": "50",
  							"proposer_priority": "50",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "+vlsKpn6ojn+UoTZl+w+fxeqm6xvUfBokTcKfcG3au4="
  						}
  					],
@@ -85,7 +85,7 @@
  						"address": "01F527D77D3FFCC4FCFF2DDC2952EEA5414F2A33",
  						"voting_power": "50",
  						"proposer_priority": "-50",
- 						"pub_key_type": "tendermint/PubKeyEd25519",
+ 						"pub_key_type": "ed25519",
  						"pub_key_bytes": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc="
  					}
  				},
@@ -95,14 +95,14 @@
  							"address": "01F527D77D3FFCC4FCFF2DDC2952EEA5414F2A33",
  							"voting_power": "50",
  							"proposer_priority": "0",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc="
  						},
  						{
  							"address": "026CC7B6F3E62F789DBECEC59766888B5464737D",
  							"voting_power": "50",
  							"proposer_priority": "0",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "+vlsKpn6ojn+UoTZl+w+fxeqm6xvUfBokTcKfcG3au4="
  						}
  					],
@@ -110,7 +110,7 @@
  						"address": "026CC7B6F3E62F789DBECEC59766888B5464737D",
  						"voting_power": "50",
  						"proposer_priority": "0",
- 						"pub_key_type": "tendermint/PubKeyEd25519",
+ 						"pub_key_type": "ed25519",
  						"pub_key_bytes": "+vlsKpn6ojn+UoTZl+w+fxeqm6xvUfBokTcKfcG3au4="
  					}
  				},
@@ -174,14 +174,14 @@
  							"address": "01F527D77D3FFCC4FCFF2DDC2952EEA5414F2A33",
  							"voting_power": "50",
  							"proposer_priority": "0",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc="
  						},
  						{
  							"address": "026CC7B6F3E62F789DBECEC59766888B5464737D",
  							"voting_power": "50",
  							"proposer_priority": "0",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "+vlsKpn6ojn+UoTZl+w+fxeqm6xvUfBokTcKfcG3au4="
  						}
  					],
@@ -189,7 +189,7 @@
  						"address": "026CC7B6F3E62F789DBECEC59766888B5464737D",
  						"voting_power": "50",
  						"proposer_priority": "0",
- 						"pub_key_type": "tendermint/PubKeyEd25519",
+ 						"pub_key_type": "ed25519",
  						"pub_key_bytes": "+vlsKpn6ojn+UoTZl+w+fxeqm6xvUfBokTcKfcG3au4="
  					}
  				},
@@ -199,14 +199,14 @@
  							"address": "01F527D77D3FFCC4FCFF2DDC2952EEA5414F2A33",
  							"voting_power": "50",
  							"proposer_priority": "-50",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc="
  						},
  						{
  							"address": "026CC7B6F3E62F789DBECEC59766888B5464737D",
  							"voting_power": "50",
  							"proposer_priority": "50",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "+vlsKpn6ojn+UoTZl+w+fxeqm6xvUfBokTcKfcG3au4="
  						}
  					],
@@ -214,7 +214,7 @@
  						"address": "01F527D77D3FFCC4FCFF2DDC2952EEA5414F2A33",
  						"voting_power": "50",
  						"proposer_priority": "-50",
- 						"pub_key_type": "tendermint/PubKeyEd25519",
+ 						"pub_key_type": "ed25519",
  						"pub_key_bytes": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc="
  					}
  				},
@@ -278,14 +278,14 @@
  							"address": "01F527D77D3FFCC4FCFF2DDC2952EEA5414F2A33",
  							"voting_power": "50",
  							"proposer_priority": "0",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc="
  						},
  						{
  							"address": "026CC7B6F3E62F789DBECEC59766888B5464737D",
  							"voting_power": "50",
  							"proposer_priority": "0",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "+vlsKpn6ojn+UoTZl+w+fxeqm6xvUfBokTcKfcG3au4="
  						}
  					],
@@ -293,7 +293,7 @@
  						"address": "026CC7B6F3E62F789DBECEC59766888B5464737D",
  						"voting_power": "50",
  						"proposer_priority": "0",
- 						"pub_key_type": "tendermint/PubKeyEd25519",
+ 						"pub_key_type": "ed25519",
  						"pub_key_bytes": "+vlsKpn6ojn+UoTZl+w+fxeqm6xvUfBokTcKfcG3au4="
  					}
  				},
@@ -303,14 +303,14 @@
  							"address": "01F527D77D3FFCC4FCFF2DDC2952EEA5414F2A33",
  							"voting_power": "50",
  							"proposer_priority": "-50",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc="
  						},
  						{
  							"address": "026CC7B6F3E62F789DBECEC59766888B5464737D",
  							"voting_power": "50",
  							"proposer_priority": "50",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "+vlsKpn6ojn+UoTZl+w+fxeqm6xvUfBokTcKfcG3au4="
  						}
  					],
@@ -318,7 +318,7 @@
  						"address": "01F527D77D3FFCC4FCFF2DDC2952EEA5414F2A33",
  						"voting_power": "50",
  						"proposer_priority": "-50",
- 						"pub_key_type": "tendermint/PubKeyEd25519",
+ 						"pub_key_type": "ed25519",
  						"pub_key_bytes": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc="
  					}
  				},
@@ -382,14 +382,14 @@
  							"address": "01F527D77D3FFCC4FCFF2DDC2952EEA5414F2A33",
  							"voting_power": "50",
  							"proposer_priority": "0",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc="
  						},
  						{
  							"address": "026CC7B6F3E62F789DBECEC59766888B5464737D",
  							"voting_power": "50",
  							"proposer_priority": "0",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "+vlsKpn6ojn+UoTZl+w+fxeqm6xvUfBokTcKfcG3au4="
  						}
  					],
@@ -397,7 +397,7 @@
  						"address": "026CC7B6F3E62F789DBECEC59766888B5464737D",
  						"voting_power": "50",
  						"proposer_priority": "0",
- 						"pub_key_type": "tendermint/PubKeyEd25519",
+ 						"pub_key_type": "ed25519",
  						"pub_key_bytes": "+vlsKpn6ojn+UoTZl+w+fxeqm6xvUfBokTcKfcG3au4="
  					}
  				},
@@ -407,14 +407,14 @@
  							"address": "01F527D77D3FFCC4FCFF2DDC2952EEA5414F2A33",
  							"voting_power": "50",
  							"proposer_priority": "-50",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc="
  						},
  						{
  							"address": "026CC7B6F3E62F789DBECEC59766888B5464737D",
  							"voting_power": "50",
  							"proposer_priority": "50",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "+vlsKpn6ojn+UoTZl+w+fxeqm6xvUfBokTcKfcG3au4="
  						}
  					],
@@ -422,7 +422,7 @@
  						"address": "01F527D77D3FFCC4FCFF2DDC2952EEA5414F2A33",
  						"voting_power": "50",
  						"proposer_priority": "-50",
- 						"pub_key_type": "tendermint/PubKeyEd25519",
+ 						"pub_key_type": "ed25519",
  						"pub_key_bytes": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc="
  					}
  				},
@@ -486,14 +486,14 @@
  							"address": "01F527D77D3FFCC4FCFF2DDC2952EEA5414F2A33",
  							"voting_power": "50",
  							"proposer_priority": "0",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc="
  						},
  						{
  							"address": "026CC7B6F3E62F789DBECEC59766888B5464737D",
  							"voting_power": "50",
  							"proposer_priority": "0",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "+vlsKpn6ojn+UoTZl+w+fxeqm6xvUfBokTcKfcG3au4="
  						}
  					],
@@ -501,7 +501,7 @@
  						"address": "026CC7B6F3E62F789DBECEC59766888B5464737D",
  						"voting_power": "50",
  						"proposer_priority": "0",
- 						"pub_key_type": "tendermint/PubKeyEd25519",
+ 						"pub_key_type": "ed25519",
  						"pub_key_bytes": "+vlsKpn6ojn+UoTZl+w+fxeqm6xvUfBokTcKfcG3au4="
  					}
  				},
@@ -511,14 +511,14 @@
  							"address": "03EC0413849A3311A5341E7A69D6C544E9A30310",
  							"voting_power": "50",
  							"proposer_priority": "-50",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "BQpQJElLqI4Ajo+vLroQ7KaNv+khVW2oexo0vDbPGFw="
  						},
  						{
  							"address": "044EB1BB5D4C1CDB90029648439AEB10431FF295",
  							"voting_power": "50",
  							"proposer_priority": "50",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "Wc790fkCDAi7LvZ4UIBAIJSNI+Rp2aU80/8l+idZ/wI="
  						}
  					],
@@ -526,7 +526,7 @@
  						"address": "03EC0413849A3311A5341E7A69D6C544E9A30310",
  						"voting_power": "50",
  						"proposer_priority": "-50",
- 						"pub_key_type": "tendermint/PubKeyEd25519",
+ 						"pub_key_type": "ed25519",
  						"pub_key_bytes": "BQpQJElLqI4Ajo+vLroQ7KaNv+khVW2oexo0vDbPGFw="
  					}
  				},
@@ -590,14 +590,14 @@
  							"address": "03EC0413849A3311A5341E7A69D6C544E9A30310",
  							"voting_power": "50",
  							"proposer_priority": "0",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "BQpQJElLqI4Ajo+vLroQ7KaNv+khVW2oexo0vDbPGFw="
  						},
  						{
  							"address": "044EB1BB5D4C1CDB90029648439AEB10431FF295",
  							"voting_power": "50",
  							"proposer_priority": "0",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "Wc790fkCDAi7LvZ4UIBAIJSNI+Rp2aU80/8l+idZ/wI="
  						}
  					],
@@ -605,7 +605,7 @@
  						"address": "044EB1BB5D4C1CDB90029648439AEB10431FF295",
  						"voting_power": "50",
  						"proposer_priority": "0",
- 						"pub_key_type": "tendermint/PubKeyEd25519",
+ 						"pub_key_type": "ed25519",
  						"pub_key_bytes": "Wc790fkCDAi7LvZ4UIBAIJSNI+Rp2aU80/8l+idZ/wI="
  					}
  				},
@@ -615,14 +615,14 @@
  							"address": "03EC0413849A3311A5341E7A69D6C544E9A30310",
  							"voting_power": "50",
  							"proposer_priority": "-50",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "BQpQJElLqI4Ajo+vLroQ7KaNv+khVW2oexo0vDbPGFw="
  						},
  						{
  							"address": "044EB1BB5D4C1CDB90029648439AEB10431FF295",
  							"voting_power": "50",
  							"proposer_priority": "50",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "Wc790fkCDAi7LvZ4UIBAIJSNI+Rp2aU80/8l+idZ/wI="
  						}
  					],
@@ -630,7 +630,7 @@
  						"address": "03EC0413849A3311A5341E7A69D6C544E9A30310",
  						"voting_power": "50",
  						"proposer_priority": "-50",
- 						"pub_key_type": "tendermint/PubKeyEd25519",
+ 						"pub_key_type": "ed25519",
  						"pub_key_bytes": "BQpQJElLqI4Ajo+vLroQ7KaNv+khVW2oexo0vDbPGFw="
  					}
  				},
@@ -694,14 +694,14 @@
  							"address": "03EC0413849A3311A5341E7A69D6C544E9A30310",
  							"voting_power": "50",
  							"proposer_priority": "0",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "BQpQJElLqI4Ajo+vLroQ7KaNv+khVW2oexo0vDbPGFw="
  						},
  						{
  							"address": "044EB1BB5D4C1CDB90029648439AEB10431FF295",
  							"voting_power": "50",
  							"proposer_priority": "0",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "Wc790fkCDAi7LvZ4UIBAIJSNI+Rp2aU80/8l+idZ/wI="
  						}
  					],
@@ -709,7 +709,7 @@
  						"address": "044EB1BB5D4C1CDB90029648439AEB10431FF295",
  						"voting_power": "50",
  						"proposer_priority": "0",
- 						"pub_key_type": "tendermint/PubKeyEd25519",
+ 						"pub_key_type": "ed25519",
  						"pub_key_bytes": "Wc790fkCDAi7LvZ4UIBAIJSNI+Rp2aU80/8l+idZ/wI="
  					}
  				},
@@ -719,14 +719,14 @@
  							"address": "03EC0413849A3311A5341E7A69D6C544E9A30310",
  							"voting_power": "50",
  							"proposer_priority": "-50",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "BQpQJElLqI4Ajo+vLroQ7KaNv+khVW2oexo0vDbPGFw="
  						},
  						{
  							"address": "044EB1BB5D4C1CDB90029648439AEB10431FF295",
  							"voting_power": "50",
  							"proposer_priority": "50",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "Wc790fkCDAi7LvZ4UIBAIJSNI+Rp2aU80/8l+idZ/wI="
  						}
  					],
@@ -734,7 +734,7 @@
  						"address": "03EC0413849A3311A5341E7A69D6C544E9A30310",
  						"voting_power": "50",
  						"proposer_priority": "-50",
- 						"pub_key_type": "tendermint/PubKeyEd25519",
+ 						"pub_key_type": "ed25519",
  						"pub_key_bytes": "BQpQJElLqI4Ajo+vLroQ7KaNv+khVW2oexo0vDbPGFw="
  					}
  				},
@@ -798,14 +798,14 @@
  							"address": "03EC0413849A3311A5341E7A69D6C544E9A30310",
  							"voting_power": "50",
  							"proposer_priority": "0",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "BQpQJElLqI4Ajo+vLroQ7KaNv+khVW2oexo0vDbPGFw="
  						},
  						{
  							"address": "044EB1BB5D4C1CDB90029648439AEB10431FF295",
  							"voting_power": "50",
  							"proposer_priority": "0",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "Wc790fkCDAi7LvZ4UIBAIJSNI+Rp2aU80/8l+idZ/wI="
  						}
  					],
@@ -813,7 +813,7 @@
  						"address": "044EB1BB5D4C1CDB90029648439AEB10431FF295",
  						"voting_power": "50",
  						"proposer_priority": "0",
- 						"pub_key_type": "tendermint/PubKeyEd25519",
+ 						"pub_key_type": "ed25519",
  						"pub_key_bytes": "Wc790fkCDAi7LvZ4UIBAIJSNI+Rp2aU80/8l+idZ/wI="
  					}
  				},
@@ -823,14 +823,14 @@
  							"address": "03EC0413849A3311A5341E7A69D6C544E9A30310",
  							"voting_power": "50",
  							"proposer_priority": "-50",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "BQpQJElLqI4Ajo+vLroQ7KaNv+khVW2oexo0vDbPGFw="
  						},
  						{
  							"address": "044EB1BB5D4C1CDB90029648439AEB10431FF295",
  							"voting_power": "50",
  							"proposer_priority": "50",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "Wc790fkCDAi7LvZ4UIBAIJSNI+Rp2aU80/8l+idZ/wI="
  						}
  					],
@@ -838,7 +838,7 @@
  						"address": "03EC0413849A3311A5341E7A69D6C544E9A30310",
  						"voting_power": "50",
  						"proposer_priority": "-50",
- 						"pub_key_type": "tendermint/PubKeyEd25519",
+ 						"pub_key_type": "ed25519",
  						"pub_key_bytes": "BQpQJElLqI4Ajo+vLroQ7KaNv+khVW2oexo0vDbPGFw="
  					}
  				},
@@ -902,14 +902,14 @@
  							"address": "03EC0413849A3311A5341E7A69D6C544E9A30310",
  							"voting_power": "50",
  							"proposer_priority": "0",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "BQpQJElLqI4Ajo+vLroQ7KaNv+khVW2oexo0vDbPGFw="
  						},
  						{
  							"address": "044EB1BB5D4C1CDB90029648439AEB10431FF295",
  							"voting_power": "50",
  							"proposer_priority": "0",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "Wc790fkCDAi7LvZ4UIBAIJSNI+Rp2aU80/8l+idZ/wI="
  						}
  					],
@@ -917,7 +917,7 @@
  						"address": "044EB1BB5D4C1CDB90029648439AEB10431FF295",
  						"voting_power": "50",
  						"proposer_priority": "0",
- 						"pub_key_type": "tendermint/PubKeyEd25519",
+ 						"pub_key_type": "ed25519",
  						"pub_key_bytes": "Wc790fkCDAi7LvZ4UIBAIJSNI+Rp2aU80/8l+idZ/wI="
  					}
  				},
@@ -927,14 +927,14 @@
  							"address": "03EC0413849A3311A5341E7A69D6C544E9A30310",
  							"voting_power": "50",
  							"proposer_priority": "-50",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "BQpQJElLqI4Ajo+vLroQ7KaNv+khVW2oexo0vDbPGFw="
  						},
  						{
  							"address": "044EB1BB5D4C1CDB90029648439AEB10431FF295",
  							"voting_power": "50",
  							"proposer_priority": "50",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "Wc790fkCDAi7LvZ4UIBAIJSNI+Rp2aU80/8l+idZ/wI="
  						}
  					],
@@ -942,7 +942,7 @@
  						"address": "03EC0413849A3311A5341E7A69D6C544E9A30310",
  						"voting_power": "50",
  						"proposer_priority": "-50",
- 						"pub_key_type": "tendermint/PubKeyEd25519",
+ 						"pub_key_type": "ed25519",
  						"pub_key_bytes": "BQpQJElLqI4Ajo+vLroQ7KaNv+khVW2oexo0vDbPGFw="
  					}
  				},
@@ -1006,14 +1006,14 @@
  							"address": "03EC0413849A3311A5341E7A69D6C544E9A30310",
  							"voting_power": "50",
  							"proposer_priority": "0",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "BQpQJElLqI4Ajo+vLroQ7KaNv+khVW2oexo0vDbPGFw="
  						},
  						{
  							"address": "044EB1BB5D4C1CDB90029648439AEB10431FF295",
  							"voting_power": "50",
  							"proposer_priority": "0",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "Wc790fkCDAi7LvZ4UIBAIJSNI+Rp2aU80/8l+idZ/wI="
  						}
  					],
@@ -1021,7 +1021,7 @@
  						"address": "044EB1BB5D4C1CDB90029648439AEB10431FF295",
  						"voting_power": "50",
  						"proposer_priority": "0",
- 						"pub_key_type": "tendermint/PubKeyEd25519",
+ 						"pub_key_type": "ed25519",
  						"pub_key_bytes": "Wc790fkCDAi7LvZ4UIBAIJSNI+Rp2aU80/8l+idZ/wI="
  					}
  				},
@@ -1031,14 +1031,14 @@
  							"address": "03EC0413849A3311A5341E7A69D6C544E9A30310",
  							"voting_power": "50",
  							"proposer_priority": "-50",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "BQpQJElLqI4Ajo+vLroQ7KaNv+khVW2oexo0vDbPGFw="
  						},
  						{
  							"address": "044EB1BB5D4C1CDB90029648439AEB10431FF295",
  							"voting_power": "50",
  							"proposer_priority": "50",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "Wc790fkCDAi7LvZ4UIBAIJSNI+Rp2aU80/8l+idZ/wI="
  						}
  					],
@@ -1046,7 +1046,7 @@
  						"address": "03EC0413849A3311A5341E7A69D6C544E9A30310",
  						"voting_power": "50",
  						"proposer_priority": "-50",
- 						"pub_key_type": "tendermint/PubKeyEd25519",
+ 						"pub_key_type": "ed25519",
  						"pub_key_bytes": "BQpQJElLqI4Ajo+vLroQ7KaNv+khVW2oexo0vDbPGFw="
  					}
  				},
@@ -1110,14 +1110,14 @@
  							"address": "03EC0413849A3311A5341E7A69D6C544E9A30310",
  							"voting_power": "50",
  							"proposer_priority": "0",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "BQpQJElLqI4Ajo+vLroQ7KaNv+khVW2oexo0vDbPGFw="
  						},
  						{
  							"address": "044EB1BB5D4C1CDB90029648439AEB10431FF295",
  							"voting_power": "50",
  							"proposer_priority": "0",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "Wc790fkCDAi7LvZ4UIBAIJSNI+Rp2aU80/8l+idZ/wI="
  						}
  					],
@@ -1125,7 +1125,7 @@
  						"address": "044EB1BB5D4C1CDB90029648439AEB10431FF295",
  						"voting_power": "50",
  						"proposer_priority": "0",
- 						"pub_key_type": "tendermint/PubKeyEd25519",
+ 						"pub_key_type": "ed25519",
  						"pub_key_bytes": "Wc790fkCDAi7LvZ4UIBAIJSNI+Rp2aU80/8l+idZ/wI="
  					}
  				},
@@ -1135,14 +1135,14 @@
  							"address": "03EC0413849A3311A5341E7A69D6C544E9A30310",
  							"voting_power": "50",
  							"proposer_priority": "-50",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "BQpQJElLqI4Ajo+vLroQ7KaNv+khVW2oexo0vDbPGFw="
  						},
  						{
  							"address": "044EB1BB5D4C1CDB90029648439AEB10431FF295",
  							"voting_power": "50",
  							"proposer_priority": "50",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "Wc790fkCDAi7LvZ4UIBAIJSNI+Rp2aU80/8l+idZ/wI="
  						}
  					],
@@ -1150,7 +1150,7 @@
  						"address": "03EC0413849A3311A5341E7A69D6C544E9A30310",
  						"voting_power": "50",
  						"proposer_priority": "-50",
- 						"pub_key_type": "tendermint/PubKeyEd25519",
+ 						"pub_key_type": "ed25519",
  						"pub_key_bytes": "BQpQJElLqI4Ajo+vLroQ7KaNv+khVW2oexo0vDbPGFw="
  					}
  				},
@@ -1220,14 +1220,14 @@
  								"address": "01F527D77D3FFCC4FCFF2DDC2952EEA5414F2A33",
  								"voting_power": "50",
  								"proposer_priority": "-50",
- 								"pub_key_type": "tendermint/PubKeyEd25519",
+ 								"pub_key_type": "ed25519",
  								"pub_key_bytes": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc="
  							},
  							{
  								"address": "026CC7B6F3E62F789DBECEC59766888B5464737D",
  								"voting_power": "50",
  								"proposer_priority": "50",
- 								"pub_key_type": "tendermint/PubKeyEd25519",
+ 								"pub_key_type": "ed25519",
  								"pub_key_bytes": "+vlsKpn6ojn+UoTZl+w+fxeqm6xvUfBokTcKfcG3au4="
  							}
  						],
@@ -1235,7 +1235,7 @@
  							"address": "01F527D77D3FFCC4FCFF2DDC2952EEA5414F2A33",
  							"voting_power": "50",
  							"proposer_priority": "-50",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc="
  						}
  					},
@@ -1245,14 +1245,14 @@
  								"address": "01F527D77D3FFCC4FCFF2DDC2952EEA5414F2A33",
  								"voting_power": "50",
  								"proposer_priority": "0",
- 								"pub_key_type": "tendermint/PubKeyEd25519",
+ 								"pub_key_type": "ed25519",
  								"pub_key_bytes": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc="
  							},
  							{
  								"address": "026CC7B6F3E62F789DBECEC59766888B5464737D",
  								"voting_power": "50",
  								"proposer_priority": "0",
- 								"pub_key_type": "tendermint/PubKeyEd25519",
+ 								"pub_key_type": "ed25519",
  								"pub_key_bytes": "+vlsKpn6ojn+UoTZl+w+fxeqm6xvUfBokTcKfcG3au4="
  							}
  						],
@@ -1260,7 +1260,7 @@
  							"address": "026CC7B6F3E62F789DBECEC59766888B5464737D",
  							"voting_power": "50",
  							"proposer_priority": "0",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "+vlsKpn6ojn+UoTZl+w+fxeqm6xvUfBokTcKfcG3au4="
  						}
  					},
@@ -1324,14 +1324,14 @@
  								"address": "01F527D77D3FFCC4FCFF2DDC2952EEA5414F2A33",
  								"voting_power": "50",
  								"proposer_priority": "0",
- 								"pub_key_type": "tendermint/PubKeyEd25519",
+ 								"pub_key_type": "ed25519",
  								"pub_key_bytes": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc="
  							},
  							{
  								"address": "026CC7B6F3E62F789DBECEC59766888B5464737D",
  								"voting_power": "50",
  								"proposer_priority": "0",
- 								"pub_key_type": "tendermint/PubKeyEd25519",
+ 								"pub_key_type": "ed25519",
  								"pub_key_bytes": "+vlsKpn6ojn+UoTZl+w+fxeqm6xvUfBokTcKfcG3au4="
  							}
  						],
@@ -1339,7 +1339,7 @@
  							"address": "026CC7B6F3E62F789DBECEC59766888B5464737D",
  							"voting_power": "50",
  							"proposer_priority": "0",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "+vlsKpn6ojn+UoTZl+w+fxeqm6xvUfBokTcKfcG3au4="
  						}
  					},
@@ -1349,14 +1349,14 @@
  								"address": "01F527D77D3FFCC4FCFF2DDC2952EEA5414F2A33",
  								"voting_power": "50",
  								"proposer_priority": "-50",
- 								"pub_key_type": "tendermint/PubKeyEd25519",
+ 								"pub_key_type": "ed25519",
  								"pub_key_bytes": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc="
  							},
  							{
  								"address": "026CC7B6F3E62F789DBECEC59766888B5464737D",
  								"voting_power": "50",
  								"proposer_priority": "50",
- 								"pub_key_type": "tendermint/PubKeyEd25519",
+ 								"pub_key_type": "ed25519",
  								"pub_key_bytes": "+vlsKpn6ojn+UoTZl+w+fxeqm6xvUfBokTcKfcG3au4="
  							}
  						],
@@ -1364,7 +1364,7 @@
  							"address": "01F527D77D3FFCC4FCFF2DDC2952EEA5414F2A33",
  							"voting_power": "50",
  							"proposer_priority": "-50",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc="
  						}
  					},
@@ -1428,14 +1428,14 @@
  								"address": "01F527D77D3FFCC4FCFF2DDC2952EEA5414F2A33",
  								"voting_power": "50",
  								"proposer_priority": "0",
- 								"pub_key_type": "tendermint/PubKeyEd25519",
+ 								"pub_key_type": "ed25519",
  								"pub_key_bytes": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc="
  							},
  							{
  								"address": "026CC7B6F3E62F789DBECEC59766888B5464737D",
  								"voting_power": "50",
  								"proposer_priority": "0",
- 								"pub_key_type": "tendermint/PubKeyEd25519",
+ 								"pub_key_type": "ed25519",
  								"pub_key_bytes": "+vlsKpn6ojn+UoTZl+w+fxeqm6xvUfBokTcKfcG3au4="
  							}
  						],
@@ -1443,7 +1443,7 @@
  							"address": "026CC7B6F3E62F789DBECEC59766888B5464737D",
  							"voting_power": "50",
  							"proposer_priority": "0",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "+vlsKpn6ojn+UoTZl+w+fxeqm6xvUfBokTcKfcG3au4="
  						}
  					},
@@ -1453,14 +1453,14 @@
  								"address": "01F527D77D3FFCC4FCFF2DDC2952EEA5414F2A33",
  								"voting_power": "50",
  								"proposer_priority": "-50",
- 								"pub_key_type": "tendermint/PubKeyEd25519",
+ 								"pub_key_type": "ed25519",
  								"pub_key_bytes": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc="
  							},
  							{
  								"address": "026CC7B6F3E62F789DBECEC59766888B5464737D",
  								"voting_power": "50",
  								"proposer_priority": "50",
- 								"pub_key_type": "tendermint/PubKeyEd25519",
+ 								"pub_key_type": "ed25519",
  								"pub_key_bytes": "+vlsKpn6ojn+UoTZl+w+fxeqm6xvUfBokTcKfcG3au4="
  							}
  						],
@@ -1468,7 +1468,7 @@
  							"address": "01F527D77D3FFCC4FCFF2DDC2952EEA5414F2A33",
  							"voting_power": "50",
  							"proposer_priority": "-50",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc="
  						}
  					},
@@ -1532,14 +1532,14 @@
  								"address": "01F527D77D3FFCC4FCFF2DDC2952EEA5414F2A33",
  								"voting_power": "50",
  								"proposer_priority": "0",
- 								"pub_key_type": "tendermint/PubKeyEd25519",
+ 								"pub_key_type": "ed25519",
  								"pub_key_bytes": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc="
  							},
  							{
  								"address": "026CC7B6F3E62F789DBECEC59766888B5464737D",
  								"voting_power": "50",
  								"proposer_priority": "0",
- 								"pub_key_type": "tendermint/PubKeyEd25519",
+ 								"pub_key_type": "ed25519",
  								"pub_key_bytes": "+vlsKpn6ojn+UoTZl+w+fxeqm6xvUfBokTcKfcG3au4="
  							}
  						],
@@ -1547,7 +1547,7 @@
  							"address": "026CC7B6F3E62F789DBECEC59766888B5464737D",
  							"voting_power": "50",
  							"proposer_priority": "0",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "+vlsKpn6ojn+UoTZl+w+fxeqm6xvUfBokTcKfcG3au4="
  						}
  					},
@@ -1557,14 +1557,14 @@
  								"address": "01F527D77D3FFCC4FCFF2DDC2952EEA5414F2A33",
  								"voting_power": "50",
  								"proposer_priority": "-50",
- 								"pub_key_type": "tendermint/PubKeyEd25519",
+ 								"pub_key_type": "ed25519",
  								"pub_key_bytes": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc="
  							},
  							{
  								"address": "026CC7B6F3E62F789DBECEC59766888B5464737D",
  								"voting_power": "50",
  								"proposer_priority": "50",
- 								"pub_key_type": "tendermint/PubKeyEd25519",
+ 								"pub_key_type": "ed25519",
  								"pub_key_bytes": "+vlsKpn6ojn+UoTZl+w+fxeqm6xvUfBokTcKfcG3au4="
  							}
  						],
@@ -1572,7 +1572,7 @@
  							"address": "01F527D77D3FFCC4FCFF2DDC2952EEA5414F2A33",
  							"voting_power": "50",
  							"proposer_priority": "-50",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc="
  						}
  					},
@@ -1636,14 +1636,14 @@
  								"address": "01F527D77D3FFCC4FCFF2DDC2952EEA5414F2A33",
  								"voting_power": "50",
  								"proposer_priority": "0",
- 								"pub_key_type": "tendermint/PubKeyEd25519",
+ 								"pub_key_type": "ed25519",
  								"pub_key_bytes": "OAaNq3DX/15fGJP2MI6bujt1GRpvjwrqIevChirJsbc="
  							},
  							{
  								"address": "026CC7B6F3E62F789DBECEC59766888B5464737D",
  								"voting_power": "50",
  								"proposer_priority": "0",
- 								"pub_key_type": "tendermint/PubKeyEd25519",
+ 								"pub_key_type": "ed25519",
  								"pub_key_bytes": "+vlsKpn6ojn+UoTZl+w+fxeqm6xvUfBokTcKfcG3au4="
  							}
  						],
@@ -1651,7 +1651,7 @@
  							"address": "026CC7B6F3E62F789DBECEC59766888B5464737D",
  							"voting_power": "50",
  							"proposer_priority": "0",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "+vlsKpn6ojn+UoTZl+w+fxeqm6xvUfBokTcKfcG3au4="
  						}
  					},
@@ -1661,14 +1661,14 @@
  								"address": "03EC0413849A3311A5341E7A69D6C544E9A30310",
  								"voting_power": "50",
  								"proposer_priority": "-50",
- 								"pub_key_type": "tendermint/PubKeyEd25519",
+ 								"pub_key_type": "ed25519",
  								"pub_key_bytes": "BQpQJElLqI4Ajo+vLroQ7KaNv+khVW2oexo0vDbPGFw="
  							},
  							{
  								"address": "044EB1BB5D4C1CDB90029648439AEB10431FF295",
  								"voting_power": "50",
  								"proposer_priority": "50",
- 								"pub_key_type": "tendermint/PubKeyEd25519",
+ 								"pub_key_type": "ed25519",
  								"pub_key_bytes": "Wc790fkCDAi7LvZ4UIBAIJSNI+Rp2aU80/8l+idZ/wI="
  							}
  						],
@@ -1676,7 +1676,7 @@
  							"address": "03EC0413849A3311A5341E7A69D6C544E9A30310",
  							"voting_power": "50",
  							"proposer_priority": "-50",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "BQpQJElLqI4Ajo+vLroQ7KaNv+khVW2oexo0vDbPGFw="
  						}
  					},
@@ -1740,14 +1740,14 @@
  								"address": "03EC0413849A3311A5341E7A69D6C544E9A30310",
  								"voting_power": "50",
  								"proposer_priority": "0",
- 								"pub_key_type": "tendermint/PubKeyEd25519",
+ 								"pub_key_type": "ed25519",
  								"pub_key_bytes": "BQpQJElLqI4Ajo+vLroQ7KaNv+khVW2oexo0vDbPGFw="
  							},
  							{
  								"address": "044EB1BB5D4C1CDB90029648439AEB10431FF295",
  								"voting_power": "50",
  								"proposer_priority": "0",
- 								"pub_key_type": "tendermint/PubKeyEd25519",
+ 								"pub_key_type": "ed25519",
  								"pub_key_bytes": "Wc790fkCDAi7LvZ4UIBAIJSNI+Rp2aU80/8l+idZ/wI="
  							}
  						],
@@ -1755,7 +1755,7 @@
  							"address": "044EB1BB5D4C1CDB90029648439AEB10431FF295",
  							"voting_power": "50",
  							"proposer_priority": "0",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "Wc790fkCDAi7LvZ4UIBAIJSNI+Rp2aU80/8l+idZ/wI="
  						}
  					},
@@ -1765,14 +1765,14 @@
  								"address": "03EC0413849A3311A5341E7A69D6C544E9A30310",
  								"voting_power": "50",
  								"proposer_priority": "-50",
- 								"pub_key_type": "tendermint/PubKeyEd25519",
+ 								"pub_key_type": "ed25519",
  								"pub_key_bytes": "BQpQJElLqI4Ajo+vLroQ7KaNv+khVW2oexo0vDbPGFw="
  							},
  							{
  								"address": "044EB1BB5D4C1CDB90029648439AEB10431FF295",
  								"voting_power": "50",
  								"proposer_priority": "50",
- 								"pub_key_type": "tendermint/PubKeyEd25519",
+ 								"pub_key_type": "ed25519",
  								"pub_key_bytes": "Wc790fkCDAi7LvZ4UIBAIJSNI+Rp2aU80/8l+idZ/wI="
  							}
  						],
@@ -1780,7 +1780,7 @@
  							"address": "03EC0413849A3311A5341E7A69D6C544E9A30310",
  							"voting_power": "50",
  							"proposer_priority": "-50",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "BQpQJElLqI4Ajo+vLroQ7KaNv+khVW2oexo0vDbPGFw="
  						}
  					},
@@ -1844,14 +1844,14 @@
  								"address": "03EC0413849A3311A5341E7A69D6C544E9A30310",
  								"voting_power": "50",
  								"proposer_priority": "0",
- 								"pub_key_type": "tendermint/PubKeyEd25519",
+ 								"pub_key_type": "ed25519",
  								"pub_key_bytes": "BQpQJElLqI4Ajo+vLroQ7KaNv+khVW2oexo0vDbPGFw="
  							},
  							{
  								"address": "044EB1BB5D4C1CDB90029648439AEB10431FF295",
  								"voting_power": "50",
  								"proposer_priority": "0",
- 								"pub_key_type": "tendermint/PubKeyEd25519",
+ 								"pub_key_type": "ed25519",
  								"pub_key_bytes": "Wc790fkCDAi7LvZ4UIBAIJSNI+Rp2aU80/8l+idZ/wI="
  							}
  						],
@@ -1859,7 +1859,7 @@
  							"address": "044EB1BB5D4C1CDB90029648439AEB10431FF295",
  							"voting_power": "50",
  							"proposer_priority": "0",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "Wc790fkCDAi7LvZ4UIBAIJSNI+Rp2aU80/8l+idZ/wI="
  						}
  					},
@@ -1869,14 +1869,14 @@
  								"address": "03EC0413849A3311A5341E7A69D6C544E9A30310",
  								"voting_power": "50",
  								"proposer_priority": "-50",
- 								"pub_key_type": "tendermint/PubKeyEd25519",
+ 								"pub_key_type": "ed25519",
  								"pub_key_bytes": "BQpQJElLqI4Ajo+vLroQ7KaNv+khVW2oexo0vDbPGFw="
  							},
  							{
  								"address": "044EB1BB5D4C1CDB90029648439AEB10431FF295",
  								"voting_power": "50",
  								"proposer_priority": "50",
- 								"pub_key_type": "tendermint/PubKeyEd25519",
+ 								"pub_key_type": "ed25519",
  								"pub_key_bytes": "Wc790fkCDAi7LvZ4UIBAIJSNI+Rp2aU80/8l+idZ/wI="
  							}
  						],
@@ -1884,7 +1884,7 @@
  							"address": "03EC0413849A3311A5341E7A69D6C544E9A30310",
  							"voting_power": "50",
  							"proposer_priority": "-50",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "BQpQJElLqI4Ajo+vLroQ7KaNv+khVW2oexo0vDbPGFw="
  						}
  					},
@@ -1948,14 +1948,14 @@
  								"address": "03EC0413849A3311A5341E7A69D6C544E9A30310",
  								"voting_power": "50",
  								"proposer_priority": "0",
- 								"pub_key_type": "tendermint/PubKeyEd25519",
+ 								"pub_key_type": "ed25519",
  								"pub_key_bytes": "BQpQJElLqI4Ajo+vLroQ7KaNv+khVW2oexo0vDbPGFw="
  							},
  							{
  								"address": "044EB1BB5D4C1CDB90029648439AEB10431FF295",
  								"voting_power": "50",
  								"proposer_priority": "0",
- 								"pub_key_type": "tendermint/PubKeyEd25519",
+ 								"pub_key_type": "ed25519",
  								"pub_key_bytes": "Wc790fkCDAi7LvZ4UIBAIJSNI+Rp2aU80/8l+idZ/wI="
  							}
  						],
@@ -1963,7 +1963,7 @@
  							"address": "044EB1BB5D4C1CDB90029648439AEB10431FF295",
  							"voting_power": "50",
  							"proposer_priority": "0",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "Wc790fkCDAi7LvZ4UIBAIJSNI+Rp2aU80/8l+idZ/wI="
  						}
  					},
@@ -1973,14 +1973,14 @@
  								"address": "03EC0413849A3311A5341E7A69D6C544E9A30310",
  								"voting_power": "50",
  								"proposer_priority": "-50",
- 								"pub_key_type": "tendermint/PubKeyEd25519",
+ 								"pub_key_type": "ed25519",
  								"pub_key_bytes": "BQpQJElLqI4Ajo+vLroQ7KaNv+khVW2oexo0vDbPGFw="
  							},
  							{
  								"address": "044EB1BB5D4C1CDB90029648439AEB10431FF295",
  								"voting_power": "50",
  								"proposer_priority": "50",
- 								"pub_key_type": "tendermint/PubKeyEd25519",
+ 								"pub_key_type": "ed25519",
  								"pub_key_bytes": "Wc790fkCDAi7LvZ4UIBAIJSNI+Rp2aU80/8l+idZ/wI="
  							}
  						],
@@ -1988,7 +1988,7 @@
  							"address": "03EC0413849A3311A5341E7A69D6C544E9A30310",
  							"voting_power": "50",
  							"proposer_priority": "-50",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "BQpQJElLqI4Ajo+vLroQ7KaNv+khVW2oexo0vDbPGFw="
  						}
  					},
@@ -2052,14 +2052,14 @@
  								"address": "03EC0413849A3311A5341E7A69D6C544E9A30310",
  								"voting_power": "50",
  								"proposer_priority": "0",
- 								"pub_key_type": "tendermint/PubKeyEd25519",
+ 								"pub_key_type": "ed25519",
  								"pub_key_bytes": "BQpQJElLqI4Ajo+vLroQ7KaNv+khVW2oexo0vDbPGFw="
  							},
  							{
  								"address": "044EB1BB5D4C1CDB90029648439AEB10431FF295",
  								"voting_power": "50",
  								"proposer_priority": "0",
- 								"pub_key_type": "tendermint/PubKeyEd25519",
+ 								"pub_key_type": "ed25519",
  								"pub_key_bytes": "Wc790fkCDAi7LvZ4UIBAIJSNI+Rp2aU80/8l+idZ/wI="
  							}
  						],
@@ -2067,7 +2067,7 @@
  							"address": "044EB1BB5D4C1CDB90029648439AEB10431FF295",
  							"voting_power": "50",
  							"proposer_priority": "0",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "Wc790fkCDAi7LvZ4UIBAIJSNI+Rp2aU80/8l+idZ/wI="
  						}
  					},
@@ -2077,14 +2077,14 @@
  								"address": "03EC0413849A3311A5341E7A69D6C544E9A30310",
  								"voting_power": "50",
  								"proposer_priority": "-50",
- 								"pub_key_type": "tendermint/PubKeyEd25519",
+ 								"pub_key_type": "ed25519",
  								"pub_key_bytes": "BQpQJElLqI4Ajo+vLroQ7KaNv+khVW2oexo0vDbPGFw="
  							},
  							{
  								"address": "044EB1BB5D4C1CDB90029648439AEB10431FF295",
  								"voting_power": "50",
  								"proposer_priority": "50",
- 								"pub_key_type": "tendermint/PubKeyEd25519",
+ 								"pub_key_type": "ed25519",
  								"pub_key_bytes": "Wc790fkCDAi7LvZ4UIBAIJSNI+Rp2aU80/8l+idZ/wI="
  							}
  						],
@@ -2092,7 +2092,7 @@
  							"address": "03EC0413849A3311A5341E7A69D6C544E9A30310",
  							"voting_power": "50",
  							"proposer_priority": "-50",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "BQpQJElLqI4Ajo+vLroQ7KaNv+khVW2oexo0vDbPGFw="
  						}
  					},
@@ -2156,14 +2156,14 @@
  								"address": "03EC0413849A3311A5341E7A69D6C544E9A30310",
  								"voting_power": "50",
  								"proposer_priority": "0",
- 								"pub_key_type": "tendermint/PubKeyEd25519",
+ 								"pub_key_type": "ed25519",
  								"pub_key_bytes": "BQpQJElLqI4Ajo+vLroQ7KaNv+khVW2oexo0vDbPGFw="
  							},
  							{
  								"address": "044EB1BB5D4C1CDB90029648439AEB10431FF295",
  								"voting_power": "50",
  								"proposer_priority": "0",
- 								"pub_key_type": "tendermint/PubKeyEd25519",
+ 								"pub_key_type": "ed25519",
  								"pub_key_bytes": "Wc790fkCDAi7LvZ4UIBAIJSNI+Rp2aU80/8l+idZ/wI="
  							}
  						],
@@ -2171,7 +2171,7 @@
  							"address": "044EB1BB5D4C1CDB90029648439AEB10431FF295",
  							"voting_power": "50",
  							"proposer_priority": "0",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "Wc790fkCDAi7LvZ4UIBAIJSNI+Rp2aU80/8l+idZ/wI="
  						}
  					},
@@ -2181,14 +2181,14 @@
  								"address": "03EC0413849A3311A5341E7A69D6C544E9A30310",
  								"voting_power": "50",
  								"proposer_priority": "-50",
- 								"pub_key_type": "tendermint/PubKeyEd25519",
+ 								"pub_key_type": "ed25519",
  								"pub_key_bytes": "BQpQJElLqI4Ajo+vLroQ7KaNv+khVW2oexo0vDbPGFw="
  							},
  							{
  								"address": "044EB1BB5D4C1CDB90029648439AEB10431FF295",
  								"voting_power": "50",
  								"proposer_priority": "50",
- 								"pub_key_type": "tendermint/PubKeyEd25519",
+ 								"pub_key_type": "ed25519",
  								"pub_key_bytes": "Wc790fkCDAi7LvZ4UIBAIJSNI+Rp2aU80/8l+idZ/wI="
  							}
  						],
@@ -2196,7 +2196,7 @@
  							"address": "03EC0413849A3311A5341E7A69D6C544E9A30310",
  							"voting_power": "50",
  							"proposer_priority": "-50",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "BQpQJElLqI4Ajo+vLroQ7KaNv+khVW2oexo0vDbPGFw="
  						}
  					},
@@ -2260,14 +2260,14 @@
  								"address": "03EC0413849A3311A5341E7A69D6C544E9A30310",
  								"voting_power": "50",
  								"proposer_priority": "0",
- 								"pub_key_type": "tendermint/PubKeyEd25519",
+ 								"pub_key_type": "ed25519",
  								"pub_key_bytes": "BQpQJElLqI4Ajo+vLroQ7KaNv+khVW2oexo0vDbPGFw="
  							},
  							{
  								"address": "044EB1BB5D4C1CDB90029648439AEB10431FF295",
  								"voting_power": "50",
  								"proposer_priority": "0",
- 								"pub_key_type": "tendermint/PubKeyEd25519",
+ 								"pub_key_type": "ed25519",
  								"pub_key_bytes": "Wc790fkCDAi7LvZ4UIBAIJSNI+Rp2aU80/8l+idZ/wI="
  							}
  						],
@@ -2275,7 +2275,7 @@
  							"address": "044EB1BB5D4C1CDB90029648439AEB10431FF295",
  							"voting_power": "50",
  							"proposer_priority": "0",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "Wc790fkCDAi7LvZ4UIBAIJSNI+Rp2aU80/8l+idZ/wI="
  						}
  					},
@@ -2285,14 +2285,14 @@
  								"address": "03EC0413849A3311A5341E7A69D6C544E9A30310",
  								"voting_power": "50",
  								"proposer_priority": "-50",
- 								"pub_key_type": "tendermint/PubKeyEd25519",
+ 								"pub_key_type": "ed25519",
  								"pub_key_bytes": "BQpQJElLqI4Ajo+vLroQ7KaNv+khVW2oexo0vDbPGFw="
  							},
  							{
  								"address": "044EB1BB5D4C1CDB90029648439AEB10431FF295",
  								"voting_power": "50",
  								"proposer_priority": "50",
- 								"pub_key_type": "tendermint/PubKeyEd25519",
+ 								"pub_key_type": "ed25519",
  								"pub_key_bytes": "Wc790fkCDAi7LvZ4UIBAIJSNI+Rp2aU80/8l+idZ/wI="
  							}
  						],
@@ -2300,7 +2300,7 @@
  							"address": "03EC0413849A3311A5341E7A69D6C544E9A30310",
  							"voting_power": "50",
  							"proposer_priority": "-50",
- 							"pub_key_type": "tendermint/PubKeyEd25519",
+ 							"pub_key_type": "ed25519",
  							"pub_key_bytes": "BQpQJElLqI4Ajo+vLroQ7KaNv+khVW2oexo0vDbPGFw="
  						}
  					},

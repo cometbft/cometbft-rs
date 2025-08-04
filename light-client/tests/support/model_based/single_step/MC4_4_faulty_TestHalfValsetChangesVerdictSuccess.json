@@ -67,7 +67,7 @@
           "voting_power": "50",
           "proposer_priority": "0",
           "pub_key_bytes": "kwd8trZ8t5ASwgUbBEAnDq49nRRrrKvt2onhS4JSfQM=",
-          "pub_key_type": "tendermint/PubKeyEd25519"
+          "pub_key_type": "ed25519"
         },
         {
           "address": "6AE5C701F508EB5B63343858E068C5843F28105F",
@@ -75,7 +75,7 @@
           "voting_power": "50",
           "proposer_priority": "0",
           "pub_key_bytes": "GQEC/HB4sDBAVhHtUzyv4yct9ZGnudaP209QQBSTfSQ=",
-          "pub_key_type": "tendermint/PubKeyEd25519"
+          "pub_key_type": "ed25519"
         },
         {
           "address": "C479DB6F37AB9757035CFBE10B687E27668EE7DF",
@@ -83,7 +83,7 @@
           "voting_power": "50",
           "proposer_priority": "0",
           "pub_key_bytes": "3wf60CidQcsIO7TksXzEZsJefMUFF73k6nP1YeEo9to=",
-          "pub_key_type": "tendermint/PubKeyEd25519"
+          "pub_key_type": "ed25519"
         }
       ],
       "proposer": {
@@ -92,7 +92,7 @@
         "voting_power": "50",
         "proposer_priority": "0",
         "pub_key_bytes": "GQEC/HB4sDBAVhHtUzyv4yct9ZGnudaP209QQBSTfSQ=",
-        "pub_key_type": "tendermint/PubKeyEd25519"
+        "pub_key_type": "ed25519"
       },
       "total_voting_power": "150"
     },
@@ -156,7 +156,7 @@
               "voting_power": "50",
               "proposer_priority": "0",
               "pub_key_bytes": "kwd8trZ8t5ASwgUbBEAnDq49nRRrrKvt2onhS4JSfQM=",
-              "pub_key_type": "tendermint/PubKeyEd25519"
+              "pub_key_type": "ed25519"
             },
             {
               "address": "81D85BE9567F7069A4760C663062E66660DADF34",
@@ -164,7 +164,7 @@
               "voting_power": "50",
               "proposer_priority": "0",
               "pub_key_bytes": "Lk4zm2cJO4FpzXFF9WUV9NzOLfr5jV+ps7EhwUDKlZM=",
-              "pub_key_type": "tendermint/PubKeyEd25519"
+              "pub_key_type": "ed25519"
             }
           ],
           "proposer": {
@@ -173,7 +173,7 @@
             "voting_power": "50",
             "proposer_priority": "0",
             "pub_key_bytes": "Lk4zm2cJO4FpzXFF9WUV9NzOLfr5jV+ps7EhwUDKlZM=",
-            "pub_key_type": "tendermint/PubKeyEd25519"
+            "pub_key_type": "ed25519"
           },
           "total_voting_power": "100"
         },
@@ -185,7 +185,7 @@
               "voting_power": "50",
               "proposer_priority": "0",
               "pub_key_bytes": "kwd8trZ8t5ASwgUbBEAnDq49nRRrrKvt2onhS4JSfQM=",
-              "pub_key_type": "tendermint/PubKeyEd25519"
+              "pub_key_type": "ed25519"
             },
             {
               "address": "6AE5C701F508EB5B63343858E068C5843F28105F",
@@ -193,7 +193,7 @@
               "voting_power": "50",
               "proposer_priority": "0",
               "pub_key_bytes": "GQEC/HB4sDBAVhHtUzyv4yct9ZGnudaP209QQBSTfSQ=",
-              "pub_key_type": "tendermint/PubKeyEd25519"
+              "pub_key_type": "ed25519"
             },
             {
               "address": "C479DB6F37AB9757035CFBE10B687E27668EE7DF",
@@ -201,7 +201,7 @@
               "voting_power": "50",
               "proposer_priority": "0",
               "pub_key_bytes": "3wf60CidQcsIO7TksXzEZsJefMUFF73k6nP1YeEo9to=",
-              "pub_key_type": "tendermint/PubKeyEd25519"
+              "pub_key_type": "ed25519"
             }
           ],
           "proposer": {
@@ -210,7 +210,7 @@
             "voting_power": "50",
             "proposer_priority": "0",
             "pub_key_bytes": "GQEC/HB4sDBAVhHtUzyv4yct9ZGnudaP209QQBSTfSQ=",
-            "pub_key_type": "tendermint/PubKeyEd25519"
+            "pub_key_type": "ed25519"
           },
           "total_voting_power": "150"
         },
@@ -488,7 +488,7 @@
               "voting_power": "50",
               "proposer_priority": "0",
               "pub_key_bytes": "kwd8trZ8t5ASwgUbBEAnDq49nRRrrKvt2onhS4JSfQM=",
-              "pub_key_type": "tendermint/PubKeyEd25519"
+              "pub_key_type": "ed25519"
             },
             {
               "address": "6AE5C701F508EB5B63343858E068C5843F28105F",
@@ -496,7 +496,7 @@
               "voting_power": "50",
               "proposer_priority": "0",
               "pub_key_bytes": "GQEC/HB4sDBAVhHtUzyv4yct9ZGnudaP209QQBSTfSQ=",
-              "pub_key_type": "tendermint/PubKeyEd25519"
+              "pub_key_type": "ed25519"
             },
             {
               "address": "C479DB6F37AB9757035CFBE10B687E27668EE7DF",
@@ -504,7 +504,7 @@
               "voting_power": "50",
               "proposer_priority": "0",
               "pub_key_bytes": "3wf60CidQcsIO7TksXzEZsJefMUFF73k6nP1YeEo9to=",
-              "pub_key_type": "tendermint/PubKeyEd25519"
+              "pub_key_type": "ed25519"
             }
           ],
           "proposer": {
@@ -513,7 +513,7 @@
             "voting_power": "50",
             "proposer_priority": "0",
             "pub_key_bytes": "GQEC/HB4sDBAVhHtUzyv4yct9ZGnudaP209QQBSTfSQ=",
-            "pub_key_type": "tendermint/PubKeyEd25519"
+            "pub_key_type": "ed25519"
           },
           "total_voting_power": "150"
         },
@@ -525,7 +525,7 @@
               "voting_power": "50",
               "proposer_priority": "0",
               "pub_key_bytes": "Lk4zm2cJO4FpzXFF9WUV9NzOLfr5jV+ps7EhwUDKlZM=",
-              "pub_key_type": "tendermint/PubKeyEd25519"
+              "pub_key_type": "ed25519"
             },
             {
               "address": "C479DB6F37AB9757035CFBE10B687E27668EE7DF",
@@ -533,7 +533,7 @@
               "voting_power": "50",
               "proposer_priority": "0",
               "pub_key_bytes": "3wf60CidQcsIO7TksXzEZsJefMUFF73k6nP1YeEo9to=",
-              "pub_key_type": "tendermint/PubKeyEd25519"
+              "pub_key_type": "ed25519"
             }
           ],
           "proposer": {
@@ -542,7 +542,7 @@
             "voting_power": "50",
             "proposer_priority": "0",
             "pub_key_bytes": "Lk4zm2cJO4FpzXFF9WUV9NzOLfr5jV+ps7EhwUDKlZM=",
-            "pub_key_type": "tendermint/PubKeyEd25519"
+            "pub_key_type": "ed25519"
           },
           "total_voting_power": "100"
         },
@@ -863,7 +863,7 @@
               "voting_power": "50",
               "proposer_priority": "0",
               "pub_key_bytes": "Lk4zm2cJO4FpzXFF9WUV9NzOLfr5jV+ps7EhwUDKlZM=",
-              "pub_key_type": "tendermint/PubKeyEd25519"
+              "pub_key_type": "ed25519"
             },
             {
               "address": "C479DB6F37AB9757035CFBE10B687E27668EE7DF",
@@ -871,7 +871,7 @@
               "voting_power": "50",
               "proposer_priority": "0",
               "pub_key_bytes": "3wf60CidQcsIO7TksXzEZsJefMUFF73k6nP1YeEo9to=",
-              "pub_key_type": "tendermint/PubKeyEd25519"
+              "pub_key_type": "ed25519"
             }
           ],
           "proposer": {
@@ -880,7 +880,7 @@
             "voting_power": "50",
             "proposer_priority": "0",
             "pub_key_bytes": "Lk4zm2cJO4FpzXFF9WUV9NzOLfr5jV+ps7EhwUDKlZM=",
-            "pub_key_type": "tendermint/PubKeyEd25519"
+            "pub_key_type": "ed25519"
           },
           "total_voting_power": "100"
         },
@@ -892,7 +892,7 @@
               "voting_power": "50",
               "proposer_priority": "0",
               "pub_key_bytes": "kwd8trZ8t5ASwgUbBEAnDq49nRRrrKvt2onhS4JSfQM=",
-              "pub_key_type": "tendermint/PubKeyEd25519"
+              "pub_key_type": "ed25519"
             },
             {
               "address": "81D85BE9567F7069A4760C663062E66660DADF34",
@@ -900,7 +900,7 @@
               "voting_power": "50",
               "proposer_priority": "0",
               "pub_key_bytes": "Lk4zm2cJO4FpzXFF9WUV9NzOLfr5jV+ps7EhwUDKlZM=",
-              "pub_key_type": "tendermint/PubKeyEd25519"
+              "pub_key_type": "ed25519"
             }
           ],
           "proposer": {
@@ -909,7 +909,7 @@
             "voting_power": "50",
             "proposer_priority": "0",
             "pub_key_bytes": "Lk4zm2cJO4FpzXFF9WUV9NzOLfr5jV+ps7EhwUDKlZM=",
-            "pub_key_type": "tendermint/PubKeyEd25519"
+            "pub_key_type": "ed25519"
           },
           "total_voting_power": "100"
         },
