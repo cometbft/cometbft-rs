@@ -19,10 +19,10 @@ pub use crate::crypto::ed25519::VerificationKey as Ed25519;
 use crate::{error::Error, prelude::*};
 
 /// Ed25519 public key type string.
-pub const PUB_KEY_TYPE_ED25519: &'static str = "ed25519";
+pub const PUB_KEY_TYPE_ED25519: &'static str = "tendermint/PubKeyEd25519";
 /// Secp256k1 public key type string.
 #[cfg(feature = "secp256k1")]
-pub const PUB_KEY_TYPE_SECP256K1: &'static str = "secp256k1";
+pub const PUB_KEY_TYPE_SECP256K1: &'static str = "tendermint/PubKeySecp256k1";
 
 // Note:On the golang side this is generic in the sense that it could everything that implements
 // github.com/cometbft/cometbft/crypto.PubKey
