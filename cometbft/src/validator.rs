@@ -401,7 +401,7 @@ cometbft_old_pb_modules! {
 
 mod v1 {
     use super::{Info, Set, SimpleValidator, Update};
-    use crate::{account, prelude::*, Error, PublicKey};
+    use crate::{account::Id, prelude::*, Error, PublicKey};
     use cometbft_proto::abci::v1::ValidatorUpdate as RawValidatorUpdate;
     use cometbft_proto::types::v1::{
         SimpleValidator as RawSimpleValidator, Validator as RawValidator,
@@ -442,15 +442,11 @@ mod v1 {
 
         fn try_from(value: RawValidator) -> Result<Self, Self::Error> {
             let address = value.address.try_into()?;
-            if account::v1::try_from_type_and_bytes(&value.pub_key_type, &value.pub_key_bytes)?
-                != address
-            {
-                return Err(Error::invalid_validator_address());
-            }
-
             let pub_key =
                 PublicKey::try_from_type_and_bytes(&value.pub_key_type, &value.pub_key_bytes)?;
-
+            if Id::from(pub_key) != address {
+                return Err(Error::invalid_validator_address());
+            }
             Ok(Info {
                 address,
                 pub_key,
